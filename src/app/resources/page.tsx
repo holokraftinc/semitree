@@ -26,10 +26,9 @@ export default function ResourcesPage() {
         </p>
       </div>
 
-      <Alert variant="warning" title="Verify before you rely on these">
-        Listed texts are standard recommendations; editions and links have not
-        been independently confirmed. Check the current edition yourself. Papers,
-        courses, and other categories are populated only with verified entries.
+      <Alert variant="info" title="Being curated">
+        Each category is populated only with genuinely free or openly-licensed
+        material, plus Semitree&rsquo;s own downloads. More is added over time.
       </Alert>
 
       <ResourcesExplorer />

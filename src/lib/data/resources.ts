@@ -17,7 +17,6 @@ export const RESOURCE_CATEGORIES: {
   description: string;
 }[] = [
   { kind: "paper", label: "Papers", description: "Key papers and reviews." },
-  { kind: "book", label: "Books", description: "Standard texts on the field." },
   { kind: "course", label: "Courses", description: "Free and paid courses." },
   { kind: "video", label: "Videos", description: "Talks and walkthroughs." },
   { kind: "software", label: "Software", description: "Design and simulation tools." },
