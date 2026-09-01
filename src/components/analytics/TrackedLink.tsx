@@ -11,6 +11,8 @@ type TrackedLinkProps<E extends AnalyticsEvent> = {
   children: React.ReactNode;
   /** Render an external anchor (new tab) instead of a Next link. */
   external?: boolean;
+  /** Render a same-tab download link (implies external). */
+  download?: boolean;
   "aria-label"?: string;
 };
 
@@ -26,18 +28,20 @@ export function TrackedLink<E extends AnalyticsEvent>({
   className,
   children,
   external,
+  download,
   ...rest
 }: TrackedLinkProps<E>) {
   const onClick = () => track(event, payload);
 
-  if (external) {
+  if (external || download) {
     return (
       <a
         href={href}
-        target="_blank"
-        rel="noopener noreferrer"
         className={className}
         onClick={onClick}
+        {...(download
+          ? { download: "" }
+          : { target: "_blank", rel: "noopener noreferrer" })}
         {...rest}
       >
         {children}

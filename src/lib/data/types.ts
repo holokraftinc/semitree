@@ -82,6 +82,14 @@ export interface Resource {
   author?: string;
   description?: string;
   relatedConcepts?: string[];
+  /**
+   * Path to a downloadable file served from /public (e.g. "/files/x.pdf").
+   * ONLY for content that is free/open or that Semitree is licensed to
+   * distribute — never copyrighted material without permission.
+   */
+  fileUrl?: string;
+  /** Human-readable file size for the download button, e.g. "2.3 MB". */
+  fileSize?: string;
 }
 
 export type DirectoryEntryType =
