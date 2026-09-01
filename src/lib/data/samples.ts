@@ -54,4 +54,41 @@ export const sampleResources: Resource[] = [
       "bond-number",
     ],
   },
+  {
+    slug: "flow-pressure-resistance-cheatsheet",
+    title: "Flow, pressure & resistance cheat sheet",
+    kind: "cheatsheet",
+    author: "Semitree",
+    description:
+      "The hydraulic–electrical analogy: ΔP = Q·R, circular and rectangular resistance, series/parallel rules, and hydraulic diameter.",
+    fileUrl: "/files/flow-pressure-resistance.pdf",
+    fileSize: "44 KB",
+    relatedConcepts: [
+      "pressure-drop",
+      "flow-resistance",
+      "hydraulic-diameter",
+      "hydraulic-electrical-analogy",
+    ],
+  },
+  {
+    slug: "diffusion-mixing-cheatsheet",
+    title: "Diffusion & mixing cheat sheet",
+    kind: "cheatsheet",
+    author: "Semitree",
+    description:
+      "Diffusion time and length, Péclet number, Stokes–Einstein, and mixing length — why microscale mixing is slow.",
+    fileUrl: "/files/diffusion-mixing.pdf",
+    fileSize: "40 KB",
+    relatedConcepts: ["diffusion", "peclet-number", "stokes-einstein"],
+  },
+  {
+    slug: "unit-conversions-cheatsheet",
+    title: "Unit conversions cheat sheet",
+    kind: "cheatsheet",
+    author: "Semitree",
+    description:
+      "Everyday microfluidics conversions for flow rate, pressure, volume, viscosity, and length.",
+    fileUrl: "/files/unit-conversions.pdf",
+    fileSize: "40 KB",
+  },
 ];
