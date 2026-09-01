@@ -4,6 +4,9 @@ import { TOOLS } from "@/lib/data/tools";
 import { LESSONS } from "@/lib/data/lessons";
 import { GLOSSARY } from "@/lib/data/glossary";
 
+// Required for `output: "export"` — emit a static sitemap.xml.
+export const dynamic = "force-static";
+
 /**
  * Sitemap of all indexable routes. The design-preview route (/tools/preview) is
  * intentionally omitted (it duplicates a real tool and is noindex).
