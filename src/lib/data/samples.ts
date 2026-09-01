@@ -38,6 +38,23 @@ export const sampleLessons: Lesson[] = [
 
 export const sampleResources: Resource[] = [
   {
+    slug: "dimensionless-numbers-cheatsheet",
+    title: "Dimensionless numbers cheat sheet",
+    kind: "cheatsheet",
+    author: "Semitree",
+    description:
+      "Re, Pe, Ca, We, Bo, and the capillary length — formulas, what each ratio means, and the variable legend, on one page.",
+    fileUrl: "/files/dimensionless-numbers.pdf",
+    fileSize: "44 KB",
+    relatedConcepts: [
+      "reynolds-number",
+      "peclet-number",
+      "capillary-number",
+      "weber-number",
+      "bond-number",
+    ],
+  },
+  {
     slug: "bruus-theoretical-microfluidics",
     title: "Theoretical Microfluidics",
     kind: "book",
