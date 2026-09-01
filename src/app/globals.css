@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Semitree design tokens.
+ *
+ * Colours are stored as space-separated RGB channels ("15 23 42") so Tailwind
+ * can apply opacity modifiers via `rgb(var(--token) / <alpha-value>)`
+ * (e.g. `bg-brand/10`, `text-muted-foreground/70`). Palette is a calm,
+ * academic cool-neutral (slate) base with a restrained teal accent.
+ */
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas,
+    monospace;
+
+  --radius: 0.625rem;
+
+  /* Surfaces & text */
+  --background: 255 255 255;
+  --foreground: 15 23 42; /* slate-900 */
+  --muted: 241 245 249; /* slate-100 */
+  --muted-foreground: 100 116 139; /* slate-500 */
+  --card: 255 255 255;
+  --card-foreground: 15 23 42;
+  --border: 226 232 240; /* slate-200 */
+  --input: 226 232 240;
+
+  /* Brand / accent */
+  --brand: 15 118 110; /* teal-700 — AA on white */
+  --brand-foreground: 255 255 255;
+  --accent: 15 118 110;
+  --ring: 20 184 166; /* teal-500 */
+
+  /* Semantic (tuned for text contrast on tinted backgrounds) */
+  --success: 4 120 87; /* emerald-700 */
+  --warning: 180 83 9; /* amber-700 */
+  --danger: 185 28 28; /* red-700 */
+  --info: 29 78 216; /* blue-700 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 15 23 42; /* slate-900 */
+    --foreground: 226 232 240; /* slate-200 */
+    --muted: 30 41 59; /* slate-800 */
+    --muted-foreground: 148 163 184; /* slate-400 */
+    --card: 30 41 59; /* slate-800 */
+    --card-foreground: 226 232 240;
+    --border: 51 65 85; /* slate-700 */
+    --input: 51 65 85;
+
+    --brand: 45 212 191; /* teal-400 */
+    --brand-foreground: 15 23 42;
+    --accent: 94 234 212; /* teal-300 */
+    --ring: 45 212 191;
+
+    --success: 52 211 153; /* emerald-400 */
+    --warning: 251 191 36; /* amber-400 */
+    --danger: 248 113 113; /* red-400 */
+    --info: 96 165 250; /* blue-400 */
+  }
+}
+
+html {
+  color-scheme: light dark;
+}
+
+@layer base {
+  * {
+    border-color: rgb(var(--border));
+  }
+
+  body {
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Consistent, visible focus for keyboard users across all interactives. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--ring));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Respect reduced-motion preferences. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
