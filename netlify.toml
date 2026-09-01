@@ -1,0 +1,9 @@
+# Netlify build config for Semitree (static export → out/).
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Canonical site URL used for metadata, sitemap, robots.
+  NEXT_PUBLIC_SITE_URL = "https://semitree.in"
