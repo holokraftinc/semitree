@@ -1,34 +1,71 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { pageMeta } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { ButtonLink } from "@/components/ui/Button";
+import { ArticleCard } from "@/components/content/ArticleCard";
+import { BlogExplorer } from "@/components/content/BlogExplorer";
+import { NewsletterSignup } from "@/components/home/NewsletterSignup";
+import { TrackView } from "@/components/analytics/TrackView";
+import { featuredArticle, popularArticles } from "@/lib/content/articles";
 
 export const metadata: Metadata = pageMeta({
   title: "Blog",
   description:
-    "How-to guides, comparisons, and case studies from the Semitree microfluidics blog — coming soon.",
+    "Explainers, technology deep dives, tutorials, and analysis from Semitree — the semiconductor knowledge, tools, and research platform.",
   path: "/blog",
 });
 
 export default function BlogPage() {
+  const featured = featuredArticle();
+  const popular = popularArticles(4).filter((a) => a.slug !== featured?.slug);
+
   return (
-    <Container className="space-y-8 py-10">
+    <Container className="space-y-12 py-10">
+      <TrackView event="blog_opened" payload={{}} />
+
       <div className="space-y-3">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
         <h1 className="text-3xl font-bold tracking-tight">Blog</h1>
         <p className="max-w-2xl text-muted-foreground">
-          How-to guides, “X vs Y” comparisons, case studies, and news
-          commentary. Posts start once the core tools and lessons are live.
+          Explainers, technology deep dives, tutorials, and analysis — all
+          cross-linked to Semitree&apos;s lessons, tools, companies, and research.
         </p>
       </div>
 
-      <EmptyState
-        title="No posts yet"
-        description="The blog will publish on a steady cadence. Subscribe to the newsletter to get new posts as they land."
-        action={<ButtonLink href="/newsletter">Get the newsletter</ButtonLink>}
-      />
+      {/* Featured + popular */}
+      {featured && (
+        <section aria-labelledby="featured" className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <h2 id="featured" className="sr-only">Featured</h2>
+            <ArticleCard article={featured} featured />
+          </div>
+          <div className="space-y-3">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Popular</h2>
+            <ul className="space-y-3">
+              {popular.map((a) => (
+                <li key={a.slug}>
+                  <Link
+                    href={`/articles/${a.slug}`}
+                    className="group block rounded-lg border border-border bg-card p-3 transition-colors hover:border-brand/50"
+                  >
+                    <span className="block text-sm font-medium tracking-tight group-hover:text-brand">{a.title}</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">{a.subtitle}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* All articles: search + category + tags */}
+      <section aria-labelledby="all" className="space-y-5">
+        <h2 id="all" className="text-lg font-semibold tracking-tight">All articles</h2>
+        <BlogExplorer />
+      </section>
+
+      <NewsletterSignup />
     </Container>
   );
 }

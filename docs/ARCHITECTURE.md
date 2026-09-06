@@ -4,6 +4,33 @@ Phase 01 establishes the technical foundation. This document is the map of how
 the pieces fit and, importantly, where the boundaries are so future phases stay
 clean.
 
+## 0. Multi-domain architecture (2026 repositioning)
+
+Semitree is now a **multi-domain platform**. A reusable **Domain** layer
+(`src/lib/domains`) models each area (Microfluidics — live; Semiconductors —
+planned) as **data**, so new domains are added by registering a `Domain` object,
+not by rewriting UI. Full detail: [DOMAIN_MODEL.md](./DOMAIN_MODEL.md) and
+[CONTENT_MODEL.md](./CONTENT_MODEL.md).
+
+Key architectural facts (verified this phase):
+
+- **Stack:** Next.js 15.5.24 (App Router) · React 19 · TypeScript · Tailwind 3.4.
+- **Rendering:** **static export** (`output: "export"`, `trailingSlash: true`) →
+  deployed to **GitHub Pages** (Actions workflow) at **semitree.in**.
+- **No database, no Supabase, no auth, no `.env`, no runtime server.** All
+  content is structured TS data in `src/lib/data` (+ `src/lib/domains`).
+- **Analytics:** a typed `track()` seam pushing to `window.dataLayer`; no
+  provider connected (see ANALYTICS.md).
+- **Backward compatibility:** Microfluidics is `rootMounted` — its existing
+  routes (`/tools`, `/learn`, `/concepts`, `/resources`, …) are unchanged. New
+  domains resolve under `/{slug}/…` (planned) via `sectionPath()`, so a domain
+  can move off the root later with no consumer changes.
+- **Non-breaking:** content entities gained an optional `domainId` defaulting to
+  `microfluidics`; all existing data renders exactly as before.
+
+Sections 1+ below describe the (preserved) foundation of the Microfluidics
+domain.
+
 ## 1. Guiding principles
 
 1. **Physics is independent of UI.** All calculation and unit logic lives in

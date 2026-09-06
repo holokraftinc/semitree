@@ -15,6 +15,11 @@ export const BASE_UNITS: BaseUnits = {
   time: "s",
   temperature: "K",
   diffusivity: "m2_per_s",
+  voltage: "V",
+  current: "A",
+  resistance: "ohm",
+  capacitance: "F",
+  power: "W",
 };
 
 /**
@@ -68,6 +73,38 @@ export const UNIT_DEFINITIONS: UnitDefinition[] = [
   { id: "m2_per_s", label: "m²/s", quantity: "diffusivity", toBase: 1 },
   { id: "cm2_per_s", label: "cm²/s", quantity: "diffusivity", toBase: 1e-4 },
   { id: "um2_per_s", label: "µm²/s", quantity: "diffusivity", toBase: 1e-12 },
+
+  // voltage
+  { id: "uV", label: "µV", quantity: "voltage", toBase: 1e-6 },
+  { id: "mV", label: "mV", quantity: "voltage", toBase: 1e-3 },
+  { id: "V", label: "V", quantity: "voltage", toBase: 1 },
+  { id: "kV", label: "kV", quantity: "voltage", toBase: 1e3 },
+
+  // current
+  { id: "nA", label: "nA", quantity: "current", toBase: 1e-9 },
+  { id: "uA", label: "µA", quantity: "current", toBase: 1e-6 },
+  { id: "mA", label: "mA", quantity: "current", toBase: 1e-3 },
+  { id: "A", label: "A", quantity: "current", toBase: 1 },
+  { id: "kA", label: "kA", quantity: "current", toBase: 1e3 },
+
+  // resistance
+  { id: "mohm", label: "mΩ", quantity: "resistance", toBase: 1e-3 },
+  { id: "ohm", label: "Ω", quantity: "resistance", toBase: 1 },
+  { id: "kohm", label: "kΩ", quantity: "resistance", toBase: 1e3 },
+  { id: "Mohm", label: "MΩ", quantity: "resistance", toBase: 1e6 },
+
+  // capacitance
+  { id: "pF", label: "pF", quantity: "capacitance", toBase: 1e-12 },
+  { id: "nF", label: "nF", quantity: "capacitance", toBase: 1e-9 },
+  { id: "uF", label: "µF", quantity: "capacitance", toBase: 1e-6 },
+  { id: "mF", label: "mF", quantity: "capacitance", toBase: 1e-3 },
+  { id: "F", label: "F", quantity: "capacitance", toBase: 1 },
+
+  // power
+  { id: "uW", label: "µW", quantity: "power", toBase: 1e-6 },
+  { id: "mW", label: "mW", quantity: "power", toBase: 1e-3 },
+  { id: "W", label: "W", quantity: "power", toBase: 1 },
+  { id: "kW", label: "kW", quantity: "power", toBase: 1e3 },
 
   // temperature (affine)
   { id: "K", label: "K", quantity: "temperature", toBase: 1 },

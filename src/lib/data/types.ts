@@ -9,7 +9,15 @@
  * The "Future domain models" block at the bottom is designed-for-but-not-built
  * (accounts, workspaces, saved work) per the product spec. Nothing in Phase 01
  * depends on them; they exist so the schema is coherent from the start.
+ *
+ * Multi-domain: content entities carry an optional `domainId` (see
+ * src/lib/domains). It defaults to "microfluidics" when omitted, so all existing
+ * data keeps working unchanged; future domains (e.g. "semiconductors") tag their
+ * own content.
  */
+
+/** Which Semitree domain a piece of content belongs to. Defaults to microfluidics. */
+export type ContentDomainId = "microfluidics" | "semiconductors";
 
 import type { CalculationCategory, Tier } from "@/lib/calculations/types";
 
@@ -36,6 +44,8 @@ export interface Tool {
   relatedConcepts?: string[];
   /** Slugs of related tools — the tool↔tool graph (data-driven, see tools.ts). */
   relatedTools?: string[];
+  /** Owning domain; defaults to "microfluidics" when omitted. */
+  domainId?: ContentDomainId;
 }
 
 /** A Concept is an atomic idea in the curriculum (e.g. "Reynolds number"). */
@@ -46,6 +56,8 @@ export interface Concept {
   /** Tools that let you compute with this concept — the learn→tool link. */
   relatedTools?: string[];
   relatedConcepts?: string[];
+  /** Owning domain; defaults to "microfluidics" when omitted. */
+  domainId?: ContentDomainId;
 }
 
 /** A Lesson is a module within a learning level; body authored as MDX. */
@@ -62,6 +74,8 @@ export interface Lesson {
   relatedTools?: string[];
   /** Estimated reading/working time in minutes. */
   estimatedMinutes?: number;
+  /** Owning domain; defaults to "microfluidics" when omitted. */
+  domainId?: ContentDomainId;
 }
 
 export type ResourceKind =
@@ -90,6 +104,8 @@ export interface Resource {
   fileUrl?: string;
   /** Human-readable file size for the download button, e.g. "2.3 MB". */
   fileSize?: string;
+  /** Owning domain; defaults to "microfluidics" when omitted. */
+  domainId?: ContentDomainId;
 }
 
 export type DirectoryEntryType =

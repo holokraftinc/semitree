@@ -22,12 +22,12 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <SearchDialog />
           <ButtonLink
-            href="/tools"
+            href="/explore"
             size="sm"
             variant="primary"
-            className="hidden sm:inline-flex"
+            className="hidden lg:inline-flex"
           >
-            Explore tools
+            Explore
           </ButtonLink>
           <MobileNav />
         </div>

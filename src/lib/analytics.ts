@@ -40,6 +40,24 @@ export interface AnalyticsEventMap {
   directory_clicked: { entry: string; type?: string };
   /** The newsletter signup was submitted. */
   newsletter_clicked: { location?: string };
+  /** The Manufacturing Explorer index was opened. */
+  manufacturing_opened: Record<string, never>;
+  /** A manufacturing process page was opened. */
+  manufacturing_process_opened: { process: string };
+  /** The Supply Chain Explorer index was opened. */
+  supply_chain_opened: Record<string, never>;
+  /** A supply-chain stage page was opened. */
+  supply_chain_stage_opened: { stage: string };
+  /** The research hub was opened. */
+  research_hub_opened: Record<string, never>;
+  /** A research topic page was opened. */
+  research_topic_opened: { topic: string };
+  /** The blog index was opened. */
+  blog_opened: Record<string, never>;
+  /** An article was opened. */
+  article_opened: { article: string; type: string };
+  /** A newsletter issue was opened. */
+  newsletter_issue_opened: { issue: string };
 }
 
 export type AnalyticsEvent = keyof AnalyticsEventMap;

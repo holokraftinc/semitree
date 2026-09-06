@@ -12,7 +12,7 @@ export const SITE = {
   name: "Semitree",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://semitree.example.com",
   description:
-    "Learn microfluidics and design your chip in the same place. Free calculators, a zero-to-competent curriculum, and a resource hub.",
+    "Semitree — a knowledge, tools, and research platform for the semiconductor industry. Learn the concepts, explore the technology, use the tools, and discover the industry. Includes a full microfluidics domain.",
 } as const;
 
 export function absoluteUrl(path: string): string {
@@ -123,6 +123,70 @@ export function learningResourceLd(lesson: {
     url: absoluteUrl(lesson.path),
     learningResourceType: "lesson",
     educationalLevel: `Level ${lesson.level}`,
+    isAccessibleForFree: true,
+  };
+}
+
+/** Per-page metadata for an article (OpenGraph type "article" + timestamps). */
+export function articleMeta({
+  title,
+  description,
+  path,
+  publishedTime,
+  modifiedTime,
+  authors,
+  tags,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  authors?: string[];
+  tags?: string[];
+}): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      siteName: SITE.name,
+      locale: "en_US",
+      url: path,
+      title,
+      description,
+      publishedTime,
+      modifiedTime,
+      authors,
+      tags,
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
+
+export function articleLd(article: {
+  headline: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  dateModified?: string;
+  authorName: string;
+  section?: string;
+  keywords?: string[];
+}): LdNode {
+  return {
+    "@type": "BlogPosting",
+    headline: article.headline,
+    description: article.description,
+    mainEntityOfPage: absoluteUrl(article.path),
+    url: absoluteUrl(article.path),
+    datePublished: article.datePublished,
+    dateModified: article.dateModified ?? article.datePublished,
+    author: { "@type": "Organization", name: article.authorName, url: SITE.url },
+    publisher: { "@type": "Organization", name: SITE.name, url: SITE.url },
+    ...(article.section ? { articleSection: article.section } : {}),
+    ...(article.keywords ? { keywords: article.keywords.join(", ") } : {}),
     isAccessibleForFree: true,
   };
 }

@@ -100,3 +100,33 @@ html {
     }
   }
 }
+
+@layer components {
+  /**
+   * Manufacturing Explorer flow rail. A vertical connector whose gradient drifts
+   * downward to communicate process-flow direction (raw material → finished
+   * chip). Motion is purposeful, subtle, and disabled under reduced-motion via
+   * the global rule above.
+   */
+  .flow-rail {
+    background-image: linear-gradient(
+      to bottom,
+      rgb(var(--brand) / 0.15) 0%,
+      rgb(var(--brand) / 0.55) 25%,
+      rgb(var(--brand) / 0.15) 50%,
+      rgb(var(--brand) / 0.55) 75%,
+      rgb(var(--brand) / 0.15) 100%
+    );
+    background-size: 100% 200%;
+    animation: flow-rail-move 3.5s linear infinite;
+  }
+
+  @keyframes flow-rail-move {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 0 -200%;
+    }
+  }
+}

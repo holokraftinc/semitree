@@ -3,20 +3,25 @@ import { Container } from "@/components/ui/Container";
 
 const FOOTER_SECTIONS = [
   {
-    title: "Tools",
-    links: [{ href: "/tools", label: "All tools" }],
+    title: "Explore",
+    links: [
+      { href: "/explore", label: "Explore" },
+      { href: "/industry", label: "Industry" },
+      { href: "/research", label: "Research" },
+    ],
   },
   {
     title: "Learn",
     links: [
       { href: "/learn", label: "Curriculum" },
       { href: "/concepts", label: "Concepts glossary" },
+      { href: "/tools", label: "Tools" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { href: "/resources", label: "Reading list" },
+      { href: "/resources", label: "Resources & downloads" },
       { href: "/directory", label: "Directory" },
     ],
   },

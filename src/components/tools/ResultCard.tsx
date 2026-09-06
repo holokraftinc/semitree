@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils/cn";
+import { CopyButton } from "./CopyButton";
 
 export type ResultItem = {
   label: string;
@@ -9,6 +10,13 @@ export type ResultItem = {
   primary?: boolean;
 };
 
+/** Build the plain-text a Copy button writes to the clipboard from results. */
+export function resultsToText(results: ResultItem[]): string {
+  return results
+    .map((r) => `${r.label}: ${r.value}${r.unit ? ` ${r.unit}` : ""}`)
+    .join("\n");
+}
+
 /**
  * Displays one or more computed results. Presentational only — it receives
  * already-formatted strings and never computes anything.
@@ -18,11 +26,14 @@ export function ResultCard({
   title = "Result",
   className,
   empty = "Enter values and calculate to see the result.",
+  copyable = false,
 }: {
   results: ResultItem[];
   title?: string;
   className?: string;
   empty?: string;
+  /** Show a "Copy result" button that copies all result rows as text. */
+  copyable?: boolean;
 }) {
   const hasResults = results.length > 0;
   return (
@@ -33,9 +44,14 @@ export function ResultCard({
         className,
       )}
     >
-      <p className="text-xs font-medium uppercase tracking-wide text-brand">
-        {title}
-      </p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs font-medium uppercase tracking-wide text-brand">
+          {title}
+        </p>
+        {copyable && hasResults && (
+          <CopyButton text={resultsToText(results)} />
+        )}
+      </div>
       {hasResults ? (
         <dl className="mt-3 space-y-3">
           {results.map((r) => (

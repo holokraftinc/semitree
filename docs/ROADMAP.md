@@ -4,7 +4,30 @@ Maps the Plan's build roadmap onto Semitree's execution phases. Tiers
 (`mvp/v1/v2`) come from [`PRODUCT.md`](./PRODUCT.md) and
 [`CALCULATIONS.md`](./CALCULATIONS.md).
 
-## Phase 01 — Foundation & Architecture ← THIS PHASE
+## Platform repositioning (2026): multi-domain
+
+Semitree is expanding from the microfluidics site (built and live, phases below)
+into a multi-domain platform. New track:
+
+- **RP-01 — Repositioning & multi-domain architecture ← CURRENT.**
+  Introduce the reusable `Domain` model (`src/lib/domains`) + docs
+  (DOMAIN_MODEL, CONTENT_MODEL, ADMIN_CMS). Microfluidics preserved and
+  root-mounted. **No semiconductor content, no admin — architecture only.**
+- **RP-02 — Platform shell & navigation.** Domain-aware header/home, a domain
+  switcher, and platform-level areas (Research, Companies, Industry, Search
+  across domains). Decide whether Microfluidics moves to `/microfluidics` (with
+  redirects) or stays root-mounted.
+- **RP-03 — Semiconductor domain scaffolding.** Routes under `/semiconductors/…`
+  and its section shells (Learn, Tools, Concepts, Manufacturing, Design,
+  Packaging, Equipment, Materials, Industry) — structure before content.
+- **RP-04 — Semiconductor content & tools.** Author real content per section.
+- **RP-05 — Companies/Directory & submissions.** Likely first feature needing a
+  database/auth; revisit static-export vs. dynamic (see ADMIN_CMS.md).
+- **RP-06 — Admin / CMS.** Editorial workflow for multi-domain content.
+
+The microfluidics build roadmap below is complete/ongoing and unchanged.
+
+## Phase 01 — Foundation & Architecture
 
 **Goal:** technical + product foundation. No user-facing calculators or lessons.
 

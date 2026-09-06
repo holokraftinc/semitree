@@ -1,19 +1,29 @@
 import { Container } from "@/components/ui/Container";
-import { Hero } from "@/components/home/Hero";
-import { PopularTools } from "@/components/home/PopularTools";
+import { PlatformHero } from "@/components/home/PlatformHero";
+import { WhereToStart } from "@/components/home/WhereToStart";
+import { ContinueLearning } from "@/components/home/ContinueLearning";
+import { PopularTopics } from "@/components/home/PopularTopics";
 import { LearnFromZero } from "@/components/home/LearnFromZero";
-import { LearnToCalculate } from "@/components/home/LearnToCalculate";
+import { PopularTools } from "@/components/home/PopularTools";
+import { ManufacturingOverview } from "@/components/home/ManufacturingOverview";
+import { IndustryCompanies } from "@/components/home/IndustryCompanies";
 import { ResearchResources } from "@/components/home/ResearchResources";
+import { LatestArticles } from "@/components/home/LatestArticles";
 import { NewsletterSignup } from "@/components/home/NewsletterSignup";
 
 export default function HomePage() {
   return (
     <Container className="space-y-20 pb-8">
-      <Hero />
-      <PopularTools />
+      <PlatformHero />
+      <WhereToStart />
+      <ContinueLearning />
+      <PopularTopics />
       <LearnFromZero />
-      <LearnToCalculate />
+      <PopularTools />
+      <ManufacturingOverview />
+      <IndustryCompanies />
       <ResearchResources />
+      <LatestArticles />
       <NewsletterSignup />
     </Container>
   );

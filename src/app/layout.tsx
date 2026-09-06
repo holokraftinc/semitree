@@ -3,12 +3,13 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ContinueLearningTracker } from "@/components/platform/ContinueLearningTracker";
 import { SITE, jsonLdGraph, webSiteLd, organizationLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Semitree — Microfluidics Tools & Learning",
+    default: "Semitree — Semiconductor knowledge, tools & industry",
     template: "%s · Semitree",
   },
   description: SITE.description,
@@ -19,12 +20,12 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: "en_US",
     url: "/",
-    title: "Semitree — Microfluidics Tools & Learning",
+    title: "Semitree — Semiconductor knowledge, tools & industry",
     description: SITE.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Semitree — Microfluidics Tools & Learning",
+    title: "Semitree — Semiconductor knowledge, tools & industry",
     description: SITE.description,
   },
   robots: {
@@ -49,6 +50,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <JsonLd data={jsonLdGraph([webSiteLd(), organizationLd()])} />
+        <ContinueLearningTracker />
         <SiteHeader />
         <main id="main-content" className="flex-1">
           {children}

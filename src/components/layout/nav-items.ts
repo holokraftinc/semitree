@@ -4,11 +4,12 @@ export type NavItem = { href: string; label: string };
 
 /** Primary navigation. Home is reached via the wordmark, so it's separate. */
 export const PRIMARY_NAV: NavItem[] = [
-  { href: "/tools", label: "Tools" },
+  { href: "/explore", label: "Explore" },
   { href: "/learn", label: "Learn" },
-  { href: "/concepts", label: "Concepts" },
+  { href: "/tools", label: "Tools" },
+  { href: "/industry", label: "Industry" },
+  { href: "/research", label: "Research" },
   { href: "/resources", label: "Resources" },
-  { href: "/directory", label: "Directory" },
 ];
 
 /** Secondary / future sections — surfaced in the mobile menu and footer. */

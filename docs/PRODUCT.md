@@ -1,10 +1,44 @@
 # Semitree — Product Specification
 
-> Source of truth: `Microfluidics_Tools_and_Learning_Site_Plan.md` (the "Plan").
-> This document distills the Plan into the product decisions that drive the
-> build. Where this doc and the Plan disagree, the Plan wins.
+> **2026 repositioning:** Semitree is evolving from a single microfluidics site
+> into a **multi-domain knowledge, tools, research and industry platform**. The
+> existing Microfluidics product (below) is **preserved in full** and becomes the
+> first *domain*; a **Semiconductor Industry** domain is planned. See §0.
 
-## 1. What Semitree is
+## 0. Semitree platform vision (multi-domain)
+
+**What Semitree is becoming:** a platform hosting multiple specialised
+**domains**, each with its own Learn / Tools / Concepts / Resources (and
+domain-specific sections), under shared platform-level areas (Research,
+Companies, Industry, Blog, Newsletter, Search).
+
+```text
+Semitree
+├── Semiconductor Industry   (planned — architecture only in this phase)
+│   ├── Learn ├── Tools ├── Concepts ├── Manufacturing ├── Design
+│   ├── Packaging ├── Equipment ├── Materials └── Industry
+├── Microfluidics            (LIVE — preserved; today served at the site root)
+│   ├── Learn ├── Tools ├── Concepts └── Resources
+├── Research ├── Resources ├── Companies ├── Industry
+├── Blog ├── Newsletter └── Search
+```
+
+**Principles**
+- **Preserve Microfluidics.** All existing requirements, routes, tools, lessons,
+  concepts, and resources remain. Microfluidics is currently *root-mounted*
+  (`/tools`, `/learn`, …) — its live URLs are unchanged.
+- **Domains are data, not code.** A reusable `Domain` model
+  ([DOMAIN_MODEL.md](./DOMAIN_MODEL.md)) lets new domains be added without
+  rewriting the UI.
+- **Incremental & non-breaking.** Semiconductor content and the admin/CMS are
+  **not** built in this phase — this phase is architectural.
+
+The rest of this document (§1 onward) is the **Microfluidics domain** product
+spec, preserved from the original Plan. It remains authoritative for that domain.
+
+---
+
+## 1. What the Microfluidics domain is
 
 A free web app of microfluidics **calculators & design tools**, wrapped in a
 **content site** and a structured **learn-from-zero curriculum**.

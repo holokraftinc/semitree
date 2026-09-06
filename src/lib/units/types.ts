@@ -20,7 +20,12 @@ export type Quantity =
   | "density"
   | "time"
   | "temperature"
-  | "diffusivity";
+  | "diffusivity"
+  | "voltage"
+  | "current"
+  | "resistance"
+  | "capacitance"
+  | "power";
 
 /**
  * Definition of a single unit.
