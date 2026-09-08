@@ -11,6 +11,7 @@ import { SUPPLY_STAGES } from "@/lib/knowledge/supply-chain";
 import { RESEARCH_TOPICS } from "@/lib/research/registry";
 import { ARTICLES } from "@/lib/content/articles";
 import { NEWSLETTER_ISSUES } from "@/lib/content/newsletter";
+import { CMS_TYPES } from "@/lib/wordpress/config";
 
 // Required for `output: "export"` — emit a static sitemap.xml.
 export const dynamic = "force-static";
@@ -40,6 +41,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/directory", priority: 0.6 },
     { path: "/blog", priority: 0.5 },
     { path: "/newsletter", priority: 0.5 },
+    { path: "/cms", priority: 0.4 },
+    ...CMS_TYPES.map((t) => ({ path: `/cms/${t.key}`, priority: 0.4 })),
     { path: "/hub", priority: 0.4 },
   ];
 

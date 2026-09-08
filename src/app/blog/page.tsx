@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ArticleCard } from "@/components/content/ArticleCard";
 import { BlogExplorer } from "@/components/content/BlogExplorer";
+import { CmsList } from "@/components/cms/CmsList";
 import { NewsletterSignup } from "@/components/home/NewsletterSignup";
 import { TrackView } from "@/components/analytics/TrackView";
 import { featuredArticle, popularArticles } from "@/lib/content/articles";
@@ -29,7 +30,10 @@ export default function BlogPage() {
         <h1 className="text-3xl font-bold tracking-tight">Blog</h1>
         <p className="max-w-2xl text-muted-foreground">
           Explainers, technology deep dives, tutorials, and analysis — all
-          cross-linked to Semitree&apos;s lessons, tools, companies, and research.
+          cross-linked to Semitree&apos;s lessons, tools, companies, and research.{" "}
+          <Link href="/cms" className="font-medium text-brand hover:underline">
+            Visit the newsroom →
+          </Link>
         </p>
       </div>
 
@@ -64,6 +68,9 @@ export default function BlogPage() {
         <h2 id="all" className="text-lg font-semibold tracking-tight">All articles</h2>
         <BlogExplorer />
       </section>
+
+      {/* Live from the CMS — silent until WordPress has published content. */}
+      <CmsList type="articles" perPage={6} silentWhenEmpty heading="Live from the newsroom" />
 
       <NewsletterSignup />
     </Container>
