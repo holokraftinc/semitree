@@ -175,7 +175,9 @@ function semitree_register_rest_fields() {
 }
 
 function semitree_rest_featured_image( $obj ) {
-	$id = get_post_thumbnail_id( $obj['id'] );
+	$post_id = isset( $obj['id'] ) ? (int) $obj['id'] : 0;
+	if ( ! $post_id ) { return null; }
+	$id = get_post_thumbnail_id( $post_id );
 	if ( ! $id ) { return null; }
 	return array(
 		'id'  => (int) $id,
@@ -189,7 +191,8 @@ function semitree_rest_featured_image( $obj ) {
  * host), enforcing "the CMS domain must never become the canonical domain".
  */
 function semitree_rest_seo( $obj ) {
-	$id   = $obj['id'];
+	$id   = isset( $obj['id'] ) ? (int) $obj['id'] : 0;
+	if ( ! $id ) { return null; }
 	$type = get_post_type( $id );
 	$cfg  = semitree_content_types()[ $type ] ?? null;
 	$base = $cfg ? $cfg['rest_base'] : 'articles';
@@ -212,7 +215,9 @@ function semitree_rest_seo( $obj ) {
 }
 
 function semitree_rest_author( $obj ) {
-	$uid = (int) $obj['author'];
+	// Derive from the post id so it works even when `author` is not in _fields.
+	$post_id = isset( $obj['id'] ) ? (int) $obj['id'] : 0;
+	$uid = $post_id ? (int) get_post_field( 'post_author', $post_id ) : (int) ( $obj['author'] ?? 0 );
 	if ( ! $uid ) { return null; }
 	return array(
 		'id'   => $uid,

@@ -13,7 +13,7 @@ import type { CmsArticle, CmsListParams, CmsListResult, WpRawPost } from "./type
 
 const TTL_MS = 5 * 60 * 1000; // 5 minutes
 const TIMEOUT_MS = 8000;
-const LIST_FIELDS = "id,slug,date,modified,title,excerpt,st_featured_image,st_author,st_seo,meta";
+const LIST_FIELDS = "id,slug,date,modified,title,excerpt,author,st_featured_image,st_author,st_seo,meta";
 
 export class WpError extends Error {
   status: number;

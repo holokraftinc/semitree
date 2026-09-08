@@ -49,3 +49,36 @@ function semitree_filter_user_response( $response, $user, $request ) {
 // Never expose the private subscriber store, drafts, or private content publicly.
 // (Handled by post type registration: st_subscriber is show_in_rest=false and
 // WordPress only returns 'publish' status to unauthenticated REST requests.)
+
+/**
+ * CORS: allow ONLY the Semitree public origin(s) to read the REST API, instead
+ * of WordPress's default permissive echo. Origins derive from the public base
+ * (Settings), plus the www variant, and are filterable.
+ */
+function semitree_allowed_origins() {
+	$base = semitree_public_base();
+	$origins = array( untrailingslashit( $base ) );
+	$host = wp_parse_url( $base, PHP_URL_HOST );
+	if ( $host && strpos( $host, 'www.' ) !== 0 ) {
+		$origins[] = preg_replace( '#^(https?://)#', '$1www.', untrailingslashit( $base ) );
+	}
+	return apply_filters( 'semitree_allowed_origins', array_values( array_unique( $origins ) ) );
+}
+
+add_action( 'rest_api_init', 'semitree_restrict_cors', 15 );
+function semitree_restrict_cors() {
+	remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
+	add_filter( 'rest_pre_serve_request', 'semitree_send_cors_headers', 10, 1 );
+}
+
+function semitree_send_cors_headers( $value ) {
+	$origin = get_http_origin();
+	if ( $origin && in_array( untrailingslashit( $origin ), semitree_allowed_origins(), true ) ) {
+		header( 'Access-Control-Allow-Origin: ' . esc_url_raw( $origin ) );
+		header( 'Access-Control-Allow-Methods: GET, POST, OPTIONS' );
+		header( 'Access-Control-Allow-Headers: Content-Type' );
+		header( 'Access-Control-Max-Age: 600' );
+		header( 'Vary: Origin' );
+	}
+	return $value;
+}

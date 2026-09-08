@@ -8,16 +8,22 @@
  * development host. The URL is a PUBLIC, read-only endpoint — not a secret.
  */
 
-const DEFAULT_WORDPRESS_API_URL = "https://1265580.us28.myftpupload.com";
+// Production default is the final CMS domain — no development host ships in the
+// bundle. For local development, set NEXT_PUBLIC_WORDPRESS_API_URL in .env.local
+// to the temporary GoDaddy host (see .env.example).
+const DEFAULT_WORDPRESS_API_URL = "https://cms.semitree.in";
 
 function normalizeBase(url: string): string {
   return url.trim().replace(/\/+$/, "");
 }
 
-/** Public canonical CMS base (env override → dev default). */
+/** CMS base URL (env override → production default). */
 export const WORDPRESS_API_URL = normalizeBase(
   process.env.NEXT_PUBLIC_WORDPRESS_API_URL || DEFAULT_WORDPRESS_API_URL,
 );
+
+/** Base for Semitree's custom WordPress REST namespace (subscribe/unsubscribe). */
+export const WP_SEMITREE_API = `${WORDPRESS_API_URL}/wp-json/semitree/v1`;
 
 /** WordPress core REST namespace for our content. */
 export const WP_V2 = `${WORDPRESS_API_URL}/wp-json/wp/v2`;

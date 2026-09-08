@@ -10,20 +10,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/* ------------------------------ Subscribers -------------------------------- */
-// Private store for future newsletter subscribers. NOT public, NOT in REST.
-add_action( 'init', 'semitree_register_subscribers' );
-function semitree_register_subscribers() {
-	register_post_type( 'st_subscriber', array(
-		'labels'       => array( 'name' => 'Subscribers', 'singular_name' => 'Subscriber', 'menu_name' => 'Subscribers' ),
-		'public'       => false,
-		'show_ui'      => true,
-		'show_in_menu' => 'semitree-cms',
-		'show_in_rest' => false,   // never exposed publicly
-		'supports'     => array( 'title' ),
-		'capability_type' => 'post',
-	) );
-}
+/* Subscribers + Newsletter content types live in subscribers.php / newsletter.php. */
 
 /* --------------------------------- Menu ------------------------------------ */
 
