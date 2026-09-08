@@ -148,9 +148,11 @@ export function CmsArticleView({ type, slug }: { type: CmsType; slug: string | n
         </div>
       </header>
 
-      {/* Body: sanitized WordPress HTML rendered with Semitree typography. */}
+      {/* Body: sanitized WordPress HTML rendered with Semitree typography.
+          Overflow-safe: images/tables/code from the CMS can't cause horizontal
+          scroll on mobile. */}
       <div
-        className="prose-semitree space-y-4 text-[15px] leading-relaxed [&_a]:text-brand [&_a]:underline [&_h2]:pt-2 [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:text-lg [&_h3]:font-semibold [&_img]:rounded-lg [&_ul]:ml-5 [&_ul]:list-disc [&_ol]:ml-5 [&_ol]:list-decimal"
+        className="prose-semitree space-y-4 break-words text-[15px] leading-relaxed [&_a]:break-words [&_a]:text-brand [&_a]:underline [&_h2]:pt-2 [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:text-lg [&_h3]:font-semibold [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-lg [&_ul]:ml-5 [&_ul]:list-disc [&_ol]:ml-5 [&_ol]:list-decimal [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto"
         dangerouslySetInnerHTML={{ __html: item.contentHtml }}
       />
 

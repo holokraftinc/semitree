@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   },
   description: SITE.description,
   applicationName: SITE.name,
+  // Static hosting (GitHub Pages) can't set HTTP security headers; the referrer
+  // policy is the one meaningful control available via document metadata.
+  referrer: "strict-origin-when-cross-origin",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
