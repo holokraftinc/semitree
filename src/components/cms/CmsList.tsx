@@ -20,12 +20,14 @@ export function CmsList({
   showSearch = false,
   silentWhenEmpty = false,
   heading,
+  basePath = "/insights",
 }: {
   type: CmsType;
   perPage?: number;
   showSearch?: boolean;
   silentWhenEmpty?: boolean;
   heading?: string;
+  basePath?: string;
 }) {
   const [items, setItems] = useState<CmsArticle[]>([]);
   const [page, setPage] = useState(1);
@@ -87,8 +89,8 @@ export function CmsList({
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search CMS content…"
-            aria-label="Search CMS content"
+            placeholder="Search insights…"
+            aria-label="Search insights"
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           />
         </form>
@@ -120,7 +122,7 @@ export function CmsList({
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((item) => (
               <li key={`${item.type}-${item.id}`}>
-                <CmsCard item={item} />
+                <CmsCard item={item} basePath={basePath} />
               </li>
             ))}
           </ul>

@@ -40,10 +40,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/research/topics", priority: 0.7 },
     { path: "/resources", priority: 0.6 },
     { path: "/directory", priority: 0.6 },
-    { path: "/blog", priority: 0.5 },
+    { path: "/insights", priority: 0.7 },
+    ...CMS_TYPES.map((t) => ({ path: `/insights/${t.key}`, priority: 0.5 })),
     { path: "/newsletter", priority: 0.5 },
-    { path: "/cms", priority: 0.4 },
-    ...CMS_TYPES.map((t) => ({ path: `/cms/${t.key}`, priority: 0.4 })),
     { path: "/hub", priority: 0.4 },
   ];
 

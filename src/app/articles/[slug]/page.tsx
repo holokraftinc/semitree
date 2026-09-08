@@ -30,7 +30,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const a = getArticle(slug);
-  if (!a) return articleMeta({ title: "Article", description: "", path: "/blog" });
+  if (!a) return articleMeta({ title: "Article", description: "", path: "/insights" });
   const author = getAuthor(a.authorId);
   return articleMeta({
     title: a.seo?.title ?? a.title,
@@ -70,7 +70,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         data={jsonLdGraph([
           breadcrumbLd([
             { name: "Home", path: "/" },
-            { name: "Blog", path: "/blog" },
+            { name: "Insights", path: "/insights" },
             { name: article.title, path },
           ]),
           articleLd({
@@ -95,7 +95,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <Breadcrumbs
             items={[
               { label: "Home", href: "/" },
-              { label: "Blog", href: "/blog" },
+              { label: "Insights", href: "/insights" },
               { label: article.title },
             ]}
           />

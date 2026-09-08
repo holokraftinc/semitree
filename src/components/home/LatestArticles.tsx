@@ -12,7 +12,7 @@ export function LatestArticles() {
       headingId="latest-articles"
       title="Latest articles"
       description="Explainers, deep dives, tutorials, and analysis."
-      action={{ label: "Visit the blog", href: "/blog" }}
+      action={{ label: "Visit Insights", href: "/insights" }}
     >
       {articles.length > 0 ? (
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -40,6 +40,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { href: "/explore", label: "Explore" },
   { href: "/learn", label: "Learn", children: LEARN_DOMAINS },
   { href: "/tools", label: "Tools" },
+  { href: "/insights", label: "Insights" },
   { href: "/industry", label: "Industry" },
   { href: "/research", label: "Research" },
   { href: "/resources", label: "Resources" },
@@ -47,7 +48,6 @@ export const PRIMARY_NAV: NavItem[] = [
 
 /** Secondary / future sections — surfaced in the mobile menu and footer. */
 export const SECONDARY_NAV: NavItem[] = [
-  { href: "/blog", label: "Blog" },
   { href: "/newsletter", label: "Newsletter" },
 ];
 

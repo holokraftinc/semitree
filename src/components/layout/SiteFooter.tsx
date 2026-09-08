@@ -29,7 +29,7 @@ const FOOTER_SECTIONS = [
   {
     title: "Community",
     links: [
-      { href: "/blog", label: "Blog" },
+      { href: "/insights", label: "Insights" },
       { href: "/newsletter", label: "Newsletter" },
     ],
   },

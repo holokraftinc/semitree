@@ -45,7 +45,7 @@ function applySeo(item: CmsArticle) {
   }
 }
 
-export function CmsArticleView({ type, slug }: { type: CmsType; slug: string | null }) {
+export function CmsArticleView({ type, slug, basePath = "/insights" }: { type: CmsType; slug: string | null; basePath?: string }) {
   const [item, setItem] = useState<CmsArticle | null>(null);
   const [status, setStatus] = useState<Status>("loading");
 
@@ -73,7 +73,7 @@ export function CmsArticleView({ type, slug }: { type: CmsType; slug: string | n
     };
   }, [type, slug]);
 
-  const backHref = `/cms/${type}/`;
+  const backHref = `${basePath}/${type}/`;
   const backLabel = `All ${cmsTypeMeta(type).label}`;
 
   if (status === "loading") {
@@ -129,7 +129,7 @@ export function CmsArticleView({ type, slug }: { type: CmsType; slug: string | n
 
       <header className="space-y-3">
         <nav className="text-sm text-muted-foreground">
-          <Link href="/cms/" className="hover:text-brand">CMS</Link>
+          <Link href={basePath} className="hover:text-brand">Insights</Link>
           <span aria-hidden="true"> / </span>
           <Link href={backHref} className="hover:text-brand">{cmsTypeMeta(item.type).label}</Link>
         </nav>

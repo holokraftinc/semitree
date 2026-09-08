@@ -8,11 +8,11 @@ function formatDate(iso: string): string {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
 
-/** Card for a CMS item — matches the Semitree article-card look. */
-export function CmsCard({ item }: { item: CmsArticle }) {
+/** Card for an editorial item — matches the Semitree article-card look. */
+export function CmsCard({ item, basePath = "/insights" }: { item: CmsArticle; basePath?: string }) {
   return (
     <Link
-      href={`/cms/${item.type}/?slug=${encodeURIComponent(item.slug)}`}
+      href={`${basePath}/${item.type}/?slug=${encodeURIComponent(item.slug)}`}
       className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-colors hover:border-brand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {item.featuredImage ? (

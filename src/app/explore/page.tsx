@@ -24,7 +24,7 @@ const DISCOVER = [
   { label: "Resources", href: "/resources", status: "live", desc: "Guides, cheat sheets, downloads." },
   { label: "Companies", href: "/industry/companies", status: "live", desc: "Foundries, suppliers, services." },
   { label: "Supply chain", href: "/supply-chain", status: "live", desc: "The chain, end to end." },
-  { label: "Blog", href: "/blog", status: "live", desc: "How-to guides & commentary." },
+  { label: "Insights", href: "/insights", status: "live", desc: "News, explainers, research & analysis." },
 ] as const;
 
 export default function ExplorePage() {

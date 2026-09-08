@@ -24,7 +24,7 @@ const SECTIONS = [
     description: "Foundries, suppliers, software, and services.",
   },
   {
-    href: "/blog",
+    href: "/insights",
     title: "Blog",
     description: "How-to guides, comparisons, and case studies.",
   },

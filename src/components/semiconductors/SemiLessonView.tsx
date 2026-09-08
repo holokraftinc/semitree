@@ -156,7 +156,7 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         <div className="grid gap-2 sm:grid-cols-2">
           <ActionLink href="/semiconductors/learn" label="Explore learning paths" />
           <ActionLink href="/tools" label="Try a tool" />
-          <ActionLink href="/blog" label="Read related articles" />
+          <ActionLink href="/insights" label="Read related insights" />
           <ActionLink href="/industry" label="Explore companies" />
         </div>
 
