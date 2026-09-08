@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/supply-chain", priority: 0.9 },
     { path: "/tools", priority: 0.9 },
     { path: "/learn", priority: 0.9 },
+    { path: "/learn/microfluidics", priority: 0.8 },
     { path: "/concepts", priority: 0.8 },
     { path: "/industry", priority: 0.7 },
     { path: "/industry/companies", priority: 0.8 },

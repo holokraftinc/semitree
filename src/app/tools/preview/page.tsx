@@ -128,7 +128,7 @@ export default function CalculatorPreviewPage() {
           { label: "Laminar flow & low Reynolds number", href: "/concepts" },
         ]}
         relatedLessons={[
-          { label: "Level 1 — Physics foundations", href: "/learn" },
+          { label: "Level 1 — Physics foundations", href: "/learn/microfluidics" },
         ]}
         relatedTools={[{ label: "Browse all tools", href: "/tools" }]}
       />

@@ -32,7 +32,8 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },
-            { label: "Learn", href: "/semiconductors/learn" },
+            { label: "Learn", href: "/learn" },
+            { label: "Semiconductors", href: "/semiconductors/learn" },
             { label: lesson.title },
           ]}
         />

@@ -13,7 +13,8 @@ const FOOTER_SECTIONS = [
   {
     title: "Learn",
     links: [
-      { href: "/learn", label: "Curriculum" },
+      { href: "/semiconductors/learn", label: "Semiconductors" },
+      { href: "/learn/microfluidics", label: "Microfluidics" },
       { href: "/concepts", label: "Concepts glossary" },
       { href: "/tools", label: "Tools" },
     ],

@@ -52,6 +52,7 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
           items={[
             { label: "Home", href: "/" },
             { label: "Learn", href: "/learn" },
+            { label: "Microfluidics", href: "/learn/microfluidics" },
             { label: lesson.title },
           ]}
         />

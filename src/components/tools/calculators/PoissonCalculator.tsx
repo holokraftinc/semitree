@@ -171,7 +171,7 @@ export function PoissonCalculator() {
         </div>
       }
       relatedConcepts={getRelatedConceptLinks("poisson-single-cell-loading")}
-      relatedLessons={[{ label: "Level 4 — Applications", href: "/learn" }]}
+      relatedLessons={[{ label: "Level 4 — Applications", href: "/learn/microfluidics" }]}
       relatedTools={getRelatedToolLinks("poisson-single-cell-loading")}
     />
   );

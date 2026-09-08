@@ -45,7 +45,8 @@ export default async function SemiLessonPage({
         data={jsonLdGraph([
           breadcrumbLd([
             { name: "Home", path: "/" },
-            { name: "Learn", path: "/semiconductors/learn" },
+            { name: "Learn", path: "/learn" },
+            { name: "Semiconductors", path: "/semiconductors/learn" },
             { name: lesson.title, path },
           ]),
           learningResourceLd({

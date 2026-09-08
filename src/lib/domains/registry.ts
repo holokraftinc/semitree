@@ -18,7 +18,7 @@ export const DOMAINS: Domain[] = [
     // Served at the site root today; existing routes are unchanged.
     rootMounted: true,
     sections: [
-      { key: "learn", label: "Learn", status: "live", href: "/learn", description: "Zero-to-competent curriculum." },
+      { key: "learn", label: "Learn", status: "live", href: "/learn/microfluidics", description: "Zero-to-competent curriculum." },
       { key: "tools", label: "Tools", status: "live", href: "/tools", description: "Calculators & design utilities." },
       { key: "concepts", label: "Concepts", status: "live", href: "/concepts", description: "Searchable glossary." },
       { key: "resources", label: "Resources", status: "live", href: "/resources", description: "Curated references & downloads." },

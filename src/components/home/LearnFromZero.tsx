@@ -16,13 +16,13 @@ export function LearnFromZero() {
       headingId="learn-from-zero"
       title="Learn from zero"
       description="A structured path from knowing nothing to designing with confidence."
-      action={{ label: "See the curriculum", href: "/learn" }}
+      action={{ label: "See the curriculum", href: "/learn/microfluidics" }}
     >
       <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {LEVELS.map((level) => (
           <li key={level.n}>
             <Link
-              href="/learn"
+              href="/learn/microfluidics"
               className="flex h-full gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-brand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand/10 font-mono text-sm font-semibold text-brand">

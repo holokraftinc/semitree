@@ -14,6 +14,7 @@ import { HOME_ITEM, PRIMARY_NAV, SECONDARY_NAV, type NavItem } from "./nav-items
  */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -36,6 +37,52 @@ export function MobileNav() {
       item.href === "/"
         ? pathname === "/"
         : pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+    // Items with children (e.g. Learn) expand a submenu instead of navigating.
+    if (item.children) {
+      const isOpen = expanded === item.href;
+      return (
+        <li key={item.href}>
+          <button
+            type="button"
+            aria-expanded={isOpen}
+            onClick={() => setExpanded(isOpen ? null : item.href)}
+            className={cn(
+              "flex w-full items-center justify-between rounded-md px-3 py-2.5 text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              active ? "bg-muted text-foreground" : "text-foreground hover:bg-muted/60",
+            )}
+          >
+            {item.label}
+            <svg viewBox="0 0 20 20" className={cn("h-5 w-5 transition-transform", isOpen && "rotate-180")} fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+              <path d="M6 8l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          {isOpen && (
+            <ul className="mt-1 space-y-1 border-l border-border pl-3">
+              {item.children.map((child) => {
+                const childActive = pathname === child.href || pathname.startsWith(`${child.href}/`);
+                return (
+                  <li key={child.href}>
+                    <Link
+                      href={child.href}
+                      aria-current={childActive ? "page" : undefined}
+                      className={cn(
+                        "block rounded-md px-3 py-2.5 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                        childActive ? "bg-muted text-foreground" : "text-foreground hover:bg-muted/60",
+                        child.primary ? "font-semibold" : "font-medium",
+                      )}
+                    >
+                      {child.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </li>
+      );
+    }
+
     return (
       <li key={item.href}>
         <Link

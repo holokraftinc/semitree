@@ -29,7 +29,7 @@ export const PERSONAS: Persona[] = [
     label: "Student",
     blurb: "Build intuition from zero, with worked examples and calculators.",
     recommendations: [
-      { label: "Start the Learn curriculum", href: "/learn", status: "live" },
+      { label: "Start the Learn curriculum", href: "/learn/microfluidics", status: "live" },
       { label: "Browse the concepts glossary", href: "/concepts", status: "live" },
       { label: "Try the calculators", href: "/tools", status: "live" },
       { label: "Semiconductor learning paths", href: "/semiconductors/learn", status: "live" },

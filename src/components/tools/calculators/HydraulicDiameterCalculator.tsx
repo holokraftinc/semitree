@@ -170,7 +170,7 @@ export function HydraulicDiameterCalculator() {
       }
       relatedConcepts={getRelatedConceptLinks("hydraulic-diameter")}
       relatedLessons={[
-        { label: "Level 1 — Physics foundations", href: "/learn" },
+        { label: "Level 1 — Physics foundations", href: "/learn/microfluidics" },
       ]}
       relatedTools={getRelatedToolLinks("hydraulic-diameter")}
     />

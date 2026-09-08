@@ -213,7 +213,7 @@ export function ReynoldsCalculator() {
       }
       relatedConcepts={getRelatedConceptLinks("reynolds-number")}
       relatedLessons={[
-        { label: "Level 1 — Physics foundations", href: "/learn" },
+        { label: "Level 1 — Physics foundations", href: "/learn/microfluidics" },
       ]}
       relatedTools={getRelatedToolLinks("reynolds-number")}
     />

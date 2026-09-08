@@ -20,8 +20,8 @@ export default function SemiconductorLearnPage() {
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },
-            { label: "Semiconductors", href: "/explore" },
-            { label: "Learn" },
+            { label: "Learn", href: "/learn" },
+            { label: "Semiconductors" },
           ]}
         />
         <h1 className="text-3xl font-bold tracking-tight">Learn semiconductors</h1>

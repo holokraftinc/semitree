@@ -251,7 +251,7 @@ export function SyringePumpCalculator() {
         </div>
       }
       relatedConcepts={getRelatedConceptLinks("syringe-pump-settings")}
-      relatedLessons={[{ label: "Level 5 — Do it yourself", href: "/learn" }]}
+      relatedLessons={[{ label: "Level 5 — Do it yourself", href: "/learn/microfluidics" }]}
       relatedTools={getRelatedToolLinks("syringe-pump-settings")}
     />
   );

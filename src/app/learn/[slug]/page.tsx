@@ -49,6 +49,7 @@ export default async function LessonPage({
           breadcrumbLd([
             { name: "Home", path: "/" },
             { name: "Learn", path: "/learn" },
+            { name: "Microfluidics", path: "/learn/microfluidics" },
             { name: lesson.title, path },
           ]),
           learningResourceLd({
