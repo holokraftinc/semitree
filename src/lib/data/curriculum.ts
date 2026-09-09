@@ -62,13 +62,19 @@ export const CURRICULUM: CurriculumLevel[] = [
         relatedTool: "flow-resistance",
         lessonSlug: "flow-pressure-resistance",
       },
-      { title: "Surface tension, wetting & capillarity" },
+      {
+        title: "Surface tension, wetting & capillarity",
+        lessonSlug: "surface-tension-wetting-capillarity",
+      },
       {
         title: "Diffusion & why mixing is hard at the microscale",
         relatedTool: "diffusion-time",
         lessonSlug: "diffusion",
       },
-      { title: "The dimensionless numbers that run the field (Re, Pe, Ca, We, Bo)" },
+      {
+        title: "The dimensionless numbers that run the field (Re, Pe, Ca, We, Bo)",
+        lessonSlug: "dimensionless-numbers",
+      },
     ],
   },
   {
@@ -76,7 +82,10 @@ export const CURRICULUM: CurriculumLevel[] = [
     title: "Materials & Fabrication",
     summary: "How chips are made — the semiconductor bridge.",
     modules: [
-      { title: "PDMS & soft lithography (the workhorse)" },
+      {
+        title: "PDMS & soft lithography (the workhorse)",
+        lessonSlug: "pdms-soft-lithography",
+      },
       { title: "Glass & silicon; photolithography & etching basics" },
       { title: "Thermoplastics: injection molding, hot embossing" },
       { title: "Bonding techniques; 3D-printed & paper microfluidics" },

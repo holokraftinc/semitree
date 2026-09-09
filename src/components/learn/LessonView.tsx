@@ -70,6 +70,25 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
         </p>
       </header>
 
+      {/* Quick start */}
+      {lesson.quickStart && lesson.quickStart.length > 0 && (
+        <Card className="border-brand/30 bg-brand/5 p-5">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-brand">
+            If you only remember three things
+          </h2>
+          <ul className="mt-3 space-y-2">
+            {lesson.quickStart.map((item, i) => (
+              <li key={i} className="flex gap-2 text-sm">
+                <span aria-hidden="true" className="mt-0.5 font-semibold text-brand">
+                  {i + 1}.
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
+
       {/* What you'll learn */}
       <Card className="bg-muted/30 p-5">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
@@ -86,6 +105,17 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
           ))}
         </ul>
       </Card>
+
+      {/* Intuition */}
+      {lesson.intuition && lesson.intuition.length > 0 && (
+        <Section id="intuition" title="Intuition">
+          <div className="space-y-3 leading-relaxed text-foreground">
+            {lesson.intuition.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* Concept explanation */}
       <Section id="concept" title="The concept">
@@ -104,6 +134,25 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
           ))}
         </div>
       </Section>
+
+      {/* How it works */}
+      {lesson.howItWorks && lesson.howItWorks.length > 0 && (
+        <Section id="how-it-works" title="How it works">
+          <ol className="space-y-3">
+            {lesson.howItWorks.map((step, i) => (
+              <li key={i} className="flex gap-3 leading-relaxed text-foreground">
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand/10 font-mono text-xs font-semibold text-brand"
+                >
+                  {i + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </Section>
+      )}
 
       {/* Equation + variables */}
       {(lesson.equation || lesson.variables) && (
@@ -124,6 +173,40 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
         </div>
       )}
 
+      {/* Equation assumptions */}
+      {lesson.equationAssumptions && lesson.equationAssumptions.length > 0 && (
+        <Section id="assumptions" title="Assumptions">
+          <Alert variant="info" title="The equation above assumes:">
+            <ul className="ml-4 list-disc space-y-1">
+              {lesson.equationAssumptions.map((a, i) => (
+                <li key={i}>{a}</li>
+              ))}
+            </ul>
+          </Alert>
+        </Section>
+      )}
+
+      {/* Dimensionless-number interpretation */}
+      {lesson.dimensionless && (
+        <Section id="dimensionless" title="Reading the number">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Card className="p-4">
+              <h3 className="text-sm font-semibold text-foreground">High value</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{lesson.dimensionless.high}</p>
+            </Card>
+            <Card className="p-4">
+              <h3 className="text-sm font-semibold text-foreground">Low value</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{lesson.dimensionless.low}</p>
+            </Card>
+          </div>
+          {lesson.dimensionless.competing && (
+            <p className="mt-3 text-sm leading-relaxed text-foreground">
+              {lesson.dimensionless.competing}
+            </p>
+          )}
+        </Section>
+      )}
+
       {/* Worked example */}
       {lesson.workedExample && (
         <Section id="worked-example" title="Worked example">
@@ -140,6 +223,31 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
               <p className="font-medium">{lesson.workedExample.conclusion}</p>
             )}
           </Card>
+        </Section>
+      )}
+
+      {/* Microfluidic example */}
+      {lesson.microfluidicExample && lesson.microfluidicExample.length > 0 && (
+        <Section id="microfluidic-example" title="Microfluidic example">
+          <div className="space-y-3 leading-relaxed text-foreground">
+            {lesson.microfluidicExample.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Practical design implications */}
+      {lesson.designImplications && lesson.designImplications.length > 0 && (
+        <Section id="design" title="Practical design implications">
+          <ul className="space-y-2">
+            {lesson.designImplications.map((d, i) => (
+              <li key={i} className="flex gap-2 leading-relaxed text-foreground">
+                <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand/60" />
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
         </Section>
       )}
 
@@ -178,6 +286,27 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
             </ul>
           </Alert>
         </Section>
+      )}
+
+      {/* Researcher notes — advanced, collapsed by default */}
+      {lesson.researcherNotes && lesson.researcherNotes.length > 0 && (
+        <details className="group rounded-xl border border-border bg-muted/20 p-5">
+          <summary className="cursor-pointer list-none text-lg font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <span className="inline-flex items-center gap-2">
+              <span aria-hidden="true" className="text-brand transition-transform group-open:rotate-90">▸</span>
+              Researcher notes
+              <span className="text-xs font-normal text-muted-foreground">(advanced)</span>
+            </span>
+          </summary>
+          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground">
+            {lesson.researcherNotes.map((n, i) => (
+              <li key={i} className="flex gap-2">
+                <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand/60" />
+                <span>{n}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
 
       {/* Related concepts + tools */}
@@ -230,9 +359,35 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
           <ul className="space-y-2 text-sm">
             {lesson.furtherReading.map((r, i) => (
               <li key={i}>
-                <span className="font-medium text-foreground">{r.title}</span>
+                {r.url ? (
+                  <a
+                    href={r.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    {r.title} ↗
+                  </a>
+                ) : (
+                  <span className="font-medium text-foreground">{r.title}</span>
+                )}
                 {r.author && (
                   <span className="text-muted-foreground"> — {r.author}</span>
+                )}
+                {(r.publisher || r.year) && (
+                  <span className="text-muted-foreground">
+                    {" "}({[r.publisher, r.year].filter(Boolean).join(", ")})
+                  </span>
+                )}
+                {r.doi && (
+                  <a
+                    href={`https://doi.org/${r.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-1 text-brand hover:underline"
+                  >
+                    doi:{r.doi}
+                  </a>
                 )}
                 {r.note && (
                   <span className="block text-xs italic text-muted-foreground">
