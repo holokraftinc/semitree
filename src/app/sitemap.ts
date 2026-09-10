@@ -78,8 +78,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...NEWSLETTER_ISSUES.map((i) => ({ path: `/newsletter/${i.slug}`, priority: 0.5 })),
   ];
 
+  // The site is served with `trailingSlash: true`, so canonical URLs (and the
+  // pages themselves) end in a slash. Emit matching trailing-slash URLs so no
+  // sitemap entry is a redirect or a duplicate of its canonical form.
+  const withTrailingSlash = (p: string) =>
+    p === "/" || p.endsWith("/") ? p : `${p}/`;
+
   return [...staticPaths, ...dynamicPaths].map(({ path, priority }) => ({
-    url: new URL(path, SITE.url).toString(),
+    url: new URL(withTrailingSlash(path), SITE.url).toString(),
     changeFrequency: "monthly",
     priority,
   }));

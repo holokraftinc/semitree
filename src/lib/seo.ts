@@ -1,16 +1,16 @@
 /**
  * SEO helpers: site config, per-page metadata, and JSON-LD structured data.
  *
- * The canonical base URL is env-driven. Until a production domain is set via
- * NEXT_PUBLIC_SITE_URL, it falls back to a RESERVED placeholder
- * (`semitree.example.com`, under the RFC-2606 example.com) so canonicals are
- * absolute and valid without asserting a real domain.
+ * The canonical base URL is env-driven via NEXT_PUBLIC_SITE_URL (the deploy
+ * workflow sets it to https://semitree.in). It falls back to the production
+ * domain so canonicals, the sitemap and robots.txt are correct even if the
+ * env var is ever missing — never a placeholder or a temporary host.
  */
 import type { Metadata } from "next";
 
 export const SITE = {
   name: "Semitree",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://semitree.example.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://semitree.in",
   description:
     "Semitree — a knowledge, tools, and research platform for the semiconductor industry. Learn the concepts, explore the technology, use the tools, and discover the industry. Includes a full microfluidics domain.",
 } as const;
