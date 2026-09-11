@@ -35,7 +35,7 @@ export const DOMAINS: Domain[] = [
     sections: [
       { key: "learn", label: "Learn", status: "live", href: "/semiconductors/learn", description: "Structured learning paths." },
       { key: "tools", label: "Tools", status: "live", href: "/semiconductors/tools", description: "Engineering calculators." },
-      { key: "concepts", label: "Concepts", status: "planned" },
+      { key: "concepts", label: "Concepts", status: "live", href: "/semiconductors/concepts", description: "A guided map of the ideas behind chips." },
       { key: "manufacturing", label: "Manufacturing", status: "live", href: "/manufacturing", description: "Interactive process explorer." },
       { key: "supply-chain", label: "Supply chain", status: "live", href: "/supply-chain", description: "End-to-end supply chain explorer." },
       { key: "design", label: "Design", status: "live", href: "/semiconductors/design", description: "How an idea becomes a chip — the design flow." },
