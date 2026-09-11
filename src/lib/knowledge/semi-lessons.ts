@@ -19,7 +19,15 @@ export type LessonVisualKey =
   | "energy-bands"
   | "pn-junction"
   | "mosfet"
-  | "wafer-flow";
+  | "wafer-flow"
+  | "doping"
+  | "cmos"
+  | "wafer-to-package"
+  | "wire-bonding"
+  | "flip-chip"
+  | "2-5d"
+  | "3d-ic"
+  | "chiplets";
 
 export interface SemiLesson {
   slug: string;
@@ -328,6 +336,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "By choosing the dopant and its concentration, engineers set whether a region is electron-rich (n-type) or hole-rich (p-type), and how strongly it conducts.",
     ],
     visual: "A silicon lattice with a phosphorus atom contributing a spare electron, and a boron atom creating a hole.",
+    visualKey: "doping",
     terminology: [
       { term: "Dopant", def: "An impurity added to change carrier concentration." },
       { term: "Donor", def: "A dopant that donates a free electron (n-type)." },
@@ -532,6 +541,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "The simplest CMOS circuit, the inverter, connects a PMOS pull-up and an NMOS pull-down; the output is always driven high or low with negligible static power.",
     ],
     visual: "A CMOS inverter: PMOS to the supply, NMOS to ground, gates tied to the input, output between them.",
+    visualKey: "cmos",
     terminology: [
       { term: "Complementary", def: "Using both NMOS and PMOS together." },
       { term: "Static power", def: "Power drawn when the circuit is not switching." },
@@ -922,6 +932,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Advanced packaging (chiplets, 2.5D/3D) increasingly determines system performance — the full Packaging path covers it.",
     ],
     visual: "A die bonded into a package, connected by bonds/bumps, and sealed, with leads/balls underneath.",
+    visualKey: "wafer-to-package",
     terminology: [
       { term: "Package", def: "The housing that protects and connects the die." },
       { term: "Interconnect (package)", def: "Wire bonds or solder bumps linking die to package." },
@@ -1199,6 +1210,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Because pads sit around the die edge and wires add inductance, it limits connection count and high-speed performance compared with flip-chip.",
     ],
     visual: "Fine wires arcing from pads around the die edge to the surrounding package leads.",
+    visualKey: "wire-bonding",
     terminology: [
       { term: "Bond wire", def: "The fine wire connecting die to package." },
       { term: "Bond pad", def: "The die metal pad a wire attaches to." },
@@ -1221,6 +1233,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "It supports far more connections and higher speeds than wire bonding.",
     ],
     visual: "A die flipped face-down, its bump array bonded directly onto the package substrate.",
+    visualKey: "flip-chip",
     terminology: [
       { term: "Solder bump", def: "A small solder ball on the die face." },
       { term: "Area-array I/O", def: "Connections distributed across the die, not just the edge." },
@@ -1244,6 +1257,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "It gives near-on-die bandwidth between separate dies — commonly used to place high-bandwidth memory beside a processor.",
     ],
     visual: "Two dies side-by-side on an interposer with dense wiring between them, mounted on a substrate.",
+    visualKey: "2-5d",
     terminology: [
       { term: "Interposer", def: "A wiring layer between dies and the package substrate." },
       { term: "TSV", def: "Through-silicon via — a vertical connection through silicon." },
@@ -1266,6 +1280,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Heat removal and manufacturing complexity are the main challenges.",
     ],
     visual: "Two or more dies stacked vertically, joined by TSVs / hybrid-bonded copper pads.",
+    visualKey: "3d-ic",
     terminology: [
       { term: "TSV", def: "Vertical via through a die connecting stacked layers." },
       { term: "Hybrid bonding", def: "Direct fine-pitch copper-to-copper die bonding." },
@@ -1288,6 +1303,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Die-to-die interconnect standards (e.g. UCIe) aim to let chiplets from different sources interoperate.",
     ],
     visual: "Several small chiplets (cores, I/O, memory) combined in one package via dense die-to-die links.",
+    visualKey: "chiplets",
     terminology: [
       { term: "Chiplet", def: "A small die combined with others in a package." },
       { term: "Disaggregation", def: "Splitting a chip into multiple dies." },
