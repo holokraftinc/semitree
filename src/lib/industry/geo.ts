@@ -109,6 +109,21 @@ export const INDIA_BOX: ProjectionBox = {
   maxLat: 37,
 };
 
+/**
+ * Simplified outline of mainland India as a [longitude, latitude] polygon.
+ * Coarse on purpose — a recognizable silhouette behind the state markers, drawn
+ * through the same `project()` (no external tiles/libraries). Not a survey
+ * boundary; it is a stylized backdrop.
+ */
+export const INDIA_LAND: [number, number][] = [
+  [74, 34], [76, 33], [78, 32], [80, 30.5], [81, 30], [83, 28], [85, 27.5],
+  [88, 27], [89, 26], [92, 27], [95, 27], [96, 28], [94, 25], [92, 24],
+  [91, 23], [89, 22], [87, 21], [85, 19], [82, 17], [80.5, 15], [80, 13],
+  [79, 11], [78, 9], [77.5, 8], [76, 9], [75, 12], [74, 15], [73, 18],
+  [72.8, 19], [70.5, 21], [69, 22], [68, 23], [70, 24], [70, 28], [74, 30],
+  [75, 32],
+];
+
 /** Every marker across all companies (HQ + sites). */
 export function allMarkers(): MapMarker[] {
   const markers: MapMarker[] = [];

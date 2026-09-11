@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   INDIA_BOX,
+  INDIA_LAND,
   project,
   indiaMarkers,
   clusterMarkers,
@@ -41,6 +42,16 @@ export function IndiaMap() {
                 className="absolute inset-0 h-full w-full"
                 aria-hidden="true"
               >
+                <path
+                  d={
+                    INDIA_LAND.map(([lng, lat], i) => {
+                      const { x, y } = project(lat, lng, INDIA_BOX);
+                      return `${i === 0 ? "M" : "L"}${(x * 500).toFixed(1)} ${(y * 500).toFixed(1)}`;
+                    }).join(" ") + " Z"
+                  }
+                  className="fill-muted-foreground/20 stroke-muted-foreground/25"
+                  strokeWidth={0.8}
+                />
                 {[70, 78, 86, 94].map((lng) => {
                   const { x } = project(0, lng, INDIA_BOX);
                   return (
