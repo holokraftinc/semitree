@@ -38,7 +38,7 @@ export const DOMAINS: Domain[] = [
       { key: "concepts", label: "Concepts", status: "planned" },
       { key: "manufacturing", label: "Manufacturing", status: "live", href: "/manufacturing", description: "Interactive process explorer." },
       { key: "supply-chain", label: "Supply chain", status: "live", href: "/supply-chain", description: "End-to-end supply chain explorer." },
-      { key: "design", label: "Design", status: "planned" },
+      { key: "design", label: "Design", status: "live", href: "/semiconductors/design", description: "How an idea becomes a chip — the design flow." },
       { key: "packaging", label: "Packaging", status: "planned" },
       { key: "equipment", label: "Equipment", status: "planned" },
       { key: "materials", label: "Materials", status: "planned" },

@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/explore", priority: 0.9 },
     { path: "/semiconductors/learn", priority: 0.9 },
     { path: "/semiconductors/tools", priority: 0.9 },
+    { path: "/semiconductors/design", priority: 0.8 },
     { path: "/manufacturing", priority: 0.9 },
     { path: "/supply-chain", priority: 0.9 },
     { path: "/tools", priority: 0.9 },
