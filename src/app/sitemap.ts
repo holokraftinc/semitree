@@ -23,6 +23,7 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths: { path: string; priority: number }[] = [
     { path: "/", priority: 1 },
+    { path: "/about", priority: 0.6 },
     { path: "/explore", priority: 0.9 },
     { path: "/semiconductors/learn", priority: 0.9 },
     { path: "/semiconductors/tools", priority: 0.9 },

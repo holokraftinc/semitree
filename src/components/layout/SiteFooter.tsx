@@ -31,6 +31,7 @@ const FOOTER_SECTIONS = [
     links: [
       { href: "/insights", label: "Insights" },
       { href: "/newsletter", label: "Newsletter" },
+      { href: "/about", label: "About" },
     ],
   },
 ] as const;
