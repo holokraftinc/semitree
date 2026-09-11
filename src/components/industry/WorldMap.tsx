@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   WORLD_BOX,
+  WORLD_LAND,
   project,
   allMarkers,
   clusterMarkers,
@@ -76,6 +77,24 @@ export function WorldMap() {
             className="absolute inset-0 h-full w-full"
             aria-hidden="true"
           >
+            {/* Continent silhouettes (simplified) */}
+            {WORLD_LAND.map((poly, i) => {
+              const d =
+                poly
+                  .map(([lng, lat], j) => {
+                    const { x, y } = project(lat, lng, WORLD_BOX);
+                    return `${j === 0 ? "M" : "L"}${(x * 1000).toFixed(1)} ${(y * 460).toFixed(1)}`;
+                  })
+                  .join(" ") + " Z";
+              return (
+                <path
+                  key={`land${i}`}
+                  d={d}
+                  className="fill-muted-foreground/20 stroke-muted-foreground/25"
+                  strokeWidth={0.8}
+                />
+              );
+            })}
             {GRID_LONG.map((lng) => {
               const { x } = project(0, lng, WORLD_BOX);
               return (
