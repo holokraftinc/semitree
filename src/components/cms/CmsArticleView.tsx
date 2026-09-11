@@ -5,6 +5,7 @@ import Link from "next/link";
 import { fetchBySlug } from "@/lib/wordpress/client";
 import { cmsTypeMeta, type CmsType } from "@/lib/wordpress/config";
 import type { CmsArticle } from "@/lib/wordpress/types";
+import { ShareBar } from "./ShareBar";
 
 type Status = "loading" | "ready" | "notfound" | "error";
 
@@ -147,6 +148,8 @@ export function CmsArticleView({ type, slug, basePath = "/insights" }: { type: C
           <time dateTime={item.publishedDate}>{formatDate(item.publishedDate)}</time>
         </div>
       </header>
+
+      <ShareBar title={item.title} />
 
       {/* Body: sanitized WordPress HTML rendered with Semitree typography.
           Overflow-safe: images/tables/code from the CMS can't cause horizontal
