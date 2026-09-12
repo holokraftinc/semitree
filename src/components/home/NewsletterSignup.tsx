@@ -55,7 +55,7 @@ export function NewsletterSignup() {
             className="mx-auto mt-6 max-w-sm rounded-lg border border-success/30 bg-success/5 px-4 py-3 text-sm text-foreground"
           >
             {status === "success"
-              ? "Thanks — you’re subscribed. Please check your inbox to confirm."
+              ? "Thanks — you’re subscribed!"
               : "You’re already on the list — thanks for your interest!"}
           </p>
         ) : (
