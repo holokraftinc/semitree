@@ -7,7 +7,6 @@ const FOOTER_SECTIONS = [
     links: [
       { href: "/explore", label: "Explore" },
       { href: "/industry", label: "Industry" },
-      { href: "/research", label: "Research" },
     ],
   },
   {
@@ -23,6 +22,7 @@ const FOOTER_SECTIONS = [
     title: "Resources",
     links: [
       { href: "/resources", label: "Resources & downloads" },
+      { href: "/research", label: "Research" },
       { href: "/directory", label: "Directory" },
     ],
   },

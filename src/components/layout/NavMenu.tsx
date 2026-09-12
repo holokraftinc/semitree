@@ -7,12 +7,13 @@ import { cn } from "@/lib/utils/cn";
 import type { NavItem } from "./nav-items";
 
 /**
- * Desktop "Learn" dropdown. The trigger is a button (it opens the menu rather
- * than navigating straight to a domain), satisfying "Learn does not auto-open
- * Microfluidics". Opens on hover or click/keyboard; closes on Esc, outside
- * click, route change, or selecting a domain. Uses the existing design tokens.
+ * Desktop dropdown for a primary-nav item that has children (e.g. Learn,
+ * Resources). The trigger is a button: it opens the menu rather than navigating
+ * straight to a sub-page. Opens on hover or click/keyboard; closes on Esc,
+ * outside click, route change, or selecting an item. Label, heading and
+ * active-state all derive from the item, so it works for any dropdown.
  */
-export function LearnMenu({ item }: { item: NavItem }) {
+export function NavMenu({ item }: { item: NavItem }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const menuId = useId();
@@ -20,8 +21,8 @@ export function LearnMenu({ item }: { item: NavItem }) {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const active =
-    pathname === "/learn" ||
-    pathname.startsWith("/learn/") ||
+    pathname === item.href ||
+    pathname.startsWith(`${item.href}/`) ||
     (item.children?.some((c) => pathname === c.href || pathname.startsWith(`${c.href}/`)) ?? false);
 
   // Close on route change.
@@ -85,11 +86,11 @@ export function LearnMenu({ item }: { item: NavItem }) {
         <div
           id={menuId}
           role="menu"
-          aria-label="Learn"
+          aria-label={item.label}
           className="absolute left-0 top-full z-40 mt-1 w-80 rounded-xl border border-border bg-card p-2 shadow-card"
         >
           <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            Learn
+            {item.label}
           </p>
           <ul className="space-y-1">
             {item.children?.map((child) => (

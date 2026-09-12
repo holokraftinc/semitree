@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { PRIMARY_NAV } from "./nav-items";
-import { LearnMenu } from "./LearnMenu";
+import { NavMenu } from "./NavMenu";
 
 /** Desktop primary navigation with active-route highlighting. */
 export function MainNav() {
@@ -15,7 +15,7 @@ export function MainNav() {
       <ul className="flex items-center gap-0.5">
         {PRIMARY_NAV.map((item) => {
           if (item.children) {
-            return <LearnMenu key={item.href} item={item} />;
+            return <NavMenu key={item.href} item={item} />;
           }
           const active =
             pathname === item.href || pathname.startsWith(`${item.href}/`);

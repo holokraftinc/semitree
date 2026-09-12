@@ -35,6 +35,20 @@ export const LEARN_DOMAINS: NavChild[] = [
   },
 ];
 
+/** Resources hub — the Resources page plus Research live together here. */
+export const RESOURCE_LINKS: NavChild[] = [
+  {
+    href: "/resources",
+    label: "Resources",
+    description: "Guides, cheat sheets, and downloads.",
+  },
+  {
+    href: "/research",
+    label: "Research",
+    description: "Papers, references, and research topics.",
+  },
+];
+
 /** Primary navigation. Home is reached via the wordmark, so it's separate. */
 export const PRIMARY_NAV: NavItem[] = [
   { href: "/explore", label: "Explore" },
@@ -42,8 +56,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { href: "/tools", label: "Tools" },
   { href: "/insights", label: "Insights" },
   { href: "/industry", label: "Industry" },
-  { href: "/research", label: "Research" },
-  { href: "/resources", label: "Resources" },
+  { href: "/resources", label: "Resources", children: RESOURCE_LINKS },
 ];
 
 /** Secondary / future sections — surfaced in the mobile menu and footer. */
