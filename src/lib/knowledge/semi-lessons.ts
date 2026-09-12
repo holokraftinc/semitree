@@ -27,7 +27,11 @@ export type LessonVisualKey =
   | "flip-chip"
   | "2-5d"
   | "3d-ic"
-  | "chiplets";
+  | "chiplets"
+  | "die-vs-package"
+  | "substrate"
+  | "electrical-connections"
+  | "wafer-level-packaging";
 
 export interface SemiLesson {
   slug: string;
@@ -120,12 +124,18 @@ export const LEARNING_PATHS: LearningPath[] = [
   },
   {
     id: "packaging",
-    title: "Advanced Packaging",
-    summary: "From wire-bond packages to chiplets, 3D stacks, and HBM.",
+    title: "Packaging",
+    summary: "From what packaging is and why it's needed, through wire-bond and flip-chip, up to chiplets, 3D stacks, and HBM.",
     lessonSlugs: [
-      "traditional-packaging",
+      "what-is-packaging",
+      "why-packaging",
+      "die-vs-package",
+      "substrate",
+      "electrical-connections",
       "wire-bonding",
       "flip-chip",
+      "traditional-packaging",
+      "wafer-level-packaging",
       "2-5d",
       "3d-ic",
       "chiplets",
@@ -1175,6 +1185,178 @@ export const SEMI_LESSONS: SemiLesson[] = [
   }),
 
   // ============================ PATH 4: PACKAGING ============================
+  L({
+    slug: "what-is-packaging",
+    pathId: "packaging",
+    order: 1,
+    title: "What is semiconductor packaging?",
+    summary: "Turning a bare, fragile die into a usable, connectable chip — everything that happens after the wafer.",
+    whatYoullLearn: [
+      "What packaging is and where it sits after fabrication",
+      "The wafer → die → package → system journey",
+      "Why the wafer is not a finished product",
+    ],
+    whyItMatters: "The wafer coming out of the fab isn't something you can use; packaging is what turns it into a chip you can put in a product.",
+    explanation: [
+      "Fabrication ends with a wafer holding many identical dies. Packaging is everything that comes after: cutting out each die, connecting it to the outside world, and protecting it inside a housing — the finished “chip” you can solder onto a board.",
+      "The journey is: wafer → die → die preparation (dicing) → interconnection (connecting the die's pads) → package assembly and sealing → testing → a component that goes into a system.",
+      "Packaging does three core jobs: it makes electrical connections between the tiny die and the much larger board, it protects the die mechanically and from moisture, and it gives heat a path to escape.",
+    ],
+    visual: "A wafer of dies, one die singulated, then that die mounted and sealed in a package with balls underneath.",
+    visualKey: "wafer-to-package",
+    terminology: [
+      { term: "Die", def: "A single chip cut from the wafer — the bare silicon with the circuit on it." },
+      { term: "Package", def: "The housing that protects the die and connects it to the board." },
+      { term: "Singulation", def: "Cutting the wafer into individual dies (dicing)." },
+    ],
+    example: "A processor die is diced from its wafer, attached to a substrate, connected, sealed, tested, and shipped as the chip you see on a board.",
+    commonMistakes: ["Thinking a fabricated wafer is a finished product — it still needs packaging and test before it can be used."],
+    realWorld: "Every chip in a phone, car, or data center went through packaging after its wafer was made.",
+    relatedLessons: ["why-packaging", "die-vs-package", "packaging"],
+  }),
+  L({
+    slug: "why-packaging",
+    pathId: "packaging",
+    order: 2,
+    title: "Why does a chip need packaging?",
+    summary: "Protection, connection, and heat — the three problems a bare die can't solve on its own.",
+    whatYoullLearn: [
+      "The three jobs packaging does",
+      "Why a bare die can't be used directly",
+      "How packaging affects performance and reliability",
+    ],
+    whyItMatters: "Without packaging a die is fragile, unconnectable, and can't shed heat — packaging is what makes it a dependable component.",
+    explanation: [
+      "A bare die is a sliver of silicon with connection pads far too small and delicate to attach to a circuit board. Packaging solves three problems at once.",
+      "Connection: it fans the die's micron-scale pads out to millimetre-scale pins or balls a board can use. Protection: it shields the die from physical damage, moisture, and contamination. Thermal: it gives heat a path from the die to a heatsink or the board.",
+      "Increasingly, packaging also decides performance — how many connections, how short they are, and how much bandwidth and power the chip can deliver — which is why advanced packaging has become so important.",
+    ],
+    visual: "A bare, fragile die versus the same die protected and connected inside a package.",
+    visualKey: "die-vs-package",
+    terminology: [
+      { term: "Pad", def: "A tiny metal contact on the die where a connection is made." },
+      { term: "Thermal path", def: "The route heat takes from the die out to the environment." },
+    ],
+    example: "A die that runs hot must be packaged so heat can reach a heatsink; otherwise it would overheat almost immediately.",
+    commonMistakes: ["Assuming packaging is just a protective box — it also carries every electrical connection and much of the heat, and increasingly limits performance."],
+    realWorld: "Automotive and industrial chips use rugged packaging to survive heat, vibration, and moisture for years.",
+    relatedLessons: ["what-is-packaging", "electrical-connections", "substrate"],
+  }),
+  L({
+    slug: "die-vs-package",
+    pathId: "packaging",
+    order: 3,
+    title: "Die vs package",
+    summary: "The bare silicon chip versus the finished, connectable component it lives inside.",
+    whatYoullLearn: [
+      "The difference between a die and a package",
+      "What a die is and where it comes from",
+      "What the package adds around it",
+    ],
+    whyItMatters: "These two words come up constantly in packaging; mixing them up makes everything else confusing.",
+    explanation: [
+      "A die is the bare piece of silicon cut from the wafer — the actual circuit, with microscopic connection pads, but fragile and impossible to handle or connect directly.",
+      "A package is the finished housing built around one (or more) dies: it mounts the die, routes its connections out to board-level pins or balls, seals it, and manages heat. The “chip” on a circuit board is the package; the die is inside it.",
+      "One package can hold a single die (traditional packaging) or many dies (advanced packaging — chiplets, 2.5D, 3D).",
+    ],
+    visual: "On the left a bare die with tiny pads; on the right the same die mounted, connected, and sealed inside a package with balls underneath.",
+    visualKey: "die-vs-package",
+    terminology: [
+      { term: "Bare die", def: "A die that has not yet been packaged." },
+      { term: "Known-good die (KGD)", def: "A die already tested and confirmed working before packaging." },
+    ],
+    example: "In a chiplet product, several known-good dies are placed into one package.",
+    commonMistakes: ["Using “chip” loosely — usually the chip you handle is the package; the die is the silicon inside it."],
+    realWorld: "“Bare die” versus “packaged parts” is a real distinction in the supply chain, especially for advanced packaging.",
+    relatedLessons: ["what-is-packaging", "substrate", "chiplets"],
+  }),
+  L({
+    slug: "substrate",
+    pathId: "packaging",
+    order: 4,
+    title: "Package substrate",
+    summary: "The carrier inside the package that fans the die's tiny connections out to the board.",
+    whatYoullLearn: [
+      "What a substrate is and what it does",
+      "How it bridges fine die pitch to coarse board pitch",
+      "Why substrates matter for advanced packaging",
+    ],
+    whyItMatters: "The substrate is the hidden workhorse of a package — it carries every signal and power connection between the die and the board.",
+    explanation: [
+      "A package substrate is a small, multilayer board that the die sits on inside the package. Its main job is “fan-out”: the die's pads are only micrometres apart, but the board's pins/balls are far larger and further apart, so the substrate routes the connections from fine die pitch to coarse board pitch.",
+      "It also delivers power to the die and provides mechanical and partial thermal support. Modern substrates have many routing layers, like a miniature printed circuit board.",
+      "In advanced packaging the substrate — or a silicon interposer placed on top of it — must carry far more and denser connections, which is why substrate technology is a bottleneck and an area of heavy investment.",
+    ],
+    visual: "A die on a multilayer substrate that routes its fine pads outward to the larger solder balls underneath the package.",
+    visualKey: "substrate",
+    terminology: [
+      { term: "Pitch", def: "The spacing between connections." },
+      { term: "Fan-out (routing)", def: "Spreading fine die connections to a coarser board pitch." },
+      { term: "Interposer", def: "An extra dense-wiring layer placed above the substrate, used in 2.5D." },
+    ],
+    example: "A high-pin-count processor uses a large multilayer substrate to route thousands of connections to the motherboard.",
+    commonMistakes: ["Confusing the package substrate with the circuit board it's soldered to — the substrate is inside the package."],
+    realWorld: "Substrate supply has been a real constraint on shipping high-end CPUs and GPUs.",
+    relatedLessons: ["die-vs-package", "electrical-connections", "2-5d"],
+  }),
+  L({
+    slug: "electrical-connections",
+    pathId: "packaging",
+    order: 5,
+    title: "Electrical connections",
+    summary: "How a die's tiny pads are wired to the package and out to the board — wires, bumps, and balls.",
+    whatYoullLearn: [
+      "The chain of connections from die to board",
+      "The two main die-to-package methods",
+      "How connection choices affect speed and count",
+    ],
+    whyItMatters: "Every signal and every watt into a chip travels through these connections; they set how fast and how many.",
+    explanation: [
+      "Electricity travels from the die all the way to the board through a chain: die pad → die-to-package connection → substrate routing → package pins or balls → the board.",
+      "There are two main ways to connect the die to the package. Wire bonding runs thin wires from pads at the die's edge to the substrate. Flip chip flips the die face-down onto an array of tiny solder bumps covering its whole face.",
+      "The method matters: wire bonds are cheap but limited in count and add electrical inductance; flip-chip bumps give far more connections and shorter, faster paths. From the substrate, solder balls (as in a BGA) connect the package to the board.",
+    ],
+    visual: "The connection chain: die pad → wire or bump → substrate → solder ball → board.",
+    visualKey: "electrical-connections",
+    terminology: [
+      { term: "Bump", def: "A tiny solder ball on the die's face, used in flip chip." },
+      { term: "Ball (BGA)", def: "A solder ball under the package that connects it to the board." },
+      { term: "Inductance", def: "An electrical property that limits high-speed signals; longer wires have more of it." },
+    ],
+    example: "A high-speed processor uses flip-chip bumps for the die and a ball grid array (BGA) to reach the board.",
+    commonMistakes: ["Thinking there's a single connection — there's a whole chain from die pad to board, each link with its own limits."],
+    realWorld: "The shift from wire bonding to flip chip was driven by the need for more connections and higher speed in CPUs and GPUs.",
+    relatedLessons: ["wire-bonding", "flip-chip", "substrate"],
+  }),
+  L({
+    slug: "wafer-level-packaging",
+    pathId: "packaging",
+    order: 9,
+    title: "Wafer-level packaging",
+    summary: "Building the package while the dies are still on the wafer — smaller, thinner, and often without a separate substrate.",
+    whatYoullLearn: [
+      "What wafer-level packaging (WLP) is",
+      "How it differs from traditional packaging",
+      "Fan-out WLP and its trade-offs",
+    ],
+    whyItMatters: "WLP enables the very small, thin packages phones and wearables need, and underpins fan-out and much of advanced packaging.",
+    explanation: [
+      "In traditional packaging, dies are cut from the wafer first and then packaged one by one. In wafer-level packaging (WLP), the packaging steps are done while the dies are still on (or reconstituted onto) a wafer, and the wafer is diced at the very end — so many packages are built in parallel.",
+      "In the simplest “fan-in” WLP, connections stay within the die's own footprint, giving a package barely larger than the die (chip-scale). Fan-out WLP re-embeds dies in a moulded wafer and adds redistribution layers (RDL) that spread connections beyond the die edge — more connections without a separate substrate.",
+      "Advantages: smaller, thinner packages and, for fan-out, no substrate cost and shorter connections. Limitations: warpage and yield are harder to control, and the connection count is limited by the redistribution layers rather than a full substrate.",
+    ],
+    visual: "Packages built across a whole wafer, with redistribution layers spreading each die's connections beyond its edge (fan-out) before dicing.",
+    visualKey: "wafer-level-packaging",
+    terminology: [
+      { term: "RDL (redistribution layer)", def: "A thin metal layer that re-routes a die's connections to new positions." },
+      { term: "Fan-in / fan-out", def: "Keeping connections within the die footprint, versus spreading them beyond it." },
+      { term: "Chip-scale package (CSP)", def: "A package barely larger than the die itself." },
+    ],
+    example: "Mobile processors and RF chips widely use fan-out WLP for compact, high-density packaging.",
+    commonMistakes: ["Assuming WLP is just “a smaller package” — fan-out WLP is a different process that packages many dies in parallel on a wafer."],
+    realWorld: "Fan-out WLP became mainstream in smartphones and is a stepping stone toward chiplet-style integration.",
+    relatedLessons: ["flip-chip", "traditional-packaging", "chiplets"],
+  }),
   L({
     slug: "traditional-packaging",
     pathId: "packaging",

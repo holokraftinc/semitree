@@ -240,5 +240,89 @@ export function LessonDiagram({ visualKey }: { visualKey: LessonVisualKey }) {
       </svg>
     );
   }
+  if (visualKey === "die-vs-package") {
+    return (
+      <svg viewBox="0 0 340 160" className={common} role="img" aria-label="A bare die with tiny pads on the left; on the right the same die mounted inside a package with solder balls underneath.">
+        {/* bare die */}
+        <rect x="30" y="55" width="80" height="50" className="fill-brand/20 stroke-brand" strokeWidth="1.3" />
+        <text x="70" y="84" textAnchor="middle" className="fill-foreground text-[11px]">die</text>
+        {[...Array(5)].map((_, i) => (
+          <rect key={`p${i}`} x={40 + i * 14} y="51" width="6" height="4" className="fill-muted-foreground" />
+        ))}
+        <text x="70" y="122" textAnchor="middle" className="fill-muted-foreground text-[10px]">bare die</text>
+        <path d="M124 80 L156 80" className="stroke-foreground" strokeWidth="1.4" markerEnd="url(#dv)" />
+        {/* packaged */}
+        <rect x="180" y="46" width="130" height="54" rx="3" className="fill-muted stroke-border" strokeWidth="1.4" />
+        <rect x="222" y="60" width="46" height="24" className="fill-brand/20 stroke-brand" strokeWidth="1" />
+        <text x="245" y="76" textAnchor="middle" className="fill-foreground text-[9px]">die</text>
+        {[...Array(6)].map((_, i) => (
+          <circle key={`b${i}`} cx={196 + i * 24} cy="108" r="4" className="fill-foreground/70" />
+        ))}
+        <text x="245" y="130" textAnchor="middle" className="fill-muted-foreground text-[10px]">package</text>
+        <defs><marker id="dv" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6z" className="fill-foreground" /></marker></defs>
+      </svg>
+    );
+  }
+  if (visualKey === "substrate") {
+    return (
+      <svg viewBox="0 0 320 170" className={common} role="img" aria-label="A die sitting on a multilayer package substrate that routes its fine pads outward to the larger solder balls underneath.">
+        <rect x="110" y="34" width="100" height="26" className="fill-brand/20 stroke-brand" strokeWidth="1.3" />
+        <text x="160" y="51" textAnchor="middle" className="fill-foreground text-[10px]">die</text>
+        {[...Array(6)].map((_, i) => (
+          <line key={`pad${i}`} x1={120 + i * 16} y1="60" x2={120 + i * 16} y2="70" className="stroke-muted-foreground" strokeWidth="1" />
+        ))}
+        <rect x="44" y="70" width="232" height="36" className="fill-muted stroke-border" strokeWidth="1.4" />
+        {[...Array(2)].map((_, r) => (
+          <line key={`rl${r}`} x1="52" y1={82 + r * 12} x2="268" y2={82 + r * 12} className="stroke-brand/40" strokeWidth="0.7" />
+        ))}
+        <text x="160" y="92" textAnchor="middle" className="fill-muted-foreground text-[9px]">multilayer substrate (fan-out)</text>
+        {[...Array(8)].map((_, i) => (
+          <circle key={`bl${i}`} cx={62 + i * 28} cy="118" r="4.5" className="fill-foreground/70" />
+        ))}
+        <text x="160" y="140" textAnchor="middle" className="fill-muted-foreground text-[10px]">solder balls → board</text>
+      </svg>
+    );
+  }
+  if (visualKey === "electrical-connections") {
+    return (
+      <svg viewBox="0 0 320 190" className={common} role="img" aria-label="The connection chain from die pad through a bump to the substrate, then a solder ball to the board.">
+        <rect x="90" y="20" width="140" height="26" className="fill-brand/20 stroke-brand" strokeWidth="1.3" />
+        <text x="160" y="37" textAnchor="middle" className="fill-foreground text-[10px]">die</text>
+        <circle cx="160" cy="54" r="5" className="fill-warning/70 stroke-border" strokeWidth="0.8" />
+        <text x="230" y="57" className="fill-muted-foreground text-[9px]">bump</text>
+        <rect x="70" y="62" width="180" height="30" className="fill-muted stroke-border" strokeWidth="1.4" />
+        <text x="160" y="81" textAnchor="middle" className="fill-muted-foreground text-[10px]">substrate</text>
+        <circle cx="160" cy="104" r="6" className="fill-foreground/70" />
+        <text x="230" y="107" className="fill-muted-foreground text-[9px]">ball</text>
+        <rect x="50" y="116" width="220" height="26" className="fill-muted-foreground/15 stroke-border" strokeWidth="1.4" />
+        <text x="160" y="133" textAnchor="middle" className="fill-muted-foreground text-[10px]">board (PCB)</text>
+        <text x="160" y="164" textAnchor="middle" className="fill-muted-foreground text-[9px]">die pad → bump → substrate → ball → board</text>
+      </svg>
+    );
+  }
+  if (visualKey === "wafer-level-packaging") {
+    return (
+      <svg viewBox="0 0 320 160" className={common} role="img" aria-label="Fan-out wafer-level packaging: a die embedded in moulding with a redistribution layer that spreads its connections beyond the die edge to solder balls.">
+        <rect x="120" y="34" width="80" height="26" className="fill-brand/20 stroke-brand" strokeWidth="1.3" />
+        <text x="160" y="51" textAnchor="middle" className="fill-foreground text-[10px]">die</text>
+        <rect x="40" y="34" width="80" height="26" className="fill-muted stroke-border" strokeWidth="1" />
+        <rect x="200" y="34" width="80" height="26" className="fill-muted stroke-border" strokeWidth="1" />
+        <text x="80" y="28" textAnchor="middle" className="fill-muted-foreground text-[8px]">moulding</text>
+        <rect x="40" y="64" width="240" height="18" className="fill-brand/10 stroke-brand" strokeWidth="1.2" />
+        <text x="160" y="77" textAnchor="middle" className="fill-foreground text-[9px]">redistribution layer (RDL) — fan-out</text>
+        {/* RDL routing spreading beyond die edge */}
+        {[...Array(3)].map((_, i) => (
+          <line key={`l${i}`} x1={140 + i * 20} y1="60" x2={70 + i * 8} y2="64" className="stroke-brand/50" strokeWidth="0.8" />
+        ))}
+        {[...Array(3)].map((_, i) => (
+          <line key={`r${i}`} x1={160 + i * 20} y1="60" x2={240 + i * 8} y2="64" className="stroke-brand/50" strokeWidth="0.8" />
+        ))}
+        {[...Array(9)].map((_, i) => (
+          <circle key={`b${i}`} cx={52 + i * 27} cy="94" r="4" className="fill-foreground/70" />
+        ))}
+        <text x="160" y="122" textAnchor="middle" className="fill-muted-foreground text-[10px]">balls extend beyond the die edge</text>
+      </svg>
+    );
+  }
   return null;
 }

@@ -40,7 +40,8 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         <div className="flex flex-wrap items-center gap-2">
           {path && <Badge variant="brand">{path.title}</Badge>}
           <span className="text-sm text-muted-foreground">
-            Lesson {lesson.order} of {path?.lessonSlugs.length}
+            Lesson {path ? path.lessonSlugs.indexOf(lesson.slug) + 1 : lesson.order} of{" "}
+            {path?.lessonSlugs.length}
           </span>
         </div>
         <h1 className="text-3xl font-bold tracking-tight">{lesson.title}</h1>

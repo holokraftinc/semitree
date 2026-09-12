@@ -60,14 +60,14 @@ export default function SemiconductorLearnPage() {
                   </div>
 
                   <ol className="flex-1 space-y-1 border-t border-border pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
-                    {lessons.map((l) => (
+                    {lessons.map((l, i) => (
                       <li key={l.slug}>
                         <Link
                           href={`/semiconductors/learn/${l.slug}`}
                           className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-foreground transition-colors hover:bg-muted/60 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           <span className="font-mono text-xs text-muted-foreground">
-                            {l.order}.
+                            {i + 1}.
                           </span>
                           {l.title}
                         </Link>

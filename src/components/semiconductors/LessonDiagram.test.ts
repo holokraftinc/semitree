@@ -18,6 +18,10 @@ const KEYS: LessonVisualKey[] = [
   "2-5d",
   "3d-ic",
   "chiplets",
+  "die-vs-package",
+  "substrate",
+  "electrical-connections",
+  "wafer-level-packaging",
 ];
 
 describe("LessonDiagram", () => {

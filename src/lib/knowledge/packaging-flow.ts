@@ -151,8 +151,7 @@ export const PACKAGING_LADDER: PackagingApproach[] = [
     how: "Redistribution layers are formed over the die; fan-out re-embeds dies in moulding and routes connections outward.",
     tradeoffs: "Warpage and yield are harder to control, and density is limited by the redistribution layers.",
     whereUsed: "Mobile processors, RF front-ends, and space-constrained devices.",
-    lessons: [],
-    links: [{ label: "Advanced packaging", href: "/semiconductors/learn/advanced-packaging" }],
+    lessons: ["wafer-level-packaging"],
   },
   {
     slug: "2-5d",
