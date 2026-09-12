@@ -66,17 +66,36 @@ export function breadcrumbLd(items: { name: string; path: string }[]): LdNode {
   };
 }
 
+/** Stable @id anchors so the WebSite and Organization nodes link to each other. */
+export const ORG_ID = `${SITE.url}#organization`;
+export const WEBSITE_ID = `${SITE.url}#website`;
+
 export function webSiteLd(): LdNode {
   return {
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+    inLanguage: "en",
+    publisher: { "@id": ORG_ID },
+  };
+}
+
+/**
+ * Organization node. `logo` and `sameAs` are added only when real values exist
+ * (a resolvable logo image and official profile URLs) — never fabricated, since
+ * Google requires them to be real. Wire them in once a logo asset and the
+ * official social links are available.
+ */
+export function organizationLd(): LdNode {
+  return {
+    "@type": "Organization",
+    "@id": ORG_ID,
     name: SITE.name,
     url: SITE.url,
     description: SITE.description,
   };
-}
-
-export function organizationLd(): LdNode {
-  return { "@type": "Organization", name: SITE.name, url: SITE.url };
 }
 
 export function softwareApplicationLd(tool: {
