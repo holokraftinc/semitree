@@ -10,9 +10,9 @@
  * material is universally "best"). Cross-links reuse lesson slugs (validated in
  * material-topics.test.ts) and equipment topic pages.
  */
-import type { NamedItem, TopicLink, LearningLoop } from "./equipment-topics";
+import type { NamedItem, TopicLink, LearningLoop, TopicDiagramKey } from "./equipment-topics";
 
-export type { NamedItem, TopicLink, LearningLoop };
+export type { NamedItem, TopicLink, LearningLoop, TopicDiagramKey };
 
 export interface MaterialTopic {
   slug: string;
@@ -49,6 +49,9 @@ export interface MaterialTopic {
   advanced?: string[]; // 20
   learnNext?: TopicLink[]; // 21
   learningLoop?: LearningLoop; // curiosity-driven end-of-topic recap
+  /** A schematic diagram shown near the top, and the question it answers. */
+  diagram?: TopicDiagramKey;
+  diagramCaption?: string;
 }
 
 export const MATERIAL_TOPICS: MaterialTopic[] = [
@@ -168,6 +171,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "silicon-wafers",
+    diagram: "wafer-structure",
+    diagramCaption: "What is a silicon wafer?",
     learningLoop: {
       youJustLearned: [
         "What a wafer is and why it is the substrate for every chip",
@@ -318,6 +323,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "silicon-dioxide",
+    diagram: "gate-dielectric",
+    diagramCaption: "Where does the gate dielectric sit?",
     learningLoop: {
       youJustLearned: [
         "Why insulating layers are needed in a chip",
@@ -587,6 +594,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "copper",
+    diagram: "interconnect",
+    diagramCaption: "How are devices wired together?",
     learningLoop: {
       youJustLearned: [
         "Why metals are needed for interconnect wiring",
@@ -796,6 +805,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "photoresist",
+    diagram: "litho-flow",
+    diagramCaption: "Where does photoresist sit, and how does the pattern form?",
     learningLoop: {
       youJustLearned: [
         "Why resist is needed to record the circuit pattern",
@@ -925,6 +936,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "deposition-precursors",
+    diagram: "deposition-film",
+    diagramCaption: "How does a precursor become a film?",
     title: "Deposition precursors",
     summary:
       "The source materials for thin films — sputter targets and gas-phase precursors that CVD, PVD, ALD, and epitaxy turn into deposited layers.",
@@ -1055,6 +1068,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "etch-chemistry",
+    diagram: "etch-profile",
+    diagramCaption: "How does etch chemistry remove material?",
     learningLoop: {
       youJustLearned: [
         "Why the chemistry, not just the tool, determines the etch",
@@ -1128,6 +1143,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "cmp-slurries",
+    diagram: "cmp",
+    diagramCaption: "How do slurry and pad planarize the surface?",
     learningLoop: {
       youJustLearned: [
         "How a slurry combines abrasive particles and active chemistry",
@@ -1793,6 +1810,8 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "thermal-interface-materials",
+    diagram: "thermal-path",
+    diagramCaption: "How does heat move from the die?",
     learningLoop: {
       youJustLearned: [
         "Why heat must be moved off the die to keep it reliable",

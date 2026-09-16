@@ -9,6 +9,7 @@ import { getProcessLinkForMaterial } from "@/lib/knowledge/process-links";
 import { getProcess } from "@/lib/knowledge/manufacturing";
 import { ManufacturingRelationship } from "@/components/semiconductors/ManufacturingRelationship";
 import { LearningLoop } from "@/components/semiconductors/LearningLoop";
+import { TopicDiagram } from "@/components/semiconductors/TopicDiagram";
 import type { MaterialTopic, TopicLink } from "@/lib/knowledge/material-topics";
 
 /** The first related process lesson that is also a manufacturing process page. */
@@ -131,6 +132,15 @@ export function MaterialTopicView({ topic }: { topic: MaterialTopic }) {
           <h2 className="text-sm font-semibold uppercase tracking-wide text-brand">In short</h2>
           <p className="mt-2 leading-relaxed text-foreground">{t.quickAnswer}</p>
         </Card>
+      )}
+
+      {t.diagram && (
+        <figure className="rounded-xl border border-border bg-muted/10 p-5">
+          <TopicDiagram diagramKey={t.diagram} />
+          {t.diagramCaption && (
+            <figcaption className="mt-3 text-center text-sm font-medium text-muted-foreground">{t.diagramCaption}</figcaption>
+          )}
+        </figure>
       )}
 
       {t.whyItMatters && (

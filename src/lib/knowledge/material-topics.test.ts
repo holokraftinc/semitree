@@ -107,6 +107,14 @@ describe("Material topics", () => {
     }
   });
 
+  it("every diagram answers a question (has a caption)", () => {
+    for (const t of MATERIAL_TOPICS) {
+      if (t.diagram) {
+        expect(t.diagramCaption?.trim().length, `${t.slug} diagram caption`).toBeGreaterThan(0);
+      }
+    }
+  });
+
   it("only cross-links lesson slugs that exist", () => {
     for (const t of MATERIAL_TOPICS) {
       for (const slug of [...(t.relatedConceptLessons ?? []), ...(t.relatedProcessLessons ?? [])]) {

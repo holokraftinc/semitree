@@ -20,6 +20,26 @@ export interface TopicLink {
 }
 
 /**
+ * Keys for the small built-in schematic diagrams (rendered by TopicDiagram).
+ * Each is used only where a labeled diagram is substantially clearer than text,
+ * and each is technically accurate; topics without a suitable, verifiable
+ * diagram simply omit this rather than inventing one.
+ */
+export type TopicDiagramKey =
+  | "litho-system"
+  | "litho-flow"
+  | "deposition-film"
+  | "etch-profile"
+  | "cmp"
+  | "ion-implant"
+  | "control-loop"
+  | "wafer-structure"
+  | "interconnect"
+  | "gate-dielectric"
+  | "package-stack"
+  | "thermal-path";
+
+/**
  * The curiosity-driven "learning loop" recap shown at the end of a substantial
  * topic. Only the authored parts live here — key takeaways and what the topic
  * unlocks; the "learn next / see the process / go deeper / explore the industry"
@@ -65,11 +85,16 @@ export interface EquipmentTopic {
   advanced?: string[]; // 22
   learnNext?: TopicLink[]; // 23
   learningLoop?: LearningLoop; // 24 — curiosity-driven end-of-topic recap
+  /** A schematic diagram shown near the top, and the question it answers. */
+  diagram?: TopicDiagramKey;
+  diagramCaption?: string;
 }
 
 export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   {
     slug: "lithography",
+    diagram: "litho-system",
+    diagramCaption: "What does lithography actually do?",
     learningLoop: {
       youJustLearned: [
         "What lithography equipment does — it prints each layer's pattern onto the wafer",
@@ -181,6 +206,8 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "deposition",
+    diagram: "deposition-film",
+    diagramCaption: "How does deposition create a film?",
     learningLoop: {
       youJustLearned: [
         "Why thin films are deposited to build a chip layer by layer",
@@ -290,6 +317,8 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "etching",
+    diagram: "etch-profile",
+    diagramCaption: "How does etching remove material?",
     learningLoop: {
       youJustLearned: [
         "Why material is removed to turn a flat pattern into real 3D structure",
@@ -398,6 +427,8 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "ion-implantation",
+    diagram: "ion-implant",
+    diagramCaption: "How does implantation dope the wafer?",
     learningLoop: {
       youJustLearned: [
         "Why doping is what turns plain silicon into a working device",
@@ -606,6 +637,8 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "cmp",
+    diagram: "cmp",
+    diagramCaption: "Where does CMP fit, and how does it planarize?",
     learningLoop: {
       youJustLearned: [
         "Why planarization is required as layers stack up",
@@ -710,6 +743,8 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "metrology",
+    diagram: "control-loop",
+    diagramCaption: "How does the process-control loop work?",
     learningLoop: {
       youJustLearned: [
         "Why 'you cannot control what you cannot measure' is central",
@@ -801,6 +836,8 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "inspection",
+    diagram: "control-loop",
+    diagramCaption: "How does inspection close the control loop?",
     learningLoop: {
       youJustLearned: [
         "How inspection finds and classifies defects",
@@ -1721,6 +1758,8 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "advanced-packaging",
+    diagram: "package-stack",
+    diagramCaption: "What is inside a package?",
     learningLoop: {
       youJustLearned: [
         "How advanced packaging integrates multiple dies into one package",
