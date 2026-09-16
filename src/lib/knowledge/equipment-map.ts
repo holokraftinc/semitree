@@ -87,6 +87,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "Whenever a new material layer is needed.",
     why: "Chips are built layer by layer; deposition lays each one down with near-atomic control.",
     lessons: ["deposition"],
+    topicSlug: "deposition",
   },
   {
     id: "etching",
@@ -95,6 +96,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "After lithography has defined where to remove material.",
     why: "It turns a flat resist pattern into real 3D structures; profile control sets device quality.",
     lessons: ["etching"],
+    topicSlug: "etching",
   },
   {
     id: "doping",

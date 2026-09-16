@@ -79,7 +79,7 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
       "Light of a specific wavelength (e.g. deep-ultraviolet or extreme-ultraviolet)",
     ],
     howItWorks: [
-      "Coat: a resist-processing track spin-coats a thin, uniform film of photoresist onto the wafer.",
+      "Prepare & coat: the wafer is cleaned and primed for adhesion, then a resist-processing track spin-coats a thin, uniform film of photoresist onto it.",
       "Align & expose: the wafer is precisely aligned to the layers beneath it, then a scanner projects the mask pattern onto it with light — usually demagnified, so the wafer image is smaller than the mask.",
       "Develop: the exposed (or unexposed, depending on resist type) resist is developed away, leaving a resist pattern that protects some areas and opens others for the next step.",
     ],
@@ -100,12 +100,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
       { name: "Numerical aperture (NA)", detail: "Higher-NA optics resolve finer features." },
       { name: "Focus and dose", detail: "How sharply the image lands and how much light is delivered — both have a limited usable 'process window'." },
       { name: "Overlay", detail: "How accurately a layer aligns to the previous ones." },
+      { name: "Resolution limit", detail: "The smallest printable feature — set roughly by wavelength divided by numerical aperture (the Rayleigh relation), so shorter light and higher NA print finer patterns." },
+      { name: "Depth of focus", detail: "The vertical range over which the image stays sharp. It shrinks as resolution improves, so higher-resolution tools demand far tighter focus and flatter wafers." },
       { name: "Resist performance", detail: "The sensitivity and resolution of the light-sensitive film." },
     ],
     parametersNote:
       "Specific resolution, numerical aperture, overlay, and throughput figures are technology-, vendor-, and process-dependent — treat any single number you see as an example for one configuration, not a universal spec.",
     performance: [
       "The headline metrics are resolution (smallest printable feature), overlay accuracy, and throughput (wafers per hour) — and they trade off against one another and against cost. Techniques such as multiple patterning and resolution enhancement push resolution beyond a single exposure's limit, at the cost of extra steps.",
+      "The two families of light matter here. DUV (deep-ultraviolet, notably 193 nm, and its higher-resolution 'immersion' form that uses water between the lens and wafer) is the long-time workhorse; to reach today's smallest features it leans on multiple patterning, splitting one layer across several exposures. EUV (extreme-ultraviolet, ~13.5 nm) uses far shorter light to print those features in fewer steps, but the wavelength is absorbed by air, glass, and conventional masks — so EUV needs a vacuum, all-reflective mirror optics, special reflective masks, and a complex light source, which makes it powerful but costly and, in practice, available from effectively one supplier.",
+      "Because depth of focus shrinks as resolution rises, advanced lithography also depends on extremely flat wafers and tight focus control — a reminder that lithography does not simply 'print a pattern' but defines features that the whole downstream flow (etch, implant, deposition) must then transfer faithfully.",
     ],
     defects: [
       "Focus or dose out of window → malformed, missing, or bridged features",
@@ -149,6 +153,203 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
       { label: "Lithography (process)", href: "/semiconductors/learn/lithography" },
       { label: "Photoresist", href: "/semiconductors/learn/photoresist" },
       { label: "Etching", href: "/semiconductors/learn/etching" },
+    ],
+  },
+  {
+    slug: "deposition",
+    title: "Deposition equipment",
+    summary:
+      "The machines that add thin films — conductors, insulators, and semiconductors — onto the wafer, layer by layer, with near-atomic control.",
+    categoryId: "deposition",
+
+    quickAnswer:
+      "Deposition equipment lays down thin films on the wafer. A chip is built from many stacked layers of metal, insulator, and semiconductor; deposition tools add each layer with controlled thickness, uniformity, and composition.",
+    whyItMatters:
+      "Every layer in a chip — the transistors, the insulation between them, and the metal wiring that connects them — begins as a deposited film. Film thickness, uniformity, and quality set device behaviour and yield, and some layers (such as gate dielectrics) must be controlled to within a few atoms.",
+    intuition: [
+      "Think of building a layer cake, except each layer is a film thinner than a virus and must cover the whole wafer evenly. Deposition is how each of those layers is added.",
+      "Some methods 'spray' atoms onto the surface; others grow a film from gases that react on the wafer; the most precise add material almost one atomic layer at a time.",
+    ],
+    whereItFits:
+      "Throughout the flow, wherever a new material layer is needed — so that lithography can pattern it and etching can shape it. Deposition, lithography, and etching repeat together, layer after layer, to build the device up in three dimensions.",
+
+    inputs: [
+      "A wafer (often already patterned with previous layers)",
+      "A source of the material — a solid 'target' (for sputtering) or gas-phase 'precursors'",
+      "Energy — heat, plasma, or both — to drive film formation",
+      "Carrier and reactant process gases (for gas-based methods)",
+    ],
+    howItWorks: [
+      "Load: the wafer is placed in a controlled chamber, usually under vacuum.",
+      "Deliver material: atoms are sputtered from a target (PVD), reacted from gases on the hot surface (CVD), or added in self-limiting atomic layers (ALD).",
+      "Grow the film: material builds up on the wafer surface; temperature, pressure, and precursor flow set the film's thickness and properties.",
+    ],
+    outputs: [
+      "A wafer carrying a new thin film of controlled thickness, uniformity, and quality — ready to be patterned by lithography and shaped by etch, or to serve directly as insulation or wiring.",
+    ],
+    subsystems: [
+      { name: "Process chamber", detail: "A sealed, usually vacuum, environment where the film forms." },
+      { name: "Source / precursor delivery", detail: "Supplies the material — a sputter target (PVD) or metered gas precursors (CVD/ALD)." },
+      { name: "Energy source", detail: "Heat and/or plasma that drives the deposition reaction." },
+      { name: "Wafer chuck / heater", detail: "Holds the wafer and controls its temperature precisely." },
+      { name: "Gas & vacuum system", detail: "Delivers process gases and maintains chamber pressure." },
+    ],
+    parameters: [
+      { name: "Thickness", detail: "The target film thickness, often controlled to nanometres or less." },
+      { name: "Uniformity", detail: "How evenly the film covers the whole wafer — both across a wafer and wafer-to-wafer." },
+      { name: "Conformality", detail: "How evenly the film coats over steps, trenches, and high-aspect-ratio features — where ALD excels." },
+      { name: "Composition & stress", detail: "The film's chemistry and built-in mechanical stress, set by temperature, pressure, and precursors." },
+      { name: "Deposition rate", detail: "How fast the film grows — traded off against control and uniformity." },
+    ],
+    parametersNote:
+      "Exact rates, temperatures, and thickness ranges depend on the material, the method, and the equipment vendor — treat any specific number as an example for one process, not a universal value.",
+    performance: [
+      "The main methods trade off differently. PVD (physical vapour deposition, e.g. sputtering) is fast and common for metals, but it is largely line-of-sight, so it covers deep features poorly. CVD (chemical vapour deposition) grows films from reacting gases and gives better step coverage. ALD (atomic layer deposition) builds a film one self-limiting atomic layer at a time — the slowest but the most precise and conformal, essential for the thinnest, most demanding layers such as high-k gate dielectrics. Epitaxy grows a crystalline film aligned to the wafer's own crystal structure, used for high-quality device layers.",
+      "Choosing a method balances thickness control, conformality, film quality, the allowable temperature, and throughput — no single technique wins on every axis.",
+    ],
+    defects: [
+      "Non-uniform thickness → device variation across the wafer",
+      "Poor conformality → voids or thin spots inside deep features",
+      "Particles and contamination → defects that reduce yield",
+      "Wrong film stress → wafer bow or film cracking",
+      "Composition drift → shifted electrical properties",
+    ],
+    metrology: [
+      "After deposition, film thickness and uniformity are measured (for example by optical or ellipsometric techniques), composition and stress are checked, and wafers are inspected for particles and defects. That data feeds back to keep the process on target.",
+    ],
+    yieldImplications: [
+      "Because films underlie every device and every interconnect, thickness and defect control are central to yield. A systematic thickness error or a recurring particle source can affect every wafer, and conformality failures create hidden voids that fail later.",
+    ],
+    manufacturingImplications: [
+      "Deposition is a high-volume, repeated step, so chamber matching, precursor supply, and particle control drive throughput and cost. ALD's precision comes at the cost of speed, so it is used where it is genuinely needed rather than everywhere.",
+    ],
+    cost: [
+      "Precursors and targets are consumables, and high-purity materials plus vacuum tooling make deposition capital- and materials-intensive; specific costs are material- and vendor-dependent and are not stated here.",
+    ],
+    relatedMaterials: [
+      { label: "Precursor gases & sputter targets" },
+      { label: "Dielectrics" },
+      { label: "Conductive metals" },
+    ],
+    relatedEquipment: [
+      { label: "Etching", href: "/semiconductors/equipment/etching" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "CMP", href: "/semiconductors/equipment#cmp" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["deposition", "metallization", "oxidation"],
+    packagingConnection:
+      "Advanced packaging uses deposition too — for example seed layers and redistribution-layer metals — though usually much thicker than front-end films.",
+    supplyChainConnection:
+      "Deposition depends on a supply of ultra-pure precursor gases, sputter targets, and specialty chemicals, plus a small set of equipment makers — all real supply-chain considerations.",
+    advanced: [
+      "Atomic layer deposition (ALD) and area-selective deposition for atomic-scale control",
+      "Epitaxy for strained and compound-semiconductor layers",
+      "Low-temperature and new-precursor processes for advanced integration",
+      "Conformal fill of very high-aspect-ratio structures (e.g. 3D memory)",
+    ],
+    learnNext: [
+      { label: "Deposition (process)", href: "/semiconductors/learn/deposition" },
+      { label: "Etching", href: "/semiconductors/equipment/etching" },
+      { label: "Metallization", href: "/semiconductors/learn/metallization" },
+    ],
+  },
+  {
+    slug: "etching",
+    title: "Etching equipment",
+    summary:
+      "The machines that selectively remove material to carve a chip's features — turning a flat resist pattern into real three-dimensional structures.",
+    categoryId: "etching",
+
+    quickAnswer:
+      "Etching equipment removes material from the wafer where it isn't wanted. After lithography defines a pattern in resist, etch tools cut that pattern into the underlying film — shaping the transistors, trenches, and wiring of the chip.",
+    whyItMatters:
+      "Etching is how a flat pattern becomes real three-dimensional structure. The shape (profile) and precision of an etch set transistor dimensions, electrical isolation, and interconnect quality, so etch directly affects device performance and yield.",
+    intuition: [
+      "Think of the resist pattern as a stencil: etching removes the material left exposed by the stencil while protecting what sits under the resist — a bit like sandblasting through a mask.",
+      "Some etches eat in every direction and round off features; others cut straight down to make sharp vertical walls.",
+    ],
+    whereItFits:
+      "Right after lithography, on nearly every patterned layer: lithography defines where, etch removes material there, then the resist is stripped and the next layer begins.",
+
+    inputs: [
+      "A wafer with a patterned resist (or hard) mask from lithography",
+      "Etchant chemistry — liquid chemicals (wet) or reactive gases / plasma (dry)",
+      "For plasma etch, RF power to create and drive the plasma",
+    ],
+    howItWorks: [
+      "Load: the masked wafer enters the etch tool.",
+      "Wet etch: the wafer meets a liquid chemical that dissolves the unmasked material — simple, but it usually etches in all directions (isotropic).",
+      "Dry / plasma etch: a plasma of reactive ions removes material and can be made highly directional (anisotropic) to cut straight down.",
+      "Endpoint & stop: a detection system senses when the target layer is cleared, and the etch stops at the right depth.",
+    ],
+    outputs: [
+      "A wafer with the pattern transferred into the film as real 3D features — trenches, lines, contacts. The mask is then removed, leaving the etched structure behind.",
+    ],
+    subsystems: [
+      { name: "Process chamber", detail: "Contains the etch environment — a vacuum chamber for plasma etch." },
+      { name: "Plasma / RF source", detail: "Generates and controls the reactive plasma in dry etch." },
+      { name: "Gas or chemical delivery", detail: "Meters etch gases (dry) or liquid etchants (wet)." },
+      { name: "Wafer chuck", detail: "Holds and cools the wafer; an applied bias can steer ions for directionality." },
+      { name: "Endpoint detection", detail: "Senses when a layer is cleared so the etch stops at the right depth." },
+    ],
+    parameters: [
+      { name: "Selectivity", detail: "How much faster the target material etches than the mask and the layer beneath — high selectivity protects what should stay." },
+      { name: "Etch rate", detail: "How fast material is removed — traded off against control and uniformity." },
+      { name: "Anisotropy (profile)", detail: "Whether the etch cuts straight down (anisotropic) or sideways too (isotropic), which sets the wall profile." },
+      { name: "Uniformity", detail: "How evenly the etch proceeds across the whole wafer." },
+      { name: "Aspect-ratio capability", detail: "The ability to etch deep, narrow features without distorting them." },
+    ],
+    parametersNote:
+      "Etch rates, selectivities, and profiles depend heavily on the material stack, the chemistry, and the equipment vendor — treat any specific value as an example for one process, not a universal figure.",
+    performance: [
+      "The core distinction is wet versus dry etch. Wet (liquid) etching is cheap and gentle but usually isotropic — it undercuts the mask — so it is used where straight walls aren't needed. Dry / plasma etching (including reactive-ion etching) can be made anisotropic, cutting the vertical walls that dense, small features require, and is the workhorse of modern patterning.",
+      "The key trade-offs are selectivity (removing the target without harming the mask or the layer below), profile control (vertical versus sloped walls), and the ability to etch high-aspect-ratio features — all of which get harder as features shrink.",
+    ],
+    defects: [
+      "Under- or over-etch → features left connected, or the layer below damaged",
+      "Poor selectivity → mask erosion or punch-through into the wrong layer",
+      "Sloped or bowed profiles → devices out of spec",
+      "Etch residue or polymer → defects and electrical shorts",
+      "Non-uniform etch → variation across the wafer",
+    ],
+    metrology: [
+      "After etch, feature dimensions and profiles are measured (for example critical dimension and cross-section), any remaining film is checked, and wafers are inspected for residue and defects. Endpoint signals and metrology data are used to tune the recipe.",
+    ],
+    yieldImplications: [
+      "Etch shapes the actual device geometry, so profile and selectivity errors translate directly into performance loss and yield loss — and deep, high-aspect-ratio etches are especially demanding.",
+    ],
+    manufacturingImplications: [
+      "Etch is a repeated, high-throughput step, so chamber conditioning, reliable endpoint detection, by-product management, and safe handling of reactive gases all drive uptime and cost.",
+    ],
+    cost: [
+      "Etch tools and their reactive process gases are significant costs; exact figures are chemistry- and vendor-dependent and are not stated here. More patterning steps (multiple patterning) mean more etch steps and more cost.",
+    ],
+    relatedMaterials: [
+      { label: "Process gases & etchants" },
+      { label: "Photoresist", href: "/semiconductors/learn/photoresist" },
+    ],
+    relatedEquipment: [
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Metrology & inspection", href: "/semiconductors/equipment#metrology-inspection" },
+    ],
+    relatedConceptLessons: ["mosfet", "integrated-circuit"],
+    relatedProcessLessons: ["etching", "lithography"],
+    packagingConnection:
+      "Etching also shapes advanced-packaging features — for example etching through-silicon vias (TSVs) that connect stacked dies in 3D packages.",
+    supplyChainConnection:
+      "Etch relies on specialty reactive gases and a small set of equipment suppliers; secure gas supply and safe handling are real supply-chain and facility concerns.",
+    advanced: [
+      "Atomic layer etching (ALE) for atomic-scale removal",
+      "High-aspect-ratio etching for 3D NAND and DRAM",
+      "Cryogenic and pulsed-plasma etching",
+      "Selective etching for gate-all-around and other advanced devices",
+    ],
+    learnNext: [
+      { label: "Etching (process)", href: "/semiconductors/learn/etching" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
     ],
   },
 ];

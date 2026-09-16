@@ -13,15 +13,17 @@ describe("Equipment topics", () => {
     }
   });
 
-  it("includes the representative lithography topic with core sections", () => {
-    const litho = getEquipmentTopic("lithography");
-    expect(litho).toBeDefined();
-    expect(litho!.quickAnswer).toBeTruthy();
-    expect(litho!.howItWorks?.length).toBeGreaterThan(0);
-    expect(litho!.subsystems?.length).toBeGreaterThan(0);
-    expect(litho!.parameters?.length).toBeGreaterThan(0);
-    // Values-are-vendor-dependent caveat present (no fabricated specs).
-    expect(litho!.parametersNote).toBeTruthy();
+  it("includes the core process equipment topics with populated sections", () => {
+    for (const slug of ["lithography", "deposition", "etching"]) {
+      const topic = getEquipmentTopic(slug);
+      expect(topic, `missing topic: ${slug}`).toBeDefined();
+      expect(topic!.quickAnswer).toBeTruthy();
+      expect(topic!.howItWorks?.length).toBeGreaterThan(0);
+      expect(topic!.subsystems?.length).toBeGreaterThan(0);
+      expect(topic!.parameters?.length).toBeGreaterThan(0);
+      // Values-are-vendor-dependent caveat present (no fabricated specs).
+      expect(topic!.parametersNote).toBeTruthy();
+    }
   });
 
   it("only cross-links lesson slugs that exist", () => {
