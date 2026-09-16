@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/semiconductors/concepts", priority: 0.8 },
     { path: "/semiconductors/design", priority: 0.8 },
     { path: "/semiconductors/equipment", priority: 0.8 },
+    { path: "/semiconductors/materials", priority: 0.8 },
     { path: "/semiconductors/packaging", priority: 0.8 },
     { path: "/manufacturing", priority: 0.9 },
     { path: "/supply-chain", priority: 0.9 },
