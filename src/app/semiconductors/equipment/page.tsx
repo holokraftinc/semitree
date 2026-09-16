@@ -140,6 +140,14 @@ export default function SemiconductorEquipmentPage() {
                   <Field label="Where it fits" value={cat.where} />
                   <Field label="Why it matters" value={cat.why} />
                 </dl>
+                {cat.topicSlug && (
+                  <Link
+                    href={`/semiconductors/equipment/${cat.topicSlug}`}
+                    className="mt-4 inline-block text-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Equipment details →
+                  </Link>
+                )}
                 {links.length > 0 && (
                   <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border pt-3">
                     <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">

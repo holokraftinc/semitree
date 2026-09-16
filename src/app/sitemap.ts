@@ -9,6 +9,7 @@ import { MFG_PROCESSES } from "@/lib/knowledge/manufacturing";
 import { COMPANIES } from "@/lib/industry/companies";
 import { SUPPLY_STAGES } from "@/lib/knowledge/supply-chain";
 import { RESEARCH_TOPICS } from "@/lib/research/registry";
+import { EQUIPMENT_TOPICS } from "@/lib/knowledge/equipment-topics";
 import { ARTICLES } from "@/lib/content/articles";
 import { NEWSLETTER_ISSUES } from "@/lib/content/newsletter";
 import { CMS_TYPES } from "@/lib/wordpress/config";
@@ -78,6 +79,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...RESEARCH_TOPICS.map((t) => ({
       path: `/research/topics/${t.slug}`,
       priority: 0.6,
+    })),
+    ...EQUIPMENT_TOPICS.map((t) => ({
+      path: `/semiconductors/equipment/${t.slug}`,
+      priority: 0.7,
     })),
     ...ARTICLES.map((a) => ({ path: `/articles/${a.slug}`, priority: 0.7 })),
     ...NEWSLETTER_ISSUES.map((i) => ({ path: `/newsletter/${i.slug}`, priority: 0.5 })),

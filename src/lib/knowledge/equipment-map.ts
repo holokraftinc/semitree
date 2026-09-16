@@ -47,6 +47,8 @@ export interface EquipmentCategory {
   why: string;
   /** Reuse existing process lessons: /semiconductors/learn/<slug>. */
   lessons: string[];
+  /** Dedicated equipment topic page: /semiconductors/equipment/<topicSlug>. */
+  topicSlug?: string;
   /** No meaningful content yet — render as "Coming soon", not a link. */
   comingSoon?: boolean;
 }
@@ -76,6 +78,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "At the start of every patterned layer.",
     why: "It defines the smallest features on the chip — the pacing item for scaling.",
     lessons: ["lithography", "photoresist"],
+    topicSlug: "lithography",
   },
   {
     id: "deposition",
