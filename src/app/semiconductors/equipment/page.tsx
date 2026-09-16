@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { buttonClasses } from "@/components/ui/Button";
 import {
   EQUIPMENT_JOURNEY,
+  PACKAGING_JOURNEY,
   EQUIPMENT_CATEGORIES,
   type EquipmentCategory,
 } from "@/lib/knowledge/equipment-map";
@@ -111,6 +112,40 @@ export default function SemiconductorEquipmentPage() {
                 </span>
               )}
               {i < EQUIPMENT_JOURNEY.length - 1 && (
+                <span aria-hidden="true" className="px-1 text-brand/50">→</span>
+              )}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* The back-end: a second equipment ecosystem */}
+      <section id="backend" className="scroll-mt-20 space-y-4">
+        <h2 className="text-xl font-semibold tracking-tight">
+          A second ecosystem: assembly, packaging &amp; test
+        </h2>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Semiconductor equipment is not only about the wafer fab. Once dies are
+          finished, a whole second ecosystem of tools attaches, connects,
+          encapsulates, singulates, inspects and tests them. Exact sequences
+          differ by package technology.
+        </p>
+        <div className="flex flex-wrap items-center gap-x-1 gap-y-2">
+          {PACKAGING_JOURNEY.map((stage, i) => (
+            <span key={`${stage.label}-${i}`} className="flex items-center">
+              {stage.topicSlug ? (
+                <Link
+                  href={`/semiconductors/equipment/${stage.topicSlug}`}
+                  className="rounded-full border border-border px-3 py-1 text-sm font-medium text-brand transition-colors hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {stage.label}
+                </Link>
+              ) : (
+                <span className="rounded-full border border-dashed border-border px-3 py-1 text-sm text-muted-foreground">
+                  {stage.label}
+                </span>
+              )}
+              {i < PACKAGING_JOURNEY.length - 1 && (
                 <span aria-hidden="true" className="px-1 text-brand/50">→</span>
               )}
             </span>

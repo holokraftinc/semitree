@@ -15,6 +15,8 @@ export interface JourneyStage {
   label: string;
   /** The equipment category this stage maps to (anchors to its card). */
   categoryId?: string;
+  /** A dedicated equipment topic page this stage links to. */
+  topicSlug?: string;
 }
 
 export const EQUIPMENT_JOURNEY: JourneyStage[] = [
@@ -33,6 +35,22 @@ export const EQUIPMENT_JOURNEY: JourneyStage[] = [
   { label: "Repeat" },
   { label: "Package", categoryId: "packaging" },
   { label: "Test", categoryId: "testing" },
+];
+
+/**
+ * The back-end (assembly, packaging and test) journey — the "second equipment
+ * ecosystem" after wafer fabrication. Stages link to dedicated equipment topic
+ * pages where one exists. Exact sequences differ by package technology.
+ */
+export const PACKAGING_JOURNEY: JourneyStage[] = [
+  { label: "Die" },
+  { label: "Attach", topicSlug: "die-attach" },
+  { label: "Interconnect", topicSlug: "wire-bonding" },
+  { label: "Encapsulate", topicSlug: "molding" },
+  { label: "Singulate", topicSlug: "singulation" },
+  { label: "Inspect", topicSlug: "packaging-inspection" },
+  { label: "Test", topicSlug: "semiconductor-test" },
+  { label: "Ship" },
 ];
 
 /** A dedicated equipment topic page linked from a category card. */
@@ -161,6 +179,17 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "The back end, after the wafer is finished.",
     why: "Packaging connects the die to the system and increasingly sets performance.",
     lessons: ["dicing", "packaging", "wire-bonding", "flip-chip"],
+    topics: [
+      { slug: "die-attach", label: "Die attach" },
+      { slug: "wire-bonding", label: "Wire bonding" },
+      { slug: "flip-chip", label: "Flip-chip" },
+      { slug: "molding", label: "Molding" },
+      { slug: "singulation", label: "Singulation" },
+      { slug: "wafer-level-packaging", label: "Wafer-level packaging" },
+      { slug: "advanced-bonding", label: "Advanced bonding" },
+      { slug: "packaging-inspection", label: "Packaging inspection" },
+      { slug: "advanced-packaging", label: "Advanced packaging" },
+    ],
   },
   {
     id: "testing",
@@ -169,6 +198,11 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "After patterning (wafer test) and after packaging (final test).",
     why: "Only known-good chips ship, and test data feeds yield and reliability learning.",
     lessons: ["wafer-test", "final-test"],
+    topics: [
+      { slug: "wafer-probing", label: "Wafer probing" },
+      { slug: "semiconductor-test", label: "Test (ATE)" },
+      { slug: "burn-in", label: "Burn-in & reliability" },
+    ],
   },
 ];
 

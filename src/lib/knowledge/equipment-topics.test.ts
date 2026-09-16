@@ -35,6 +35,30 @@ describe("Equipment topics", () => {
     }
   });
 
+  it("includes the back-end (assembly, packaging & test) topics under real categories", () => {
+    const backEnd = [
+      "die-attach",
+      "wire-bonding",
+      "flip-chip",
+      "molding",
+      "singulation",
+      "wafer-level-packaging",
+      "advanced-bonding",
+      "packaging-inspection",
+      "wafer-probing",
+      "semiconductor-test",
+      "burn-in",
+      "advanced-packaging",
+    ];
+    for (const slug of backEnd) {
+      const topic = getEquipmentTopic(slug);
+      expect(topic, `missing topic: ${slug}`).toBeDefined();
+      expect(topic!.quickAnswer).toBeTruthy();
+      expect(topic!.howItWorks?.length).toBeGreaterThan(0);
+      expect(["packaging", "testing"]).toContain(topic!.categoryId);
+    }
+  });
+
   it("only cross-links lesson slugs that exist", () => {
     for (const t of EQUIPMENT_TOPICS) {
       for (const slug of [...(t.relatedConceptLessons ?? []), ...(t.relatedProcessLessons ?? [])]) {

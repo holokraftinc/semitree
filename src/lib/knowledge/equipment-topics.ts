@@ -797,6 +797,912 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
       { label: "Wafer test", href: "/semiconductors/learn/wafer-test" },
     ],
   },
+  {
+    slug: "die-attach",
+    title: "Die attach equipment",
+    summary:
+      "The tools that place each die onto its package substrate or carrier and bond it down — the first assembly step after a wafer is cut into individual chips.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Die attach equipment picks up an individual die and bonds it onto a substrate, leadframe, or another die. It is the first step of assembly: getting the bare chip mounted so it can be connected and protected.",
+    whyItMatters:
+      "The die-attach bond holds the chip in place and often carries heat (and sometimes current) away from it. A weak or voided bond leads to overheating and reliability failures, so die-attach quality underpins the whole package.",
+    intuition: [
+      "Once a wafer is sliced into individual chips, each tiny die has to be set down accurately onto its package and fixed in place — that is die attach.",
+      "The 'glue' can be an adhesive, a polymer paste, or a solder, chosen for how much heat or current the bond must carry.",
+    ],
+    whereItFits:
+      "At the start of assembly, right after the wafer is singulated into dies and before interconnection (wire bonding or flip-chip).",
+
+    inputs: [
+      "Singulated dies",
+      "A substrate, leadframe, or base die",
+      "A die-attach material (adhesive, paste, or solder)",
+    ],
+    howItWorks: [
+      "Pick: a tool picks up a known-good die.",
+      "Place: it positions the die accurately onto the substrate.",
+      "Bond: the die-attach material is cured or reflowed to fix the die in place.",
+    ],
+    outputs: ["A die mounted and bonded to its carrier, ready for interconnection."],
+    subsystems: [
+      { name: "Pick-and-place head", detail: "Picks up and precisely positions each die." },
+      { name: "Material dispense", detail: "Applies adhesive, paste, or solder for the bond." },
+      { name: "Bond / cure stage", detail: "Cures or reflows the material to set the bond." },
+      { name: "Vision / alignment", detail: "Aligns the die to the substrate accurately." },
+    ],
+    parameters: [
+      { name: "Placement accuracy", detail: "How precisely the die lands on the substrate." },
+      { name: "Bond-line thickness", detail: "The thickness of the attach material, affecting heat flow and stress." },
+      { name: "Void content", detail: "Trapped voids in the bond that hurt heat transfer and reliability." },
+      { name: "Throughput", detail: "Dies placed per hour." },
+    ],
+    parametersNote:
+      "Exact accuracies, materials, and cure conditions are package- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Voids in the bond → hot spots and reliability loss",
+      "Die tilt or misplacement → downstream interconnect problems",
+      "Insufficient cure or reflow → a weak bond",
+      "Contamination → poor adhesion",
+    ],
+    yieldImplications: [
+      "Because it is early in assembly, a die-attach defect can waste all the value added afterward; bond integrity is a key reliability driver.",
+    ],
+    relatedMaterials: [
+      { label: "Substrates" },
+      { label: "Die-attach adhesives & solder" },
+      { label: "Thermal interface materials" },
+    ],
+    relatedEquipment: [
+      { label: "Wire bonding", href: "/semiconductors/equipment/wire-bonding" },
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Singulation", href: "/semiconductors/equipment/singulation" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["packaging", "dicing", "die-vs-package"],
+    packagingConnection:
+      "Die attach is the opening step of packaging; the substrate it bonds to and the thermal path it creates shape the whole package.",
+    supplyChainConnection:
+      "Die attach depends on substrates, adhesives, and solder materials from the packaging-materials supply chain.",
+    advanced: [
+      "Solder and sintered-metal die attach for high power and heat",
+      "Die-to-die attach for 3D stacks",
+      "High-accuracy placement for fine-pitch and chiplet assembly",
+    ],
+    learnNext: [
+      { label: "Packaging (learn)", href: "/semiconductors/learn/packaging" },
+      { label: "Wire bonding", href: "/semiconductors/equipment/wire-bonding" },
+      { label: "Die vs package", href: "/semiconductors/learn/die-vs-package" },
+    ],
+  },
+  {
+    slug: "wire-bonding",
+    title: "Wire bonding equipment",
+    summary:
+      "The machines that stitch fine metal wires between the die's pads and the package, forming the electrical connections in the most widely used interconnect method.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Wire bonding equipment connects the die to its package by welding very fine metal wires from the chip's pads to the package leads. It is the most common way to make a packaged chip's electrical connections.",
+    whyItMatters:
+      "Every signal and power line into and out of the chip runs through these connections. Wire bonding is mature, flexible, and low-cost, which is why it still dominates a huge share of packaged devices.",
+    intuition: [
+      "After a die is mounted, its tiny pads must be wired to the outside world. Wire bonding welds a hair-thin wire from each pad to a matching point on the package.",
+      "Each bond is a tiny weld made with heat, pressure, and ultrasonic vibration — repeated hundreds of times per chip, very fast.",
+    ],
+    whereItFits:
+      "In the interconnect step, after die attach, for wire-bonded package types.",
+
+    inputs: [
+      "A die-attached substrate or leadframe",
+      "Fine bonding wire (a metal such as gold, copper, or aluminium)",
+    ],
+    howItWorks: [
+      "First bond: the tool forms a bond on the die pad.",
+      "Loop: it feeds and shapes a wire loop across to the package.",
+      "Second bond & cut: it bonds to the package lead and cuts the wire, then repeats for the next pad.",
+    ],
+    outputs: ["A die whose pads are electrically connected to the package, ready for encapsulation."],
+    subsystems: [
+      { name: "Bond head & capillary", detail: "Guides the wire and forms each bond." },
+      { name: "Ultrasonic + heat system", detail: "Supplies the energy that welds the wire." },
+      { name: "Wire feed", detail: "Feeds and tensions the bonding wire." },
+      { name: "Vision / alignment", detail: "Locates pads and leads precisely." },
+    ],
+    parameters: [
+      { name: "Bond pitch", detail: "How closely spaced the pads and bonds are — finer pitch is harder." },
+      { name: "Loop height / shape", detail: "The wire arc, which must avoid shorts and fit the package." },
+      { name: "Bond strength", detail: "How well each weld holds — checked by pull and shear tests." },
+      { name: "Throughput", detail: "Bonds (wires) per second." },
+    ],
+    parametersNote:
+      "Wire materials, pitches, and bond settings are package- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Weak or lifted bonds → opens",
+      "Wire sweep or sagging loops → shorts",
+      "Cratering or pad damage under the bond",
+      "Wrong wire material or settings → reliability loss",
+    ],
+    yieldImplications: [
+      "A single bad bond can fail a whole package; bond reliability is a major back-end quality metric.",
+    ],
+    relatedMaterials: [
+      { label: "Bonding wire (gold / copper / aluminium)" },
+      { label: "Substrates" },
+    ],
+    relatedEquipment: [
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Molding", href: "/semiconductors/equipment/molding" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["wire-bonding", "electrical-connections", "packaging"],
+    packagingConnection:
+      "Wire bonding is one of the two main ways a package makes its electrical connections (the other is flip-chip).",
+    supplyChainConnection:
+      "It depends on fine bonding wire and substrates from the packaging-materials supply chain.",
+    advanced: [
+      "Copper and silver wire for cost and performance",
+      "Fine-pitch and high-count bonding",
+      "Wire bonding for power and high-reliability parts",
+    ],
+    learnNext: [
+      { label: "Electrical connections", href: "/semiconductors/learn/electrical-connections" },
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Wire bonding (learn)", href: "/semiconductors/learn/wire-bonding" },
+    ],
+  },
+  {
+    slug: "flip-chip",
+    title: "Flip-chip equipment",
+    summary:
+      "The tools that connect a die face-down to its substrate through arrays of tiny solder bumps — a higher-performance alternative to wire bonding.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Flip-chip equipment connects a die by flipping it face-down and joining an array of small solder bumps on its surface directly to the substrate. This gives far more connections and shorter electrical paths than wire bonding.",
+    whyItMatters:
+      "Flip-chip provides many more connections with lower resistance and inductance, which high-performance chips (processors, high-bandwidth devices) need. It also enables advanced 2.5D and 3D packaging.",
+    intuition: [
+      "Instead of running wires from the edge pads, flip-chip puts connection bumps all across the face of the die, then turns the die over and lands it on the substrate.",
+      "Because connections cover the whole face, thousands are possible in a small area.",
+    ],
+    whereItFits:
+      "In the interconnect step for flip-chip package types, after bumps are formed on the wafer and the die is placed.",
+
+    inputs: [
+      "A bumped die (solder bumps formed on the pads)",
+      "A substrate or another die",
+      "Underfill material (added after joining)",
+    ],
+    howItWorks: [
+      "Flip & align: the die is turned face-down and aligned to the substrate.",
+      "Join: the solder bumps are reflowed (or thermocompression-bonded) to connect the die.",
+      "Underfill: a material is flowed under the die to protect the joints and manage stress.",
+    ],
+    outputs: ["A die electrically joined to the substrate through a bump array, mechanically reinforced by underfill."],
+    subsystems: [
+      { name: "Flip & placement head", detail: "Turns and precisely places the die." },
+      { name: "Bonding / reflow system", detail: "Joins the bumps by reflow or thermocompression." },
+      { name: "Underfill dispense", detail: "Fills and protects the gap under the die." },
+      { name: "Vision / alignment", detail: "Aligns bump arrays to substrate pads." },
+    ],
+    parameters: [
+      { name: "Placement accuracy", detail: "Alignment of the bump array to the substrate — critical at fine pitch." },
+      { name: "Bump pitch / count", detail: "How closely spaced, and how many, the connections are." },
+      { name: "Joint quality", detail: "Well-formed, void-free solder joints." },
+      { name: "Underfill coverage", detail: "Complete, void-free fill under the die." },
+    ],
+    parametersNote:
+      "Bump pitches, bonding methods, and materials are package- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Misalignment → bridged or missing joints",
+      "Voids in joints or underfill → reliability loss",
+      "Insufficient reflow → weak or open joints",
+      "Warpage → uneven joining",
+    ],
+    yieldImplications: [
+      "With thousands of joints, a single bad joint can fail the part; flip-chip yield and reliability hinge on alignment and joint quality.",
+    ],
+    relatedMaterials: [
+      { label: "Solder bumps / microbumps" },
+      { label: "Substrates" },
+      { label: "Underfill" },
+    ],
+    relatedEquipment: [
+      { label: "Wire bonding", href: "/semiconductors/equipment/wire-bonding" },
+      { label: "Advanced bonding", href: "/semiconductors/equipment/advanced-bonding" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["flip-chip", "electrical-connections", "packaging"],
+    packagingConnection:
+      "Flip-chip is the high-performance interconnect that underpins most advanced 2.5D and 3D packaging.",
+    supplyChainConnection:
+      "It relies on bumping materials, substrates, and underfill from the packaging-materials supply chain.",
+    advanced: [
+      "Fine-pitch microbumps for 2.5D and 3D",
+      "Thermocompression bonding for tight control",
+      "The path toward bumpless / hybrid bonding",
+    ],
+    learnNext: [
+      { label: "Flip-chip (learn)", href: "/semiconductors/learn/flip-chip" },
+      { label: "Advanced bonding", href: "/semiconductors/equipment/advanced-bonding" },
+      { label: "2.5D packaging", href: "/semiconductors/learn/2-5d" },
+    ],
+  },
+  {
+    slug: "molding",
+    title: "Molding (encapsulation) equipment",
+    summary:
+      "The encapsulation tools that seal the die and its connections in a protective molding compound, forming the body of the package.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Molding equipment encapsulates the die and its interconnections in a protective compound — usually an epoxy — creating the solid package body that shields the chip from moisture, contamination, and mechanical damage.",
+    whyItMatters:
+      "Bare dies and fine bonds are fragile. Encapsulation protects them and gives the package its mechanical form and handling robustness; it also affects heat flow and reliability.",
+    intuition: [
+      "After the die is connected, it needs to be sealed inside a tough body — molding surrounds it with a protective compound that hardens into the package you can see and handle.",
+      "Think of setting a delicate part in solid resin so it survives the outside world.",
+    ],
+    whereItFits:
+      "In the encapsulation step, after interconnection and before singulation, for molded package types.",
+
+    inputs: [
+      "Interconnected dies on substrates or leadframes",
+      "Molding compound (typically an epoxy resin)",
+    ],
+    howItWorks: [
+      "Load: assembled units are placed in a mold.",
+      "Fill: molding compound is introduced under heat and pressure to surround the die and connections.",
+      "Cure: the compound hardens, then units are removed and post-cured.",
+    ],
+    outputs: ["Encapsulated packages with the die sealed inside a protective body."],
+    subsystems: [
+      { name: "Mold & press", detail: "Shapes the package and applies heat and pressure." },
+      { name: "Compound feed", detail: "Delivers and meters the molding compound." },
+      { name: "Cure system", detail: "Hardens the compound." },
+    ],
+    parameters: [
+      { name: "Fill completeness", detail: "Full encapsulation with no unfilled areas." },
+      { name: "Void content", detail: "Trapped voids that weaken protection and heat flow." },
+      { name: "Warpage", detail: "Package bowing from cure stress — worse for thin or large packages." },
+      { name: "Cure conditions", detail: "Time and temperature that set final properties." },
+    ],
+    parametersNote:
+      "Compounds and mold conditions are package- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Incomplete fill → exposed, unprotected areas",
+      "Voids → weak spots and heat traps",
+      "Warpage → assembly and board-level problems",
+      "Wire sweep during fill → shorts",
+    ],
+    yieldImplications: [
+      "Molding defects can ruin otherwise-good assemblies late in the flow; fill quality and warpage control are key.",
+    ],
+    relatedMaterials: [
+      { label: "Molding compound (epoxy)" },
+      { label: "Substrates" },
+    ],
+    relatedEquipment: [
+      { label: "Wire bonding", href: "/semiconductors/equipment/wire-bonding" },
+      { label: "Singulation", href: "/semiconductors/equipment/singulation" },
+      { label: "Packaging inspection", href: "/semiconductors/equipment/packaging-inspection" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["packaging"],
+    packagingConnection:
+      "Encapsulation forms the package body that protects the die and gives the part its handleable form.",
+    supplyChainConnection:
+      "Molding depends on epoxy molding compounds from the packaging-materials supply chain.",
+    advanced: [
+      "Low-warpage compounds for thin and large packages",
+      "Molded wafer-level and fan-out encapsulation",
+      "Compounds tuned for heat and reliability",
+    ],
+    learnNext: [
+      { label: "Packaging (learn)", href: "/semiconductors/learn/packaging" },
+      { label: "Singulation", href: "/semiconductors/equipment/singulation" },
+      { label: "Wafer-level packaging", href: "/semiconductors/equipment/wafer-level-packaging" },
+    ],
+  },
+  {
+    slug: "singulation",
+    title: "Singulation (dicing) equipment",
+    summary:
+      "The cutting tools that separate a processed wafer, or a molded strip, into individual dies or packages.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Singulation equipment separates many chips made together into individual units — cutting a finished wafer into separate dies, or splitting a molded strip into individual packages. It is how batch-made chips become discrete parts.",
+    whyItMatters:
+      "Chips are made and packaged in large batches for efficiency, but they ship as individual parts. Singulation makes that separation cleanly, without cracking or chipping the fragile silicon.",
+    intuition: [
+      "Everything is made many-at-once on a wafer or strip; singulation is the step that finally cuts them apart into individual pieces.",
+      "It must cut hard, brittle material precisely without creating cracks that would fail later.",
+    ],
+    whereItFits:
+      "It appears twice in the story: dicing a wafer into dies (around assembly) and singulating molded strips into finished packages (near the end).",
+
+    inputs: [
+      "A finished wafer or a molded package strip",
+      "A cutting method (blade, laser, or other)",
+    ],
+    howItWorks: [
+      "Mount: the wafer or strip is held on a carrier (for example dicing tape on a frame).",
+      "Cut: a blade or laser separates along the streets between units.",
+      "Clean & transfer: debris is removed and the singulated units move on.",
+    ],
+    outputs: ["Individual dies or packages, separated and ready for the next step (assembly or shipping)."],
+    subsystems: [
+      { name: "Cutting system", detail: "Blade or laser that performs the separation." },
+      { name: "Wafer / strip handling", detail: "Mounts and moves the workpiece on a carrier." },
+      { name: "Vision / alignment", detail: "Locates the cut streets accurately." },
+      { name: "Clean / dry", detail: "Removes cutting debris." },
+    ],
+    parameters: [
+      { name: "Cut accuracy", detail: "Staying centered in the street without hitting devices." },
+      { name: "Chipping / cracking", detail: "Edge damage that threatens reliability." },
+      { name: "Kerf width", detail: "How much material the cut consumes." },
+      { name: "Throughput", detail: "Units separated per hour." },
+    ],
+    parametersNote:
+      "Cutting methods and parameters are material- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Chipping or cracking → weak, unreliable dies",
+      "Off-street cuts → damaged devices",
+      "Debris contamination",
+      "Delamination in molded strips",
+    ],
+    yieldImplications: [
+      "Late-stage damage here scraps finished value; clean edges matter for die strength and reliability.",
+    ],
+    relatedMaterials: [{ label: "Dicing tape & carriers" }],
+    relatedEquipment: [
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+      { label: "Molding", href: "/semiconductors/equipment/molding" },
+      { label: "Packaging inspection", href: "/semiconductors/equipment/packaging-inspection" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["dicing", "packaging"],
+    packagingConnection:
+      "Singulation bridges the wafer and package worlds — turning batches into the individual parts that get assembled and shipped.",
+    supplyChainConnection:
+      "It depends on consumables such as dicing tape and blades from the packaging-materials supply chain.",
+    advanced: [
+      "Laser and plasma dicing for narrow streets and fragile wafers",
+      "Dicing very thin wafers",
+      "Stealth dicing techniques",
+    ],
+    learnNext: [
+      { label: "Dicing (learn)", href: "/semiconductors/learn/dicing" },
+      { label: "Packaging inspection", href: "/semiconductors/equipment/packaging-inspection" },
+      { label: "Wafer test", href: "/semiconductors/learn/wafer-test" },
+    ],
+  },
+  {
+    slug: "wafer-level-packaging",
+    title: "Wafer-level packaging equipment",
+    summary:
+      "The tools that build the package directly on the wafer — before dicing — so many packages are formed together, enabling very small, high-density parts.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Wafer-level packaging (WLP) equipment forms the package while the chips are still on the wafer, rather than one die at a time. This makes very compact packages, processes many at once, and underpins fan-out and advanced packaging.",
+    whyItMatters:
+      "Doing packaging steps at wafer scale is efficient and enables the smallest packages (near the size of the die itself) and fan-out approaches that add more connections without a traditional substrate.",
+    intuition: [
+      "Traditional packaging handles one die at a time; wafer-level packaging keeps everything on the wafer and builds the connections there, then dices at the end.",
+      "It borrows wafer-fab-style steps — deposition, lithography, plating — and applies them to packaging.",
+    ],
+    whereItFits:
+      "An alternative packaging path that overlaps front-end-style processing, used for WLP and fan-out package types; singulation comes at the end.",
+
+    inputs: [
+      "A wafer of finished dies (or a reconstituted wafer of dies in a carrier)",
+      "Redistribution and bump materials",
+    ],
+    howItWorks: [
+      "Redistribute: build a redistribution layer (RDL) to route the die's pads outward.",
+      "Bump: form solder bumps or balls for board connection.",
+      "Singulate: dice the wafer into finished, packaged parts.",
+    ],
+    outputs: ["Individual, already-packaged parts once the wafer is diced."],
+    subsystems: [
+      { name: "RDL processing", detail: "Deposition, lithography, and plating to build routing (fab-like tools)." },
+      { name: "Bumping", detail: "Forms the external solder connections." },
+      { name: "Carrier / handling", detail: "Manages wafers or reconstituted carriers." },
+    ],
+    parameters: [
+      { name: "RDL line / space", detail: "How fine the redistribution routing is." },
+      { name: "Bump uniformity", detail: "Consistent, well-formed external connections." },
+      { name: "Warpage", detail: "Reconstituted-wafer bow that challenges processing." },
+      { name: "Overlay / alignment", detail: "Accurate routing to the die pads." },
+    ],
+    parametersNote:
+      "WLP and fan-out capabilities are technology- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "RDL opens or shorts",
+      "Bump non-uniformity",
+      "Warpage-driven lithography errors",
+      "Die shift in reconstituted wafers",
+    ],
+    yieldImplications: [
+      "Because many packages are built together, a systematic wafer-level error affects many parts at once — but the batch efficiency is a major advantage.",
+    ],
+    relatedMaterials: [
+      { label: "Redistribution metals & dielectrics" },
+      { label: "Solder bumps / balls" },
+    ],
+    relatedEquipment: [
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["wafer-level-packaging", "packaging"],
+    packagingConnection:
+      "WLP and fan-out are a bridge between wafer fabrication and packaging, using fab-style tools to build the package.",
+    supplyChainConnection:
+      "It draws on both the fab and packaging-materials supply chains (RDL, dielectrics, bumping).",
+    advanced: [
+      "Fan-out wafer- and panel-level packaging",
+      "High-density RDL for chiplets",
+      "Panel-scale processing for cost",
+    ],
+    learnNext: [
+      { label: "Wafer-level packaging (learn)", href: "/semiconductors/learn/wafer-level-packaging" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+    ],
+  },
+  {
+    slug: "advanced-bonding",
+    title: "Advanced bonding equipment",
+    summary:
+      "The precision bonding tools that join dies or wafers directly — including hybrid bonding — for the tightest, highest-density interconnects in 3D integration.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Advanced bonding equipment joins dies or wafers with extreme precision, including hybrid bonding that connects copper-to-copper and dielectric-to-dielectric without solder bumps. It enables the densest, shortest interconnects for 3D-stacked chips.",
+    whyItMatters:
+      "As connections shrink below what solder bumps allow, direct and hybrid bonding provide far higher connection density and performance — key to 3D stacking, high-bandwidth memory, and leading-edge chiplet integration.",
+    intuition: [
+      "When even microbumps are too big and slow, dies can be bonded face-to-face directly, with metal pads meeting metal pads — that is hybrid bonding.",
+      "It needs near-perfect flatness, cleanliness, and alignment, because the surfaces essentially fuse together.",
+    ],
+    whereItFits:
+      "In advanced interconnect and 3D integration, as a higher-density alternative to bumped flip-chip.",
+
+    inputs: [
+      "Prepared, ultra-flat and clean die or wafer surfaces",
+      "Precisely defined bonding pads",
+    ],
+    howItWorks: [
+      "Prepare: surfaces are made extremely flat and clean.",
+      "Align: dies or wafers are aligned with very high precision.",
+      "Bond: surfaces are joined (often dielectric bonding first, then a thermal step forms the metal connections).",
+    ],
+    outputs: ["A directly bonded die or wafer stack with very high-density interconnections."],
+    subsystems: [
+      { name: "High-precision aligner", detail: "Aligns bonding partners to very tight tolerance." },
+      { name: "Bond chamber", detail: "Joins surfaces under controlled conditions." },
+      { name: "Surface preparation", detail: "Ensures the flatness and cleanliness a direct bond needs." },
+    ],
+    parameters: [
+      { name: "Alignment accuracy", detail: "Extremely tight — the limiter for connection density." },
+      { name: "Surface flatness / cleanliness", detail: "Prerequisites for a good direct bond." },
+      { name: "Bond strength / voids", detail: "Void-free, strong bonds across the interface." },
+      { name: "Interconnect pitch", detail: "How tightly connections can be packed." },
+    ],
+    parametersNote:
+      "Hybrid-bonding capabilities are leading-edge and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Misalignment → failed or incorrect connections",
+      "Voids or particles at the interface → weak bonds or opens",
+      "Surface non-flatness → incomplete bonding",
+    ],
+    yieldImplications: [
+      "At these densities, tiny particles or slight misalignment cause failures; cleanliness and alignment dominate yield.",
+    ],
+    relatedMaterials: [
+      { label: "Bonding dielectrics & copper" },
+      { label: "Ultra-clean surfaces" },
+    ],
+    relatedEquipment: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["3d-ic", "advanced-packaging"],
+    packagingConnection:
+      "Hybrid and direct bonding is the enabling step for the densest 3D stacks and leading-edge chiplet integration.",
+    supplyChainConnection:
+      "It relies on specialized bonding tools and ultra-clean process materials — a leading-edge capability.",
+    advanced: [
+      "Wafer-to-wafer and die-to-wafer hybrid bonding",
+      "Sub-micron bond pitch for 3D",
+      "Bonding for high-bandwidth memory stacks",
+    ],
+    learnNext: [
+      { label: "3D IC (learn)", href: "/semiconductors/learn/3d-ic" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "HBM", href: "/semiconductors/learn/hbm" },
+    ],
+  },
+  {
+    slug: "packaging-inspection",
+    title: "Packaging inspection equipment",
+    summary:
+      "The inspection tools that check assembled packages for defects — voids, cracks, bond and joint flaws — often seeing inside the package without opening it.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Packaging inspection equipment checks assembled parts for defects: bond and joint quality, voids, cracks, and delamination. It often looks inside the sealed package non-destructively (for example with X-ray or acoustic imaging) to catch problems before parts ship.",
+    whyItMatters:
+      "Back-end assembly adds hidden failure modes — voids under a die, a cracked joint, delamination. Inspection catches these before shipping, protecting reliability and field quality.",
+    intuition: [
+      "Once a package is sealed, you cannot just look at the connections — inspection uses techniques that see through the package to find hidden flaws.",
+      "It is the back-end cousin of wafer inspection: find and classify defects, then trace them to the process step.",
+    ],
+    whereItFits:
+      "In the inspect step, after encapsulation and singulation, and before or alongside testing.",
+
+    inputs: [
+      "Assembled and encapsulated packages",
+      "An inspection recipe or method (optical, X-ray, acoustic, and so on)",
+    ],
+    howItWorks: [
+      "Image: the package is imaged externally and/or internally, non-destructively.",
+      "Detect: flaws such as voids, cracks, and bad joints are found and located.",
+      "Classify: defects are categorized to point at the responsible assembly step.",
+    ],
+    outputs: ["Pass/fail decisions and defect data that feed back into assembly process control."],
+    subsystems: [
+      { name: "Imaging system", detail: "Optical, X-ray, or acoustic imaging of the package." },
+      { name: "Defect detection / analysis", detail: "Finds and locates internal and external flaws." },
+      { name: "Handling", detail: "Presents packages for inspection." },
+    ],
+    parameters: [
+      { name: "Sensitivity", detail: "Smallest void or crack reliably detected." },
+      { name: "Coverage", detail: "How much of the package and its joints is inspected." },
+      { name: "Throughput", detail: "Parts inspected per hour." },
+      { name: "Classification accuracy", detail: "Correctly typing real defects versus nuisance flags." },
+    ],
+    parametersNote:
+      "Inspection methods and sensitivities are package- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    performance: [
+      "Like front-end inspection, packaging inspection balances sensitivity against speed and false calls — and its real value is trending defect types back to the assembly step that caused them, closing the measure-compare-adjust loop for the back end.",
+    ],
+    defects: [
+      "Missed hidden voids or cracks → field failures",
+      "Excess false calls → wasted yield",
+      "Misclassification → the wrong root cause chased",
+    ],
+    yieldImplications: [
+      "Catching assembly defects here prevents shipping latent failures; it closes the process-control loop for the back end.",
+    ],
+    relatedEquipment: [
+      { label: "Molding", href: "/semiconductors/equipment/molding" },
+      { label: "Wafer probing", href: "/semiconductors/equipment/wafer-probing" },
+      { label: "Semiconductor test", href: "/semiconductors/equipment/semiconductor-test" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["packaging", "final-test"],
+    packagingConnection:
+      "Packaging inspection is the quality gate of the assembly line, protecting the value added during packaging.",
+    supplyChainConnection:
+      "Specialized inspection tools are a strategic back-end capability for reliability.",
+    advanced: [
+      "High-resolution X-ray and CT for complex 3D packages",
+      "Acoustic imaging for delamination",
+      "Machine-learning defect classification",
+    ],
+    learnNext: [
+      { label: "Wafer probing", href: "/semiconductors/equipment/wafer-probing" },
+      { label: "Semiconductor test", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "Packaging (learn)", href: "/semiconductors/learn/packaging" },
+    ],
+  },
+  {
+    slug: "wafer-probing",
+    title: "Wafer probing equipment",
+    summary:
+      "The tools that electrically test each die while it is still on the wafer, so bad dies are found before the cost of packaging is spent on them.",
+    categoryId: "testing",
+
+    quickAnswer:
+      "Wafer probing equipment touches tiny probes to each die's pads and runs electrical tests while the chips are still on the wafer. It identifies known-good dies so that only good ones move on to packaging.",
+    whyItMatters:
+      "Packaging a bad die wastes money and materials. Wafer test (probe) screens dies early, feeds yield learning back to the fab, and creates the wafer map of good and bad dies used downstream.",
+    intuition: [
+      "Before spending effort packaging each chip, you test them all on the wafer — a card of fine probes contacts each die and checks whether it works.",
+      "The result is a map of which dies are good, so only those get packaged.",
+    ],
+    whereItFits:
+      "Between wafer fabrication and assembly — the first electrical test, often called wafer sort or probe.",
+
+    inputs: [
+      "A finished wafer",
+      "A probe card matched to the die's pads",
+      "A test program (run on the test equipment)",
+    ],
+    howItWorks: [
+      "Align & contact: probes are aligned and lowered onto a die's pads.",
+      "Test: the tester runs electrical tests through the probes.",
+      "Step & map: the prober steps to the next die and records pass/fail into a wafer map.",
+    ],
+    outputs: ["A wafer map of known-good versus failing dies, and yield/parametric data fed back to the fab."],
+    subsystems: [
+      { name: "Prober (stage)", detail: "Positions the wafer and steps die-to-die precisely." },
+      { name: "Probe card", detail: "The array of fine contacts to the die pads." },
+      { name: "Tester interface", detail: "Connects the probes to the test equipment." },
+      { name: "Vision / alignment", detail: "Aligns probes to pads." },
+    ],
+    parameters: [
+      { name: "Contact accuracy", detail: "Landing probes reliably on small pads." },
+      { name: "Parallelism", detail: "How many dies are tested at once (throughput)." },
+      { name: "Contact quality", detail: "Good electrical contact without pad damage." },
+      { name: "Throughput", detail: "Dies tested per hour." },
+    ],
+    parametersNote:
+      "Probe-card designs and test coverage are device- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Poor contact → false failures (yield loss)",
+      "Pad or probe damage",
+      "Misalignment → missed pads",
+      "Inadequate coverage → bad dies passed on",
+    ],
+    yieldImplications: [
+      "Probe both measures yield and prevents wasted packaging; contact reliability directly affects apparent yield.",
+    ],
+    relatedEquipment: [
+      { label: "Semiconductor test", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "Metrology & inspection", href: "/semiconductors/equipment#metrology-inspection" },
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["wafer-test", "final-test"],
+    packagingConnection:
+      "Wafer probing decides which dies are worth packaging — the gate between the fab and assembly.",
+    supplyChainConnection:
+      "It relies on probe cards and test systems from specialized suppliers.",
+    advanced: [
+      "Massively parallel probing",
+      "Probing fine-pitch and bumped wafers",
+      "At-speed and specialized test at probe",
+    ],
+    learnNext: [
+      { label: "Wafer test (learn)", href: "/semiconductors/learn/wafer-test" },
+      { label: "Semiconductor test", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "Final test (learn)", href: "/semiconductors/learn/final-test" },
+    ],
+  },
+  {
+    slug: "semiconductor-test",
+    title: "Semiconductor test equipment (ATE)",
+    summary:
+      "Automated test equipment (ATE) that exercises a chip's functions and measures its parameters to sort good parts from bad, at both wafer and final test.",
+    categoryId: "testing",
+
+    quickAnswer:
+      "Semiconductor test equipment — automated test equipment, or ATE — applies signals to a chip and measures its responses to verify it works and meets spec. It runs at wafer probe and again after packaging (final test), and sorts parts by result.",
+    whyItMatters:
+      "Only tested, known-good chips can ship. Test verifies function and performance, sorts (bins) parts by capability, and generates data that drives yield and quality — but thorough testing also adds real cost and time.",
+    intuition: [
+      "A tester is like an automated exam for the chip: it asks many questions (applies inputs) very fast and checks all the answers (outputs).",
+      "The same chip is usually tested twice — once on the wafer and once packaged — because handling and packaging can introduce new failures.",
+    ],
+    whereItFits:
+      "In the test step, both at wafer probe (via a prober) and at final test (via a handler), after packaging.",
+
+    inputs: [
+      "Devices to test (on-wafer via a prober, or packaged via a handler)",
+      "A test program defining stimuli and pass/fail limits",
+    ],
+    howItWorks: [
+      "Stimulate: the tester applies electrical signals to the device.",
+      "Measure: it captures the responses and compares them to limits.",
+      "Bin: parts are sorted (binned) by pass/fail and by performance grade.",
+    ],
+    outputs: ["Known-good, graded parts plus rich test data for yield and quality analysis."],
+    subsystems: [
+      { name: "Test head & instruments", detail: "Sources signals and measures responses." },
+      { name: "Device interface", detail: "Connects to the device (probe card, or socket and handler)." },
+      { name: "Test program", detail: "Defines the sequence of tests and their limits." },
+      { name: "Data system", detail: "Records results for binning and analysis." },
+    ],
+    parameters: [
+      { name: "Test coverage", detail: "How thoroughly the device's functions are exercised." },
+      { name: "Test time", detail: "Time per device — a direct cost driver." },
+      { name: "Accuracy", detail: "Measurement precision for parametric limits." },
+      { name: "Parallelism", detail: "Devices tested simultaneously." },
+    ],
+    parametersNote:
+      "Test coverage, times, and instrument capabilities are device- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Insufficient coverage → bad parts shipped (test escapes)",
+      "Over-testing → unnecessary cost and time",
+      "Marginal limits → good parts failed or bad parts passed",
+      "Contact or handling issues → false results",
+    ],
+    yieldImplications: [
+      "Test defines what ships; coverage and limits trade quality against cost, and test data is central to yield and reliability learning.",
+    ],
+    relatedEquipment: [
+      { label: "Wafer probing", href: "/semiconductors/equipment/wafer-probing" },
+      { label: "Burn-in & reliability", href: "/semiconductors/equipment/burn-in" },
+      { label: "Packaging inspection", href: "/semiconductors/equipment/packaging-inspection" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["wafer-test", "final-test"],
+    packagingConnection:
+      "Final test is the last gate after packaging — only parts that pass here are shipped.",
+    supplyChainConnection:
+      "ATE, handlers, and sockets come from specialized test-equipment suppliers.",
+    advanced: [
+      "System-level test (SLT) for complex SoCs",
+      "Higher parallelism to cut test cost",
+      "Adaptive, data-driven test",
+    ],
+    learnNext: [
+      { label: "Final test (learn)", href: "/semiconductors/learn/final-test" },
+      { label: "Burn-in & reliability", href: "/semiconductors/equipment/burn-in" },
+      { label: "Wafer probing", href: "/semiconductors/equipment/wafer-probing" },
+    ],
+  },
+  {
+    slug: "burn-in",
+    title: "Burn-in & reliability testing",
+    summary:
+      "Reliability-screening equipment that stresses parts with heat and voltage over time to weed out early-life failures before they reach customers.",
+    categoryId: "testing",
+
+    quickAnswer:
+      "Burn-in and reliability equipment stresses chips — typically with elevated temperature and voltage for a period of time — to force weak parts to fail before shipping. It targets 'infant mortality,' the early-life failures that would otherwise happen in the field.",
+    whyItMatters:
+      "Some defective parts pass normal test but fail soon after, in use. Reliability screening like burn-in catches these early failures, which is essential for high-reliability applications such as automotive, medical, and data-center parts.",
+    intuition: [
+      "A quick test shows a chip works now; burn-in checks that it keeps working by stressing it hard for a while, so the weak ones fail in the factory instead of in the customer's hands.",
+      "It is based on the idea that a small fraction of parts fail very early in life — so stress them to reveal those.",
+    ],
+    whereItFits:
+      "In the reliability part of testing, typically after packaging and often combined with electrical test.",
+
+    inputs: [
+      "Packaged parts",
+      "Burn-in boards and sockets",
+      "Controlled stress conditions (temperature, voltage, time)",
+    ],
+    howItWorks: [
+      "Load: parts are placed in burn-in boards and an environmental chamber or oven.",
+      "Stress: elevated temperature and voltage are applied for a set time, often while exercising the parts.",
+      "Screen: parts that fail during or after stress are removed; survivors continue.",
+    ],
+    outputs: ["Reliability-screened parts with early-life failures removed."],
+    subsystems: [
+      { name: "Environmental chamber / oven", detail: "Applies and controls temperature stress." },
+      { name: "Burn-in boards & sockets", detail: "Hold and power many parts under stress." },
+      { name: "Stimulus / monitor", detail: "Exercises and watches the parts during stress." },
+    ],
+    parameters: [
+      { name: "Temperature / voltage", detail: "The stress level applied." },
+      { name: "Duration", detail: "How long the stress is applied." },
+      { name: "Coverage", detail: "How well the stress exercises real failure modes." },
+      { name: "Capacity", detail: "How many parts are screened at once." },
+    ],
+    parametersNote:
+      "Reliability-screening conditions are device- and application-dependent; treat any figures elsewhere as examples, not universal specs. This is a conceptual overview, not a qualification procedure.",
+    defects: [
+      "Under-stress → early failures slip through",
+      "Over-stress → damage to good parts or wasted life",
+      "Socket or board issues → false results",
+    ],
+    yieldImplications: [
+      "Reliability screening trades some cost and yield for far lower field-failure rates — critical where failures are costly or dangerous.",
+    ],
+    relatedEquipment: [
+      { label: "Semiconductor test", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "Packaging inspection", href: "/semiconductors/equipment/packaging-inspection" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["final-test"],
+    packagingConnection:
+      "Reliability screening protects the quality of finished, packaged parts before they ship.",
+    supplyChainConnection:
+      "It links to reliability requirements set by end markets (for example automotive) and to specialized burn-in equipment suppliers.",
+    advanced: [
+      "Test-during-burn-in for efficiency",
+      "Statistical and adaptive reliability screening",
+      "Reduced or targeted burn-in guided by data",
+    ],
+    learnNext: [
+      { label: "Final test (learn)", href: "/semiconductors/learn/final-test" },
+      { label: "Semiconductor test", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "Supply chain", href: "/supply-chain" },
+    ],
+  },
+  {
+    slug: "advanced-packaging",
+    title: "Advanced packaging equipment",
+    summary:
+      "The integration tools and platforms that combine multiple dies — 2.5D interposers, 3D stacks, and chiplets — into a single high-performance package.",
+    categoryId: "packaging",
+
+    quickAnswer:
+      "Advanced packaging equipment builds multi-die packages: placing several dies on an interposer (2.5D), stacking dies vertically (3D), and integrating chiplets. It treats the package as a system, not just protection for one chip.",
+    whyItMatters:
+      "As single-chip scaling slows, putting multiple optimized dies together in one package delivers more performance and bandwidth. Advanced packaging has become a primary way to keep systems improving — making back-end equipment strategically important.",
+    intuition: [
+      "Instead of one big chip, advanced packaging combines several smaller dies very close together so they act like one — on a silicon 'interposer', stacked in 3D, or connected as chiplets.",
+      "The package becomes part of the system design, not an afterthought.",
+    ],
+    whereItFits:
+      "An integration layer spanning interconnect, bonding, and assembly for 2.5D, 3D, and chiplet products; it builds on flip-chip, wafer-level packaging, and advanced bonding.",
+
+    inputs: [
+      "Multiple known-good dies (and often interposers)",
+      "High-density interconnect and substrate materials",
+    ],
+    howItWorks: [
+      "Integrate the base: build or place the high-density routing base (for example an interposer).",
+      "Place & join dies: attach multiple dies with flip-chip or bonding, aligned precisely.",
+      "Build up & finish: add stacking or RDL, encapsulate, and prepare for test.",
+    ],
+    outputs: ["A multi-die package integrating several chips into one high-performance unit."],
+    subsystems: [
+      { name: "High-accuracy placement / bonding", detail: "Places and joins multiple dies precisely." },
+      { name: "Interposer / RDL processing", detail: "Builds the dense routing between dies." },
+      { name: "Assembly & encapsulation", detail: "Completes and protects the multi-die package." },
+    ],
+    parameters: [
+      { name: "Interconnect density", detail: "How many die-to-die connections are possible." },
+      { name: "Placement accuracy", detail: "Alignment across multiple dies — critical." },
+      { name: "Warpage / stress", detail: "Managing stress across a large multi-die package." },
+      { name: "Known-good-die yield", detail: "All dies must be good, so incoming yield compounds." },
+    ],
+    parametersNote:
+      "Advanced-packaging capabilities are technology- and vendor-dependent; treat any figures elsewhere as examples, not universal specs.",
+    defects: [
+      "Any bad die → a failed multi-die package (compounded yield)",
+      "Misalignment across dies",
+      "Warpage from mixed materials",
+      "Interconnect voids or opens",
+    ],
+    yieldImplications: [
+      "With several dies per package, overall yield depends on every die being good, so known-good-die screening and assembly precision are decisive.",
+    ],
+    relatedMaterials: [
+      { label: "Interposers & substrates" },
+      { label: "Microbump / bonding materials" },
+      { label: "Thermal materials" },
+    ],
+    relatedEquipment: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Advanced bonding", href: "/semiconductors/equipment/advanced-bonding" },
+      { label: "Wafer-level packaging", href: "/semiconductors/equipment/wafer-level-packaging" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["advanced-packaging", "2-5d", "3d-ic", "chiplets"],
+    packagingConnection:
+      "Advanced packaging is where packaging becomes system integration — 2.5D, 3D, and chiplets.",
+    supplyChainConnection:
+      "It draws on interposers, high-density substrates, and bonding materials, and is a strategic, capacity-constrained part of the supply chain.",
+    advanced: [
+      "Chiplet ecosystems and standard die-to-die interfaces",
+      "3D stacking with hybrid bonding",
+      "High-bandwidth memory integration",
+      "Panel-level advanced packaging",
+    ],
+    learnNext: [
+      { label: "Advanced packaging (learn)", href: "/semiconductors/learn/advanced-packaging" },
+      { label: "Chiplets", href: "/semiconductors/learn/chiplets" },
+      { label: "3D IC", href: "/semiconductors/learn/3d-ic" },
+    ],
+  },
 ];
 
 export function getEquipmentTopic(slug: string): EquipmentTopic | undefined {
