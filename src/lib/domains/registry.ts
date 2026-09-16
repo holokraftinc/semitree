@@ -42,6 +42,7 @@ export const DOMAINS: Domain[] = [
       { key: "packaging", label: "Packaging", status: "live", href: "/semiconductors/packaging", description: "From wafer to finished chip — packaging explained." },
       { key: "equipment", label: "Equipment", status: "live", href: "/semiconductors/equipment", description: "The machines that turn wafers into chips." },
       { key: "materials", label: "Materials", status: "live", href: "/semiconductors/materials", description: "What chips are built from — the material families." },
+      { key: "ecosystem", label: "Ecosystem", status: "live", href: "/semiconductors/ecosystem", description: "How equipment, materials, supply chain and industry connect." },
       { key: "industry", label: "Industry", status: "live", href: "/industry", description: "Company directory & maps." },
     ],
   },

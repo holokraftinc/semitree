@@ -217,9 +217,15 @@ export default function SemiconductorEquipmentPage() {
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-foreground">
           Equipment runs the processes, works on the materials, and is built and
-          supplied by the industry.
+          supplied by the industry — part of a global ecosystem.
         </p>
         <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <Link href="/semiconductors/ecosystem" className="font-medium text-brand hover:underline">
+            Ecosystem →
+          </Link>
+          <Link href="/semiconductors/materials" className="font-medium text-brand hover:underline">
+            Materials →
+          </Link>
           <Link href="/manufacturing" className="font-medium text-brand hover:underline">
             Manufacturing processes →
           </Link>

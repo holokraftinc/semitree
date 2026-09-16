@@ -252,6 +252,9 @@ export default function SemiconductorMaterialsPage() {
           processes, and sourced through the industry&rsquo;s supply chain.
         </p>
         <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <Link href="/semiconductors/ecosystem" className="font-medium text-brand hover:underline">
+            Ecosystem →
+          </Link>
           <Link href="/semiconductors/equipment" className="font-medium text-brand hover:underline">
             Equipment →
           </Link>
