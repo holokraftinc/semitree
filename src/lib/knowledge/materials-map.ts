@@ -75,6 +75,10 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     where: "The very start — the physical platform for every later step.",
     why: "Flatness, purity, and crystal perfection set the floor for everything after; defects here propagate into every device.",
     lessons: ["ingot", "wafer", "substrate"],
+    topics: [
+      { slug: "silicon-wafers", label: "Silicon wafers" },
+      { slug: "soi", label: "SOI" },
+    ],
   },
   {
     id: "photoresists",
@@ -96,6 +100,12 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
       { slug: "deposition", label: "Deposition" },
       { slug: "thermal", label: "Thermal processing" },
     ],
+    topics: [
+      { slug: "silicon-dioxide", label: "Silicon dioxide" },
+      { slug: "silicon-nitride", label: "Silicon nitride" },
+      { slug: "high-k-dielectrics", label: "High-k dielectrics" },
+      { slug: "low-k-dielectrics", label: "Low-k dielectrics" },
+    ],
   },
   {
     id: "conductors",
@@ -107,6 +117,11 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     equipment: [
       { slug: "deposition", label: "Deposition" },
       { slug: "cmp", label: "CMP" },
+    ],
+    topics: [
+      { slug: "copper", label: "Copper" },
+      { slug: "aluminum", label: "Aluminum" },
+      { slug: "tungsten", label: "Tungsten" },
     ],
   },
   {

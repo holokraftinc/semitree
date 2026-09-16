@@ -28,6 +28,29 @@ describe("Material topics", () => {
     expect(si!.alternatives?.length).toBeGreaterThan(0);
   });
 
+  it("includes the core materials path with populated sections", () => {
+    const core = [
+      "silicon",
+      "silicon-wafers",
+      "soi",
+      "silicon-dioxide",
+      "silicon-nitride",
+      "high-k-dielectrics",
+      "low-k-dielectrics",
+      "copper",
+      "aluminum",
+      "tungsten",
+    ];
+    for (const slug of core) {
+      const topic = getMaterialTopic(slug);
+      expect(topic, `missing topic: ${slug}`).toBeDefined();
+      expect(topic!.quickAnswer).toBeTruthy();
+      expect(topic!.properties?.length, `no properties: ${slug}`).toBeGreaterThan(0);
+      // Values-depend-on-conditions caveat present (no fabricated specs).
+      expect(topic!.propertiesNote, `no propertiesNote: ${slug}`).toBeTruthy();
+    }
+  });
+
   it("only cross-links lesson slugs that exist", () => {
     for (const t of MATERIAL_TOPICS) {
       for (const slug of [...(t.relatedConceptLessons ?? []), ...(t.relatedProcessLessons ?? [])]) {
