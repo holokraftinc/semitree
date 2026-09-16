@@ -211,8 +211,10 @@ export default function SemiconductorMaterialsPage() {
           Where materials connect
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-foreground">
-          Materials are worked by the equipment, shaped by the processes, and
-          sourced through the industry&rsquo;s supply chain.
+          Equipment alone does not manufacture a device. Every result comes from
+          <span className="font-medium text-foreground"> equipment + materials + process conditions + process control + metrology</span>{" "}
+          working together — materials are worked by the equipment, shaped by the
+          processes, and sourced through the industry&rsquo;s supply chain.
         </p>
         <div className="mt-4 flex flex-wrap gap-4 text-sm">
           <Link href="/semiconductors/equipment" className="font-medium text-brand hover:underline">

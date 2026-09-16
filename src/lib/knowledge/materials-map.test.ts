@@ -6,6 +6,7 @@ import {
 } from "./materials-map";
 import { getSemiLesson } from "./semi-lessons";
 import { getEquipmentTopic } from "./equipment-topics";
+import { getMaterialTopic } from "./material-topics";
 
 describe("Materials map", () => {
   it("has unique category ids and fills what/where/why", () => {
@@ -18,15 +19,25 @@ describe("Materials map", () => {
     }
   });
 
-  it("every non-coming-soon category reuses existing lessons; gaps have none", () => {
+  it("every non-coming-soon category is reachable (lessons or topics); gaps have neither", () => {
     for (const c of MATERIAL_CATEGORIES) {
       if (c.comingSoon) {
         expect(c.lessons.length, `${c.id} is Soon but lists lessons`).toBe(0);
+        expect(c.topics?.length ?? 0, `${c.id} is Soon but lists topics`).toBe(0);
       } else {
-        expect(c.lessons.length, `${c.id} has no lessons`).toBeGreaterThan(0);
+        const reachable = c.lessons.length + (c.topics?.length ?? 0);
+        expect(reachable, `${c.id} has no lessons or topics`).toBeGreaterThan(0);
         for (const slug of c.lessons) {
           expect(getSemiLesson(slug), `missing lesson: ${slug}`).toBeDefined();
         }
+      }
+    }
+  });
+
+  it("category topic links resolve to real material topics", () => {
+    for (const c of MATERIAL_CATEGORIES) {
+      for (const tp of c.topics ?? []) {
+        expect(getMaterialTopic(tp.slug), `missing material topic: ${tp.slug}`).toBeDefined();
       }
     }
   });

@@ -743,6 +743,540 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
       { label: "CMP (process)", href: "/semiconductors/learn/cmp" },
     ],
   },
+  {
+    slug: "photoresist",
+    title: "Photoresist",
+    summary:
+      "The light-sensitive film that records the circuit pattern in lithography — coated, exposed, and developed to create the stencil for each layer.",
+    categoryId: "photoresists",
+
+    quickAnswer:
+      "Photoresist is a light-sensitive material coated onto the wafer that records the circuit pattern when exposed to light, then developed to leave a stencil. That stencil protects some areas and opens others so the pattern can be transferred into the wafer.",
+    whyItMatters:
+      "Photoresist is the recording medium of lithography — its sensitivity and resolution help set the smallest feature that can be printed, and its behaviour during coating, exposure, and development directly affects pattern quality and yield.",
+    intuition: [
+      "Photoresist works like photographic film: light changes its chemistry where it lands, and developing washes away the right parts to leave a pattern.",
+      "That patterned resist is a temporary stencil — later steps (etch or implant) act only where the resist is open, then the resist is stripped away.",
+      "Resists come in two types: with a positive resist the exposed area washes away (the pattern matches the mask openings); with a negative resist the exposed area stays and the rest washes away (the reverse). The choice shapes how the mask and process are designed.",
+    ],
+    properties: [
+      { name: "Photosensitivity (optical)", detail: "Changes chemically when exposed to a specific wavelength; matched to the exposure tool (e.g. DUV, EUV)." },
+      { name: "Resolution", detail: "How fine a feature the resist can faithfully record — a key limiter alongside the optics." },
+      { name: "Etch / implant resistance", detail: "Must survive the step it protects without breaking down too early." },
+    ],
+    propertiesNote:
+      "Resist sensitivity, resolution, and process windows depend on the specific chemistry and the exposure wavelength; treat any figure elsewhere as tied to one resist and tool, not universal.",
+    whereUsed: ["Every patterned layer, in lithography — dozens of times per wafer"],
+    processConnection:
+      "Photoresist ties directly to the lithography flow: a track spin-coats it, the scanner exposes the pattern, development forms the stencil, and the pattern is then transferred by etch or implant before the resist is stripped. Resist, tool, and process must be co-designed — lithography equipment -> exposure -> development -> pattern transfer.",
+    relatedEquipment: [
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Etching", href: "/semiconductors/equipment/etching" },
+    ],
+    parameters: [
+      { name: "Sensitivity", detail: "How much light (dose) is needed to expose it — affects throughput." },
+      { name: "Resolution / contrast", detail: "How sharply it distinguishes exposed from unexposed regions." },
+      { name: "Film thickness / uniformity", detail: "Set by spin-coating; affects focus and etch protection." },
+      { name: "Adhesion", detail: "Must stick to the underlying film so fine features do not lift or collapse." },
+    ],
+    parametersNote:
+      "These are tuned per resist and node and are not fixed numbers.",
+    defects: [
+      "Under- or over-exposure or -development → malformed or missing features",
+      "Pattern collapse of tall, thin lines",
+      "Scumming (residue) left in cleared areas",
+      "Poor adhesion → lifting",
+    ],
+    performance: [
+      "Photoresist is a clear case of the core idea: the same lithography tool gives very different results depending on the resist, the coat/expose/develop conditions, and how tightly they are controlled and measured. The printed pattern is the product of equipment + material + process conditions + process control + metrology together — the equipment alone does not make it.",
+    ],
+    selectionNote:
+      "Positive vs negative resist, and which chemistry, is chosen to fit the wavelength, feature type, and downstream step — there is no single best resist, only the right one for the layer.",
+    safety: [
+      "Resists and their solvents are chemicals handled under fab safety controls; this is a conceptual overview, not a handling guide.",
+    ],
+    relatedMaterials: [
+      { label: "Developers", href: "/semiconductors/materials/developers" },
+      { label: "Etch chemistry", href: "/semiconductors/materials/etch-chemistry" },
+    ],
+    relatedProcessLessons: ["photoresist", "lithography", "etching"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "Chemically amplified resists for DUV",
+      "EUV resists and stochastic effects",
+      "Directed self-assembly and resist alternatives",
+    ],
+    learnNext: [
+      { label: "Photoresist (process)", href: "/semiconductors/learn/photoresist" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Developers", href: "/semiconductors/materials/developers" },
+    ],
+  },
+  {
+    slug: "developers",
+    title: "Developers",
+    summary:
+      "The chemistry that develops exposed photoresist — selectively dissolving the right regions to turn a latent image into a physical pattern.",
+    categoryId: "photoresists",
+
+    quickAnswer:
+      "Developers are the chemicals that 'develop' exposed photoresist: they dissolve away the soluble regions (exposed or unexposed, depending on resist type), turning the invisible latent image into the physical resist stencil used for pattern transfer.",
+    whyItMatters:
+      "Development is where the latent image becomes a real pattern; the developer chemistry and process set edge sharpness, residue, and how faithfully the printed pattern matches the design.",
+    intuition: [
+      "After exposure the pattern is 'latent' — chemically present but not yet visible. The developer selectively dissolves the right regions to reveal it.",
+      "Good development leaves clean, sharp features with no leftover residue; poor development blurs or bridges them.",
+    ],
+    properties: [
+      { name: "Selectivity (chemical)", detail: "Dissolves the intended resist regions while leaving the others intact." },
+      { name: "Cleanliness", detail: "Removes material without leaving residue (scum) that would block the next step." },
+    ],
+    propertiesNote:
+      "Developer chemistry is matched to the specific resist; behaviour depends on that pairing and the process conditions.",
+    whereUsed: ["The develop step of lithography, on every patterned layer"],
+    processConnection:
+      "Developers act in the lithography track right after exposure, completing the coat -> expose -> develop sequence before pattern transfer. Developer and resist are a matched pair.",
+    relatedEquipment: [{ label: "Lithography", href: "/semiconductors/equipment/lithography" }],
+    defects: [
+      "Under-development → residue / scum",
+      "Over-development → eroded or lost features",
+      "Non-uniform development → across-wafer variation",
+    ],
+    performance: [
+      "Development reinforces the core idea: the resist, the developer, the develop time and temperature, and the metrology that checks the result all combine with the tool to produce a good pattern — no single one suffices.",
+    ],
+    safety: [
+      "Developer chemicals are handled under fab safety controls; this is conceptual, not a handling guide.",
+    ],
+    relatedMaterials: [{ label: "Photoresist", href: "/semiconductors/materials/photoresist" }],
+    relatedProcessLessons: ["photoresist", "lithography"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "Developer optimization for fine features",
+      "Solvent vs aqueous development",
+      "Defect reduction in development",
+    ],
+    learnNext: [
+      { label: "Photoresist", href: "/semiconductors/materials/photoresist" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Etch chemistry", href: "/semiconductors/materials/etch-chemistry" },
+    ],
+  },
+  {
+    slug: "deposition-precursors",
+    title: "Deposition precursors",
+    summary:
+      "The source materials for thin films — sputter targets and gas-phase precursors that CVD, PVD, ALD, and epitaxy turn into deposited layers.",
+    categoryId: "deposition-materials",
+
+    quickAnswer:
+      "Deposition precursors (and targets) are the source materials that become thin films. In PVD a solid target is sputtered; in CVD and ALD gas-phase precursors react on the wafer; in epitaxy source materials grow a crystalline layer. Their purity and chemistry set the film's quality.",
+    whyItMatters:
+      "Every deposited layer starts as a source material; precursor purity, chemistry, and delivery determine the film's composition, conformality, and defectivity — and therefore device behaviour.",
+    intuition: [
+      "To add a film you need a source of the atoms: a solid block to sputter (PVD), or gases that react on the hot wafer (CVD / ALD).",
+      "How pure and how well-delivered that source is decides how good the resulting film is.",
+    ],
+    properties: [
+      { name: "Purity (chemical)", detail: "Very high purity required; trace contaminants become film defects." },
+      { name: "Reactivity / volatility", detail: "Gas precursors must deliver and react in a controlled way; targets must sputter uniformly." },
+      { name: "Composition", detail: "The source sets the film's chemistry (and any dopants or stoichiometry)." },
+    ],
+    propertiesNote:
+      "Precursor and target specifications depend on the exact film and method; no universal values are asserted.",
+    whereUsed: [
+      "Wherever a film is deposited — many layers across the flow (insulators, metals, barriers, semiconductors)",
+    ],
+    processConnection:
+      "Precursors and targets are consumed by deposition equipment; the method (CVD, PVD, ALD, epitaxy) and conditions turn them into films. Conformality and composition come from the precursor-plus-process, not the tool alone.",
+    relatedEquipment: [
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Thermal processing", href: "/semiconductors/equipment/thermal" },
+    ],
+    purity: [
+      "Deposition source materials must be extremely pure; trace metals or moisture create traps, particles, and defects that propagate into devices.",
+    ],
+    defects: [
+      "Precursor contamination or moisture → film defects and particles",
+      "Poor delivery or depletion → thickness and composition drift",
+      "Wrong chemistry → wrong film properties",
+    ],
+    performance: [
+      "The same precursor behaves differently by method: PVD sputters a target (fast, line-of-sight), CVD reacts gases (better coverage), ALD adds self-limiting atomic layers (most conformal and precise), and epitaxy grows a crystalline layer aligned to the wafer. The film is the product of material + method + conditions + control + metrology — equipment alone does not define it.",
+    ],
+    selectionNote:
+      "Precursor and method are chosen together for the needed film (thickness control, conformality, temperature budget) — there is no universally best precursor, only the right one for the film.",
+    safety: [
+      "Many precursors and process gases are hazardous (toxic, pyrophoric, or corrosive) and are handled under strict facility safety systems; specifics are outside this conceptual overview.",
+    ],
+    relatedMaterials: [
+      { label: "Process gases", href: "/semiconductors/materials/process-gases" },
+      { label: "Conductors", href: "/semiconductors/materials#conductors" },
+      { label: "Dielectrics", href: "/semiconductors/materials#dielectrics" },
+    ],
+    relatedProcessLessons: ["deposition", "metallization", "oxidation"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "ALD precursors for atomic-scale films",
+      "Area-selective deposition chemistries",
+      "New precursors for low-temperature and 3D integration",
+    ],
+    learnNext: [
+      { label: "Deposition (process)", href: "/semiconductors/learn/deposition" },
+      { label: "Process gases", href: "/semiconductors/materials/process-gases" },
+      { label: "Deposition equipment", href: "/semiconductors/equipment/deposition" },
+    ],
+  },
+  {
+    slug: "process-gases",
+    title: "Process gases",
+    summary:
+      "The ultra-pure gases that feed fab processes — carrier, reactant, purge, and plasma gases used across deposition, etch, and thermal steps.",
+    categoryId: "cleanroom-materials",
+
+    quickAnswer:
+      "Process gases are the high-purity gases that many fab steps run on — as reactants, carriers, purges, or plasma feedstock in deposition, etch, and thermal processing. Their purity and precise delivery are essential to consistent results.",
+    whyItMatters:
+      "A large share of fab steps depend on gases; contamination or unstable delivery shows up directly as defects and process drift. Gas purity and flow control are a quiet but critical part of manufacturing.",
+    intuition: [
+      "Many tools are really controlled chemical reactors: they meter gases in, make something happen, and pump the by-products out.",
+      "If the gas is impure or the flow varies, the process varies — so gases are purified and delivered with great care.",
+    ],
+    properties: [
+      { name: "Purity (chemical)", detail: "Extremely high purity; trace contaminants cause defects and drift." },
+      { name: "Reactivity / role", detail: "Different gases act as reactants, carriers, purges, or plasma feedstock." },
+    ],
+    propertiesNote:
+      "Purity grades and flows are specified per process and gas; no universal values are stated.",
+    whereUsed: [
+      "Deposition, etch, and thermal steps throughout the fab",
+      "Chamber purging and inert environments",
+    ],
+    processConnection:
+      "Process gases are delivered to deposition, etch, and thermal equipment; the tool provides the chamber and energy, but the gas chemistry and flow (plus control and metrology) shape the outcome.",
+    relatedEquipment: [
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Etching", href: "/semiconductors/equipment/etching" },
+      { label: "Thermal processing", href: "/semiconductors/equipment/thermal" },
+    ],
+    purity: [
+      "Ultra-high-purity gases and clean delivery lines are required; contamination is a direct source of defects and yield loss.",
+    ],
+    defects: [
+      "Gas contamination → film or etch defects",
+      "Flow instability → process drift",
+      "Leaks or impurities in delivery → yield loss",
+    ],
+    performance: [
+      "Process gases underline the core idea: equipment + gases (materials) + conditions + control + metrology together produce the result; a perfect tool fed impure or poorly delivered gas will not.",
+    ],
+    safety: [
+      "Many process gases are toxic, pyrophoric, corrosive, or flammable and require strict gas-handling, detection, and abatement systems; this overview is conceptual only and not a handling guide.",
+    ],
+    selectionNote:
+      "Each step selects gases for its specific chemistry and role — process gases are matched to the process, not ranked against one another.",
+    relatedMaterials: [
+      { label: "Deposition precursors", href: "/semiconductors/materials/deposition-precursors" },
+      { label: "Etch chemistry", href: "/semiconductors/materials/etch-chemistry" },
+    ],
+    relatedProcessLessons: ["deposition", "etching", "oxidation"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "Ultra-high-purity gas delivery systems",
+      "Abatement of hazardous by-products",
+      "Reducing greenhouse-gas process emissions",
+    ],
+    learnNext: [
+      { label: "Deposition precursors", href: "/semiconductors/materials/deposition-precursors" },
+      { label: "Etch chemistry", href: "/semiconductors/materials/etch-chemistry" },
+      { label: "Deposition (process)", href: "/semiconductors/learn/deposition" },
+    ],
+  },
+  {
+    slug: "etch-chemistry",
+    title: "Etch chemistry",
+    summary:
+      "The liquid chemicals and reactive plasma gases that remove material selectively during etch — the chemistry that sets selectivity, rate, and profile.",
+    categoryId: "etch-chemistry",
+
+    quickAnswer:
+      "Etch chemistry is the set of liquid chemicals (wet etch) or reactive plasma gases (dry etch) that remove material where the mask is open. The chemistry — not just the tool — determines what is removed, how fast, how selectively, and with what profile.",
+    whyItMatters:
+      "Etch turns a resist pattern into real 3D structure, and the chemistry decides how cleanly: which material is removed versus protected (selectivity), how vertical the walls are (anisotropy), and how fast (rate). Chemistry is central to etch quality.",
+    intuition: [
+      "Etching is controlled chemical attack: you want to remove exactly the exposed material and nothing else.",
+      "In plasma etch, energized gases create reactive species that both chemically react with the surface and physically bombard it — combining to cut straight, selective features.",
+    ],
+    properties: [
+      { name: "Selectivity (chemical)", detail: "Removes the target material much faster than the mask and underlying layers." },
+      { name: "Reactivity", detail: "Reacts with the intended material to form removable products." },
+      { name: "Anisotropy (via plasma)", detail: "Plasma chemistry plus ion bombardment enables directional (vertical) etching." },
+    ],
+    propertiesNote:
+      "Etch chemistries are specific to the material stack and tool; behaviour depends on the exact chemistry and conditions and is not captured by any single number.",
+    whereUsed: ["The etch step on nearly every patterned layer (wet and dry / plasma)"],
+    processConnection:
+      "Etch chemistry is delivered by etch equipment; the tool supplies the chamber, plasma, and control, but the chemistry sets selectivity, rate, and profile. Endpoint detection and metrology close the loop.",
+    relatedEquipment: [{ label: "Etching", href: "/semiconductors/equipment/etching" }],
+    parameters: [
+      { name: "Selectivity", detail: "Ratio of target removal to mask / underlayer removal." },
+      { name: "Etch rate", detail: "How fast material is removed — traded against control." },
+      { name: "Anisotropy", detail: "How vertical the resulting walls are." },
+    ],
+    parametersNote:
+      "These depend on the material, chemistry, and tool conditions and are not universal values.",
+    defects: [
+      "Poor selectivity → mask erosion or punch-through",
+      "Wrong chemistry → residues or wrong profile",
+      "Non-uniform etch → across-wafer variation",
+    ],
+    performance: [
+      "Etch is a clear case of the core idea: the same etch tool gives different results with different chemistry, conditions, control, and metrology — the etch is produced by all of them together, not the equipment alone.",
+    ],
+    safety: [
+      "Etch chemicals and plasma gases are frequently hazardous (corrosive, toxic, reactive) and require strict facility controls and abatement. This is a conceptual overview and deliberately contains no chemical recipes or operating instructions.",
+    ],
+    selectionNote:
+      "Etch chemistry is chosen for the specific material and profile needed — highly selective for one stack, directional for another — so no chemistry is universally best.",
+    relatedMaterials: [
+      { label: "Photoresist", href: "/semiconductors/materials/photoresist" },
+      { label: "Process gases", href: "/semiconductors/materials/process-gases" },
+    ],
+    relatedProcessLessons: ["etching", "lithography"],
+    relatedConceptLessons: ["integrated-circuit", "mosfet"],
+    advanced: [
+      "Atomic layer etching (ALE) chemistries",
+      "High-aspect-ratio etch chemistry",
+      "Selective etches for advanced device structures",
+    ],
+    learnNext: [
+      { label: "Etching (process)", href: "/semiconductors/learn/etching" },
+      { label: "Etching equipment", href: "/semiconductors/equipment/etching" },
+      { label: "Photoresist", href: "/semiconductors/materials/photoresist" },
+    ],
+  },
+  {
+    slug: "cmp-slurries",
+    title: "CMP slurries",
+    summary:
+      "The polishing slurries — abrasive particles plus active chemistry — that combine with the pad to planarize the wafer between layers.",
+    categoryId: "cmp-materials",
+
+    quickAnswer:
+      "CMP slurry is a liquid carrying fine abrasive particles and active chemistry. With the pad, it removes material by combined chemical softening and mechanical abrasion, planarizing the wafer. Its abrasive and chemistry set removal rate, selectivity, and defectivity.",
+    whyItMatters:
+      "Planarization needs both chemistry and mechanics working together, and the slurry provides both. Its formulation controls how fast and how selectively material is removed and how many defects (scratches, residue) result.",
+    intuition: [
+      "Polishing flat needs two things at once: chemistry to soften the surface and tiny abrasives to wear down the high spots — the slurry carries both.",
+      "Tuning the abrasive and chemistry lets CMP stop on the right layer and leave a flat, clean surface.",
+    ],
+    properties: [
+      { name: "Abrasive (mechanical)", detail: "Fine particles that mechanically remove material; size and hardness matter." },
+      { name: "Active chemistry", detail: "Softens or reacts with the surface so it removes controllably." },
+      { name: "Selectivity", detail: "Formulated to polish the target faster than the stop layer." },
+    ],
+    propertiesNote:
+      "Slurry formulations are highly specific to the material being polished; behaviour depends on the formulation and process and is not a universal value.",
+    whereUsed: ["CMP steps between build-up layers, especially across the interconnect stack"],
+    processConnection:
+      "Slurry is delivered onto the pad in the CMP tool; the tool applies pressure and motion, but the slurry chemistry and abrasive (with the pad, control, and metrology) determine removal and planarity.",
+    relatedEquipment: [{ label: "CMP", href: "/semiconductors/equipment/cmp" }],
+    defects: [
+      "Scratches from oversized or agglomerated particles",
+      "Residue if not cleaned",
+      "Wrong selectivity → dishing / erosion",
+    ],
+    performance: [
+      "CMP slurry shows the core idea plainly: the polisher plus the slurry (material) plus pressure and speed (conditions) plus endpoint control and metrology together set the result — the tool alone does not.",
+    ],
+    safety: [
+      "Slurries and post-CMP cleaning chemicals are handled under fab safety controls; conceptual overview only.",
+    ],
+    selectionNote:
+      "Slurry is matched to the material being polished (oxide, copper, tungsten, and so on) — a slurry ideal for one material is wrong for another, so none is universally best.",
+    relatedMaterials: [
+      { label: "CMP pads", href: "/semiconductors/materials/cmp-pads" },
+      { label: "Copper", href: "/semiconductors/materials/copper" },
+    ],
+    relatedProcessLessons: ["cmp", "metallization"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "Slurries for advanced interconnect and new metals",
+      "Defect and scratch reduction",
+      "Abrasive-free and engineered-particle slurries",
+    ],
+    learnNext: [
+      { label: "CMP (process)", href: "/semiconductors/learn/cmp" },
+      { label: "CMP pads", href: "/semiconductors/materials/cmp-pads" },
+      { label: "CMP equipment", href: "/semiconductors/equipment/cmp" },
+    ],
+  },
+  {
+    slug: "cmp-pads",
+    title: "CMP pads",
+    summary:
+      "The polishing pads that, with the slurry, planarize the wafer — their material and condition shape uniformity and defectivity.",
+    categoryId: "cmp-materials",
+
+    quickAnswer:
+      "CMP pads are the (usually polymer) pads the wafer is pressed against during polishing. The pad holds and distributes slurry and applies the mechanical action; its material, texture, and condition strongly affect removal uniformity and defects.",
+    whyItMatters:
+      "The pad is half of the CMP system: it carries slurry to the surface and delivers the mechanical polishing. Pad wear and conditioning cause CMP to drift, so pad management is central to consistent planarization.",
+    intuition: [
+      "The pad is like the polishing cloth — its texture and firmness decide how evenly it wears the surface down and how it holds the slurry.",
+      "Pads wear with use, so they are 'conditioned' to keep a consistent surface; a worn or glazed pad polishes unevenly.",
+    ],
+    properties: [
+      { name: "Mechanical", detail: "Firmness and texture that set how the pad distributes pressure and slurry." },
+      { name: "Slurry transport", detail: "Surface structure that carries slurry to the wafer and clears debris." },
+    ],
+    propertiesNote:
+      "Pad materials and textures are specific to the CMP process; behaviour depends on the pad and its conditioning, not a fixed value.",
+    whereUsed: ["Every CMP step, paired with the appropriate slurry"],
+    processConnection:
+      "The pad works with the slurry in the CMP tool; pad choice and conditioning (with slurry, pressure, control, and metrology) determine uniformity and defectivity.",
+    relatedEquipment: [{ label: "CMP", href: "/semiconductors/equipment/cmp" }],
+    defects: [
+      "Pad glazing or wear → non-uniform removal",
+      "Debris trapped in the pad → scratches",
+      "Wrong pad-slurry pairing → poor planarity",
+    ],
+    performance: [
+      "Like the slurry, the pad shows that CMP is a system: equipment + pad + slurry (materials) + conditions + conditioning and control + metrology together produce a flat surface.",
+    ],
+    selectionNote:
+      "Pad and slurry are chosen as a pair for the material and planarity target; no pad is universally best.",
+    relatedMaterials: [{ label: "CMP slurries", href: "/semiconductors/materials/cmp-slurries" }],
+    relatedProcessLessons: ["cmp"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "Pad materials for advanced planarization",
+      "In-situ conditioning strategies",
+      "Pad wear and endpoint interaction",
+    ],
+    learnNext: [
+      { label: "CMP slurries", href: "/semiconductors/materials/cmp-slurries" },
+      { label: "CMP (process)", href: "/semiconductors/learn/cmp" },
+      { label: "CMP equipment", href: "/semiconductors/equipment/cmp" },
+    ],
+  },
+  {
+    slug: "cleaning-chemicals",
+    title: "Cleaning chemicals",
+    summary:
+      "The chemistries and ultra-pure water used to remove particles, residues, and contamination between steps — quiet but essential to yield.",
+    categoryId: "cleanroom-materials",
+
+    quickAnswer:
+      "Cleaning chemicals (and ultra-pure water) remove particles, residues, and contamination from the wafer between process steps. Because a single stray particle can kill a device, cleaning runs constantly throughout the flow and is fundamental to yield.",
+    whyItMatters:
+      "Contamination is one of the biggest enemies of yield. Cleaning between steps removes particles and residues (for example post-etch or post-CMP residue) so they do not become defects — making cleaning chemistry a critical, if unglamorous, material.",
+    intuition: [
+      "Every step can leave behind particles or residue; if they are not removed, the next layer builds a defect right on top.",
+      "Fabs clean the wafer over and over with carefully chosen chemistries and ultra-pure water to keep surfaces pristine.",
+    ],
+    properties: [
+      { name: "Cleaning action (chemical)", detail: "Dissolves or lifts specific residues and particles without harming the wafer." },
+      { name: "Purity", detail: "Ultra-pure water and clean chemistries — the cleaner must not itself add contamination." },
+    ],
+    propertiesNote:
+      "Cleaning chemistries are specific to the residue and surface; behaviour depends on the chemistry and step and is not a universal value.",
+    whereUsed: ["Repeatedly across the flow — before and after many steps (e.g. post-etch, post-CMP)"],
+    processConnection:
+      "Cleaning supports every process step; it works with the tools and with the metrology / inspection that verify cleanliness. Clean surfaces are a precondition for the next step to work.",
+    relatedEquipment: [
+      { label: "CMP", href: "/semiconductors/equipment/cmp" },
+      { label: "Inspection", href: "/semiconductors/equipment/inspection" },
+    ],
+    purity: [
+      "Cleaning relies on ultra-pure water and high-purity chemistries; the cleaning material itself must be exceptionally clean.",
+    ],
+    defects: [
+      "Incomplete cleaning → particle or residue defects",
+      "Over-aggressive cleaning → surface or material damage",
+      "Recontamination from impure cleaners",
+    ],
+    performance: [
+      "Cleaning reinforces the core idea across the whole flow: even perfect tools and materials fail without the process conditions, control, and metrology that keep surfaces clean between steps.",
+    ],
+    safety: [
+      "Many cleaning chemistries are corrosive or hazardous and are handled under strict fab safety controls; conceptual overview only.",
+    ],
+    relatedMaterials: [
+      { label: "Process gases", href: "/semiconductors/materials/process-gases" },
+      { label: "CMP slurries", href: "/semiconductors/materials/cmp-slurries" },
+    ],
+    relatedProcessLessons: ["cmp", "etching"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "Ultra-pure water systems and recycling",
+      "Residue-specific cleaning chemistries",
+      "Reducing chemical and water usage",
+    ],
+    learnNext: [
+      { label: "Process gases", href: "/semiconductors/materials/process-gases" },
+      { label: "Specialty process materials", href: "/semiconductors/materials/specialty-process-materials" },
+      { label: "Inspection", href: "/semiconductors/equipment/inspection" },
+    ],
+  },
+  {
+    slug: "specialty-process-materials",
+    title: "Specialty process materials",
+    summary:
+      "The many specialized consumables — masks and reticles, filters, targets, and other engineered materials — that keep specific process steps running.",
+    categoryId: "cleanroom-materials",
+
+    quickAnswer:
+      "Beyond the headline materials, fabs use many specialty process materials: photomasks and reticles that carry the pattern, filters that keep chemistries clean, sputter targets, calibration standards, and other engineered consumables. Each supports a specific step and must meet exacting specs.",
+    whyItMatters:
+      "Modern manufacturing depends on a long tail of specialized materials; a problem with any of them (a mask defect, a failing filter) can affect yield just as much as a headline material. They are part of why manufacturing is a full system.",
+    intuition: [
+      "A fab is more than its big tools and famous materials — it runs on a huge range of specialized consumables, each engineered for one job.",
+      "For example, the photomask carries the master pattern; a defect on it prints on every wafer, so it is a critical specialty material.",
+    ],
+    properties: [
+      { name: "Fit-for-purpose (varied)", detail: "Each material is engineered for a specific role and specification." },
+      { name: "Quality / consistency", detail: "Must meet exacting, step-specific specs to avoid becoming a defect source." },
+    ],
+    propertiesNote:
+      "This is a broad, varied group; properties depend entirely on the specific material and role.",
+    whereUsed: [
+      "Across specific steps — e.g. photomasks in lithography, filters in chemical delivery, targets in deposition",
+    ],
+    processConnection:
+      "Specialty materials support particular equipment and steps; like all materials, their quality combines with the tool, conditions, control, and metrology to determine the result.",
+    relatedEquipment: [
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Metrology", href: "/semiconductors/equipment/metrology" },
+    ],
+    defects: [
+      "A mask or reticle defect → repeated on every printed die",
+      "Filter failure → contamination",
+      "Out-of-spec consumables → process drift",
+    ],
+    performance: [
+      "Specialty materials complete the picture: manufacturing is equipment + materials + conditions + control + metrology, and 'materials' includes this long tail of engineered consumables, not just the obvious films and chemicals.",
+    ],
+    selectionNote:
+      "Each specialty material is selected for its specific role and spec; the category is diverse by nature, with no single 'most important' item.",
+    relatedMaterials: [
+      { label: "Photoresist", href: "/semiconductors/materials/photoresist" },
+      { label: "Cleaning chemicals", href: "/semiconductors/materials/cleaning-chemicals" },
+    ],
+    relatedProcessLessons: ["lithography", "deposition"],
+    relatedConceptLessons: ["integrated-circuit"],
+    advanced: [
+      "EUV mask and pellicle materials",
+      "Advanced filtration for defect reduction",
+      "Consumable lifetime and cost management",
+    ],
+    learnNext: [
+      { label: "Photoresist", href: "/semiconductors/materials/photoresist" },
+      { label: "Cleaning chemicals", href: "/semiconductors/materials/cleaning-chemicals" },
+      { label: "Materials hub", href: "/semiconductors/materials" },
+    ],
+  },
 ];
 
 export function getMaterialTopic(slug: string): MaterialTopic | undefined {

@@ -51,6 +51,29 @@ describe("Material topics", () => {
     }
   });
 
+  it("includes the process-materials path with populated sections", () => {
+    const process = [
+      "photoresist",
+      "developers",
+      "deposition-precursors",
+      "process-gases",
+      "etch-chemistry",
+      "cmp-slurries",
+      "cmp-pads",
+      "cleaning-chemicals",
+      "specialty-process-materials",
+    ];
+    for (const slug of process) {
+      const topic = getMaterialTopic(slug);
+      expect(topic, `missing topic: ${slug}`).toBeDefined();
+      expect(topic!.quickAnswer).toBeTruthy();
+      expect(topic!.properties?.length, `no properties: ${slug}`).toBeGreaterThan(0);
+      expect(topic!.propertiesNote, `no propertiesNote: ${slug}`).toBeTruthy();
+      // The equipment + materials + conditions + control + metrology idea is present.
+      expect(topic!.performance?.length, `no performance: ${slug}`).toBeGreaterThan(0);
+    }
+  });
+
   it("only cross-links lesson slugs that exist", () => {
     for (const t of MATERIAL_TOPICS) {
       for (const slug of [...(t.relatedConceptLessons ?? []), ...(t.relatedProcessLessons ?? [])]) {

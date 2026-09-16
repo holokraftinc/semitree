@@ -88,6 +88,10 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     why: "The resist's sensitivity and resolution help set the smallest feature that can be printed; it is the recording medium for the pattern.",
     lessons: ["photoresist"],
     equipment: [{ slug: "lithography", label: "Lithography" }],
+    topics: [
+      { slug: "photoresist", label: "Photoresist" },
+      { slug: "developers", label: "Developers" },
+    ],
   },
   {
     id: "dielectrics",
@@ -132,6 +136,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     why: "Precursor and target purity and chemistry determine film quality, composition, and defectivity — and thus device behaviour.",
     lessons: ["deposition"],
     equipment: [{ slug: "deposition", label: "Deposition" }],
+    topics: [{ slug: "deposition-precursors", label: "Deposition precursors" }],
   },
   {
     id: "dopant-materials",
@@ -153,6 +158,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     why: "The chemistry sets selectivity and profile — how cleanly the pattern becomes real 3D structure without harming other layers.",
     lessons: ["etching"],
     equipment: [{ slug: "etching", label: "Etching" }],
+    topics: [{ slug: "etch-chemistry", label: "Etch chemistry" }],
   },
   {
     id: "cmp-materials",
@@ -162,6 +168,10 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     why: "Slurry and pad behaviour set removal rate, selectivity, and planarity — and are a real source of defects if not controlled.",
     lessons: ["cmp"],
     equipment: [{ slug: "cmp", label: "CMP" }],
+    topics: [
+      { slug: "cmp-slurries", label: "CMP slurries" },
+      { slug: "cmp-pads", label: "CMP pads" },
+    ],
   },
   {
     id: "packaging-materials",
@@ -182,7 +192,11 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     where: "Everywhere — supporting essentially every process step.",
     why: "A single stray particle or trace contaminant can kill a device, so purity and cleanliness are central to yield.",
     lessons: [],
-    comingSoon: true,
+    topics: [
+      { slug: "process-gases", label: "Process gases" },
+      { slug: "cleaning-chemicals", label: "Cleaning chemicals" },
+      { slug: "specialty-process-materials", label: "Specialty process materials" },
+    ],
   },
   {
     id: "emerging-materials",
