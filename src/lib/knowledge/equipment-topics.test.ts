@@ -14,7 +14,16 @@ describe("Equipment topics", () => {
   });
 
   it("includes the core process equipment topics with populated sections", () => {
-    for (const slug of ["lithography", "deposition", "etching"]) {
+    for (const slug of [
+      "lithography",
+      "deposition",
+      "etching",
+      "ion-implantation",
+      "thermal",
+      "cmp",
+      "metrology",
+      "inspection",
+    ]) {
       const topic = getEquipmentTopic(slug);
       expect(topic, `missing topic: ${slug}`).toBeDefined();
       expect(topic!.quickAnswer).toBeTruthy();

@@ -35,6 +35,14 @@ export const EQUIPMENT_JOURNEY: JourneyStage[] = [
   { label: "Test", categoryId: "testing" },
 ];
 
+/** A dedicated equipment topic page linked from a category card. */
+export interface EquipmentTopicRef {
+  /** /semiconductors/equipment/<slug>. */
+  slug: string;
+  /** Optional label; when a category has several topics, give each a name. */
+  label?: string;
+}
+
 /** An equipment category: what the machine does, where it fits, why it matters. */
 export interface EquipmentCategory {
   id: string;
@@ -47,8 +55,8 @@ export interface EquipmentCategory {
   why: string;
   /** Reuse existing process lessons: /semiconductors/learn/<slug>. */
   lessons: string[];
-  /** Dedicated equipment topic page: /semiconductors/equipment/<topicSlug>. */
-  topicSlug?: string;
+  /** Dedicated equipment topic page(s): /semiconductors/equipment/<slug>. */
+  topics?: EquipmentTopicRef[];
   /** No meaningful content yet — render as "Coming soon", not a link. */
   comingSoon?: boolean;
 }
@@ -78,7 +86,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "At the start of every patterned layer.",
     why: "It defines the smallest features on the chip — the pacing item for scaling.",
     lessons: ["lithography", "photoresist"],
-    topicSlug: "lithography",
+    topics: [{ slug: "lithography" }],
   },
   {
     id: "deposition",
@@ -87,7 +95,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "Whenever a new material layer is needed.",
     why: "Chips are built layer by layer; deposition lays each one down with near-atomic control.",
     lessons: ["deposition"],
-    topicSlug: "deposition",
+    topics: [{ slug: "deposition" }],
   },
   {
     id: "etching",
@@ -96,7 +104,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "After lithography has defined where to remove material.",
     why: "It turns a flat resist pattern into real 3D structures; profile control sets device quality.",
     lessons: ["etching"],
-    topicSlug: "etching",
+    topics: [{ slug: "etching" }],
   },
   {
     id: "doping",
@@ -105,6 +113,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "To form transistor source/drain regions, wells, and junctions.",
     why: "Doping is what makes silicon into a device; dose and depth set transistor behaviour.",
     lessons: ["ion-implantation"],
+    topics: [{ slug: "ion-implantation" }],
   },
   {
     id: "thermal",
@@ -113,6 +122,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "At oxide-growth steps and after doping.",
     why: "Precise temperature and time set film and junction properties and heal implant damage.",
     lessons: ["oxidation"],
+    topics: [{ slug: "thermal" }],
   },
   {
     id: "cmp",
@@ -121,6 +131,7 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "Between build-up layers, especially across the interconnect stack.",
     why: "Each new layer needs a flat surface; poor planarity ruins lithography and yield.",
     lessons: ["cmp"],
+    topics: [{ slug: "cmp" }],
   },
   {
     id: "metrology-inspection",
@@ -129,6 +140,10 @@ export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = [
     where: "Throughout the flow, after key steps.",
     why: "You can't control what you can't measure — metrology and inspection drive yield learning.",
     lessons: ["metrology"],
+    topics: [
+      { slug: "metrology", label: "Metrology" },
+      { slug: "inspection", label: "Inspection" },
+    ],
   },
   {
     id: "wafer-handling",

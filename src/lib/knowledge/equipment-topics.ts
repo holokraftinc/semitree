@@ -352,6 +352,451 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
       { label: "Lithography", href: "/semiconductors/equipment/lithography" },
     ],
   },
+  {
+    slug: "ion-implantation",
+    title: "Ion implantation equipment",
+    summary:
+      "The machines that fire precisely chosen ions into the wafer to dope silicon — setting where, and how strongly, each region conducts.",
+    categoryId: "doping",
+
+    quickAnswer:
+      "Ion implantation equipment introduces dopant atoms into the silicon by accelerating ions and driving them into the wafer. Doping is what turns plain silicon into working transistors, and implantation controls exactly where the dopants go and how many.",
+    whyItMatters:
+      "Doping decides how each region of silicon conducts, so it is what makes a transistor a transistor. Implantation gives precise, repeatable control over how much dopant is added and how deep it goes — the basis of well-defined junctions, thresholds, and device behaviour.",
+    intuition: [
+      "Pure silicon barely conducts. Adding a tiny, controlled amount of certain atoms ('dopants') changes that — some let it carry electrons, others let it carry positive 'holes'. Doping is how you paint conductivity into chosen regions.",
+      "Ion implantation is like a very precise atomic paint-gun: it accelerates dopant ions and drives them into the surface, and by choosing the ion, its speed, and how many you fire, you set how deep and how strong the doping is.",
+    ],
+    whereItFits:
+      "After a masking layer defines which regions to dope — to form transistor source/drain regions, wells, and threshold adjustments — and it is almost always followed by a thermal anneal that activates the dopants.",
+
+    inputs: [
+      "A wafer, usually with a patterned mask (resist or hard mask) opening only the regions to be doped",
+      "A source of the dopant element, to be ionized",
+      "Electrical power to accelerate the ions",
+    ],
+    howItWorks: [
+      "Ionize: the dopant element is turned into charged ions.",
+      "Select & accelerate: the desired ion is selected and accelerated to a chosen energy — higher energy drives ions deeper.",
+      "Scan & implant: the beam is scanned across the wafer so a controlled number of ions (the dose) enters the exposed silicon, while the mask blocks the rest.",
+    ],
+    outputs: [
+      "A wafer with dopant atoms embedded in the exposed regions at a controlled dose and depth — but not yet electrically active until it is annealed.",
+    ],
+    subsystems: [
+      { name: "Ion source", detail: "Creates ions from the dopant element." },
+      { name: "Species selection", detail: "Picks the exact ion to implant and rejects the rest." },
+      { name: "Acceleration column", detail: "Accelerates ions to the chosen energy, which sets implant depth." },
+      { name: "Beam scan & wafer stage", detail: "Sweeps the beam (or wafer) for a uniform dose across the wafer." },
+      { name: "Dose measurement", detail: "Counts the delivered charge to control the dose." },
+    ],
+    parameters: [
+      { name: "Ion species", detail: "Which dopant element is implanted — it determines the type of conductivity produced." },
+      { name: "Energy", detail: "How fast the ions travel — higher energy places dopants deeper below the surface." },
+      { name: "Dose", detail: "How many ions per unit area are delivered — it sets how strongly the region is doped." },
+      { name: "Implant angle", detail: "The tilt of the beam relative to the wafer, which affects the depth profile and shadowing." },
+      { name: "Uniformity", detail: "How evenly the dose is delivered across the whole wafer." },
+    ],
+    parametersNote:
+      "Specific energies, doses, species, and resulting profiles are process- and device-dependent — treat any values you see elsewhere as examples for one process, not universal figures. This is a conceptual overview, not an operating recipe.",
+    performance: [
+      "Two quantities dominate the result. Energy sets the implantation profile — how deep the dopants go and the shape of the dopant-versus-depth curve — while dose sets how heavily the region is doped. Together they define the junction.",
+      "Crucially, freshly implanted dopants are not yet doing anything electrically: they sit in the wrong places in the crystal and have damaged it along the way. A subsequent anneal (a thermal step) heals the crystal and 'activates' the dopants by moving them onto proper lattice sites. Implant and anneal are therefore a matched pair.",
+    ],
+    defects: [
+      "Dose or energy off target → wrong junction depth or strength, shifting device behaviour",
+      "Non-uniform dose → device variation across the wafer",
+      "Channeling (ions travelling too far down crystal 'channels') → deeper-than-intended profiles",
+      "Residual crystal damage if the anneal is insufficient",
+      "Mask failure → dopants where they should not be",
+    ],
+    metrology: [
+      "After implant and anneal, dose and profile are checked indirectly — for example via sheet-resistance and other electrical or physical measurements — and compared against target, feeding process control.",
+    ],
+    yieldImplications: [
+      "Because doping sets transistor thresholds and junctions, implant errors show up directly as parametric shifts and yield loss; across-wafer uniformity is key to consistent devices.",
+    ],
+    manufacturingImplications: [
+      "Implant is a repeated, tightly controlled step; dose accuracy, beam uniformity, and pairing with the right anneal drive device consistency. Dopant sources require strict facility-level safety controls, which are outside the scope of this overview.",
+    ],
+    cost: [
+      "Implanters and their partner anneal tools are significant capital; specific costs are vendor-dependent and are not stated here.",
+    ],
+    relatedMaterials: [
+      { label: "Dopant species" },
+      { label: "Masking / photoresist", href: "/semiconductors/learn/photoresist" },
+    ],
+    relatedEquipment: [
+      { label: "Thermal processing", href: "/semiconductors/equipment/thermal" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Metrology & inspection", href: "/semiconductors/equipment#metrology-inspection" },
+    ],
+    relatedConceptLessons: ["mosfet", "integrated-circuit"],
+    relatedProcessLessons: ["ion-implantation", "oxidation"],
+    supplyChainConnection:
+      "Implant relies on specialty dopant source materials and a small set of equipment suppliers; secure supply and safe handling of these materials are real considerations.",
+    advanced: [
+      "Ultra-shallow junctions for advanced nodes",
+      "Plasma and high-current implant techniques",
+      "Damage engineering and advanced activation anneals",
+      "Implantation for materials modification beyond doping",
+    ],
+    learnNext: [
+      { label: "Ion implantation (process)", href: "/semiconductors/learn/ion-implantation" },
+      { label: "Thermal processing", href: "/semiconductors/equipment/thermal" },
+      { label: "MOSFET", href: "/semiconductors/learn/mosfet" },
+    ],
+  },
+  {
+    slug: "thermal",
+    title: "Thermal processing equipment",
+    summary:
+      "The furnaces and rapid-heating tools that use precise high temperature to grow films, activate dopants, and repair the silicon crystal.",
+    categoryId: "thermal",
+
+    quickAnswer:
+      "Thermal processing equipment heats wafers under tight control to make things happen that only heat can: growing oxide films, activating implanted dopants, and healing crystal damage. Temperature and time are the knobs.",
+    whyItMatters:
+      "Many essential steps are driven purely by heat — oxide growth, dopant activation and diffusion, and annealing. How hot and how long directly set film and junction properties, so thermal control is central to how devices behave.",
+    intuition: [
+      "Heat makes atoms move. Thermal processing uses carefully controlled temperature to grow a film, spread dopants a little, or let a damaged crystal rearrange itself back into order.",
+      "There are two broad styles: slow batch furnace steps that heat many wafers together for longer, and rapid thermal processing that heats a single wafer very hot for a very short time.",
+    ],
+    whereItFits:
+      "At oxide-growth steps and, crucially, right after ion implantation to activate dopants and repair damage — plus various anneals throughout the flow.",
+
+    inputs: [
+      "Wafers (often just implanted, or needing an oxide grown)",
+      "Controlled ambient gases (for example an oxidizing or an inert atmosphere)",
+      "Precise, uniform heat",
+    ],
+    howItWorks: [
+      "Load: wafers enter a furnace (many at once) or a single-wafer rapid-thermal chamber.",
+      "Heat under control: temperature, time, and gas ambient are held to tight setpoints.",
+      "Drive the reaction: heat grows an oxide, activates and diffuses dopants, or anneals out damage — then the wafers are cooled in a controlled way.",
+    ],
+    outputs: [
+      "Wafers with a grown film, activated dopants, or a repaired crystal — with properties set by the temperature-and-time history they experienced.",
+    ],
+    subsystems: [
+      { name: "Heating system", detail: "Furnace elements, or rapid lamps/heaters, that reach and hold high temperature." },
+      { name: "Temperature control & sensing", detail: "Measures and regulates temperature precisely and uniformly." },
+      { name: "Gas ambient control", detail: "Delivers the required atmosphere (oxidizing, inert, and so on)." },
+      { name: "Wafer handling / boat", detail: "Holds wafers — a batch 'boat' in furnaces, or a single-wafer chuck in RTP." },
+    ],
+    parameters: [
+      { name: "Temperature", detail: "The peak temperature — a primary driver of every thermal reaction." },
+      { name: "Time", detail: "How long the wafer is held hot; with temperature it sets the outcome." },
+      { name: "Ramp rate", detail: "How fast the wafer heats and cools — rapid processing uses very fast ramps." },
+      { name: "Ambient", detail: "The surrounding gas, which determines whether (for example) an oxide grows." },
+      { name: "Uniformity", detail: "Even temperature across the wafer and from wafer to wafer." },
+    ],
+    parametersNote:
+      "Exact temperatures, times, and ramps are process-specific — treat any figure elsewhere as an example, not a universal recipe.",
+    performance: [
+      "A central idea is the thermal budget: the cumulative effect of all the heat a wafer sees. Every hot step also nudges dopants along, so later steps must be gentle enough not to undo earlier ones. Managing the total thermal budget — often by favouring short, hot rapid-thermal steps over long furnace steps — is essential at advanced nodes.",
+      "Furnace processing heats many wafers together for longer times, with efficient, gentle ramps. Rapid thermal processing heats a single wafer very hot for seconds, minimizing diffusion while still activating dopants. The choice trades throughput, uniformity, and thermal budget against one another.",
+    ],
+    defects: [
+      "Too much thermal budget → dopants diffuse too far and junctions move",
+      "Temperature non-uniformity → device variation, wafer stress, or warping",
+      "Wrong ambient → unwanted or missing film growth",
+      "Contamination at high temperature → deep, hard-to-remove defects",
+      "Incomplete activation → high-resistance regions",
+    ],
+    metrology: [
+      "Grown-film thickness, sheet resistance (a proxy for activation), and uniformity are measured after thermal steps and compared against target to keep the process in control.",
+    ],
+    yieldImplications: [
+      "Thermal steps set junction and film properties for the whole wafer at once, so an out-of-spec furnace or RTP run can shift every device — and thermal-budget errors are often irreversible.",
+    ],
+    manufacturingImplications: [
+      "Batch furnaces give throughput; single-wafer RTP gives control and a low thermal budget. Tool matching and temperature uniformity are central to consistent results.",
+    ],
+    cost: [
+      "Thermal tools and their tight temperature control are significant capital; specifics are vendor-dependent and are not stated here.",
+    ],
+    relatedMaterials: [
+      { label: "Process gases" },
+      { label: "Grown oxide films" },
+    ],
+    relatedEquipment: [
+      { label: "Ion implantation", href: "/semiconductors/equipment/ion-implantation" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Metrology & inspection", href: "/semiconductors/equipment#metrology-inspection" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["oxidation", "ion-implantation"],
+    supplyChainConnection:
+      "Thermal processing relies on high-purity process gases and specialist furnace and RTP equipment makers.",
+    advanced: [
+      "Millisecond and laser annealing for ultra-low thermal budget",
+      "Dopant activation with minimal diffusion",
+      "Atomic-scale interface control in grown films",
+    ],
+    learnNext: [
+      { label: "Oxidation (process)", href: "/semiconductors/learn/oxidation" },
+      { label: "Ion implantation", href: "/semiconductors/equipment/ion-implantation" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+    ],
+  },
+  {
+    slug: "cmp",
+    title: "CMP (planarization) equipment",
+    summary:
+      "Chemical-mechanical planarization tools that polish the wafer flat between layers, so every new layer is built on a smooth surface.",
+    categoryId: "cmp",
+
+    quickAnswer:
+      "CMP equipment polishes the wafer flat by combining a chemical slurry with a mechanical pad. Chips are built in many layers, and each new layer needs a flat starting surface — CMP provides it and also removes excess material.",
+    whyItMatters:
+      "As layers stack up, the surface becomes uneven. Lithography needs a flat surface to keep its shallow depth of focus usable, and interconnects need excess metal removed cleanly. CMP is what makes multilayer chips possible.",
+    intuition: [
+      "Imagine building many floors of a building — each floor must be level, or the next one goes wrong. CMP is the step that levels the surface after each layer.",
+      "It works like a very controlled polish: the wafer is pressed face-down onto a spinning pad while a liquid 'slurry' both chemically softens and mechanically grinds away the high spots.",
+    ],
+    whereItFits:
+      "Between build-up layers — especially across the interconnect (wiring) stack — and after steps that leave excess material, such as filling trenches or vias.",
+
+    inputs: [
+      "A wafer with an uneven surface or excess material",
+      "Polishing slurry — a chemically active liquid carrying fine abrasive particles",
+      "A polishing pad",
+    ],
+    howItWorks: [
+      "Press & spin: the wafer is held face-down and pressed against a rotating pad.",
+      "Polish: slurry is fed onto the pad; the chemistry softens the surface while abrasive particles and the pad mechanically remove material, preferentially taking down the high spots.",
+      "Stop at target: removal is controlled to a target thickness or planarity using endpoint signals, then the wafer is cleaned.",
+    ],
+    outputs: [
+      "A flat, planar wafer surface with excess material removed — ready for the next layer's lithography or deposition.",
+    ],
+    subsystems: [
+      { name: "Polishing head / carrier", detail: "Holds the wafer and applies controlled pressure." },
+      { name: "Platen & pad", detail: "The rotating surface that, with slurry, removes material." },
+      { name: "Slurry delivery", detail: "Feeds the chemically active, abrasive slurry." },
+      { name: "Pad conditioner", detail: "Keeps the pad in a consistent, effective state." },
+      { name: "Endpoint & cleaning", detail: "Detects when to stop and removes slurry residue afterward." },
+    ],
+    parameters: [
+      { name: "Removal rate", detail: "How fast material is taken off — traded against control and uniformity." },
+      { name: "Selectivity", detail: "How much faster one material polishes than another — used to stop on a target layer." },
+      { name: "Planarity / uniformity", detail: "How flat the result is, across features and across the wafer." },
+      { name: "Down-force & speed", detail: "Pressure and rotation, which set removal rate and uniformity." },
+      { name: "Dishing & erosion", detail: "Over-polishing of soft or dense regions — key effects to control." },
+    ],
+    parametersNote:
+      "Removal rates, slurry chemistries, and pad conditions are process- and vendor-specific — treat any figures elsewhere as examples, not universal values.",
+    performance: [
+      "Two goals compete: remove enough material and leave a flat surface, without over-polishing. Selectivity — polishing the target faster than the underlying stop layer — lets CMP stop where intended; poor selectivity causes 'dishing' (soft regions polished too low) and 'erosion' (dense regions worn down).",
+      "Because CMP is a coupled physical-chemical process, it is inherently variable. Endpoint detection and tight consumable (pad and slurry) control are what make it repeatable.",
+    ],
+    defects: [
+      "Dishing and erosion → non-flat interconnects",
+      "Scratches from the pad or stray particles",
+      "Slurry residue → defects if not fully cleaned",
+      "Non-uniform removal → thickness variation across the wafer",
+      "Over- or under-polish → wrong remaining thickness",
+    ],
+    metrology: [
+      "After CMP, remaining film thickness and planarity are measured and wafers are inspected for scratches and residue, feeding back to adjust pressure, time, and consumables.",
+    ],
+    yieldImplications: [
+      "CMP defects — scratches, residue, dishing — directly cause opens, shorts, and lithography problems on later layers, so CMP is a notable yield and defectivity lever.",
+    ],
+    manufacturingImplications: [
+      "Slurry and pads are consumables with real cost and variability; consumable management, pad conditioning, and endpoint reliability drive CMP throughput and consistency.",
+    ],
+    cost: [
+      "Consumables (slurry, pads) on top of the tools make CMP a meaningful ongoing cost; specifics are vendor-dependent and are not stated here.",
+    ],
+    relatedMaterials: [
+      { label: "Slurry & abrasives" },
+      { label: "Polishing pads" },
+    ],
+    relatedEquipment: [
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "Metrology & inspection", href: "/semiconductors/equipment#metrology-inspection" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["cmp", "metallization"],
+    supplyChainConnection:
+      "CMP depends on a steady supply of specialty slurries and pads and a small set of tool makers — consumables are a real supply-chain factor.",
+    advanced: [
+      "CMP for advanced interconnect and new materials",
+      "Reducing dishing and erosion at tight pitches",
+      "In-situ and improved endpoint techniques",
+    ],
+    learnNext: [
+      { label: "CMP (process)", href: "/semiconductors/learn/cmp" },
+      { label: "Deposition", href: "/semiconductors/equipment/deposition" },
+      { label: "Metallization", href: "/semiconductors/learn/metallization" },
+    ],
+  },
+  {
+    slug: "metrology",
+    title: "Metrology equipment",
+    summary:
+      "The measurement tools that quantify what the process actually produced — film thickness, feature size, overlay, and more — so the process can be controlled.",
+    categoryId: "metrology-inspection",
+
+    quickAnswer:
+      "Metrology equipment measures the wafer: how thick the films are, how big the features are, how well layers align, and the surface and electrical properties. These measurements are what let engineers keep every process on target.",
+    whyItMatters:
+      "You cannot control what you cannot measure. Metrology turns a process from guesswork into a controlled loop: it quantifies the result of each step so deviations are caught and corrected before they cost yield.",
+    intuition: [
+      "Every process step has some variation. Metrology is how the fab 'sees' that variation — by measuring the real wafer instead of assuming the step worked.",
+      "Different measurements answer different questions: How thick is this film? How wide is this line? Did this layer land on top of the last one?",
+    ],
+    whereItFits:
+      "Throughout the flow, after key steps — often on sample wafers or sample sites — feeding the data that keeps every other tool in spec.",
+
+    inputs: [
+      "A processed wafer, or sample sites on it",
+      "A measurement recipe defining what to measure and where",
+    ],
+    howItWorks: [
+      "Measure: an appropriate technique quantifies the property of interest — for example an optical method for film thickness, or a specialized tool for feature size and overlay.",
+      "Compare: the measured value is compared against the target and the control limits.",
+      "Feed back: deviations are used to adjust the responsible process tool before more wafers drift.",
+    ],
+    outputs: [
+      "Quantitative data — thickness, critical dimension, overlay, and more — that drives process-control decisions.",
+    ],
+    subsystems: [
+      { name: "Measurement sensor / optics", detail: "The core technique that quantifies the property." },
+      { name: "Precision stage", detail: "Positions the wafer to measure the right sites accurately." },
+      { name: "Recipe & data system", detail: "Defines what and where to measure, and records results for control." },
+    ],
+    parameters: [
+      { name: "Accuracy & precision", detail: "How correct, and how repeatable, the measurement is — both matter for control." },
+      { name: "Throughput vs sampling", detail: "How many wafers and sites are measured; more sampling catches more, but costs time." },
+      { name: "Sensitivity", detail: "The smallest change the tool can reliably detect." },
+    ],
+    parametersNote:
+      "Achievable accuracy, precision, and throughput are technique- and vendor-dependent — treat any figures elsewhere as examples, not universal specs.",
+    performance: [
+      "The measurements that matter most include: film thickness (are deposited or grown layers on target?), critical dimension or CD (are features the right size?), overlay (did this layer align to the previous one?), surface properties (roughness and topography), electrical properties (for example sheet resistance as a proxy for doping and activation), and defectivity (covered under inspection).",
+      "A key trade-off is measurement quality versus speed and sampling. Measuring every wafer everywhere would be ideal for control but is impractical, so fabs sample intelligently and rely on precise, repeatable tools.",
+      "This is the heart of process control: run the process, measure the result, compare it against target, adjust the tool, and run again. Equipment provides both the sensing and the knobs; process control closes the loop; and the tighter and faster that loop runs, the higher the yield.",
+    ],
+    defects: [
+      "A wrong or drifting measurement is dangerous — it can hide a real process problem or trigger a false correction",
+      "Poor sampling → problems missed between measured wafers",
+      "Low precision → real drifts lost in measurement noise",
+    ],
+    yieldImplications: [
+      "Metrology is a yield multiplier: fast, accurate measurement shortens the learning cycle and catches drifts early, while blind spots let systematic errors reach many wafers before they are discovered.",
+    ],
+    manufacturingImplications: [
+      "Metrology defines the sampling plan and control limits for the whole fab; its accuracy and uptime gate how tightly every other process can be run.",
+    ],
+    cost: [
+      "Metrology adds tool cost and cycle time, but pays back by preventing scrap; specific costs are vendor-dependent and are not stated here.",
+    ],
+    relatedEquipment: [
+      { label: "Inspection", href: "/semiconductors/equipment/inspection" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+      { label: "CMP", href: "/semiconductors/equipment/cmp" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["metrology"],
+    supplyChainConnection:
+      "Metrology tools come from specialist equipment makers and are a strategic part of a fab's process-control capability.",
+    advanced: [
+      "In-line and in-situ metrology for real-time control",
+      "Machine-learning-assisted and 'virtual' metrology",
+      "Metrology for 3D and high-aspect-ratio structures",
+    ],
+    learnNext: [
+      { label: "Metrology (process)", href: "/semiconductors/learn/metrology" },
+      { label: "Inspection", href: "/semiconductors/equipment/inspection" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+    ],
+  },
+  {
+    slug: "inspection",
+    title: "Inspection equipment",
+    summary:
+      "The tools that find and classify defects on the wafer — where metrology measures dimensions, inspection hunts for the particles, scratches, and pattern flaws that kill chips.",
+    categoryId: "metrology-inspection",
+
+    quickAnswer:
+      "Inspection equipment scans wafers to find defects — particles, scratches, pattern flaws — and classifies them. Where metrology measures how big or thick things are, inspection asks 'is anything wrong, where, and what kind?' It is central to finding and fixing yield problems.",
+    whyItMatters:
+      "A single well-placed defect can kill a die. Inspection catches defects early, locates them, and — by classifying and counting them — reveals which process step is causing yield loss, so it can be fixed.",
+    intuition: [
+      "Metrology measures the things you meant to make; inspection looks for the things you didn't — a stray particle, a scratch, a missing or bridged pattern.",
+      "Finding a defect is only half the job: knowing what kind it is and where it came from is what lets you stop it happening again.",
+    ],
+    whereItFits:
+      "After key steps and throughout the flow — often catching defects on sample wafers so a drifting or contaminating tool is found before it spoils many wafers.",
+
+    inputs: [
+      "A processed wafer",
+      "An inspection recipe defining sensitivity and the area to scan",
+    ],
+    howItWorks: [
+      "Scan: the wafer surface or pattern is scanned to detect anything that differs from the expected pattern or a clean surface.",
+      "Detect & locate: candidate defects are found and their positions recorded on a defect map.",
+      "Classify & count: defects are sorted into types and tallied — often with higher-magnification review — to point at a root cause.",
+    ],
+    outputs: [
+      "Defect maps and classified defect counts that reveal where and how yield is being lost, feeding process monitoring and improvement.",
+    ],
+    subsystems: [
+      { name: "Imaging / scanning system", detail: "Scans the wafer to detect deviations (optical or other techniques)." },
+      { name: "Defect detection engine", detail: "Compares against the expected pattern or neighbouring dies to flag defects." },
+      { name: "Review & classification", detail: "Higher-resolution review that categorizes defect types." },
+      { name: "Defect-map & data system", detail: "Records locations and counts for analysis and trending." },
+    ],
+    parameters: [
+      { name: "Sensitivity", detail: "The smallest or most subtle defect the tool can reliably catch." },
+      { name: "Throughput vs coverage", detail: "How much area is scanned, how fast — more coverage catches more but costs time." },
+      { name: "Capture & classification accuracy", detail: "How reliably real defects are found and correctly typed, versus false counts." },
+    ],
+    parametersNote:
+      "Achievable sensitivity, throughput, and coverage are technique- and vendor-dependent — treat any figures elsewhere as examples, not universal specs.",
+    performance: [
+      "Inspection balances sensitivity against speed and false counts. Too insensitive and killer defects slip through; too sensitive and engineers drown in nuisance flags. Good classification — sorting real, yield-relevant defects from harmless ones — is as important as raw detection.",
+      "Inspection is the sensing half of process monitoring: a rising count of a particular defect type points straight at the tool or step responsible, driving a targeted fix. It is the same control loop as metrology — measure, compare, adjust, run again — applied to defects rather than dimensions.",
+    ],
+    defects: [
+      "Missed (undetected) killer defects → yield loss discovered too late",
+      "Too many nuisance or false defects → wasted review effort",
+      "Misclassification → the wrong root cause chased",
+      "Sparse sampling → excursions caught late",
+    ],
+    yieldImplications: [
+      "Inspection is a primary driver of yield improvement: by finding, classifying, and trending defects, it turns yield loss from a mystery into a list of fixable causes — and the faster the loop runs, the faster yield climbs.",
+    ],
+    manufacturingImplications: [
+      "Inspection defines the defect-monitoring strategy; its sensitivity and sampling determine how quickly a contaminating or drifting tool (an 'excursion') is caught and contained.",
+    ],
+    cost: [
+      "Inspection adds tool cost and cycle time but prevents large-scale scrap; specifics are vendor-dependent and are not stated here.",
+    ],
+    relatedEquipment: [
+      { label: "Metrology", href: "/semiconductors/equipment/metrology" },
+      { label: "CMP", href: "/semiconductors/equipment/cmp" },
+      { label: "Lithography", href: "/semiconductors/equipment/lithography" },
+    ],
+    relatedConceptLessons: ["integrated-circuit"],
+    relatedProcessLessons: ["metrology"],
+    supplyChainConnection:
+      "Inspection tools are highly specialized and come from a small set of equipment makers — a strategic capability for yield.",
+    advanced: [
+      "Higher-sensitivity and e-beam inspection for the smallest defects",
+      "Machine-learning defect classification",
+      "Inspecting 3D and buried structures",
+    ],
+    learnNext: [
+      { label: "Metrology", href: "/semiconductors/equipment/metrology" },
+      { label: "Metrology (process)", href: "/semiconductors/learn/metrology" },
+      { label: "Wafer test", href: "/semiconductors/learn/wafer-test" },
+    ],
+  },
 ];
 
 export function getEquipmentTopic(slug: string): EquipmentTopic | undefined {

@@ -140,13 +140,18 @@ export default function SemiconductorEquipmentPage() {
                   <Field label="Where it fits" value={cat.where} />
                   <Field label="Why it matters" value={cat.why} />
                 </dl>
-                {cat.topicSlug && (
-                  <Link
-                    href={`/semiconductors/equipment/${cat.topicSlug}`}
-                    className="mt-4 inline-block text-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  >
-                    Equipment details →
-                  </Link>
+                {cat.topics && cat.topics.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                    {cat.topics.map((tp) => (
+                      <Link
+                        key={tp.slug}
+                        href={`/semiconductors/equipment/${tp.slug}`}
+                        className="inline-block text-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        {tp.label ? `${tp.label} details` : "Equipment details"} →
+                      </Link>
+                    ))}
+                  </div>
                 )}
                 {links.length > 0 && (
                   <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border pt-3">
