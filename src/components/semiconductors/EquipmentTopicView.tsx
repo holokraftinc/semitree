@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/Card";
 import { Alert } from "@/components/ui/Alert";
 import { Badge } from "@/components/ui/Badge";
 import { getSemiLesson } from "@/lib/knowledge/semi-lessons";
+import { getProcessLinkForEquipment } from "@/lib/knowledge/process-links";
+import { ManufacturingRelationship } from "@/components/semiconductors/ManufacturingRelationship";
 import type { EquipmentTopic, TopicLink } from "@/lib/knowledge/equipment-topics";
 
 /**
@@ -79,6 +81,7 @@ export function EquipmentTopicView({ topic }: { topic: EquipmentTopic }) {
   const t = topic;
   const conceptChips = t.relatedConceptLessons ? lessonChips(t.relatedConceptLessons) : [];
   const processChips = t.relatedProcessLessons ? lessonChips(t.relatedProcessLessons) : [];
+  const mfgLink = getProcessLinkForEquipment(t.slug);
 
   return (
     <Container className="space-y-10 py-10">
@@ -236,6 +239,10 @@ export function EquipmentTopicView({ topic }: { topic: EquipmentTopic }) {
             )}
           </div>
         </Section>
+      )}
+
+      {mfgLink && (
+        <ManufacturingRelationship link={mfgLink} currentSlug={t.slug} currentKind="equipment" />
       )}
 
       {(t.packagingConnection || t.supplyChainConnection) && (
