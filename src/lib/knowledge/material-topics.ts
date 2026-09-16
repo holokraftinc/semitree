@@ -158,10 +158,10 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["silicon", "ingot", "wafer", "oxidation", "ion-implantation"],
     relatedConceptLessons: ["integrated-circuit", "mosfet"],
     advanced: [
-      "Strained silicon and SiGe for mobility enhancement",
-      "Silicon-on-insulator (SOI) and thin-body devices",
-      "Silicon photonics — working around the indirect bandgap",
-      "Integration of non-silicon channels on silicon for future devices",
+      "ESTABLISHED — Strained silicon and SiGe for mobility enhancement",
+      "ESTABLISHED — Silicon-on-insulator (SOI) and thin-body devices",
+      "EMERGING — Silicon photonics — working around the indirect bandgap",
+      "RESEARCH — Integration of non-silicon channels on silicon for future devices",
     ],
     learnNext: [
       { label: "Silicon (process)", href: "/semiconductors/learn/silicon" },
@@ -248,9 +248,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["ingot", "wafer", "silicon"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Epitaxial wafers (an added crystal layer for device quality)",
-      "300 mm wafers and the economics of larger diameters",
-      "Wafer flatness and edge control for advanced nodes",
+      "ESTABLISHED — Epitaxial wafers (an added crystal layer for device quality)",
+      "ESTABLISHED — 300 mm wafers and the economics of larger diameters",
+      "EMERGING — Wafer flatness and edge control for advanced nodes",
     ],
     learnNext: [
       { label: "Wafer (process)", href: "/semiconductors/learn/wafer" },
@@ -311,9 +311,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["wafer", "silicon"],
     relatedConceptLessons: ["mosfet", "integrated-circuit"],
     advanced: [
-      "Fully-depleted SOI (FD-SOI)",
-      "RF-SOI for radio-frequency front ends",
-      "Layer-transfer and bonding techniques",
+      "ESTABLISHED — Fully-depleted SOI (FD-SOI)",
+      "ESTABLISHED — RF-SOI for radio-frequency front ends",
+      "ESTABLISHED — Layer-transfer and bonding techniques",
     ],
     learnNext: [
       { label: "Silicon wafers", href: "/semiconductors/materials/silicon-wafers" },
@@ -388,9 +388,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["oxidation", "deposition"],
     relatedConceptLessons: ["mosfet", "integrated-circuit"],
     advanced: [
-      "Ultra-thin gate oxides and the move to high-k",
-      "Oxide reliability and breakdown",
-      "Deposited oxides for 3D structures",
+      "ESTABLISHED — Ultra-thin gate oxides and the move to high-k",
+      "ESTABLISHED — Oxide reliability and breakdown",
+      "EMERGING — Deposited oxides for 3D structures",
     ],
     learnNext: [
       { label: "Oxidation (process)", href: "/semiconductors/learn/oxidation" },
@@ -449,9 +449,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["deposition", "etching"],
     relatedConceptLessons: ["mosfet"],
     advanced: [
-      "Stress engineering for mobility",
-      "ALD nitrides for thin, conformal barriers",
-      "Low-temperature nitrides for advanced integration",
+      "ESTABLISHED — Stress engineering for mobility",
+      "EMERGING — ALD nitrides for thin, conformal barriers",
+      "EMERGING — Low-temperature nitrides for advanced integration",
     ],
     learnNext: [
       { label: "Deposition (process)", href: "/semiconductors/learn/deposition" },
@@ -520,9 +520,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["deposition"],
     relatedConceptLessons: ["mosfet", "integrated-circuit"],
     advanced: [
-      "High-k / metal-gate integration",
-      "ALD of high-k films",
-      "New gate dielectrics for gate-all-around devices",
+      "ESTABLISHED — High-k / metal-gate integration",
+      "ESTABLISHED — ALD of high-k films",
+      "EMERGING — New gate dielectrics for gate-all-around devices",
     ],
     learnNext: [
       { label: "MOSFET", href: "/semiconductors/learn/mosfet" },
@@ -582,9 +582,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["deposition", "metallization", "cmp"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Porous ultra-low-k dielectrics",
-      "Air-gap interconnect concepts",
-      "Mechanical reliability of low-k stacks",
+      "EMERGING — Porous ultra-low-k dielectrics",
+      "RESEARCH — Air-gap interconnect concepts",
+      "EMERGING — Mechanical reliability of low-k stacks",
     ],
     learnNext: [
       { label: "Copper", href: "/semiconductors/materials/copper" },
@@ -663,9 +663,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["metallization", "deposition", "cmp"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Barrier/liner scaling for thin copper lines",
-      "Alternative liners and metals (e.g. cobalt, ruthenium) for fine lines",
-      "Electromigration reliability at advanced nodes",
+      "EMERGING — Barrier/liner scaling for thin copper lines",
+      "EMERGING — Alternative liners and metals (e.g. cobalt, ruthenium) for fine lines",
+      "EMERGING — Electromigration reliability at advanced nodes",
     ],
     learnNext: [
       { label: "Metallization (process)", href: "/semiconductors/learn/metallization" },
@@ -729,9 +729,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["metallization", "deposition", "etching"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Aluminum for power and specialty devices",
-      "Electromigration mitigation by alloying",
-      "Legacy-node metallization",
+      "ESTABLISHED — Aluminum for power and specialty devices",
+      "ESTABLISHED — Electromigration mitigation by alloying",
+      "ESTABLISHED — Legacy-node metallization",
     ],
     learnNext: [
       { label: "Copper", href: "/semiconductors/materials/copper" },
@@ -793,9 +793,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["metallization", "deposition", "cmp"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Barrier/liner scaling for tungsten plugs",
-      "Low-resistance contact schemes",
-      "Alternative plug metals (e.g. cobalt) at advanced nodes",
+      "EMERGING — Barrier/liner scaling for tungsten plugs",
+      "EMERGING — Low-resistance contact schemes",
+      "EMERGING — Alternative plug metals (e.g. cobalt) at advanced nodes",
     ],
     learnNext: [
       { label: "Copper", href: "/semiconductors/materials/copper" },
@@ -874,9 +874,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["photoresist", "lithography", "etching"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Chemically amplified resists for DUV",
-      "EUV resists and stochastic effects",
-      "Directed self-assembly and resist alternatives",
+      "ESTABLISHED — Chemically amplified resists for DUV",
+      "EMERGING — EUV resists and stochastic effects",
+      "RESEARCH — Directed self-assembly and resist alternatives",
     ],
     learnNext: [
       { label: "Photoresist (process)", href: "/semiconductors/learn/photoresist" },
@@ -924,9 +924,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["photoresist", "lithography"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Developer optimization for fine features",
-      "Solvent vs aqueous development",
-      "Defect reduction in development",
+      "EMERGING — Developer optimization for fine features",
+      "ESTABLISHED — Solvent vs aqueous development",
+      "ESTABLISHED — Defect reduction in development",
     ],
     learnNext: [
       { label: "Photoresist", href: "/semiconductors/materials/photoresist" },
@@ -991,9 +991,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["deposition", "metallization", "oxidation"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "ALD precursors for atomic-scale films",
-      "Area-selective deposition chemistries",
-      "New precursors for low-temperature and 3D integration",
+      "ESTABLISHED — ALD precursors for atomic-scale films",
+      "EMERGING — Area-selective deposition chemistries",
+      "EMERGING — New precursors for low-temperature and 3D integration",
     ],
     learnNext: [
       { label: "Deposition (process)", href: "/semiconductors/learn/deposition" },
@@ -1056,9 +1056,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["deposition", "etching", "oxidation"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Ultra-high-purity gas delivery systems",
-      "Abatement of hazardous by-products",
-      "Reducing greenhouse-gas process emissions",
+      "ESTABLISHED — Ultra-high-purity gas delivery systems",
+      "ESTABLISHED — Abatement of hazardous by-products",
+      "EMERGING — Reducing greenhouse-gas process emissions",
     ],
     learnNext: [
       { label: "Deposition precursors", href: "/semiconductors/materials/deposition-precursors" },
@@ -1131,9 +1131,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["etching", "lithography"],
     relatedConceptLessons: ["integrated-circuit", "mosfet"],
     advanced: [
-      "Atomic layer etching (ALE) chemistries",
-      "High-aspect-ratio etch chemistry",
-      "Selective etches for advanced device structures",
+      "EMERGING — Atomic layer etching (ALE) chemistries",
+      "ESTABLISHED — High-aspect-ratio etch chemistry",
+      "EMERGING — Selective etches for advanced device structures",
     ],
     learnNext: [
       { label: "Etching (process)", href: "/semiconductors/learn/etching" },
@@ -1199,9 +1199,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["cmp", "metallization"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Slurries for advanced interconnect and new metals",
-      "Defect and scratch reduction",
-      "Abrasive-free and engineered-particle slurries",
+      "EMERGING — Slurries for advanced interconnect and new metals",
+      "ESTABLISHED — Defect and scratch reduction",
+      "EMERGING — Abrasive-free and engineered-particle slurries",
     ],
     learnNext: [
       { label: "CMP (process)", href: "/semiconductors/learn/cmp" },
@@ -1248,9 +1248,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["cmp"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Pad materials for advanced planarization",
-      "In-situ conditioning strategies",
-      "Pad wear and endpoint interaction",
+      "EMERGING — Pad materials for advanced planarization",
+      "ESTABLISHED — In-situ conditioning strategies",
+      "ESTABLISHED — Pad wear and endpoint interaction",
     ],
     learnNext: [
       { label: "CMP slurries", href: "/semiconductors/materials/cmp-slurries" },
@@ -1307,9 +1307,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["cmp", "etching"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "Ultra-pure water systems and recycling",
-      "Residue-specific cleaning chemistries",
-      "Reducing chemical and water usage",
+      "ESTABLISHED — Ultra-pure water systems and recycling",
+      "ESTABLISHED — Residue-specific cleaning chemistries",
+      "EMERGING — Reducing chemical and water usage",
     ],
     learnNext: [
       { label: "Process gases", href: "/semiconductors/materials/process-gases" },
@@ -1365,9 +1365,9 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
     relatedProcessLessons: ["lithography", "deposition"],
     relatedConceptLessons: ["integrated-circuit"],
     advanced: [
-      "EUV mask and pellicle materials",
-      "Advanced filtration for defect reduction",
-      "Consumable lifetime and cost management",
+      "EMERGING — EUV mask and pellicle materials",
+      "EMERGING — Advanced filtration for defect reduction",
+      "ESTABLISHED — Consumable lifetime and cost management",
     ],
     learnNext: [
       { label: "Photoresist", href: "/semiconductors/materials/photoresist" },

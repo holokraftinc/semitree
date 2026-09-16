@@ -193,10 +193,10 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "Lithography tools come from a very small number of equipment makers, and EUV in particular has effectively a single supplier — a key reason lithography is a strategic chokepoint in the semiconductor supply chain.",
     advanced: [
-      "Extreme-ultraviolet (EUV) and high-NA EUV lithography for the smallest nodes",
-      "Multiple patterning and computational / inverse lithography",
-      "Resolution enhancement (optical proximity correction, phase-shift masks)",
-      "Directed self-assembly and other next-generation patterning research",
+      "EMERGING — Extreme-ultraviolet (EUV) and high-NA EUV lithography for the smallest nodes",
+      "ESTABLISHED — Multiple patterning and computational / inverse lithography",
+      "ESTABLISHED — Resolution enhancement (optical proximity correction, phase-shift masks)",
+      "RESEARCH — Directed self-assembly and other next-generation patterning research",
     ],
     learnNext: [
       { label: "Lithography (process)", href: "/semiconductors/learn/lithography" },
@@ -304,10 +304,10 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "Deposition depends on a supply of ultra-pure precursor gases, sputter targets, and specialty chemicals, plus a small set of equipment makers — all real supply-chain considerations.",
     advanced: [
-      "Atomic layer deposition (ALD) and area-selective deposition for atomic-scale control",
-      "Epitaxy for strained and compound-semiconductor layers",
-      "Low-temperature and new-precursor processes for advanced integration",
-      "Conformal fill of very high-aspect-ratio structures (e.g. 3D memory)",
+      "EMERGING — Atomic layer deposition (ALD) and area-selective deposition for atomic-scale control",
+      "ESTABLISHED — Epitaxy for strained and compound-semiconductor layers",
+      "EMERGING — Low-temperature and new-precursor processes for advanced integration",
+      "ESTABLISHED — Conformal fill of very high-aspect-ratio structures (e.g. 3D memory)",
     ],
     learnNext: [
       { label: "Deposition (process)", href: "/semiconductors/learn/deposition" },
@@ -414,10 +414,10 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "Etch relies on specialty reactive gases and a small set of equipment suppliers; secure gas supply and safe handling are real supply-chain and facility concerns.",
     advanced: [
-      "Atomic layer etching (ALE) for atomic-scale removal",
-      "High-aspect-ratio etching for 3D NAND and DRAM",
-      "Cryogenic and pulsed-plasma etching",
-      "Selective etching for gate-all-around and other advanced devices",
+      "EMERGING — Atomic layer etching (ALE) for atomic-scale removal",
+      "ESTABLISHED — High-aspect-ratio etching for 3D NAND and DRAM",
+      "EMERGING — Cryogenic and pulsed-plasma etching",
+      "EMERGING — Selective etching for gate-all-around and other advanced devices",
     ],
     learnNext: [
       { label: "Etching (process)", href: "/semiconductors/learn/etching" },
@@ -437,7 +437,7 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
         "How masking limits doping to chosen regions",
       ],
       nowYouKnow:
-        "You can see how transistors get their electrical character, and why an implant is always followed by a thermal step.",
+        "You can see how transistors get their electrical character, and why an implant is almost always followed by a thermal step.",
     },
     title: "Ion implantation equipment",
     summary:
@@ -521,10 +521,10 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "Implant relies on specialty dopant source materials and a small set of equipment suppliers; secure supply and safe handling of these materials are real considerations.",
     advanced: [
-      "Ultra-shallow junctions for advanced nodes",
-      "Plasma and high-current implant techniques",
-      "Damage engineering and advanced activation anneals",
-      "Implantation for materials modification beyond doping",
+      "EMERGING — Ultra-shallow junctions for advanced nodes",
+      "ESTABLISHED — Plasma and high-current implant techniques",
+      "EMERGING — Damage engineering and advanced activation anneals",
+      "RESEARCH — Implantation for materials modification beyond doping",
     ],
     learnNext: [
       { label: "Ion implantation (process)", href: "/semiconductors/learn/ion-implantation" },
@@ -625,9 +625,9 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "Thermal processing relies on high-purity process gases and specialist furnace and RTP equipment makers.",
     advanced: [
-      "Millisecond and laser annealing for ultra-low thermal budget",
-      "Dopant activation with minimal diffusion",
-      "Atomic-scale interface control in grown films",
+      "ESTABLISHED — Millisecond and laser annealing for ultra-low thermal budget",
+      "EMERGING — Dopant activation with minimal diffusion",
+      "RESEARCH — Atomic-scale interface control in grown films",
     ],
     learnNext: [
       { label: "Oxidation (process)", href: "/semiconductors/learn/oxidation" },
@@ -731,9 +731,9 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "CMP depends on a steady supply of specialty slurries and pads and a small set of tool makers — consumables are a real supply-chain factor.",
     advanced: [
-      "CMP for advanced interconnect and new materials",
-      "Reducing dishing and erosion at tight pitches",
-      "In-situ and improved endpoint techniques",
+      "EMERGING — CMP for advanced interconnect and new materials",
+      "EMERGING — Reducing dishing and erosion at tight pitches",
+      "EMERGING — In-situ and improved endpoint techniques",
     ],
     learnNext: [
       { label: "CMP (process)", href: "/semiconductors/learn/cmp" },
@@ -824,9 +824,9 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "Metrology tools come from specialist equipment makers and are a strategic part of a fab's process-control capability.",
     advanced: [
-      "In-line and in-situ metrology for real-time control",
-      "Machine-learning-assisted and 'virtual' metrology",
-      "Metrology for 3D and high-aspect-ratio structures",
+      "EMERGING — In-line and in-situ metrology for real-time control",
+      "EMERGING — Machine-learning-assisted and 'virtual' metrology",
+      "EMERGING — Metrology for 3D and high-aspect-ratio structures",
     ],
     learnNext: [
       { label: "Metrology (process)", href: "/semiconductors/learn/metrology" },
@@ -918,9 +918,9 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "Inspection tools are highly specialized and come from a small set of equipment makers — a strategic capability for yield.",
     advanced: [
-      "Higher-sensitivity and e-beam inspection for the smallest defects",
-      "Machine-learning defect classification",
-      "Inspecting 3D and buried structures",
+      "ESTABLISHED — Higher-sensitivity and e-beam inspection for the smallest defects",
+      "EMERGING — Machine-learning defect classification",
+      "EMERGING — Inspecting 3D and buried structures",
     ],
     learnNext: [
       { label: "Metrology", href: "/semiconductors/equipment/metrology" },
@@ -1530,7 +1530,7 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     advanced: [
       "High-resolution X-ray and CT for complex 3D packages",
       "Acoustic imaging for delamination",
-      "Machine-learning defect classification",
+      "EMERGING — Machine-learning defect classification",
     ],
     learnNext: [
       { label: "Wafer probing", href: "/semiconductors/equipment/wafer-probing" },
@@ -1835,10 +1835,10 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
     supplyChainConnection:
       "It draws on interposers, high-density substrates, and bonding materials, and is a strategic, capacity-constrained part of the supply chain.",
     advanced: [
-      "Chiplet ecosystems and standard die-to-die interfaces",
-      "3D stacking with hybrid bonding",
-      "High-bandwidth memory integration",
-      "Panel-level advanced packaging",
+      "EMERGING — Chiplet ecosystems and standard die-to-die interfaces",
+      "EMERGING — 3D stacking with hybrid bonding",
+      "ESTABLISHED — High-bandwidth memory integration",
+      "EMERGING — Panel-level advanced packaging",
     ],
     learnNext: [
       { label: "Advanced packaging (learn)", href: "/semiconductors/learn/advanced-packaging" },

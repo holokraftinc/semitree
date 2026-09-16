@@ -10,6 +10,7 @@ import { getProcess } from "@/lib/knowledge/manufacturing";
 import { ManufacturingRelationship } from "@/components/semiconductors/ManufacturingRelationship";
 import { LearningLoop } from "@/components/semiconductors/LearningLoop";
 import { TopicDiagram } from "@/components/semiconductors/TopicDiagram";
+import { AdvancedResearch } from "@/components/semiconductors/AdvancedResearch";
 import type { EquipmentTopic, TopicLink } from "@/lib/knowledge/equipment-topics";
 
 /** The first related process lesson that is also a manufacturing process page. */
@@ -226,24 +227,7 @@ export function EquipmentTopicView({ topic }: { topic: EquipmentTopic }) {
         <Section id="cost" title="Cost & economics"><Paras items={t.cost} /></Section>
       )}
 
-      {t.advanced && t.advanced.length > 0 && (
-        <details id="advanced" className="group scroll-mt-20 rounded-xl border border-border bg-muted/20 p-5">
-          <summary className="cursor-pointer list-none text-lg font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <span className="inline-flex items-center gap-2">
-              <span aria-hidden="true" className="text-brand transition-transform group-open:rotate-90">▸</span>
-              Advanced &amp; research
-            </span>
-          </summary>
-          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground">
-            {t.advanced.map((a, i) => (
-              <li key={i} className="flex gap-2">
-                <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand/60" />
-                <span>{a}</span>
-              </li>
-            ))}
-          </ul>
-        </details>
-      )}
+      {t.advanced && t.advanced.length > 0 && <AdvancedResearch items={t.advanced} />}
 
       {/* Connections */}
       {(conceptChips.length > 0 || processChips.length > 0 || t.relatedMaterials?.length || t.relatedEquipment?.length) && (
