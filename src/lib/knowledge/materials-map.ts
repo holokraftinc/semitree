@@ -17,6 +17,8 @@ export interface MaterialJourneyStage {
   label: string;
   /** The material category this stage maps to (anchors to its card). */
   categoryId?: string;
+  /** A dedicated material topic page this stage links to. */
+  topicSlug?: string;
 }
 
 export const MATERIALS_JOURNEY: MaterialJourneyStage[] = [
@@ -29,6 +31,22 @@ export const MATERIALS_JOURNEY: MaterialJourneyStage[] = [
   { label: "Doping materials", categoryId: "dopant-materials" },
   { label: "CMP materials", categoryId: "cmp-materials" },
   { label: "Packaging materials", categoryId: "packaging-materials" },
+];
+
+/**
+ * The packaging-materials journey — the materials required AFTER wafer
+ * fabrication, in roughly the order they are used to turn a die into a finished,
+ * connected package. Stages link to dedicated material topic pages. Exact
+ * sequences differ by package technology.
+ */
+export const PACKAGING_MATERIALS_JOURNEY: MaterialJourneyStage[] = [
+  { label: "Die" },
+  { label: "Die attach", topicSlug: "die-attach-materials" },
+  { label: "Electrical interconnection", topicSlug: "bump-materials" },
+  { label: "Thermal path", topicSlug: "thermal-interface-materials" },
+  { label: "Encapsulation", topicSlug: "molding-compounds" },
+  { label: "Package substrate", topicSlug: "package-substrates" },
+  { label: "External connection", topicSlug: "solder-materials" },
 ];
 
 /** A link to a dedicated equipment topic page. */
@@ -183,6 +201,18 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     equipment: [
       { slug: "die-attach", label: "Die attach" },
       { slug: "advanced-packaging", label: "Advanced packaging" },
+    ],
+    topics: [
+      { slug: "package-substrates", label: "Package substrates" },
+      { slug: "solder-materials", label: "Solder materials" },
+      { slug: "bump-materials", label: "Bump materials" },
+      { slug: "underfill", label: "Underfill" },
+      { slug: "molding-compounds", label: "Molding compounds" },
+      { slug: "die-attach-materials", label: "Die attach materials" },
+      { slug: "bonding-materials", label: "Bonding materials" },
+      { slug: "thermal-interface-materials", label: "Thermal interface materials" },
+      { slug: "heat-spreader-materials", label: "Heat spreader materials" },
+      { slug: "packaging-dielectric-materials", label: "Packaging dielectric materials" },
     ],
   },
   {

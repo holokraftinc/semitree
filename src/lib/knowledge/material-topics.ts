@@ -1277,6 +1277,618 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
       { label: "Materials hub", href: "/semiconductors/materials" },
     ],
   },
+  {
+    slug: "package-substrates",
+    title: "Package substrates",
+    summary:
+      "The engineered boards and interposers a die is mounted on — routing its connections out to the system and, increasingly, integrating multiple dies.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "A package substrate is the platform the die sits on inside its package. It fans the die's fine connections out to the coarser pins or balls the board uses, provides mechanical support and a heat path, and in advanced packaging it also routes signals between multiple dies.",
+    whyItMatters:
+      "The substrate bridges the tiny die to the outside world. Its wiring density, electrical quality, flatness, and thermal expansion set how well signals and heat move — and advanced substrates and interposers are now a performance-limiting part of the system.",
+    intuition: [
+      "The die's connections are far too small and dense to solder straight to a circuit board, so the package substrate acts as an adapter — fine on the die side, coarse on the board side.",
+      "In advanced packaging the substrate does more than fan out: it becomes a mini circuit board (or a silicon interposer) that wires several dies together.",
+    ],
+    properties: [
+      { name: "Electrical", detail: "Provides the routing; signal integrity depends on the substrate material and wiring." },
+      { name: "Mechanical / CTE", detail: "Its thermal-expansion (CTE) relative to the die and board sets the stress on the connections." },
+      { name: "Thermal", detail: "Contributes to the heat path from die to board or heat sink." },
+    ],
+    propertiesNote:
+      "Substrate materials range from organic laminates to silicon and glass interposers; properties depend heavily on the type and build, so no single value applies.",
+    whereUsed: ["Inside almost every package — from simple laminate substrates to advanced interposers for multi-die packages"],
+    processConnection:
+      "The die is attached and interconnected to the substrate (wire bond or flip-chip), then encapsulated; the substrate's external balls or pins connect to the board. It ties to die attach, interconnect, and advanced-packaging equipment.",
+    relatedEquipment: [
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+    parameters: [
+      { name: "Wiring density", detail: "How fine and dense the routing is — critical for many-connection and multi-die packages." },
+      { name: "CTE match", detail: "How closely its expansion matches the die and board to limit stress." },
+      { name: "Flatness / warpage", detail: "Must stay flat for reliable assembly." },
+    ],
+    parametersNote:
+      "Exact densities and material properties depend on the substrate technology and vendor and are not stated here.",
+    defects: [
+      "Warpage → assembly and reliability problems",
+      "Routing defects → opens or shorts",
+      "CTE-mismatch stress → cracked connections over time",
+    ],
+    performance: [
+      "Substrate choice follows material property -> package structure -> performance: denser, lower-loss, better-CTE-matched substrates enable more connections, faster signals, and better reliability — which is why advanced substrates are a focus area.",
+    ],
+    yieldImplications: [
+      "Substrate defects and warpage can fail otherwise-good assemblies, and in multi-die packages a substrate problem risks several expensive dies at once.",
+    ],
+    packagingConnection:
+      "The substrate is the backbone of the package and the foundation of 2.5D and 3D integration.",
+    supplyChainConnection:
+      "Advanced substrates and interposers are capacity-constrained and come from specialized suppliers — a real supply-chain factor. (No specific figures are stated here.)",
+    selectionNote:
+      "Substrate type (organic laminate, silicon interposer, glass, and so on) is chosen per cost, density, and performance need — established organic substrates for most parts, advanced interposers where density demands it; none is universally best.",
+    advanced: [
+      "Established: organic laminate substrates and flip-chip BGA.",
+      "Emerging: silicon and glass interposers, high-density fan-out, and substrate-based 2.5D/3D integration for chiplets and heterogeneous integration.",
+    ],
+    relatedMaterials: [
+      { label: "Bump materials", href: "/semiconductors/materials/bump-materials" },
+      { label: "Solder materials", href: "/semiconductors/materials/solder-materials" },
+      { label: "Packaging dielectric materials", href: "/semiconductors/materials/packaging-dielectric-materials" },
+    ],
+    relatedProcessLessons: ["substrate", "packaging", "2-5d"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Substrate (learn)", href: "/semiconductors/learn/substrate" },
+      { label: "Bump materials", href: "/semiconductors/materials/bump-materials" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+  },
+  {
+    slug: "solder-materials",
+    title: "Solder materials",
+    summary:
+      "The fusible alloys that form electrical and mechanical joints — from tiny die-level joints to the balls that connect the package to the board.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Solder is a fusible metal alloy that melts and re-solidifies to form electrical and mechanical joints. In packaging it appears at several scales: micro-joints under a flip-chip die, and the solder balls (BGA) that connect the whole package to the circuit board.",
+    whyItMatters:
+      "Solder joints carry the package's signals and power and hold it mechanically; their metallurgy and reliability (against fatigue and thermal cycling) are central to whether a package survives in the field.",
+    intuition: [
+      "Solder is the 'glue that conducts': heat it and it flows and wets the surfaces, cool it and it forms a solid electrical joint.",
+      "The same idea works from the tiny joints under a chip to the array of balls on the bottom of a package.",
+    ],
+    properties: [
+      { name: "Electrical", detail: "Conducts signal and power across the joint." },
+      { name: "Metallurgical / reliability", detail: "Melting behaviour and fatigue resistance under thermal cycling determine long-term reliability." },
+      { name: "Mechanical / CTE", detail: "Joints absorb stress from CTE mismatch between die, package, and board." },
+    ],
+    propertiesNote:
+      "Solder alloys and their properties depend on composition; environmental rules have driven a shift in alloy choices, and specifics are not stated here.",
+    whereUsed: [
+      "Flip-chip micro-joints",
+      "Ball-grid-array (BGA) balls connecting package to board",
+      "Various package-level joints",
+    ],
+    processConnection:
+      "Solder is applied and reflowed (melted and solidified) to form joints during flip-chip and package assembly; underfill often reinforces the small joints afterward.",
+    relatedEquipment: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+      { label: "Packaging inspection", href: "/semiconductors/equipment/packaging-inspection" },
+    ],
+    parameters: [
+      { name: "Joint reliability", detail: "Resistance to fatigue and cracking under thermal cycling." },
+      { name: "Reflow behaviour", detail: "Melting and wetting that form good joints without voids." },
+      { name: "Joint size / pitch", detail: "From large BGA balls to fine flip-chip micro-joints." },
+    ],
+    parametersNote:
+      "Alloy compositions, reflow profiles, and reliability depend on the specific solder and application and are not stated here.",
+    defects: [
+      "Voids in joints → weak or high-resistance connections",
+      "Cracking under thermal cycling → field failures",
+      "Bridging → shorts",
+      "Poor wetting → opens",
+    ],
+    performance: [
+      "Solder ties material to reliability: a joint's alloy and geometry (property) set how it survives thermal cycling (package stress) and therefore package lifetime (performance).",
+    ],
+    packagingConnection:
+      "Solder is the workhorse interconnect of established packaging, from flip-chip to BGA.",
+    supplyChainConnection:
+      "Solder materials and their metals come from specialized suppliers, and environmental regulation shapes alloy choices.",
+    selectionNote:
+      "Solder alloy is chosen for melting point, reliability, and compatibility — with no single universally best alloy.",
+    advanced: [
+      "Established: flip-chip solder bumps and BGA balls.",
+      "Emerging: fine-pitch micro-bumps and the shift toward bumpless hybrid bonding where solder is replaced by direct copper bonds.",
+    ],
+    relatedMaterials: [
+      { label: "Bump materials", href: "/semiconductors/materials/bump-materials" },
+      { label: "Underfill", href: "/semiconductors/materials/underfill" },
+      { label: "Bonding materials", href: "/semiconductors/materials/bonding-materials" },
+    ],
+    relatedProcessLessons: ["flip-chip", "electrical-connections", "packaging"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Underfill", href: "/semiconductors/materials/underfill" },
+      { label: "Bump materials", href: "/semiconductors/materials/bump-materials" },
+    ],
+  },
+  {
+    slug: "bump-materials",
+    title: "Bump materials",
+    summary:
+      "The tiny solder or metal bumps and pillars on a die's face that connect it to the substrate in flip-chip and advanced packaging.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Bump materials form the array of tiny connections on a die's surface used in flip-chip. They can be solder bumps, copper pillars with solder caps, or fine micro-bumps for advanced packaging — the denser and finer they are, the more connections a die can have.",
+    whyItMatters:
+      "Bumps set how many connections a die can make and how densely; finer bumps enable higher-bandwidth, multi-die packaging. They are the physical foundation of flip-chip and 2.5D/3D interconnect.",
+    intuition: [
+      "Instead of wires from the edge, flip-chip puts an array of tiny bumps across the die's face; each bump is one connection.",
+      "Making bumps smaller and closer together packs in more connections — the trend that leads toward micro-bumps and eventually bumpless hybrid bonding.",
+    ],
+    properties: [
+      { name: "Electrical", detail: "Each bump carries a signal or power connection with low resistance." },
+      { name: "Pitch / density (geometric)", detail: "How finely bumps can be spaced — the limiter on connection count." },
+      { name: "Metallurgical / reliability", detail: "Bump and joint metallurgy set reliability under stress and cycling." },
+    ],
+    propertiesNote:
+      "Bump types (solder, copper pillar, micro-bump) and their pitches depend on the technology; no specific dimensions are asserted here.",
+    whereUsed: ["Flip-chip dies", "2.5D/3D and chiplet interconnect (micro-bumps)"],
+    processConnection:
+      "Bumps are formed on the wafer (bumping) before the die is flipped and joined to the substrate; underfill then protects the joints. Ties to flip-chip and wafer-level/advanced packaging.",
+    relatedEquipment: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Advanced bonding", href: "/semiconductors/equipment/advanced-bonding" },
+      { label: "Wafer-level packaging", href: "/semiconductors/equipment/wafer-level-packaging" },
+    ],
+    defects: [
+      "Missing or bridged bumps → opens or shorts",
+      "Non-uniform bump height → joining problems",
+      "Reliability failures at fine pitch",
+    ],
+    performance: [
+      "Bumps show property -> capability: finer-pitch bumps (material and process) allow more, shorter connections (structure), raising bandwidth and enabling multi-die integration (performance).",
+    ],
+    packagingConnection:
+      "Bumps are the interconnect that underpins flip-chip and most advanced packaging.",
+    selectionNote:
+      "Bump type is chosen for pitch, reliability, and cost; copper pillars and micro-bumps serve finer pitches than classic solder bumps — a role-based choice, not a ranking.",
+    advanced: [
+      "Established: solder bumps and copper-pillar bumps for flip-chip.",
+      "Emerging: fine-pitch micro-bumps for 2.5D/3D and chiplets, trending toward bumpless hybrid bonding for the highest densities.",
+    ],
+    relatedMaterials: [
+      { label: "Solder materials", href: "/semiconductors/materials/solder-materials" },
+      { label: "Underfill", href: "/semiconductors/materials/underfill" },
+      { label: "Bonding materials", href: "/semiconductors/materials/bonding-materials" },
+    ],
+    relatedProcessLessons: ["flip-chip", "electrical-connections", "advanced-packaging"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Bonding materials", href: "/semiconductors/materials/bonding-materials" },
+      { label: "2.5D packaging", href: "/semiconductors/learn/2-5d" },
+    ],
+  },
+  {
+    slug: "underfill",
+    title: "Underfill",
+    summary:
+      "The material flowed under a flip-chip die to protect the joints and redistribute stress — key to flip-chip reliability.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Underfill is a material (typically a filled epoxy) flowed into the gap between a flip-chip die and its substrate. It surrounds and reinforces the tiny solder joints, spreading the mechanical stress from thermal expansion so the joints survive thermal cycling.",
+    whyItMatters:
+      "Flip-chip joints are small and brittle; without underfill, CTE mismatch between die and substrate would crack them. Underfill is what makes flip-chip reliable, especially for large dies and demanding environments.",
+    intuition: [
+      "The die and substrate expand by different amounts when heated, which tugs on the tiny joints between them.",
+      "Underfill glues the whole gap together so the stress is shared across the die rather than concentrated on individual joints.",
+    ],
+    properties: [
+      { name: "Mechanical / CTE", detail: "Tuned expansion and stiffness that redistribute thermal-mismatch stress off the joints." },
+      { name: "Flow / cure", detail: "Must flow into a tiny gap and cure without voids." },
+    ],
+    propertiesNote:
+      "Underfill formulations (filler content, CTE, cure) are tuned per package; properties depend on the material and are not stated here.",
+    whereUsed: ["Under flip-chip dies, and in some advanced-package interconnects"],
+    processConnection:
+      "Underfill is dispensed and cured after flip-chip joining; it is part of the flip-chip material set alongside bumps and solder.",
+    relatedEquipment: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+    defects: [
+      "Voids → stress concentration and failures",
+      "Incomplete fill → unprotected joints",
+      "Delamination → reliability loss",
+    ],
+    performance: [
+      "Underfill is a reliability material: its CTE and stiffness (property) redistribute thermal-cycling stress (package stress) to extend joint life (performance).",
+    ],
+    packagingConnection:
+      "Underfill is essential to established flip-chip reliability and carries over into advanced packaging.",
+    selectionNote:
+      "Underfill is matched to the die size, joint type, and reliability target — no single formulation fits all packages.",
+    advanced: [
+      "Established: capillary underfill for flip-chip.",
+      "Emerging: molded and wafer-level underfills, and formulations for fine-pitch 2.5D/3D interconnect.",
+    ],
+    relatedMaterials: [
+      { label: "Solder materials", href: "/semiconductors/materials/solder-materials" },
+      { label: "Bump materials", href: "/semiconductors/materials/bump-materials" },
+      { label: "Molding compounds", href: "/semiconductors/materials/molding-compounds" },
+    ],
+    relatedProcessLessons: ["flip-chip", "packaging"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+      { label: "Molding compounds", href: "/semiconductors/materials/molding-compounds" },
+      { label: "Solder materials", href: "/semiconductors/materials/solder-materials" },
+    ],
+  },
+  {
+    slug: "molding-compounds",
+    title: "Molding compounds",
+    summary:
+      "The encapsulation compounds (usually filled epoxies) that seal the die and connections into the protective package body.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Molding compounds are the (usually epoxy-based, filler-loaded) materials that encapsulate the die and its interconnections, forming the solid package body. They protect against moisture, contamination, and mechanical damage and give the package its shape.",
+    whyItMatters:
+      "Encapsulation protects fragile dies and bonds and defines the package's mechanical form; the compound's properties (expansion, moisture resistance, warpage behaviour) affect reliability and manufacturability.",
+    intuition: [
+      "Once the die is connected, it needs a tough protective body — the molding compound flows around everything and hardens into the package you can handle.",
+      "The compound is mostly filler in a resin; the mix is tuned for expansion, strength, and how it flows.",
+    ],
+    properties: [
+      { name: "Protective (chemical)", detail: "Barrier against moisture and contamination." },
+      { name: "Mechanical / CTE", detail: "Expansion and stiffness tuned to limit warpage and stress." },
+      { name: "Thermal", detail: "Affects how heat leaves the package (though usually not the main heat path)." },
+    ],
+    propertiesNote:
+      "Compound formulations (filler loading, CTE, flow) are tuned per package; properties depend on the material and are not stated here.",
+    whereUsed: ["Molded packages of all kinds — from simple parts to molded advanced packages such as fan-out"],
+    processConnection:
+      "The compound is introduced under heat and pressure during the molding (encapsulation) step and cured; warpage control is a key integration challenge.",
+    relatedEquipment: [
+      { label: "Molding", href: "/semiconductors/equipment/molding" },
+      { label: "Wafer-level packaging", href: "/semiconductors/equipment/wafer-level-packaging" },
+    ],
+    defects: [
+      "Voids or incomplete fill → unprotected areas",
+      "Warpage → assembly problems",
+      "Delamination or moisture ingress → reliability loss",
+    ],
+    performance: [
+      "Molding shows property -> reliability: a compound's moisture barrier and CTE (property) protect the die and control warpage (package structure), setting robustness and lifetime (performance).",
+    ],
+    packagingConnection:
+      "Encapsulation forms the package body and is essential to both established and molded advanced (fan-out) packaging.",
+    selectionNote:
+      "Compounds are chosen for warpage, moisture, and thermal needs; thin, large, and fan-out packages need special low-warpage compounds — a fit-to-application choice.",
+    advanced: [
+      "Established: transfer-molded epoxy for standard packages.",
+      "Emerging: low-warpage compounds for large fan-out and panel-level packaging.",
+    ],
+    relatedMaterials: [
+      { label: "Underfill", href: "/semiconductors/materials/underfill" },
+      { label: "Package substrates", href: "/semiconductors/materials/package-substrates" },
+    ],
+    relatedProcessLessons: ["packaging", "wafer-level-packaging"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Molding", href: "/semiconductors/equipment/molding" },
+      { label: "Package substrates", href: "/semiconductors/materials/package-substrates" },
+      { label: "Underfill", href: "/semiconductors/materials/underfill" },
+    ],
+  },
+  {
+    slug: "die-attach-materials",
+    title: "Die attach materials",
+    summary:
+      "The adhesives, pastes, or solders that bond the die to its substrate or leadframe — often also a heat and/or electrical path.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Die-attach materials bond the die down onto its substrate, leadframe, or another die. Depending on the need they can be polymer adhesives and pastes or solders and sintered metals — and they often must carry heat (and sometimes current) away from the die.",
+    whyItMatters:
+      "The die-attach layer fixes the die in place and frequently forms the first step of the thermal path from die to package. A voided or poor bond causes overheating and reliability failures.",
+    intuition: [
+      "Before anything else, the bare die has to be stuck down accurately and firmly — that is die attach.",
+      "The choice of 'glue' depends on how much heat or current the bond must carry: a simple adhesive for low-power parts, a solder or sintered metal for power devices.",
+    ],
+    properties: [
+      { name: "Thermal", detail: "Often the first link in the die-to-package heat path; conductivity and void-freeness matter." },
+      { name: "Mechanical / CTE", detail: "Holds the die while absorbing thermal-expansion stress." },
+      { name: "Electrical (sometimes)", detail: "Some die attach must also conduct current (for example in power devices)." },
+    ],
+    propertiesNote:
+      "Die-attach materials range from polymer adhesives to solders and sintered metals; properties depend on the material and application and are not stated here.",
+    whereUsed: ["The first assembly step, mounting the die — in nearly every package"],
+    processConnection:
+      "Die-attach material is dispensed and cured or reflowed by die-attach equipment before interconnection; its bond-line and voids affect heat flow.",
+    relatedEquipment: [
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+    defects: [
+      "Voids → hot spots and reliability loss",
+      "Die tilt → interconnect problems",
+      "Weak bond → delamination",
+    ],
+    performance: [
+      "Die attach connects power to reliability: a low-void, conductive bond (property) carries heat off the die (thermal path), keeping it cool and reliable (performance).",
+    ],
+    packagingConnection:
+      "Die attach is the opening step of packaging and the start of the thermal path.",
+    selectionNote:
+      "Die-attach material is chosen by thermal and electrical need and cost — adhesives for low power, solders and sinters for high power; no single material fits all.",
+    advanced: [
+      "Established: polymer die-attach adhesives and solder die attach.",
+      "Emerging: sintered-silver and other high-conductivity attach for high-power and wide-bandgap devices, and die-to-die attach for 3D stacks.",
+    ],
+    relatedMaterials: [
+      { label: "Thermal interface materials", href: "/semiconductors/materials/thermal-interface-materials" },
+      { label: "Solder materials", href: "/semiconductors/materials/solder-materials" },
+      { label: "Bonding materials", href: "/semiconductors/materials/bonding-materials" },
+    ],
+    relatedProcessLessons: ["packaging", "die-vs-package"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+      { label: "Thermal interface materials", href: "/semiconductors/materials/thermal-interface-materials" },
+      { label: "Bonding materials", href: "/semiconductors/materials/bonding-materials" },
+    ],
+  },
+  {
+    slug: "bonding-materials",
+    title: "Bonding materials",
+    summary:
+      "The wires and direct-bond materials that make the die's electrical connections — from bond wires to copper hybrid bonds.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Bonding materials make the electrical connections between the die and its package (or another die). They range from the fine metal wires of wire bonding (gold, copper, aluminium) to the copper-and-dielectric surfaces used in advanced hybrid bonding.",
+    whyItMatters:
+      "These materials carry every signal and power line into and out of the die. As connection density rises, bonding has evolved from wires to bumps to direct copper bonds — a key axis of packaging progress.",
+    intuition: [
+      "Something has to physically connect the die's pads to the outside; the classic answer is a hair-thin bond wire welded from pad to package.",
+      "For the highest densities, surfaces are bonded directly (copper-to-copper and dielectric-to-dielectric) with no wire or bump at all — hybrid bonding.",
+    ],
+    properties: [
+      { name: "Electrical", detail: "Low-resistance metal connections (wires or bonded pads)." },
+      { name: "Metallurgical", detail: "Bond formation (weld or direct bond) and its reliability depend on the metals and surfaces." },
+    ],
+    propertiesNote:
+      "Bonding materials span wire alloys to hybrid-bond copper and dielectric; behaviour depends on the method and is not captured by one figure.",
+    whereUsed: ["Wire-bonded packages", "Advanced die-to-die and die-to-wafer hybrid bonding"],
+    processConnection:
+      "Wires are welded by wire-bonding equipment; hybrid bonds are formed by advanced-bonding tools requiring ultra-clean, ultra-flat surfaces. Different materials, different equipment.",
+    relatedEquipment: [
+      { label: "Wire bonding", href: "/semiconductors/equipment/wire-bonding" },
+      { label: "Advanced bonding", href: "/semiconductors/equipment/advanced-bonding" },
+      { label: "Flip-chip", href: "/semiconductors/equipment/flip-chip" },
+    ],
+    defects: [
+      "Weak or lifted wire bonds → opens",
+      "Wire sweep → shorts",
+      "Voids or particles at a hybrid-bond interface → failures",
+    ],
+    performance: [
+      "Bonding shows the established -> emerging axis: wires and bumps (established) give way to hybrid bonding (emerging) as connection density climbs, enabling 3D stacks and chiplets (performance).",
+    ],
+    packagingConnection:
+      "Bonding materials are how the die talks to the world — from wire bond to hybrid bond.",
+    selectionNote:
+      "Wire, bump, or hybrid bond is chosen by density, cost, and maturity — wire bonding remains dominant by volume, while hybrid bonding leads at the cutting edge. Neither is universally best.",
+    advanced: [
+      "Established: gold, copper, and aluminium wire bonding.",
+      "Emerging: copper-to-copper hybrid bonding for 3D stacking, HBM, and chiplet / heterogeneous integration.",
+    ],
+    relatedMaterials: [
+      { label: "Bump materials", href: "/semiconductors/materials/bump-materials" },
+      { label: "Solder materials", href: "/semiconductors/materials/solder-materials" },
+      { label: "Die attach materials", href: "/semiconductors/materials/die-attach-materials" },
+    ],
+    relatedProcessLessons: ["wire-bonding", "electrical-connections", "3d-ic"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Wire bonding", href: "/semiconductors/equipment/wire-bonding" },
+      { label: "Advanced bonding", href: "/semiconductors/equipment/advanced-bonding" },
+      { label: "HBM", href: "/semiconductors/learn/hbm" },
+    ],
+  },
+  {
+    slug: "thermal-interface-materials",
+    title: "Thermal interface materials",
+    summary:
+      "The materials (TIMs) that carry heat from the die to the package lid or heat sink by filling the microscopic gaps between surfaces.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Thermal interface materials (TIMs) sit between the die and the heat spreader or heat sink to move heat across the tiny gaps that would otherwise trap it. They trade high thermal conductivity against the ability to fill gaps and survive thermal cycling.",
+    whyItMatters:
+      "Chips only work reliably if their heat is removed. TIMs are a critical link in the thermal path: a poor TIM lets the die overheat, throttling performance and shortening life. This is where power, heat, and reliability meet materials.",
+    intuition: [
+      "Two solid surfaces pressed together actually touch only at a few points, with air gaps between — and air is a poor conductor.",
+      "A TIM fills those gaps with a better conductor so heat flows from the die into the spreader or sink.",
+    ],
+    properties: [
+      { name: "Thermal conductivity", detail: "How well it moves heat — the headline property." },
+      { name: "Gap-fill / mechanical", detail: "Must conform to the surfaces and stay put through thermal cycling." },
+      { name: "Reliability", detail: "Must not dry out, pump out, or degrade over time." },
+    ],
+    propertiesNote:
+      "TIM conductivity and reliability depend strongly on the material type (greases, gels, pads, metals); no single value applies, and real performance depends on how it is applied.",
+    whereUsed: [
+      "Between die and lid, and between lid or package and heat sink",
+      "High-power devices where cooling is critical",
+    ],
+    processConnection:
+      "TIMs are applied during package assembly and at the system level; their performance depends on application thickness and contact — a materials-plus-process outcome.",
+    relatedEquipment: [
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+    performance: [
+      "TIMs make the thermal chain concrete: power -> heat (the die dissipates power as heat), package -> thermal material (heat must cross the die-to-sink interfaces), cooling (a good TIM lets a heat sink actually remove the heat), and reliability (keeping the die cool preserves performance and lifetime). A weak link here throttles the whole chip.",
+      "Two material properties dominate downstream reliability: thermal conductivity (how fast heat leaves) and thermal expansion / mechanical behaviour (whether the interface survives repeated heating and cooling without pumping out or cracking).",
+    ],
+    defects: [
+      "Voids or air gaps → hot spots",
+      "Pump-out or dry-out over cycling → rising temperatures",
+      "Excess thickness → poor heat transfer",
+    ],
+    packagingConnection:
+      "TIMs are central to package-level thermal design, increasingly important as power density rises.",
+    selectionNote:
+      "TIM choice balances conductivity, gap-fill, reliability, and cost — greases, gels, pads, and metal TIMs each fit different needs; none is universally best.",
+    advanced: [
+      "Established: thermal greases, gels, and pads.",
+      "Emerging: metal and liquid-metal TIMs and advanced interface materials for high-power and 3D-stacked packages, where heat removal is a leading challenge.",
+    ],
+    relatedMaterials: [
+      { label: "Heat spreader materials", href: "/semiconductors/materials/heat-spreader-materials" },
+      { label: "Die attach materials", href: "/semiconductors/materials/die-attach-materials" },
+    ],
+    relatedProcessLessons: ["packaging"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Heat spreader materials", href: "/semiconductors/materials/heat-spreader-materials" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "Die attach materials", href: "/semiconductors/materials/die-attach-materials" },
+    ],
+  },
+  {
+    slug: "heat-spreader-materials",
+    title: "Heat spreader materials",
+    summary:
+      "The lids, slugs, and spreaders (often copper) that spread and carry heat away from the die across the package.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Heat spreader materials — package lids, slugs, and integrated heat spreaders, often copper or other high-conductivity metals — take heat from the die (via a TIM) and spread it over a larger area toward a heat sink or the environment.",
+    whyItMatters:
+      "A concentrated hot die needs its heat spread out and carried away; the spreader is a major part of that path. Its conductivity and expansion behaviour affect both cooling and the mechanical stress on the die.",
+    intuition: [
+      "Heat coming off a small die is very concentrated; a spreader takes that heat and fans it out over a bigger area so a heat sink can remove it.",
+      "Copper is common because it conducts heat very well, but its expansion must be managed against the silicon it sits over.",
+    ],
+    properties: [
+      { name: "Thermal conductivity", detail: "High conductivity to move and spread heat quickly." },
+      { name: "CTE / mechanical", detail: "Expansion behaviour relative to the die affects stress and reliability." },
+    ],
+    propertiesNote:
+      "Spreader materials (copper, composites, and others) have different conductivity and CTE; specifics depend on the material and are not stated here.",
+    whereUsed: [
+      "Package lids and integrated heat spreaders",
+      "Slugs and spreaders in high-power packages",
+    ],
+    processConnection:
+      "Spreaders are attached (often via a TIM and adhesive) during assembly; they work with the TIM and heat sink as a system.",
+    relatedEquipment: [
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "Die attach", href: "/semiconductors/equipment/die-attach" },
+    ],
+    performance: [
+      "The spreader continues the thermal chain from the TIM: it moves die heat toward the cooling solution, so its conductivity sets how effectively the package can be cooled — and its CTE affects the stress (and thus reliability) on the die it covers.",
+    ],
+    defects: [
+      "Poor contact or TIM → trapped heat",
+      "CTE-mismatch stress → warpage or cracking",
+      "Under-sized spreader → inadequate cooling",
+    ],
+    packagingConnection:
+      "Heat spreaders are a key part of package-level thermal management, especially for high-power and stacked devices.",
+    selectionNote:
+      "Spreader material trades conductivity, CTE match, weight, and cost — copper for conductivity, composites where CTE or weight matter; a fit-to-need choice.",
+    advanced: [
+      "Established: copper lids and integrated heat spreaders.",
+      "Emerging: advanced composites, embedded cooling, and thermal solutions for 3D-stacked packages where heat is trapped between dies.",
+    ],
+    relatedMaterials: [
+      { label: "Thermal interface materials", href: "/semiconductors/materials/thermal-interface-materials" },
+      { label: "Die attach materials", href: "/semiconductors/materials/die-attach-materials" },
+    ],
+    relatedProcessLessons: ["packaging"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Thermal interface materials", href: "/semiconductors/materials/thermal-interface-materials" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "Packaging (learn)", href: "/semiconductors/learn/packaging" },
+    ],
+  },
+  {
+    slug: "packaging-dielectric-materials",
+    title: "Packaging dielectric materials",
+    summary:
+      "The insulating materials used inside packages and redistribution layers — routing signals while insulating them, especially in advanced packaging.",
+    categoryId: "packaging-materials",
+
+    quickAnswer:
+      "Packaging dielectric materials are the insulators used within packages and redistribution layers (RDL) — they separate and insulate the fine wiring that fans out or routes between dies. In advanced packaging their electrical quality and processability matter as much as in the chip itself.",
+    whyItMatters:
+      "As packages take on more routing (fan-out, interposers, RDL), the dielectric between those wires affects signal quality, density, and reliability — making packaging dielectrics an increasingly important, performance-relevant material.",
+    intuition: [
+      "Just like on the chip, package wiring needs insulation between the lines — that is the packaging dielectric.",
+      "In advanced packaging, layers of fine wiring and dielectric (an RDL) are built up to route many connections, so the dielectric's quality really matters.",
+    ],
+    properties: [
+      { name: "Electrical (insulator)", detail: "Insulates package and RDL wiring; low loss helps signal integrity." },
+      { name: "Processability / mechanical", detail: "Must build up in fine layers and survive assembly stresses." },
+    ],
+    propertiesNote:
+      "Packaging dielectrics range from build-up laminates to photo-definable polymers; properties depend on the material and are not stated here.",
+    whereUsed: [
+      "Redistribution layers (RDL) in fan-out and wafer-level packaging",
+      "Build-up layers in advanced substrates and interposers",
+    ],
+    processConnection:
+      "These dielectrics are built up and patterned during wafer-level and advanced packaging (RDL formation), tying them to those tools and flows.",
+    relatedEquipment: [
+      { label: "Wafer-level packaging", href: "/semiconductors/equipment/wafer-level-packaging" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+    ],
+    defects: [
+      "Routing shorts or opens from dielectric defects",
+      "Delamination or cracking under stress",
+      "Moisture uptake → property shifts",
+    ],
+    performance: [
+      "Packaging dielectrics extend the chip's interconnect story into the package: lower-loss, finer-patternable dielectrics (property) allow denser package routing (structure), improving signal quality and integration (performance).",
+    ],
+    packagingConnection:
+      "Packaging dielectrics enable the dense routing behind fan-out, interposers, and chiplet integration.",
+    selectionNote:
+      "Dielectric choice balances electrical loss, patternability, and reliability — build-up laminates for substrates, photo-definable polymers for RDL; matched to the package.",
+    advanced: [
+      "Established: build-up dielectric layers in organic substrates.",
+      "Emerging: fine-line RDL dielectrics for high-density fan-out, interposers, and chiplet / heterogeneous integration.",
+    ],
+    relatedMaterials: [
+      { label: "Package substrates", href: "/semiconductors/materials/package-substrates" },
+      { label: "Low-k dielectrics", href: "/semiconductors/materials/low-k-dielectrics" },
+    ],
+    relatedProcessLessons: ["wafer-level-packaging", "advanced-packaging", "substrate"],
+    relatedConceptLessons: ["integrated-circuit"],
+    learnNext: [
+      { label: "Package substrates", href: "/semiconductors/materials/package-substrates" },
+      { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "Wafer-level packaging", href: "/semiconductors/equipment/wafer-level-packaging" },
+    ],
+  },
 ];
 
 export function getMaterialTopic(slug: string): MaterialTopic | undefined {

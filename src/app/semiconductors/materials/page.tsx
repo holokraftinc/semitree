@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { buttonClasses } from "@/components/ui/Button";
 import {
   MATERIALS_JOURNEY,
+  PACKAGING_MATERIALS_JOURNEY,
   MATERIAL_CATEGORIES,
   type MaterialCategory,
 } from "@/lib/knowledge/materials-map";
@@ -125,6 +126,40 @@ export default function SemiconductorMaterialsPage() {
                 </span>
               )}
               {i < MATERIALS_JOURNEY.length - 1 && (
+                <span aria-hidden="true" className="px-1 text-brand/50">→</span>
+              )}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* After fabrication: the packaging-materials journey */}
+      <section id="packaging-journey" className="scroll-mt-20 space-y-4">
+        <h2 className="text-xl font-semibold tracking-tight">
+          After fabrication: the packaging materials
+        </h2>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Once the wafer is finished, a second set of materials turns each die
+          into a connected, protected package — attaching it, wiring it, moving
+          its heat, encapsulating it, and routing it out. Exact sequences differ
+          by package technology.
+        </p>
+        <div className="flex flex-wrap items-center gap-x-1 gap-y-2">
+          {PACKAGING_MATERIALS_JOURNEY.map((stage, i) => (
+            <span key={`${stage.label}-${i}`} className="flex items-center">
+              {stage.topicSlug ? (
+                <Link
+                  href={`/semiconductors/materials/${stage.topicSlug}`}
+                  className="rounded-full border border-border px-3 py-1 text-sm font-medium text-brand transition-colors hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {stage.label}
+                </Link>
+              ) : (
+                <span className="rounded-full border border-dashed border-border px-3 py-1 text-sm text-muted-foreground">
+                  {stage.label}
+                </span>
+              )}
+              {i < PACKAGING_MATERIALS_JOURNEY.length - 1 && (
                 <span aria-hidden="true" className="px-1 text-brand/50">→</span>
               )}
             </span>

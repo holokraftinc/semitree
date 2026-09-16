@@ -74,6 +74,30 @@ describe("Material topics", () => {
     }
   });
 
+  it("includes the packaging-materials path with populated sections", () => {
+    const packaging = [
+      "package-substrates",
+      "solder-materials",
+      "bump-materials",
+      "underfill",
+      "molding-compounds",
+      "die-attach-materials",
+      "bonding-materials",
+      "thermal-interface-materials",
+      "heat-spreader-materials",
+      "packaging-dielectric-materials",
+    ];
+    for (const slug of packaging) {
+      const topic = getMaterialTopic(slug);
+      expect(topic, `missing topic: ${slug}`).toBeDefined();
+      expect(topic!.quickAnswer).toBeTruthy();
+      expect(topic!.properties?.length, `no properties: ${slug}`).toBeGreaterThan(0);
+      expect(topic!.categoryId).toBe("packaging-materials");
+      // Established vs emerging technologies are distinguished.
+      expect(topic!.advanced?.length, `no advanced: ${slug}`).toBeGreaterThan(0);
+    }
+  });
+
   it("only cross-links lesson slugs that exist", () => {
     for (const t of MATERIAL_TOPICS) {
       for (const slug of [...(t.relatedConceptLessons ?? []), ...(t.relatedProcessLessons ?? [])]) {
