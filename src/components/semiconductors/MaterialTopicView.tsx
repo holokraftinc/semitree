@@ -6,8 +6,19 @@ import { Alert } from "@/components/ui/Alert";
 import { Badge } from "@/components/ui/Badge";
 import { getSemiLesson } from "@/lib/knowledge/semi-lessons";
 import { getProcessLinkForMaterial } from "@/lib/knowledge/process-links";
+import { getProcess } from "@/lib/knowledge/manufacturing";
 import { ManufacturingRelationship } from "@/components/semiconductors/ManufacturingRelationship";
+import { LearningLoop } from "@/components/semiconductors/LearningLoop";
 import type { MaterialTopic, TopicLink } from "@/lib/knowledge/material-topics";
+
+/** The first related process lesson that is also a manufacturing process page. */
+function firstMfgProcess(slugs?: string[]): { label: string; href: string } | undefined {
+  for (const s of slugs ?? []) {
+    const p = getProcess(s);
+    if (p) return { label: `${p.name} process`, href: `/manufacturing/${s}` };
+  }
+  return undefined;
+}
 
 /**
  * Reusable template for a single semiconductor material topic. Every section is
@@ -95,6 +106,9 @@ export function MaterialTopicView({ topic }: { topic: MaterialTopic }) {
   const conceptChips = t.relatedConceptLessons ? lessonChips(t.relatedConceptLessons) : [];
   const processChips = t.relatedProcessLessons ? lessonChips(t.relatedProcessLessons) : [];
   const mfgLink = getProcessLinkForMaterial(t.slug);
+  const seeProcess = mfgLink?.manufacturingSlug
+    ? { label: `${mfgLink.process} process`, href: `/manufacturing/${mfgLink.manufacturingSlug}` }
+    : firstMfgProcess(t.relatedProcessLessons);
 
   return (
     <Container className="space-y-10 py-10">
@@ -221,7 +235,7 @@ export function MaterialTopicView({ topic }: { topic: MaterialTopic }) {
       )}
 
       {t.advanced && t.advanced.length > 0 && (
-        <details className="group rounded-xl border border-border bg-muted/20 p-5">
+        <details id="advanced" className="group scroll-mt-20 rounded-xl border border-border bg-muted/20 p-5">
           <summary className="cursor-pointer list-none text-lg font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <span className="inline-flex items-center gap-2">
               <span aria-hidden="true" className="text-brand transition-transform group-open:rotate-90">▸</span>
@@ -260,14 +274,28 @@ export function MaterialTopicView({ topic }: { topic: MaterialTopic }) {
         </Section>
       )}
 
-      {t.learnNext && t.learnNext.length > 0 && (
-        <Card className="bg-muted/30 p-6">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Learn next</h2>
-          <div className="mt-3"><ChipRow links={t.learnNext} /></div>
-          <Link href="/semiconductors/materials" className="mt-4 inline-block text-sm font-medium text-brand hover:underline">
-            ← All materials
-          </Link>
-        </Card>
+      {t.learningLoop ? (
+        <LearningLoop
+          youJustLearned={t.learningLoop.youJustLearned}
+          nowYouKnow={t.learningLoop.nowYouKnow}
+          learnNext={t.learnNext}
+          seeProcess={seeProcess}
+          understandMaterial={t.relatedMaterials}
+          understandMachine={t.relatedEquipment}
+          hasAdvanced={!!(t.advanced && t.advanced.length > 0)}
+          backHref="/semiconductors/materials"
+          backLabel="All materials"
+        />
+      ) : (
+        t.learnNext && t.learnNext.length > 0 && (
+          <Card className="bg-muted/30 p-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Learn next</h2>
+            <div className="mt-3"><ChipRow links={t.learnNext} /></div>
+            <Link href="/semiconductors/materials" className="mt-4 inline-block text-sm font-medium text-brand hover:underline">
+              ← All materials
+            </Link>
+          </Card>
+        )
       )}
     </Container>
   );

@@ -59,6 +59,15 @@ describe("Equipment topics", () => {
     }
   });
 
+  it("learning loops (where present) have 3-5 key ideas and a takeaway", () => {
+    for (const t of EQUIPMENT_TOPICS) {
+      if (!t.learningLoop) continue;
+      expect(t.learningLoop.youJustLearned.length, `${t.slug} loop`).toBeGreaterThanOrEqual(3);
+      expect(t.learningLoop.youJustLearned.length, `${t.slug} loop`).toBeLessThanOrEqual(5);
+      expect(t.learningLoop.nowYouKnow.trim().length, `${t.slug} takeaway`).toBeGreaterThan(0);
+    }
+  });
+
   it("only cross-links lesson slugs that exist", () => {
     for (const t of EQUIPMENT_TOPICS) {
       for (const slug of [...(t.relatedConceptLessons ?? []), ...(t.relatedProcessLessons ?? [])]) {

@@ -19,6 +19,19 @@ export interface TopicLink {
   href?: string;
 }
 
+/**
+ * The curiosity-driven "learning loop" recap shown at the end of a substantial
+ * topic. Only the authored parts live here — key takeaways and what the topic
+ * unlocks; the "learn next / see the process / go deeper / explore the industry"
+ * pathways are derived from the topic's existing cross-links.
+ */
+export interface LearningLoop {
+  /** 3-5 key ideas the reader just learned. */
+  youJustLearned: string[];
+  /** One line on what this topic now enables the reader to understand. */
+  nowYouKnow: string;
+}
+
 export interface EquipmentTopic {
   slug: string;
   title: string;
@@ -51,11 +64,22 @@ export interface EquipmentTopic {
   supplyChainConnection?: string; // 21
   advanced?: string[]; // 22
   learnNext?: TopicLink[]; // 23
+  learningLoop?: LearningLoop; // 24 — curiosity-driven end-of-topic recap
 }
 
 export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   {
     slug: "lithography",
+    learningLoop: {
+      youJustLearned: [
+        "What lithography equipment does — it prints each layer's pattern onto the wafer",
+        "Why exposure (wavelength, numerical aperture, focus, and dose) sets the smallest feature",
+        "What resolution means, and how DUV and EUV differ",
+        "Why overlay — layer-to-layer alignment — is as critical as resolution",
+      ],
+      nowYouKnow:
+        "You can see why lithography paces the whole industry, and how a printed pattern only becomes a real device through the steps that follow it.",
+    },
     title: "Lithography equipment",
     summary:
       "The machines that print a chip's circuit pattern onto the wafer — coating resist, projecting a mask image with light, and developing it.",
@@ -157,6 +181,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "deposition",
+    learningLoop: {
+      youJustLearned: [
+        "Why thin films are deposited to build a chip layer by layer",
+        "How PVD, CVD, ALD, and epitaxy differ",
+        "What conformality, thickness, and uniformity mean",
+        "Why precursor purity and process control decide film quality",
+      ],
+      nowYouKnow:
+        "You understand how each layer of a chip is added, and why a film is the product of material and process together, not the tool alone.",
+    },
     title: "Deposition equipment",
     summary:
       "The machines that add thin films — conductors, insulators, and semiconductors — onto the wafer, layer by layer, with near-atomic control.",
@@ -256,6 +290,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "etching",
+    learningLoop: {
+      youJustLearned: [
+        "Why material is removed to turn a flat pattern into real 3D structure",
+        "The difference between wet and dry / plasma etch",
+        "What selectivity, etch rate, and anisotropy control",
+        "Why profile and endpoint matter for device geometry",
+      ],
+      nowYouKnow:
+        "You can see how lithography and etch work as a pair to shape every layer, and why etch chemistry is central to the result.",
+    },
     title: "Etching equipment",
     summary:
       "The machines that selectively remove material to carve a chip's features — turning a flat resist pattern into real three-dimensional structures.",
@@ -354,6 +398,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "ion-implantation",
+    learningLoop: {
+      youJustLearned: [
+        "Why doping is what turns plain silicon into a working device",
+        "How ion species, energy, and dose set the junction",
+        "Why implant and anneal are a matched pair",
+        "How masking limits doping to chosen regions",
+      ],
+      nowYouKnow:
+        "You can see how transistors get their electrical character, and why an implant is always followed by a thermal step.",
+    },
     title: "Ion implantation equipment",
     summary:
       "The machines that fire precisely chosen ions into the wafer to dope silicon — setting where, and how strongly, each region conducts.",
@@ -449,6 +503,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "thermal",
+    learningLoop: {
+      youJustLearned: [
+        "Why some essential steps are driven purely by heat",
+        "How diffusion, activation, and annealing work",
+        "What the thermal budget is and why it must be managed",
+        "How batch furnace and rapid thermal processing differ",
+      ],
+      nowYouKnow:
+        "You understand why temperature and time set film and junction properties, and why later steps must stay gentle enough not to undo earlier ones.",
+    },
     title: "Thermal processing equipment",
     summary:
       "The furnaces and rapid-heating tools that use precise high temperature to grow films, activate dopants, and repair the silicon crystal.",
@@ -542,6 +606,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "cmp",
+    learningLoop: {
+      youJustLearned: [
+        "Why planarization is required as layers stack up",
+        "How slurry and pad remove material together",
+        "What selectivity, dishing, and erosion mean",
+        "Why endpoint control keeps CMP repeatable",
+      ],
+      nowYouKnow:
+        "You understand why flat surfaces make multilayer chips possible, and how CMP defects ripple into every layer built above.",
+    },
     title: "CMP (planarization) equipment",
     summary:
       "Chemical-mechanical planarization tools that polish the wafer flat between layers, so every new layer is built on a smooth surface.",
@@ -636,6 +710,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "metrology",
+    learningLoop: {
+      youJustLearned: [
+        "Why 'you cannot control what you cannot measure' is central",
+        "What film thickness, CD, overlay, and defectivity measure",
+        "How measurement feeds the process-control loop",
+        "Why sampling trades coverage against speed",
+      ],
+      nowYouKnow:
+        "You can see how measurement turns manufacturing from guesswork into a controlled loop that protects yield.",
+    },
     title: "Metrology equipment",
     summary:
       "The measurement tools that quantify what the process actually produced — film thickness, feature size, overlay, and more — so the process can be controlled.",
@@ -717,6 +801,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "inspection",
+    learningLoop: {
+      youJustLearned: [
+        "How inspection finds and classifies defects",
+        "Why classification matters as much as detection",
+        "How defect trends point to the responsible process step",
+        "Why sensitivity trades against nuisance defects",
+      ],
+      nowYouKnow:
+        "You understand how inspection turns yield loss from a mystery into a list of fixable causes.",
+    },
     title: "Inspection equipment",
     summary:
       "The tools that find and classify defects on the wafer — where metrology measures dimensions, inspection hunts for the particles, scratches, and pattern flaws that kill chips.",
@@ -1627,6 +1721,16 @@ export const EQUIPMENT_TOPICS: EquipmentTopic[] = [
   },
   {
     slug: "advanced-packaging",
+    learningLoop: {
+      youJustLearned: [
+        "How advanced packaging integrates multiple dies into one package",
+        "The roles of 2.5D, 3D, and chiplets",
+        "Why known-good-die yield compounds across a multi-die package",
+        "How bonding and substrates enable heterogeneous integration",
+      ],
+      nowYouKnow:
+        "You can see why packaging has become system integration, and a primary way performance keeps improving as classical scaling slows.",
+    },
     title: "Advanced packaging equipment",
     summary:
       "The integration tools and platforms that combine multiple dies — 2.5D interposers, 3D stacks, and chiplets — into a single high-performance package.",

@@ -10,9 +10,9 @@
  * material is universally "best"). Cross-links reuse lesson slugs (validated in
  * material-topics.test.ts) and equipment topic pages.
  */
-import type { NamedItem, TopicLink } from "./equipment-topics";
+import type { NamedItem, TopicLink, LearningLoop } from "./equipment-topics";
 
-export type { NamedItem, TopicLink };
+export type { NamedItem, TopicLink, LearningLoop };
 
 export interface MaterialTopic {
   slug: string;
@@ -48,11 +48,22 @@ export interface MaterialTopic {
   relatedConceptLessons?: string[]; // 19 — lesson slugs
   advanced?: string[]; // 20
   learnNext?: TopicLink[]; // 21
+  learningLoop?: LearningLoop; // curiosity-driven end-of-topic recap
 }
 
 export const MATERIAL_TOPICS: MaterialTopic[] = [
   {
     slug: "silicon",
+    learningLoop: {
+      youJustLearned: [
+        "Why silicon became the dominant semiconductor material",
+        "What its crystal structure and semiconductor properties give it",
+        "Why its native oxide (silicon dioxide) was decisive",
+        "Why purity and crystal quality set the performance ceiling",
+      ],
+      nowYouKnow:
+        "You understand what makes a material a good semiconductor, and why silicon is chosen for most chips while other materials win specific roles.",
+    },
     title: "Silicon",
     summary:
       "The foundational semiconductor material for most chips — a group-14 element, grown as a near-perfect single crystal and doped to build transistors.",
@@ -157,6 +168,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "silicon-wafers",
+    learningLoop: {
+      youJustLearned: [
+        "What a wafer is and why it is the substrate for every chip",
+        "Why diameter, orientation, and thickness are specified",
+        "Why flatness and surface cleanliness matter for lithography",
+        "How crystal quality sets the yield floor",
+      ],
+      nowYouKnow:
+        "You can see why the wafer's quality underlies every later step and every device built on it.",
+    },
     title: "Silicon wafers",
     summary:
       "The polished single-crystal silicon discs that chips are built on — defined by diameter, orientation, and crystal and surface quality.",
@@ -297,6 +318,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "silicon-dioxide",
+    learningLoop: {
+      youJustLearned: [
+        "Why insulating layers are needed in a chip",
+        "How silicon dioxide is grown or deposited",
+        "Its roles as gate dielectric, isolation, and mask",
+        "Why ultra-thin gates moved to high-k materials",
+      ],
+      nowYouKnow:
+        "You understand why a clean insulator on silicon made modern transistors possible, and how properties drive material changes.",
+    },
     title: "Silicon dioxide (SiO2)",
     summary:
       "Silicon's native oxide and the classic insulator of the industry — used for gate dielectrics, isolation, and masking.",
@@ -423,6 +454,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "high-k-dielectrics",
+    learningLoop: {
+      youJustLearned: [
+        "Why gate leakage forced a move beyond silicon dioxide",
+        "What a high dielectric constant (k) provides",
+        "Why high-k is paired with a metal gate",
+        "How ALD enables atomically thin, uniform films",
+      ],
+      nowYouKnow:
+        "You can see how a materials change kept transistor scaling alive when a physical limit was reached.",
+    },
     title: "High-k dielectrics",
     summary:
       "Insulators with high permittivity that replaced silicon dioxide as the transistor gate insulator to cut leakage at advanced nodes.",
@@ -546,6 +587,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "copper",
+    learningLoop: {
+      youJustLearned: [
+        "Why metals are needed for interconnect wiring",
+        "Why copper's low resistivity replaced aluminum",
+        "Why damascene and barrier layers are required",
+        "What electromigration means for reliability",
+      ],
+      nowYouKnow:
+        "You understand why interconnect increasingly limits performance, and why the 'best' conductor depends on where it is used.",
+    },
     title: "Copper",
     summary:
       "The low-resistance metal used for most modern interconnect wiring, enabled by the damascene process and diffusion barriers.",
@@ -745,6 +796,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "photoresist",
+    learningLoop: {
+      youJustLearned: [
+        "Why resist is needed to record the circuit pattern",
+        "How coating, exposure, and development form a stencil",
+        "The difference between positive and negative resist",
+        "Why sensitivity and resolution matter",
+      ],
+      nowYouKnow:
+        "You can see how a pattern is captured in a material and then transferred into the chip by the steps that follow.",
+    },
     title: "Photoresist",
     summary:
       "The light-sensitive film that records the circuit pattern in lithography — coated, exposed, and developed to create the stencil for each layer.",
@@ -994,6 +1055,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "etch-chemistry",
+    learningLoop: {
+      youJustLearned: [
+        "Why the chemistry, not just the tool, determines the etch",
+        "What selectivity, etch rate, and anisotropy mean",
+        "How plasma creates reactive, directional etching",
+        "Why the chemistry is matched to the material stack",
+      ],
+      nowYouKnow:
+        "You understand why the same etch tool gives different results with different chemistry, conditions, and control.",
+    },
     title: "Etch chemistry",
     summary:
       "The liquid chemicals and reactive plasma gases that remove material selectively during etch — the chemistry that sets selectivity, rate, and profile.",
@@ -1057,6 +1128,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "cmp-slurries",
+    learningLoop: {
+      youJustLearned: [
+        "How a slurry combines abrasive particles and active chemistry",
+        "Why both mechanical and chemical action are needed",
+        "How selectivity lets CMP stop on a target layer",
+        "Why slurry is a real source of defects if uncontrolled",
+      ],
+      nowYouKnow:
+        "You can see why CMP is a system of tool, slurry, pad, control, and metrology working together.",
+    },
     title: "CMP slurries",
     summary:
       "The polishing slurries — abrasive particles plus active chemistry — that combine with the pad to planarize the wafer between layers.",
@@ -1712,6 +1793,16 @@ export const MATERIAL_TOPICS: MaterialTopic[] = [
   },
   {
     slug: "thermal-interface-materials",
+    learningLoop: {
+      youJustLearned: [
+        "Why heat must be moved off the die to keep it reliable",
+        "How a TIM fills microscopic gaps to conduct heat",
+        "Why thermal conductivity and thermal expansion both matter",
+        "How the chain power -> heat -> cooling -> reliability works",
+      ],
+      nowYouKnow:
+        "You understand why thermal materials are a critical, often limiting, part of package design as power density rises.",
+    },
     title: "Thermal interface materials",
     summary:
       "The materials (TIMs) that carry heat from the die to the package lid or heat sink by filling the microscopic gaps between surfaces.",
