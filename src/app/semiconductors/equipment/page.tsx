@@ -12,7 +12,8 @@ import {
   type EquipmentCategory,
 } from "@/lib/knowledge/equipment-map";
 import { getSemiLesson } from "@/lib/knowledge/semi-lessons";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "Semiconductor equipment — the machines that make chips",
@@ -42,6 +43,15 @@ function Field({ label, value }: { label: string; value: string }) {
 export default function SemiconductorEquipmentPage() {
   return (
     <Container className="space-y-10 py-10">
+      <JsonLd
+        data={jsonLdGraph([
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Explore", path: "/explore" },
+            { name: "Equipment", path: "/semiconductors/equipment" },
+          ]),
+        ])}
+      />
       <div className="space-y-3">
         <Breadcrumbs
           items={[

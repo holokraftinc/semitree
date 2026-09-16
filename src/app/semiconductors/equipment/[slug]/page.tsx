@@ -5,7 +5,8 @@ import {
   EQUIPMENT_TOPICS,
   getEquipmentTopic,
 } from "@/lib/knowledge/equipment-topics";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd, definedTermLd } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -36,5 +37,26 @@ export default async function EquipmentTopicPage({
   const { slug } = await params;
   const topic = getEquipmentTopic(slug);
   if (!topic) notFound();
-  return <EquipmentTopicView topic={topic} />;
+  const path = `/semiconductors/equipment/${slug}`;
+  return (
+    <>
+      <JsonLd
+        data={jsonLdGraph([
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Explore", path: "/explore" },
+            { name: "Equipment", path: "/semiconductors/equipment" },
+            { name: topic.title, path },
+          ]),
+          definedTermLd({
+            name: topic.title,
+            description: topic.quickAnswer ?? topic.summary,
+            path,
+            setPath: "/semiconductors/equipment",
+          }),
+        ])}
+      />
+      <EquipmentTopicView topic={topic} />
+    </>
+  );
 }

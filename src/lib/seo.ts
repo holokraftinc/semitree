@@ -119,13 +119,15 @@ export function definedTermLd(concept: {
   name: string;
   description: string;
   path: string;
+  /** The term set this belongs to (defaults to the concepts glossary). */
+  setPath?: string;
 }): LdNode {
   return {
     "@type": "DefinedTerm",
     name: concept.name,
     description: concept.description,
     url: absoluteUrl(concept.path),
-    inDefinedTermSet: absoluteUrl("/concepts"),
+    inDefinedTermSet: absoluteUrl(concept.setPath ?? "/concepts"),
   };
 }
 

@@ -5,7 +5,8 @@ import {
   MATERIAL_TOPICS,
   getMaterialTopic,
 } from "@/lib/knowledge/material-topics";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd, definedTermLd } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -36,5 +37,26 @@ export default async function MaterialTopicPage({
   const { slug } = await params;
   const topic = getMaterialTopic(slug);
   if (!topic) notFound();
-  return <MaterialTopicView topic={topic} />;
+  const path = `/semiconductors/materials/${slug}`;
+  return (
+    <>
+      <JsonLd
+        data={jsonLdGraph([
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Explore", path: "/explore" },
+            { name: "Materials", path: "/semiconductors/materials" },
+            { name: topic.title, path },
+          ]),
+          definedTermLd({
+            name: topic.title,
+            description: topic.quickAnswer ?? topic.summary,
+            path,
+            setPath: "/semiconductors/materials",
+          }),
+        ])}
+      />
+      <MaterialTopicView topic={topic} />
+    </>
+  );
 }
