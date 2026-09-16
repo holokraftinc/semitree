@@ -154,6 +154,19 @@ export default function SemiconductorMaterialsPage() {
                   <Field label="Where it fits" value={cat.where} />
                   <Field label="Why it matters" value={cat.why} />
                 </dl>
+                {cat.topics && cat.topics.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                    {cat.topics.map((tp) => (
+                      <Link
+                        key={tp.slug}
+                        href={`/semiconductors/materials/${tp.slug}`}
+                        className="inline-block text-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        {tp.label ? `${tp.label} details` : "Material details"} →
+                      </Link>
+                    ))}
+                  </div>
+                )}
                 {links.length > 0 && (
                   <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border pt-3">
                     <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">

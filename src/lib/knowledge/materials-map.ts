@@ -52,6 +52,8 @@ export interface MaterialCategory {
   lessons: string[];
   /** The equipment that works this material: /semiconductors/equipment/<slug>. */
   equipment?: MaterialEquipmentRef[];
+  /** Dedicated material topic page(s): /semiconductors/materials/<slug>. */
+  topics?: { slug: string; label?: string }[];
   /** No dedicated lesson yet — render as "Coming soon", not a link. */
   comingSoon?: boolean;
 }
@@ -64,6 +66,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     where: "The foundation of the whole device — everything else is added on top.",
     why: "Its properties (how it conducts, its crystal quality, its purity) set the ceiling for device performance; this is the material that can be 'switched'.",
     lessons: ["silicon"],
+    topics: [{ slug: "silicon" }],
   },
   {
     id: "wafers-substrates",

@@ -10,6 +10,7 @@ import { COMPANIES } from "@/lib/industry/companies";
 import { SUPPLY_STAGES } from "@/lib/knowledge/supply-chain";
 import { RESEARCH_TOPICS } from "@/lib/research/registry";
 import { EQUIPMENT_TOPICS } from "@/lib/knowledge/equipment-topics";
+import { MATERIAL_TOPICS } from "@/lib/knowledge/material-topics";
 import { ARTICLES } from "@/lib/content/articles";
 import { NEWSLETTER_ISSUES } from "@/lib/content/newsletter";
 import { CMS_TYPES } from "@/lib/wordpress/config";
@@ -83,6 +84,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...EQUIPMENT_TOPICS.map((t) => ({
       path: `/semiconductors/equipment/${t.slug}`,
+      priority: 0.7,
+    })),
+    ...MATERIAL_TOPICS.map((t) => ({
+      path: `/semiconductors/materials/${t.slug}`,
       priority: 0.7,
     })),
     ...ARTICLES.map((a) => ({ path: `/articles/${a.slug}`, priority: 0.7 })),
