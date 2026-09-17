@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buttonClasses } from "@/components/ui/Button";
-import { SEMICON_INDIA_2026 as E } from "@/lib/events/semicon-india-2026";
+import {
+  SEMICON_INDIA_2026 as E,
+  EVENT_START,
+  EVENT_SLUG,
+  eventStatus,
+  eventDayNumber,
+} from "@/lib/events/semicon-india-2026";
 
 /**
  * Temporary homepage promotion for SEMICON India 2026.
@@ -15,9 +21,6 @@ import { SEMICON_INDIA_2026 as E } from "@/lib/events/semicon-india-2026";
  * (renders nothing after the end date). No negative countdown is ever shown.
  */
 
-// Event window in IST (Asia/Kolkata, UTC+5:30).
-const START = Date.parse("2026-09-17T00:00:00+05:30");
-const END = Date.parse("2026-09-19T23:59:59+05:30");
 const DISCIPLINES = "Manufacturing • Equipment • Materials • Packaging • Design • Supply Chain";
 
 type Phase =
@@ -28,17 +31,16 @@ type Phase =
 
 function computePhase(): Phase {
   const now = Date.now();
-  if (now > END) return { kind: "after" };
-  if (now >= START) {
-    // Which day is it, in IST?
-    const istDate = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date());
-    const dayNum = istDate === "2026-09-18" ? 2 : istDate === "2026-09-19" ? 3 : 1;
-    return { kind: "live", label: `Day ${dayNum} — Live` };
-  }
-  const diff = START - now;
+  const status = eventStatus(now);
+  if (status === "archive") return { kind: "after" };
+  if (status === "live") return { kind: "live", label: `Day ${eventDayNumber(now)} — Live` };
+  const diff = EVENT_START - now;
   const days = Math.floor(diff / 86_400_000);
   const hours = Math.floor(diff / 3_600_000);
-  const label = days >= 1 ? `Starts in ${days} day${days === 1 ? "" : "s"}` : `Starts in ${Math.max(hours, 1)} hour${hours === 1 ? "" : "s"}`;
+  const label =
+    days >= 1
+      ? `Starts in ${days} day${days === 1 ? "" : "s"}`
+      : `Starts in ${Math.max(hours, 1)} hour${hours === 1 ? "" : "s"}`;
   return { kind: "before", label };
 }
 
@@ -93,7 +95,7 @@ export function EventPromotion() {
           </p>
         </div>
         <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2">
-          <Link href={`/events/${E.slug}`} className={buttonClasses()}>
+          <Link href={`/events/${EVENT_SLUG}`} className={buttonClasses()}>
             Explore SEMICON India 2026 →
           </Link>
           <a

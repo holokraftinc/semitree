@@ -27,6 +27,37 @@ import type { Article } from "@/lib/content/types";
  */
 export const SEMICON_EVENT_TAG = "semicon-india-2026";
 
+/* ------------------------------------------------------------------ *
+ * Event lifecycle — the single source of truth for the event window.
+ * Dates live here only; components derive their state from these. The
+ * status is date-driven (India Standard Time), so the before/live/archive
+ * transitions happen automatically with no code change.
+ * ------------------------------------------------------------------ */
+
+export const EVENT_SLUG = "semicon-india-2026";
+export const EVENT_START_ISO = "2026-09-17";
+export const EVENT_END_ISO = "2026-09-19";
+// Event window in India Standard Time (UTC+5:30).
+export const EVENT_START = Date.parse(`${EVENT_START_ISO}T00:00:00+05:30`);
+export const EVENT_END = Date.parse(`${EVENT_END_ISO}T23:59:59+05:30`);
+
+export type EventStatus = "upcoming" | "live" | "archive";
+
+/** Lifecycle status at a given instant (defaults to now). */
+export function eventStatus(now: number = Date.now()): EventStatus {
+  if (now < EVENT_START) return "upcoming";
+  if (now > EVENT_END) return "archive";
+  return "live";
+}
+
+/** Day number (1-3) while the event is live, otherwise null. Uses IST. */
+export function eventDayNumber(now: number = Date.now()): number | null {
+  if (eventStatus(now) !== "live") return null;
+  const ist = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date(now));
+  const istMidnight = Date.parse(`${ist}T00:00:00+05:30`);
+  return Math.round((istMidnight - Date.parse(`${EVENT_START_ISO}T00:00:00+05:30`)) / 86_400_000) + 1;
+}
+
 /** Semitree articles tagged for this event, newest first. */
 export function getSemiconArticles(): Article[] {
   return ARTICLES.filter((a) => a.tags?.includes(SEMICON_EVENT_TAG)).sort((a, b) =>
@@ -82,7 +113,7 @@ export interface EventDay {
 }
 
 export const SEMICON_INDIA_2026 = {
-  slug: "semicon-india-2026",
+  slug: EVENT_SLUG,
   name: "SEMICON India 2026",
   theme: "Silicon to Systems: Building the Ecosystem",
   dates: "17–19 September 2026",

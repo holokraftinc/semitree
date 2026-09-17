@@ -3,13 +3,18 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { buttonClasses } from "@/components/ui/Button";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMeta, jsonLdGraph, breadcrumbLd, eventLd } from "@/lib/seo";
-import { SEMICON_INDIA_2026 as E, getSemiconArticles } from "@/lib/events/semicon-india-2026";
+import {
+  SEMICON_INDIA_2026 as E,
+  getSemiconArticles,
+  EVENT_START_ISO,
+  EVENT_END_ISO,
+} from "@/lib/events/semicon-india-2026";
 import { SemiconDays } from "@/components/events/SemiconDays";
 import { SemiconCoverage } from "@/components/events/SemiconCoverage";
+import { SemiconStatusBadge, SemiconArchiveNotice } from "@/components/events/SemiconStatus";
 
 export const metadata: Metadata = pageMeta({
   title: "SEMICON India 2026: Schedule, Themes & Semiconductor Coverage",
@@ -60,8 +65,8 @@ export default function SemiconIndia2026Page() {
           ]),
           eventLd({
             name: E.name,
-            startDate: "2026-09-17",
-            endDate: "2026-09-19",
+            startDate: EVENT_START_ISO,
+            endDate: EVENT_END_ISO,
             path: `/events/${E.slug}`,
             description: E.overview[0],
             locationName: "Yashobhoomi (India International Convention & Expo Centre)",
@@ -85,7 +90,7 @@ export default function SemiconIndia2026Page() {
 
       {/* Hero — distinctive event banner, still within the design system */}
       <header className="overflow-hidden rounded-2xl border border-brand/30 bg-gradient-to-br from-brand/10 via-brand/5 to-transparent p-6 sm:p-10">
-        <Badge variant="brand">Event coverage</Badge>
+        <SemiconStatusBadge />
         <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{E.name}</h1>
         <p className="mt-2 text-lg font-medium text-brand">{E.theme}</p>
         <p className="mt-3 text-sm text-muted-foreground">
@@ -113,6 +118,8 @@ export default function SemiconIndia2026Page() {
         </a>{" "}
         is the authoritative source for the agenda, speakers, and exhibitors.
       </p>
+
+      <SemiconArchiveNotice />
 
       <Section id="overview" title="Event overview">
         <Paras items={E.overview} />
