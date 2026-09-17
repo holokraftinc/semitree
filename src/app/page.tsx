@@ -10,10 +10,12 @@ import { IndustryCompanies } from "@/components/home/IndustryCompanies";
 import { ResearchResources } from "@/components/home/ResearchResources";
 import { LatestArticles } from "@/components/home/LatestArticles";
 import { NewsletterSignup } from "@/components/home/NewsletterSignup";
+import { EventPromotion } from "@/components/events/EventPromotion";
 
 export default function HomePage() {
   return (
     <Container className="space-y-20 pb-8">
+      <EventPromotion />
       <PlatformHero />
       <WhereToStart />
       <ContinueLearning />
