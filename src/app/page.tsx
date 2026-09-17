@@ -14,9 +14,11 @@ import { EventPromotion } from "@/components/events/EventPromotion";
 
 export default function HomePage() {
   return (
-    <Container className="space-y-20 pb-8">
+    <>
+      {/* Temporary full-width SEMICON India 2026 takeover — removes itself after the event. */}
       <EventPromotion />
-      <PlatformHero />
+      <Container className="space-y-20 pb-8">
+        <PlatformHero />
       <WhereToStart />
       <ContinueLearning />
       <PopularTopics />
@@ -26,7 +28,8 @@ export default function HomePage() {
       <IndustryCompanies />
       <ResearchResources />
       <LatestArticles />
-      <NewsletterSignup />
-    </Container>
+        <NewsletterSignup />
+      </Container>
+    </>
   );
 }
