@@ -29,10 +29,36 @@ export interface ThemeLink {
   hrefLabel?: string;
 }
 
+/**
+ * One session from the official agenda. Only officially listed session/theme
+ * names are used — no invented sessions, speakers, or times. `time` is omitted
+ * unless a verified time is available. `description` is a concise, generally
+ * true note about the theme (never a fabricated event-specific claim), shown as
+ * "Why it matters". The after-session fields stay empty until real coverage is
+ * added.
+ */
+export interface EventSession {
+  title: string;
+  track: string;
+  /** Concise, verified "why it matters" — optional. */
+  description?: string;
+  /** Semitree learning destinations for this theme (internal). */
+  related?: EventLink[];
+  /** After-session content — empty until added. */
+  summary?: string;
+  takeaway?: string;
+  companies?: string[];
+  technologies?: string[];
+}
+
 export interface EventDay {
   label: string;
+  /** Display date, e.g. "17 September 2026". */
   date: string;
+  /** ISO date (Asia/Kolkata) used to compute upcoming/live/completed status. */
+  iso: string;
   summary: string;
+  sessions: EventSession[];
 }
 
 export const SEMICON_INDIA_2026 = {
@@ -77,20 +103,183 @@ export const SEMICON_INDIA_2026 = {
     {
       label: "Day 1",
       date: "17 September 2026",
+      iso: "2026-09-17",
       summary:
-        "Opening of the event and exhibition. The 5th edition of SEMICON India was inaugurated by the Prime Minister. Detailed opening-day sessions are listed on the official agenda.",
+        "Opening of the event and exhibition. The 5th edition of SEMICON India was inaugurated by the Prime Minister. The sessions below are from the official agenda; see the official site for times and speakers.",
+      sessions: [
+        { title: "Grand Inaugural Session", track: "Ceremony" },
+        { title: "Exhibition Inauguration", track: "Ceremony" },
+        {
+          title: "Policy Makers",
+          track: "Policy",
+          related: [{ label: "The ecosystem", href: "/semiconductors/ecosystem" }],
+        },
+        {
+          title: "NextGen Manufacturing",
+          track: "Manufacturing",
+          description:
+            "Advancing chip fabrication — the process flow, capacity, and the manufacturing base that turns wafers into devices.",
+          related: [
+            { label: "Manufacturing", href: "/manufacturing" },
+            { label: "Equipment", href: "/semiconductors/equipment" },
+            { label: "Materials", href: "/semiconductors/materials" },
+          ],
+        },
+        {
+          title: "Packaging",
+          track: "Packaging",
+          description:
+            "Advanced packaging is increasingly important as scaling shifts toward integration, chiplets, and heterogeneous architectures.",
+          related: [
+            { label: "Packaging", href: "/semiconductors/packaging" },
+            { label: "Advanced packaging", href: "/semiconductors/equipment/advanced-packaging" },
+            { label: "Packaging materials", href: "/semiconductors/materials" },
+          ],
+        },
+        {
+          title: "Equipment R&D and Manufacturing Ecosystem",
+          track: "Equipment",
+          description:
+            "The tools that run every process step, the R&D behind them, and the manufacturing supply base fabs depend on.",
+          related: [
+            { label: "Equipment", href: "/semiconductors/equipment" },
+            { label: "Manufacturing", href: "/manufacturing" },
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+          ],
+        },
+        {
+          title: "AI Transforming Industry",
+          track: "AI",
+          description:
+            "AI is both a major driver of semiconductor demand and, increasingly, a tool used across chip design and manufacturing.",
+          related: [
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+            { label: "Industry", href: "/industry" },
+          ],
+        },
+      ],
     },
     {
       label: "Day 2",
       date: "18 September 2026",
+      iso: "2026-09-18",
       summary:
-        "Conference sessions continue across the semiconductor value chain — see the official agenda for the day's tracks and speakers.",
+        "Conference sessions across the semiconductor value chain. The themes below are from the official agenda; see the official site for times and speakers.",
+      sessions: [
+        {
+          title: "Policy",
+          track: "Policy",
+          related: [{ label: "The ecosystem", href: "/semiconductors/ecosystem" }],
+        },
+        {
+          title: "Supply Chain 360",
+          track: "Supply chain",
+          description:
+            "The end-to-end semiconductor supply chain — materials, equipment, fabrication, packaging, test, and logistics.",
+          related: [
+            { label: "Supply chain", href: "/supply-chain" },
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+          ],
+        },
+        {
+          title: "Electronic Systems & Products",
+          track: "Systems",
+          description:
+            "The 'systems' end of silicon-to-systems — turning chips into electronic products.",
+          related: [{ label: "The ecosystem", href: "/semiconductors/ecosystem" }],
+        },
+        {
+          title: "R&D",
+          track: "R&D",
+          related: [
+            { label: "Learn (all paths)", href: "/semiconductors/learn" },
+            { label: "Concepts", href: "/semiconductors/concepts" },
+          ],
+        },
+        {
+          title: "International Collaboration",
+          track: "International",
+          related: [
+            { label: "Supply chain", href: "/supply-chain" },
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+          ],
+        },
+        {
+          title: "Design",
+          track: "Design",
+          description:
+            "How an idea becomes a chip — architecture, RTL, verification, and physical design.",
+          related: [{ label: "Design", href: "/semiconductors/design" }],
+        },
+        {
+          title: "Fabless",
+          track: "Fabless",
+          description:
+            "The fabless model — designing chips while outsourcing their manufacturing to foundries.",
+          related: [
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+            { label: "Design", href: "/semiconductors/design" },
+          ],
+        },
+        {
+          title: "Investment",
+          track: "Investment",
+          related: [
+            { label: "Industry", href: "/industry" },
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+          ],
+        },
+        {
+          title: "State Spotlight",
+          track: "Regional",
+          related: [{ label: "India ecosystem map", href: "/industry/map/india" }],
+        },
+        {
+          title: "Leadership",
+          track: "Leadership",
+          related: [{ label: "Industry", href: "/industry" }],
+        },
+      ],
     },
     {
       label: "Day 3",
       date: "19 September 2026",
+      iso: "2026-09-19",
       summary:
-        "The event concludes on 19 September. See the official agenda for the closing day's sessions.",
+        "The event concludes on 19 September. The themes below are from the official agenda; see the official site for the full closing-day programme.",
+      sessions: [
+        {
+          title: "Compound Semiconductors",
+          track: "Compound semiconductors",
+          description:
+            "Materials beyond silicon — such as silicon carbide (SiC) and gallium nitride (GaN) — used for power and high-frequency devices.",
+          related: [
+            { label: "Materials", href: "/semiconductors/materials" },
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+          ],
+        },
+        {
+          title: "Industry Synergy",
+          track: "Industry",
+          related: [
+            { label: "Industry", href: "/industry" },
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+          ],
+        },
+        {
+          title: "Investment",
+          track: "Investment",
+          related: [
+            { label: "Industry", href: "/industry" },
+            { label: "The ecosystem", href: "/semiconductors/ecosystem" },
+          ],
+        },
+        {
+          title: "Ease of Doing Business",
+          track: "Policy",
+          related: [{ label: "The ecosystem", href: "/semiconductors/ecosystem" }],
+        },
+      ],
     },
   ] as EventDay[],
 

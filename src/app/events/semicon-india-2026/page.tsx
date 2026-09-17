@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { buttonClasses } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
 import { SEMICON_INDIA_2026 as E } from "@/lib/events/semicon-india-2026";
+import { SemiconDays } from "@/components/events/SemiconDays";
 
 export const metadata: Metadata = pageMeta({
   title: "SEMICON India 2026 — Semitree coverage & learning hub",
@@ -106,23 +107,16 @@ export default function SemiconIndia2026Page() {
         <Bullets items={E.whatToWatch} />
       </Section>
 
-      {/* Days */}
-      <Section id="agenda" title="Across the three days">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {E.days.map((d) => (
-            <Card key={d.label} className="p-5">
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-semibold">{d.label}</h3>
-                <span className="text-xs text-muted-foreground">{d.date}</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{d.summary}</p>
-            </Card>
-          ))}
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Detailed sessions and speakers are on the{" "}
-          <a href={E.officialUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-brand hover:underline">official agenda ↗</a>.
+      {/* Days — day-by-day agenda with live/completed status */}
+      <Section id="agenda" title="Day-by-day agenda">
+        <p className="max-w-3xl text-sm text-muted-foreground">
+          Switch between the three days below. Sessions show as upcoming, live,
+          or completed based on the current date in India Standard Time. Session
+          names are from the official agenda — see the{" "}
+          <a href={E.officialUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-brand hover:underline">official agenda ↗</a>{" "}
+          for times, speakers, and full descriptions.
         </p>
+        <SemiconDays days={E.days} officialUrl={E.officialUrl} />
       </Section>
 
       {/* Key themes — connected to Semitree learning */}
