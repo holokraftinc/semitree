@@ -7,8 +7,9 @@ import { Badge } from "@/components/ui/Badge";
 import { buttonClasses } from "@/components/ui/Button";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMeta, jsonLdGraph, breadcrumbLd, eventLd } from "@/lib/seo";
-import { SEMICON_INDIA_2026 as E } from "@/lib/events/semicon-india-2026";
+import { SEMICON_INDIA_2026 as E, getSemiconArticles } from "@/lib/events/semicon-india-2026";
 import { SemiconDays } from "@/components/events/SemiconDays";
+import { SemiconCoverage } from "@/components/events/SemiconCoverage";
 
 export const metadata: Metadata = pageMeta({
   title: "SEMICON India 2026: Schedule, Themes & Semiconductor Coverage",
@@ -195,10 +196,14 @@ export default function SemiconIndia2026Page() {
 
       <Section id="coverage" title="Semitree coverage">
         <p className="max-w-3xl text-sm text-muted-foreground">
-          Semitree&rsquo;s own news, explainers, research and analysis live in the
-          existing sections below. Event-related coverage will appear there as it
-          is published.
+          Semitree&rsquo;s news, explainers, research and analysis tagged for this
+          event appear below, grouped by day and type. Everything Semitree
+          publishes also lives in the existing sections.
         </p>
+        <SemiconCoverage
+          articles={getSemiconArticles()}
+          days={E.days.map((d) => ({ label: d.label, iso: d.iso }))}
+        />
         <div className="flex flex-wrap gap-4 text-sm">
           {E.coverageLinks.map((l) => (
             <Link key={l.href} href={l.href} className="font-medium text-brand hover:underline">

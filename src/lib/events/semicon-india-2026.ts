@@ -14,6 +14,26 @@
  * are intentionally not reproduced here. No sessions are invented.
  */
 
+import { ARTICLES } from "@/lib/content/articles";
+import type { Article } from "@/lib/content/types";
+
+/**
+ * Event classification tag. Add this to an Article's `tags` (in the existing
+ * content registry) to make it appear in the hub's coverage section — no
+ * separate blog or CMS. Editorial rule for tagged articles: distinguish FACT,
+ * SOURCE, and Semitree ANALYSIS, and prioritize official SEMICON India,
+ * government, company announcements, then reputable reporting. No rumors as
+ * facts; no fabricated timestamps.
+ */
+export const SEMICON_EVENT_TAG = "semicon-india-2026";
+
+/** Semitree articles tagged for this event, newest first. */
+export function getSemiconArticles(): Article[] {
+  return ARTICLES.filter((a) => a.tags?.includes(SEMICON_EVENT_TAG)).sort((a, b) =>
+    a.publishedDate < b.publishedDate ? 1 : -1,
+  );
+}
+
 export interface EventLink {
   label: string;
   href: string;
