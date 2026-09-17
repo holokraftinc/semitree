@@ -98,6 +98,55 @@ export function organizationLd(): LdNode {
   };
 }
 
+/**
+ * Event structured data — factual event information only. No offers, ticket
+ * prices, or event status are asserted, and Semitree is never listed as the
+ * organizer (organizer comes from the official event source; sameAs points to
+ * the official event site).
+ */
+export function eventLd(e: {
+  name: string;
+  startDate: string;
+  endDate: string;
+  /** Semitree event page path (canonical page for this coverage). */
+  path: string;
+  description?: string;
+  locationName: string;
+  addressLocality: string;
+  addressCountry: string; // ISO country code, e.g. "IN"
+  sameAs?: string[];
+  organizers?: { name: string; url?: string }[];
+}): LdNode {
+  return {
+    "@type": "Event",
+    name: e.name,
+    startDate: e.startDate,
+    endDate: e.endDate,
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    location: {
+      "@type": "Place",
+      name: e.locationName,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: e.addressLocality,
+        addressCountry: e.addressCountry,
+      },
+    },
+    url: absoluteUrl(e.path),
+    ...(e.description ? { description: e.description } : {}),
+    ...(e.sameAs && e.sameAs.length ? { sameAs: e.sameAs } : {}),
+    ...(e.organizers && e.organizers.length
+      ? {
+          organizer: e.organizers.map((o) => ({
+            "@type": "Organization",
+            name: o.name,
+            ...(o.url ? { url: o.url } : {}),
+          })),
+        }
+      : {}),
+  };
+}
+
 export function softwareApplicationLd(tool: {
   name: string;
   description: string;

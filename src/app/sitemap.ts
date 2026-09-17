@@ -53,6 +53,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...CMS_TYPES.map((t) => ({ path: `/insights/${t.key}`, priority: 0.5 })),
     { path: "/newsletter", priority: 0.5 },
     { path: "/hub", priority: 0.4 },
+    { path: "/events", priority: 0.5 },
+    { path: "/events/semicon-india-2026", priority: 0.7 },
   ];
 
   const dynamicPaths: { path: string; priority: number }[] = [

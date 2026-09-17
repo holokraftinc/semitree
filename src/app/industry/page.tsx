@@ -35,6 +35,13 @@ export default function IndustryPage() {
           they connect. Explore the company directory and the global and India
           maps, all cross-linked to the knowledge base.
         </p>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Following{" "}
+          <Link href="/events/semicon-india-2026" className="font-medium text-brand hover:underline">
+            SEMICON India 2026
+          </Link>
+          ? Explore the companies and ecosystem behind the event.
+        </p>
       </div>
 
       {/* Directory + maps entry points */}

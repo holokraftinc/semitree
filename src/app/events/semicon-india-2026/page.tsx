@@ -5,14 +5,15 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { buttonClasses } from "@/components/ui/Button";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd, eventLd } from "@/lib/seo";
 import { SEMICON_INDIA_2026 as E } from "@/lib/events/semicon-india-2026";
 import { SemiconDays } from "@/components/events/SemiconDays";
 
 export const metadata: Metadata = pageMeta({
-  title: "SEMICON India 2026 — Semitree coverage & learning hub",
+  title: "SEMICON India 2026: Schedule, Themes & Semiconductor Coverage",
   description:
-    "Semitree's independent coverage and learning hub for SEMICON India 2026 (17–19 September 2026, Yashobhoomi, New Delhi) — event overview, key themes, and links to Semitree learning across manufacturing, equipment, materials, packaging, design, and the supply chain.",
+    "SEMICON India 2026 (17–19 September, Yashobhoomi, New Delhi) — Semitree's coverage and learning hub for the event and India's semiconductor ecosystem: overview, three-day themes, and links across manufacturing, equipment, materials, packaging, design and the supply chain.",
   path: "/events/semicon-india-2026",
 });
 
@@ -49,10 +50,34 @@ function Bullets({ items }: { items: string[] }) {
 export default function SemiconIndia2026Page() {
   return (
     <Container className="space-y-12 py-10">
+      <JsonLd
+        data={jsonLdGraph([
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Events", path: "/events" },
+            { name: E.name, path: `/events/${E.slug}` },
+          ]),
+          eventLd({
+            name: E.name,
+            startDate: "2026-09-17",
+            endDate: "2026-09-19",
+            path: `/events/${E.slug}`,
+            description: E.overview[0],
+            locationName: "Yashobhoomi (India International Convention & Expo Centre)",
+            addressLocality: "New Delhi",
+            addressCountry: "IN",
+            sameAs: [E.officialUrl],
+            organizers: [
+              { name: "India Semiconductor Mission (ISM)", url: "https://www.ism.gov.in/" },
+              { name: "SEMI" },
+            ],
+          }),
+        ])}
+      />
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
-          { label: "Events" },
+          { label: "Events", href: "/events" },
           { label: "SEMICON India 2026" },
         ]}
       />

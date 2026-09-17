@@ -91,6 +91,14 @@ export default function SupplyChainPage() {
       </section>
 
       <p className="text-sm text-muted-foreground">
+        Following{" "}
+        <Link href="/events/semicon-india-2026" className="font-medium text-brand hover:underline">
+          SEMICON India 2026
+        </Link>
+        ? Its themes span this whole supply chain.
+      </p>
+
+      <p className="text-sm text-muted-foreground">
         See also the{" "}
         <Link href="/manufacturing" className="font-medium text-brand hover:underline">
           Manufacturing Explorer

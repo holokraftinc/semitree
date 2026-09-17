@@ -37,6 +37,13 @@ export default function InsightsPage() {
           semiconductors and microfluidics. Everything Semitree publishes, in one
           place.
         </p>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Featured:{" "}
+          <Link href="/events/semicon-india-2026" className="font-medium text-brand hover:underline">
+            Semitree&rsquo;s SEMICON India 2026 coverage &amp; learning hub
+          </Link>
+          .
+        </p>
       </div>
 
       {/* Browse by category */}

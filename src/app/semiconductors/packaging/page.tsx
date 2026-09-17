@@ -213,6 +213,9 @@ export default function SemiconductorPackagingPage() {
           <Link href="/semiconductors/learn" className="font-medium text-brand hover:underline">
             Learn paths →
           </Link>
+          <Link href="/events/semicon-india-2026" className="font-medium text-brand hover:underline">
+            SEMICON India 2026 →
+          </Link>
         </div>
       </Card>
     </Container>

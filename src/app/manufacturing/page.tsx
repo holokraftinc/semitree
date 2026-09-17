@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ProcessFlow } from "@/components/manufacturing/ProcessFlow";
@@ -65,6 +66,13 @@ export default function ManufacturingPage() {
           sand to a packaged, tested chip — one process at a time. Tap any step
           to see what it does, why it&apos;s needed, how it works, and the
           equipment, defects, concepts, and tools behind it.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Following{" "}
+          <Link href="/events/semicon-india-2026" className="font-medium text-brand hover:underline">
+            SEMICON India 2026
+          </Link>
+          ? See how the event&rsquo;s manufacturing themes map to these steps.
         </p>
       </div>
 

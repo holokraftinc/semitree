@@ -248,6 +248,9 @@ export default function SemiconductorEquipmentPage() {
           <Link href="/industry" className="font-medium text-brand hover:underline">
             Industry →
           </Link>
+          <Link href="/events/semicon-india-2026" className="font-medium text-brand hover:underline">
+            SEMICON India 2026 →
+          </Link>
         </div>
       </Card>
     </Container>
