@@ -19,6 +19,13 @@ export function absoluteUrl(path: string): string {
   return new URL(path, SITE.url).toString();
 }
 
+/**
+ * Default social-share (Open Graph / Twitter) image — a committed, Semitree-
+ * branded PNG served at a real .png URL so link previews (LinkedIn, X, Slack)
+ * always show an image with the correct content type on static hosting.
+ */
+export const OG_IMAGE = absoluteUrl("/og.png");
+
 /** Build per-page metadata with canonical + OpenGraph + Twitter. */
 export function pageMeta({
   title,
@@ -40,8 +47,9 @@ export function pageMeta({
       url: path,
       title,
       description,
+      images: [OG_IMAGE],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE] },
   };
 }
 
@@ -230,8 +238,9 @@ export function articleMeta({
       modifiedTime,
       authors,
       tags,
+      images: [OG_IMAGE],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE] },
   };
 }
 

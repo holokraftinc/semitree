@@ -26,11 +26,13 @@ export const metadata: Metadata = {
     url: "/",
     title: "Semitree — Semiconductor knowledge, tools & industry",
     description: SITE.description,
+    images: [`${SITE.url}/og.png`],
   },
   twitter: {
     card: "summary_large_image",
     title: "Semitree — Semiconductor knowledge, tools & industry",
     description: SITE.description,
+    images: [`${SITE.url}/og.png`],
   },
   robots: {
     index: true,
