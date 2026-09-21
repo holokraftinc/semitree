@@ -21,11 +21,11 @@ export function PlatformHero() {
           with a full microfluidics domain and expanding into semiconductors.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/explore" size="lg">
-            Explore semiconductors
-          </ButtonLink>
-          <ButtonLink href="/learn" size="lg" variant="outline">
+          <ButtonLink href="/learn" size="lg">
             Start learning
+          </ButtonLink>
+          <ButtonLink href="/explore" size="lg" variant="outline">
+            Explore semiconductors
           </ButtonLink>
         </div>
         <div className="mt-3 flex flex-wrap gap-4 text-sm">
