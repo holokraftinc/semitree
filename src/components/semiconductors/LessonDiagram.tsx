@@ -49,6 +49,63 @@ export function LessonDiagram({ visualKey }: { visualKey: LessonVisualKey }) {
       </svg>
     );
   }
+  if (visualKey === "deposit-etch-cycle") {
+    const stages = [
+      { label: ["Deposit", "film"] },
+      { label: ["Coat", "resist"] },
+      { label: ["Pattern", "resist"] },
+      { label: ["Etch", "film"] },
+      { label: ["Strip", "resist"] },
+    ];
+    const w = 50;
+    const gap = 18;
+    const xs = (i: number) => 10 + i * 68;
+    return (
+      <svg viewBox="0 0 350 130" className={common} role="img" aria-label="Cross-section sequence: deposit a film, coat resist, pattern the resist, etch the film through the openings, then strip the resist to leave a patterned layer.">
+        <defs>
+          <marker id="ade" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0 0L6 3L0 6z" className="fill-foreground" />
+          </marker>
+        </defs>
+        {stages.map((s, i) => {
+          const x = xs(i);
+          const showFilmFull = i >= 0 && i <= 2;
+          const filmEtched = i >= 3;
+          const showResistFull = i === 1;
+          const showResistPatterned = i === 2 || i === 3;
+          return (
+            <g key={i}>
+              {/* substrate */}
+              <rect x={x} y="66" width={w} height="16" className="fill-muted stroke-border" strokeWidth="1" />
+              {/* film */}
+              {showFilmFull && <rect x={x} y="52" width={w} height="14" className="fill-brand/30 stroke-brand" strokeWidth="1" />}
+              {filmEtched && (
+                <>
+                  <rect x={x} y="52" width={(w - gap) / 2} height="14" className="fill-brand/30 stroke-brand" strokeWidth="1" />
+                  <rect x={x + (w + gap) / 2} y="52" width={(w - gap) / 2} height="14" className="fill-brand/30 stroke-brand" strokeWidth="1" />
+                </>
+              )}
+              {/* resist */}
+              {showResistFull && <rect x={x} y="38" width={w} height="14" className="fill-warning/40 stroke-border" strokeWidth="1" />}
+              {showResistPatterned && (
+                <>
+                  <rect x={x} y="38" width={(w - gap) / 2} height="14" className="fill-warning/40 stroke-border" strokeWidth="1" />
+                  <rect x={x + (w + gap) / 2} y="38" width={(w - gap) / 2} height="14" className="fill-warning/40 stroke-border" strokeWidth="1" />
+                </>
+              )}
+              {/* labels */}
+              <text x={x + w / 2} y="98" textAnchor="middle" className="fill-foreground text-[9px]">{s.label[0]}</text>
+              <text x={x + w / 2} y="109" textAnchor="middle" className="fill-muted-foreground text-[9px]">{s.label[1]}</text>
+              {/* arrow to next */}
+              {i < stages.length - 1 && (
+                <line x1={x + w + 2} y1="62" x2={x + 66} y2="62" className="stroke-foreground" strokeWidth="1.2" markerEnd="url(#ade)" />
+              )}
+            </g>
+          );
+        })}
+      </svg>
+    );
+  }
   if (visualKey === "wafer-flow") {
     return (
       <svg viewBox="0 0 340 120" className={common} role="img" aria-label="Ingot sliced into wafers, then a single polished wafer of many dies.">

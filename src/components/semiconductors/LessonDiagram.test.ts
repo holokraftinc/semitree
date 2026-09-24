@@ -22,6 +22,7 @@ const KEYS: LessonVisualKey[] = [
   "substrate",
   "electrical-connections",
   "wafer-level-packaging",
+  "deposit-etch-cycle",
 ];
 
 describe("LessonDiagram", () => {

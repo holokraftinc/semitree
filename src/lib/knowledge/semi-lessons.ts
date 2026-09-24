@@ -83,7 +83,8 @@ export type LessonVisualKey =
   | "die-vs-package"
   | "substrate"
   | "electrical-connections"
-  | "wafer-level-packaging";
+  | "wafer-level-packaging"
+  | "deposit-etch-cycle";
 
 export interface SemiLesson {
   slug: string;
@@ -1256,24 +1257,330 @@ export const SEMI_LESSONS: SemiLesson[] = [
     slug: "etching",
     pathId: "manufacturing",
     order: 8,
-    title: "Etching",
-    summary: "Removing material where the resist doesn't protect it.",
-    whatYoullLearn: ["Wet vs dry etching", "Anisotropy and selectivity", "Why plasma etch dominates"],
-    whyItMatters: "Etching transfers the resist pattern into the actual device layers.",
+    title: "Etching and Deposition",
+    summary:
+      "The two processes that add and remove material — used with lithography to build and shape a chip layer by layer.",
+    whatYoullLearn: [
+      "The one core idea: deposition adds material, etching removes it",
+      "Why thin films are needed and what thickness, uniformity, and composition control",
+      "How CVD, PVD, ALD, and epitaxy differ — and when each is used",
+      "Wet vs dry etching, isotropic vs anisotropic, and what selectivity means",
+      "How deposition, lithography, and etch work together to pattern a layer",
+    ],
+    whyItMatters:
+      "Almost every structure on a chip is built by adding a film, patterning it with lithography, and etching it — repeated hundreds of times. Deposition and etching are the 'add' and 'remove' half of that cycle, so their control over thickness, profile, and selectivity directly shapes the transistors and wiring and directly sets yield.",
+    quickStart: [
+      "Deposition ADDS material to the wafer; etching REMOVES material from it.",
+      "Together with lithography — which decides WHERE — they build and shape structures layer by layer.",
+      "Deposition films can be conductors, insulators, or semiconductors, and their thickness, uniformity, and composition all matter.",
+      "Etching can be isotropic (removes in all directions) or anisotropic (removes straight down), and must be selective — removing the target without harming the mask or the layer beneath.",
+      "This add–pattern–remove cycle is repeated many times; a chip is the result of hundreds of these layers stacked and aligned.",
+    ],
+    prerequisites: ["deposition", "photoresist", "lithography"],
+    intuition: [
+      "A useful first analogy: lithography defines WHERE something should happen, deposition determines WHAT material is added, and etching determines WHAT material is removed. Lithography draws the stencil; deposition and etching do the adding and taking away.",
+      "Why the analogy is useful but incomplete: real deposition is not 'painting on' a layer — the film grows atom by atom through physics and chemistry, and how well it coats steep, narrow shapes (conformality) is a hard problem paint never faces. Real etching is not 'cutting' — it is a controlled chemical and/or physical attack that must remove one material fast while barely touching its neighbours, in the right direction, to a precise depth.",
+      "So think of them less like a brush and a knife, and more like carefully tuned chemical processes whose exact behaviour depends on the materials, the shapes, the temperature, the pressure, and the gases involved.",
+    ],
+    whereItFits: {
+      journeyStepId: "etching",
+      note: "Deposition adds the film, lithography patterns a resist stencil on it, and etching transfers that pattern into the film — then the whole block repeats for the next layer. A modern chip runs through this add–pattern–remove loop many dozens of times.",
+    },
     explanation: [
-      "Etching removes exposed material. Wet etching uses chemical baths (often isotropic); dry/plasma etching uses reactive ions and can be highly anisotropic, cutting straight down to make vertical features.",
-      "Good etch processes are selective (attack the target layer, not the mask or underlayer) and precisely controlled.",
+      "Deposition and etching are complementary. Deposition (film formation) adds a thin, controlled layer of material onto the wafer — a conductor, an insulator, or a semiconductor. Etching removes material, usually where a patterned resist or hard mask leaves it exposed, transferring a pattern into the film beneath.",
+      "Neither works alone. Lithography sits between them: a film is deposited, a resist is coated and patterned by lithography, and the etch removes the film only where the resist allows. Strip the resist and a patterned layer remains. Stack and align hundreds of such layers and you have a working chip.",
+      "Etching comes in two broad families. Wet etching uses liquid chemistry and tends to remove material in all directions (isotropic). Dry etching uses a plasma of reactive species and can be made highly directional (anisotropic), cutting nearly straight down to form vertical features. The choice depends on the material, the shape needed, and how selective and controllable the process must be.",
+      "Deposition likewise comes in several families — CVD, PVD, ALD, and epitaxy — each depositing films in a different way, with different strengths in conformality, thickness control, temperature, and the materials they suit. There is no single 'best' method; each is chosen for the job.",
     ],
-    visual: "Plasma ions etching straight-walled trenches through openings in the resist.",
+    howItWorks: [
+      "Add: a deposition step grows a thin film of the needed material across the whole wafer, aiming for the right thickness, uniformity, and composition.",
+      "Define where: photoresist is coated and lithography patterns it, leaving resist covering the areas to keep and openings where the film should be removed.",
+      "Remove: an etch step removes the exposed film — ideally only the target material, in the intended direction, stopping at the layer below.",
+      "Clean up: the remaining resist is stripped, leaving the film patterned into the shape lithography defined.",
+      "Repeat: the wafer moves on to the next film, and the add–pattern–remove cycle runs again for the next layer, each aligned to the ones before it.",
+    ],
+    steps: [
+      { name: "Film deposition", detail: "Add the target material as a thin film across the wafer (CVD, PVD, ALD, or epitaxy)." },
+      { name: "Photoresist", detail: "Coat the film with a light-sensitive resist." },
+      { name: "Lithography", detail: "Expose and develop the resist so it carries the layer's pattern." },
+      { name: "Patterned resist", detail: "Resist now protects some regions and leaves others open to attack." },
+      { name: "Etch", detail: "Remove the exposed film — selectively, and in the intended direction and depth." },
+      { name: "Resist removal", detail: "Strip the resist that protected the covered regions." },
+      { name: "Finished patterned layer", detail: "The film is left in the exact shape lithography defined, ready for the next layer." },
+    ],
+    science: [
+      "Deposition is about growing a film with controlled thickness, uniformity across the wafer, and conformality (how evenly it coats steep, narrow features). Different methods trade these off: some are fast but coat unevenly, others are slow but perfectly conformal.",
+      "Etching is about removing the right material, in the right direction, without harming its neighbours. Selectivity (removing the target much faster than the mask or underlayer) and anisotropy (removing straight down rather than sideways) are the two properties that make an etch useful for fine patterns.",
+      "The reason dry/plasma etching became dominant for small features is directionality: energetic ions can be steered to strike the surface vertically, so the etch cuts down without widening the opening — essential for the tall, narrow shapes in modern devices.",
+    ],
+    equipment: [
+      { name: "CVD chamber", detail: "A sealed, temperature- and pressure-controlled reactor where precursor gases react at the wafer surface to grow a film." },
+      { name: "PVD system", detail: "A vacuum system that physically transports material from a solid source (target) to the wafer, e.g. by sputtering or evaporation." },
+      { name: "ALD system", detail: "A reactor that pulses precursors in alternating, self-limiting steps to build a film one atomic layer per cycle." },
+      { name: "Epitaxy reactor", detail: "A high-purity, often high-temperature system that grows a crystalline film aligned to the wafer's crystal structure." },
+      { name: "Plasma etch chamber", detail: "A vacuum chamber where RF power creates a plasma of reactive species and ions to etch the wafer, often with directional control." },
+      { name: "Wet bench", detail: "Controlled chemical baths and rinses for wet etching and cleaning, with careful handling and process control." },
+      { name: "Gas delivery system", detail: "Mass-flow controllers and plumbing that meter reactive and carrier gases precisely into the chambers." },
+      { name: "Vacuum & RF/plasma systems", detail: "Pumps that set the low pressures many processes need, and RF generators that create and sustain the plasma." },
+    ],
+    materials: [
+      { name: "Conductors", detail: "Metal films for wiring and contacts — the current-carrying parts of the chip." },
+      { name: "Insulators (dielectrics)", detail: "Films that electrically separate conductors and devices." },
+      { name: "Semiconducting films", detail: "Semiconductor layers, sometimes grown crystalline by epitaxy, that form or extend active device regions." },
+      { name: "Barrier layers", detail: "Thin films that stop one material from diffusing into another (e.g. keeping metal out of the dielectric)." },
+      { name: "Liners & adhesion layers", detail: "Films that help a later material stick and deposit well onto the surface beneath it." },
+      { name: "Interconnect-related films", detail: "The stack of conductors, barriers, and dielectrics used to build multi-level wiring." },
+    ],
+    parameters: [
+      { name: "Film thickness", detail: "How much material is added; must hit a target, because too thin or too thick both change device behaviour." },
+      { name: "Uniformity", detail: "How consistent thickness and composition are across the whole wafer and wafer-to-wafer." },
+      { name: "Conformality", detail: "How evenly a film coats vertical walls and the bottoms of narrow features." },
+      { name: "Composition", detail: "The exact material and its purity — small changes can shift electrical or mechanical properties." },
+      { name: "Selectivity (etch)", detail: "How much faster the etch removes the target than the mask or underlying layer." },
+      { name: "Anisotropy / directionality (etch)", detail: "Whether the etch removes straight down (anisotropic) or in all directions (isotropic)." },
+      { name: "Temperature & pressure", detail: "Set reaction rates, film quality, and plasma behaviour in both deposition and etch." },
+      { name: "Aspect ratio", detail: "The depth-to-width ratio of a feature; high aspect ratios make both filling and etching much harder." },
+    ],
+    parametersNote:
+      "Which material each method deposits, and the exact temperatures, pressures, gases, and rates, are process- and tool-specific and set by each fab. The relationships here are conceptual, not a recipe — and this topic deliberately avoids hazardous chemical procedures.",
+    visual:
+      "A cross-section sequence: deposit a film on the wafer, coat and pattern resist over it, etch the film through the openings, then strip the resist — leaving the film in the exact shape lithography defined.",
+    visualKey: "deposit-etch-cycle",
     terminology: [
-      { term: "Anisotropic", def: "Etching preferentially in one direction (vertical)." },
-      { term: "Selectivity", def: "Etching the target far faster than other materials." },
-      { term: "RIE", def: "Reactive-ion etching, a common plasma etch." },
+      { term: "Deposition", def: "Adding a thin film of material onto the wafer." },
+      { term: "Etching", def: "Removing selected material from the wafer, usually through openings in a mask." },
+      { term: "Thin film", def: "A layer, often nanometres to micrometres thick, deposited across the wafer." },
+      { term: "Conformality", def: "How evenly a deposited film coats steep, narrow, 3D features." },
+      { term: "Selectivity", def: "Removing (or depositing on) the target material far faster than other materials." },
+      { term: "Isotropic", def: "Acting equally in all directions (etches sideways as well as down)." },
+      { term: "Anisotropic", def: "Acting mainly in one direction (etches straight down for vertical walls)." },
+      { term: "CVD", def: "Chemical vapour deposition — a film grown from reacting precursor gases at the surface." },
+      { term: "PVD", def: "Physical vapour deposition — material physically transported from a source to the wafer (e.g. sputtering)." },
+      { term: "ALD", def: "Atomic layer deposition — film built one atomic layer per self-limiting cycle." },
+      { term: "Epitaxy", def: "Growing a crystalline film aligned to the wafer's underlying crystal." },
+      { term: "RIE", def: "Reactive-ion etching — a plasma etch combining chemical reaction with directional ion bombardment." },
+      { term: "Aspect ratio", def: "A feature's depth divided by its width; high values are hard to fill and to etch." },
+      { term: "Undercut", def: "Unwanted sideways etching beneath the mask edge." },
     ],
-    example: "Deep, vertical trenches for capacitors or vias rely on highly anisotropic plasma etch.",
-    commonMistakes: ["Assuming etching is just 'dissolving' — plasma etch is physical + chemical and directional."],
-    realWorld: "3D structures (FinFETs, 3D NAND) depend on precise high-aspect-ratio etching.",
-    relatedLessons: ["photoresist", "lithography", "deposition"],
+    formula: {
+      expression: "Aspect ratio = feature depth / feature width",
+      caption:
+        "A simple but decisive number: as features get narrower and deeper, the aspect ratio rises, and both filling them (deposition) and clearing them (etch) get dramatically harder.",
+    },
+    example:
+      "Building a metal wire shows the cycle end to end: deposit a metal film across the wafer (add), coat and pattern resist so it covers only the wire shapes (where), etch away the exposed metal so only the wires remain (remove), then strip the resist. Selectivity matters here — the etch must clear the metal but stop on the insulator beneath, or it would keep cutting into the layer below.",
+    commonMistakes: [
+      "Thinking deposition is just 'painting' the wafer. Films grow through physics and chemistry, atom by atom, and must coat complex 3D shapes evenly — something paint never has to do.",
+      "Thinking etching is just 'cutting' the wafer. Etching is a controlled chemical and/or physical attack that must be selective, directional, and stopped at the right depth.",
+      "Assuming dry etching is always better than wet etching. Dry etch gives directionality and fine control, but wet etch can be faster, gentler, cheaper, and highly selective for the right jobs.",
+      "Assuming thicker films are better. Thickness is a target to hit; too thick can add stress, waste material, or change device behaviour just as too thin can.",
+      "Believing perfect vertical profiles are always the goal. Sometimes a tapered or rounded profile is exactly what a later step needs — the 'right' profile depends on the structure being built.",
+    ],
+    realWorld:
+      "Modern 3D devices — FinFETs, gate-all-around transistors, and 3D NAND with dozens of stacked layers — exist only because deposition can coat and fill extremely narrow, deep features and etching can cut high-aspect-ratio shapes precisely. The add and remove steps are as central to scaling as lithography.",
+    defects: [
+      "Non-uniform thickness: a film that is thicker in some regions than others shifts device behaviour across the wafer.",
+      "Particles: stray particles create missing or extra material that can kill a device.",
+      "Poor conformality: a film that fails to coat steep sidewalls or feature bottoms leaves gaps or voids.",
+      "Over-etch: removing too much — cutting into the underlying layer or widening features beyond spec.",
+      "Under-etch: removing too little — leaving residue that blocks contact or distorts the pattern.",
+      "Profile distortion: sidewalls that come out sloped, bowed, or undercut when they should not be.",
+      "Residue and contamination: leftover material or chemical/metal contamination that disrupts later steps.",
+      "Film stress: built-in mechanical stress that can bow the wafer or crack or delaminate the film.",
+    ],
+    metrology: [
+      "Film thickness and uniformity are measured optically (e.g. reflectometry/ellipsometry) across many points on the wafer.",
+      "Composition and film properties are checked with spectroscopic and physical-analysis techniques to confirm the right material and purity.",
+      "Profiles and critical dimensions — sidewall angle, depth, feature width — are measured with cross-section or scatterometry methods to confirm the etch shape.",
+      "Defects and particles are found by optical or e-beam inspection, and surface properties (roughness, residue) are checked to catch problems before the next layer.",
+    ],
+    yieldImpact: [
+      "Because deposition and etch repeat on every layer, a small systematic error — a thickness drift, a slight over-etch — is multiplied across the wafer and across layers, quietly eroding yield.",
+      "A single particle or a void from poor conformality in the wrong place can disable an entire chip, so defect and contamination control in these steps strongly gates yield.",
+      "Profile and thickness control also set how much margin later steps have; a well-centred, uniform process is worth as much as raw capability.",
+    ],
+    designImplications: [
+      "Design rules reflect what deposition and etch can actually build: how narrow a feature can be filled, how deep it can be cut, and how vertical the walls can be.",
+      "Layouts favour regular, similar-density patterns because widely varying feature sizes and densities etch and deposit at different rates (loading effects).",
+      "Structures are designed with realistic film thickness and etch-profile variation in mind, leaving margin so layers still connect and isolate correctly.",
+    ],
+    industryContext: [
+      "Deposition and etch tools are a large share of a fab's equipment, and the number of these steps has grown as chips add more layers and move to 3D structures.",
+      "Progress depends on a deep ecosystem: equipment makers, precursor and gas suppliers, and metrology vendors advancing together, much like lithography.",
+      "As scaling shifts from shrinking flat features to building vertically, deposition and etch capability (conformal films, high-aspect-ratio etch) increasingly pace what new devices are possible.",
+    ],
+    deepDives: [
+      {
+        id: "why-deposition",
+        level: "engineer",
+        title: "Why deposition is needed: thin films",
+        intro:
+          "A chip is a stack of many thin films, each doing a specific electrical or structural job. Deposition is how those films are formed with the thickness, uniformity, and composition each job requires.",
+        bullets: [
+          "Conductors: metal films carry current — the contacts to devices and the wiring that links them.",
+          "Insulators (dielectrics): films that electrically separate conductors and devices so signals do not short together.",
+          "Semiconducting materials: semiconductor films (sometimes grown crystalline by epitaxy) that form or extend the active regions of devices.",
+          "Barrier layers: thin films that block one material from diffusing into another — for example, keeping metal atoms out of the surrounding dielectric.",
+          "Liners and adhesion layers: films that help the next material stick and deposit evenly on the surface below.",
+          "Interconnect-related films: the combined stack of conductors, barriers, and dielectrics used to build multi-level wiring.",
+        ],
+        note:
+          "Why thickness, uniformity, and composition matter: thickness sets electrical properties (resistance, capacitance) and must hit a target; uniformity keeps every device on the wafer behaving the same; composition and purity determine whether the film actually does its intended job. Small errors in any of the three shift device behaviour or reduce yield.",
+      },
+      {
+        id: "deposition-techniques",
+        level: "engineer",
+        title: "Deposition techniques: CVD, PVD, ALD, epitaxy",
+        intro:
+          "There is no single best deposition method. Each forms a film in a different way, with different strengths — so fabs pick the method that fits the material, the shape, and the thickness control a layer needs. (Specific material/process pairings are process-dependent and not listed here.)",
+        bullets: [
+          "CVD (chemical vapour deposition) — What: a film grown from chemistry. How: precursor gases flow over the heated wafer and react at the surface, depositing a solid film (precursor gases → surface reaction → film formation). Materials: many conductors, insulators, and semiconductors depending on the chemistry. Why: good throughput and often good conformality. Limitations: needs suitable precursor chemistry, often elevated temperature, and byproducts to manage.",
+          "PVD (physical vapour deposition) — What: a film formed by physically moving material. How: atoms are knocked off a solid source (sputtering) or boiled off it (evaporation) in vacuum and travel to the wafer. Materials: metals and some other materials. Why: simple, fast, high-purity films — common for metal layers. Limitations: largely line-of-sight, so it coats steep, narrow features poorly (limited conformality).",
+          "ALD (atomic layer deposition) — What: film grown one atomic layer at a time. How: two precursors are pulsed alternately; each reaction is self-limiting, so exactly one layer forms per cycle (covered in its own deep dive). Materials: high-quality thin dielectrics and other films. Why: unmatched thickness control and conformality. Limitations: slow, because growth is cycle-by-cycle.",
+          "Epitaxy — What: growth of a crystalline film aligned to the wafer's crystal. How: atoms arrive and arrange onto the existing lattice so the film continues the crystal structure. Materials: semiconductor layers. Why: gives device-quality single-crystal material. Limitations: demanding conditions (high purity, often high temperature) and constraints from the underlying crystal.",
+        ],
+      },
+      {
+        id: "cvd-detail",
+        level: "engineer",
+        title: "CVD in depth: precursor gases → surface reaction → film",
+        intro:
+          "Chemical vapour deposition grows a film from gas-phase chemistry: precursor gases are delivered to a hot wafer, react at the surface, and leave a solid film behind while volatile byproducts are pumped away.",
+        bullets: [
+          "Conformality: because the film grows from surface reactions rather than line-of-sight arrival, CVD can coat vertical walls and feature bottoms far better than PVD — valuable for 3D shapes.",
+          "Uniformity: gas flow, temperature, and pressure must be balanced so the film grows at the same rate everywhere on the wafer.",
+          "Temperature: reaction rate and film quality depend strongly on temperature; higher temperatures often improve quality but limit what underlying layers can tolerate.",
+          "Pressure: chamber pressure affects how gases move and react; low-pressure and plasma-assisted variants exist to control rate, uniformity, and allowable temperature.",
+          "Reaction chemistry: the choice of precursors sets which material forms, the byproducts produced, and the conditions required — the chemistry is central, not incidental.",
+        ],
+      },
+      {
+        id: "pvd-detail",
+        level: "engineer",
+        title: "PVD in depth: physical transport of material",
+        intro:
+          "Physical vapour deposition moves material physically, not chemically: atoms leave a solid source and travel through vacuum to condense on the wafer.",
+        bullets: [
+          "Sputtering: energetic ions strike a target, knocking atoms loose; those atoms fly to the wafer and build up a film. It is the workhorse for many metal layers.",
+          "Evaporation: the source material is heated until it vaporises, and the vapour condenses on the cooler wafer.",
+          "Where PVD is useful: fast, high-purity metal films on relatively open surfaces — for example, blanket metal layers and seed layers.",
+          "Limitations: PVD is largely line-of-sight, so it thins or leaves gaps on steep sidewalls and at the bottoms of narrow, deep features — poor conformality compared with CVD or ALD.",
+        ],
+      },
+      {
+        id: "ald-detail",
+        level: "advanced",
+        title: "ALD: atomic-scale, self-limiting growth",
+        intro:
+          "Atomic layer deposition earns its own section because it works differently from the others: it grows a film in discrete cycles, and each cycle adds at most one atomic layer.",
+        bullets: [
+          "Self-limiting reactions: a first precursor is pulsed in and reacts with the surface until every available site is taken — then it stops on its own, because there is nothing left to react with. The chamber is purged, a second precursor is pulsed to complete the layer, and it too self-limits.",
+          "Cycle-by-cycle growth: repeating this pulse–purge–pulse–purge cycle adds one atomic layer at a time, so final thickness is set simply by counting cycles.",
+          "Conformality: because each step saturates every exposed surface equally — including deep, narrow walls — ALD coats complex 3D features with near-perfect evenness.",
+          "Atomic-scale thickness control: growth per cycle is essentially fixed, giving sub-nanometre control that other methods cannot match.",
+          "Why it is valuable for complex 3D structures: modern devices have extremely narrow, deep, and folded features; ALD's self-limiting, conformal growth is often the only way to line or fill them uniformly — at the cost of being slow.",
+        ],
+      },
+      {
+        id: "epitaxy-detail",
+        level: "advanced",
+        title: "Epitaxy: growing crystal on crystal",
+        intro:
+          "Epitaxy is deposition that preserves crystal order: instead of an amorphous or polycrystalline film, it grows a single-crystal layer that continues the wafer's own lattice.",
+        bullets: [
+          "Crystal growth: arriving atoms settle into positions that extend the existing crystal, so the new film shares the substrate's orderly lattice.",
+          "Substrate relationship: the underlying crystal acts as a template; the film's structure (and any strain) depends on how well the two lattices match.",
+          "Why crystal quality matters: defects and dislocations in the grown layer degrade device performance, so epitaxy demands very clean, controlled conditions.",
+          "Device applications: epitaxial layers provide device-quality semiconductor material — for example, engineered channel or source/drain regions and high-quality starting layers for devices.",
+        ],
+      },
+      {
+        id: "etch-types",
+        level: "engineer",
+        title: "Etching: wet vs dry, isotropic vs anisotropic",
+        intro:
+          "Etching removes selected material from the wafer — normally the material left exposed by openings in a resist or hard mask. It splits into two broad families with different behaviour.",
+        bullets: [
+          "Wet etching — a chemical reaction in a liquid dissolves and removes the target material (chemical reaction → material dissolution/removal). It is often highly selective and gentle, but usually isotropic (etches sideways as well as down), which limits how fine a feature it can hold. Selectivity, isotropy, surface compatibility, and bath control (concentration, temperature, time) are the levers. (No specific chemistries are given here.)",
+          "Dry etching — a plasma of reactive species removes material, and can be made strongly directional. It combines chemistry (reactive species attack the material) with physics (ions accelerated toward the wafer strike it vertically), enabling anisotropic profiles with nearly vertical walls.",
+          "Reactive-ion etching (RIE) is the classic example: a plasma supplies reactive species while an electric field drives ions downward, so the etch proceeds mostly straight down. Plasma etching more broadly spans more-chemical (less directional) to more-physical (more directional) regimes.",
+          "Isotropic vs anisotropic: isotropic etches remove material equally in all directions (rounded, undercut profiles); anisotropic etches remove mainly downward (straight sidewalls). Fine, dense patterns need anisotropy, which is why dry etch dominates there.",
+        ],
+        note:
+          "Dry is not automatically 'better': wet etching remains the right choice when its speed, gentleness, cost, or very high selectivity suit the job. This topic stays conceptual and does not provide hazardous processing instructions.",
+      },
+      {
+        id: "selectivity",
+        level: "engineer",
+        title: "Selectivity: removing the target and nothing else",
+        intro:
+          "Selectivity answers one question: how well can we remove the target material without damaging the other materials around it?",
+        bullets: [
+          "Target material: the film you actually want to remove.",
+          "Mask: the resist or hard mask on top that must survive the etch so the pattern is preserved.",
+          "Underlying layer: the film beneath that the etch should stop on, not cut into.",
+          "High selectivity means the etch removes the target much faster than it removes the mask or the underlayer — giving a wide margin to stop at the right place.",
+        ],
+        note:
+          "Simple example: etching a contact hole through an insulator down to a metal pad. The etch must clear the insulator (target) but barely touch the metal beneath (underlayer) and not strip away the mask on top — so it needs high selectivity to both. Low selectivity would punch through the pad or lose the pattern.",
+      },
+      {
+        id: "etch-profile",
+        level: "advanced",
+        title: "Etch profile & aspect-ratio effects",
+        intro:
+          "The shape an etch leaves behind — its profile — matters as much as how much it removes. Profile and depth-dependent effects decide whether a feature is usable.",
+        bullets: [
+          "Vertical sidewalls: straight-down walls from a strongly anisotropic etch — needed for fine, densely packed features.",
+          "Tapered sidewalls: sloped walls, sometimes deliberate (to help a later film fill or coat the feature).",
+          "Undercut: unwanted sideways etching beneath the mask edge, which shrinks or distorts the feature — common with isotropic etching.",
+          "Aspect ratio: depth divided by width; as it rises, reactants struggle to reach the bottom and byproducts struggle to leave, making deep narrow etches much harder.",
+          "Microloading: etch rate depends on how much exposed area or how many features are nearby — dense regions can etch at a different rate than isolated ones.",
+          "Aspect-ratio-dependent etching (ARDE): narrow, high-aspect-ratio features etch more slowly than wide ones, so features of different sizes reach different depths in the same time — a key challenge for 3D structures.",
+        ],
+      },
+    ],
+    keyTakeaways: [
+      "Deposition adds material and etching removes it; with lithography deciding where, they build and shape a chip layer by layer.",
+      "Deposition methods — CVD, PVD, ALD, epitaxy — each form films differently, trading off conformality, thickness control, temperature, and the materials they suit.",
+      "Etching is wet or dry and isotropic or anisotropic; dry/plasma etch dominates fine features because it can cut straight down.",
+      "Selectivity — removing the target without harming the mask or underlayer — and profile control are what make etching useful, not just removal.",
+      "The add–pattern–remove cycle repeats hundreds of times, so thickness, uniformity, conformality, and profile control directly drive yield.",
+    ],
+    references: [
+      {
+        title: "Silicon VLSI Technology: Fundamentals, Practice, and Modeling",
+        author: "J. D. Plummer, M. D. Deal, P. B. Griffin",
+        publisher: "Prentice Hall",
+        year: 2000,
+        kind: "textbook",
+        note: "Covers deposition (CVD, PVD, epitaxy) and etching within the full process flow.",
+      },
+      {
+        title: "Introduction to Microfabrication",
+        author: "Sami Franssila",
+        publisher: "Wiley",
+        year: 2010,
+        kind: "textbook",
+        note: "Accessible treatment of thin-film deposition, etching, and process integration.",
+      },
+      {
+        title: "Fundamentals of Semiconductor Manufacturing and Process Control",
+        author: "G. S. May, C. J. Spanos",
+        publisher: "Wiley-IEEE Press",
+        year: 2006,
+        kind: "textbook",
+        note: "Process steps together with metrology and process control.",
+      },
+      {
+        title: "SEMI — global industry association for semiconductor manufacturing",
+        publisher: "SEMI",
+        url: "https://www.semi.org",
+        kind: "standards",
+        note: "Industry standards and background on manufacturing equipment and materials.",
+      },
+    ],
+    relatedLessons: ["deposition", "lithography", "cmp", "metallization"],
   }),
   L({
     slug: "ion-implantation",
