@@ -26,6 +26,13 @@ export interface AnalyticsEventMap {
   calculation_error: { tool: string; field?: string };
   /** A lesson page was opened. */
   lesson_opened: { lesson: string; level?: number };
+
+  /** Learner reached the end of a topic's content. */
+  learning_topic_completed: { topic: string; domain?: string };
+
+  /** Clicked the next / previous topic in the learning sequence. */
+  learning_next_clicked: { from: string; to: string };
+  learning_previous_clicked: { from: string; to: string };
   /** A user followed a link from a lesson to a tool. → lessons that drive tools. */
   lesson_to_tool: { lesson: string; tool: string };
   /** A user followed a link from a tool to a lesson. → tools that drive learning. */

@@ -10,6 +10,9 @@ import { buttonClasses } from "@/components/ui/Button";
 import { FormulaBlock } from "@/components/ui/FormulaBlock";
 import { VariableTable } from "@/components/ui/VariableTable";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
+import { LearningTopicProgress } from "@/components/learn/LearningTopicProgress";
+import { LearningTopicNav } from "@/components/learn/LearningTopicNav";
+import { microLessonNeighbors } from "@/lib/data/learn-nav";
 import { cn } from "@/lib/utils/cn";
 
 const CONCEPT_TITLES = new Map(GLOSSARY.map((c) => [c.slug, c.title]));
@@ -43,9 +46,19 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
     slug,
     title: CONCEPT_TITLES.get(slug) ?? slug,
   }));
+  const nav = microLessonNeighbors(lesson.slug);
+  const levelTitle = nav.levelTitle ?? `Level ${lesson.level}`;
 
   return (
     <article className="space-y-10">
+      <LearningTopicProgress
+        topicKey={`microfluidics:${lesson.slug}`}
+        title={lesson.title}
+        eyebrow={levelTitle}
+        index={nav.index}
+        total={nav.total}
+        domain="microfluidics"
+      />
       {/* Title */}
       <header className="space-y-3">
         <Breadcrumbs
@@ -70,6 +83,7 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
         </p>
       </header>
 
+      <div id="learning-content" className="space-y-10">
       {/* Quick start */}
       {lesson.quickStart && lesson.quickStart.length > 0 && (
         <Card className="border-brand/30 bg-brand/5 p-5">
@@ -399,6 +413,23 @@ export function LessonView({ lesson }: { lesson: LessonContent }) {
           </ul>
         </Section>
       )}
+      </div>
+
+      <LearningTopicNav
+        topicKey={`microfluidics:${lesson.slug}`}
+        title={lesson.title}
+        domain="microfluidics"
+        prev={
+          nav.prev
+            ? { href: `/learn/${nav.prev.slug}`, title: nav.prev.title, eyebrow: levelTitle, description: nav.prev.summary }
+            : undefined
+        }
+        next={
+          nav.next
+            ? { href: `/learn/${nav.next.slug}`, title: nav.next.title, eyebrow: levelTitle, description: nav.next.summary }
+            : undefined
+        }
+      />
     </article>
   );
 }

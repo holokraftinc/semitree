@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { Alert } from "@/components/ui/Alert";
 import { FormulaBlock } from "@/components/ui/FormulaBlock";
-import { ButtonLink } from "@/components/ui/Button";
 import { LessonDiagram } from "./LessonDiagram";
+import { LearningTopicProgress } from "@/components/learn/LearningTopicProgress";
+import { LearningTopicNav } from "@/components/learn/LearningTopicNav";
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
@@ -24,9 +25,19 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
   const related = (lesson.relatedLessons ?? [])
     .map((s) => getSemiLesson(s))
     .filter((l): l is SemiLesson => Boolean(l));
+  const index = path ? path.lessonSlugs.indexOf(lesson.slug) + 1 : undefined;
+  const total = path?.lessonSlugs.length;
 
   return (
     <article className="space-y-10">
+      <LearningTopicProgress
+        topicKey={`semiconductors:${lesson.slug}`}
+        title={lesson.title}
+        eyebrow={path?.title}
+        index={index}
+        total={total}
+        domain="semiconductors"
+      />
       {/* Title */}
       <header className="space-y-3">
         <Breadcrumbs
@@ -48,6 +59,7 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         <p className="max-w-2xl text-lg text-muted-foreground">{lesson.summary}</p>
       </header>
 
+      <div id="learning-content" className="space-y-10">
       {/* What you'll learn */}
       <Card className="bg-muted/30 p-5">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
@@ -140,53 +152,23 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         </Section>
       )}
 
-      {/* Retention: always a logical next action */}
-      <section aria-labelledby="next-h" className="space-y-4 rounded-2xl border border-border bg-muted/30 p-6">
-        <h2 id="next-h" className="text-lg font-semibold tracking-tight">Keep going</h2>
+      </div>
 
-        {/* Primary: continue learning */}
-        {next ? (
-          <ButtonLink href={`/semiconductors/learn/${next.slug}`}>
-            Continue learning: {next.title} →
-          </ButtonLink>
-        ) : (
-          <ButtonLink href="/semiconductors/learn">Back to learning paths →</ButtonLink>
-        )}
-
-        {/* Secondary next actions */}
-        <div className="grid gap-2 sm:grid-cols-2">
-          <ActionLink href="/semiconductors/learn" label="Explore learning paths" />
-          <ActionLink href="/tools" label="Try a tool" />
-          <ActionLink href="/insights" label="Read related insights" />
-          <ActionLink href="/industry" label="Explore companies" />
-        </div>
-
-        {/* Prev / Next */}
-        <div className="flex items-center justify-between border-t border-border pt-4 text-sm">
-          {prev ? (
-            <Link href={`/semiconductors/learn/${prev.slug}`} className="rounded-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              ← {prev.title}
-            </Link>
-          ) : <span />}
-          {next ? (
-            <Link href={`/semiconductors/learn/${next.slug}`} className="rounded-sm text-right font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              {next.title} →
-            </Link>
-          ) : <span />}
-        </div>
-      </section>
+      <LearningTopicNav
+        topicKey={`semiconductors:${lesson.slug}`}
+        title={lesson.title}
+        domain="semiconductors"
+        prev={
+          prev
+            ? { href: `/semiconductors/learn/${prev.slug}`, title: prev.title, eyebrow: path?.title, description: prev.summary }
+            : undefined
+        }
+        next={
+          next
+            ? { href: `/semiconductors/learn/${next.slug}`, title: next.title, eyebrow: path?.title, description: next.summary }
+            : undefined
+        }
+      />
     </article>
-  );
-}
-
-function ActionLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="flex items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-3 text-sm transition-colors hover:border-brand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-    >
-      <span className="font-medium text-foreground">{label}</span>
-      <span aria-hidden="true" className="text-muted-foreground">→</span>
-    </Link>
   );
 }
