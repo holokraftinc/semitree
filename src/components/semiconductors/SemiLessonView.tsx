@@ -141,6 +141,44 @@ function DeepDive({ dive }: { dive: LessonDeepDive }) {
         {dive.intro && <p className="leading-relaxed text-foreground">{dive.intro}</p>}
         {dive.flow && dive.flow.length > 0 && <FlowSteps steps={dive.flow} />}
         {dive.body && dive.body.length > 0 && <Paras items={dive.body} />}
+        {dive.table && dive.table.rows.length > 0 && (
+          <figure className="space-y-2">
+            <div className="overflow-x-auto rounded-lg border border-border">
+              <table className="w-full border-collapse text-left text-sm">
+                <thead>
+                  <tr className="bg-muted/50">
+                    {dive.table.columns.map((c, i) => (
+                      <th
+                        key={i}
+                        scope="col"
+                        className={`p-3 font-semibold text-foreground ${i === 0 ? "" : "border-l border-border"}`}
+                      >
+                        {c}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {dive.table.rows.map((row, r) => (
+                    <tr key={r} className="border-t border-border align-top">
+                      {row.map((cell, c) => (
+                        <td
+                          key={c}
+                          className={`p-3 ${c === 0 ? "font-medium text-foreground" : "border-l border-border text-muted-foreground"}`}
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {dive.table.caption && (
+              <figcaption className="text-xs text-muted-foreground">{dive.table.caption}</figcaption>
+            )}
+          </figure>
+        )}
         {dive.equations && dive.equations.length > 0 && (
           <div className="space-y-4">
             {dive.equations.map((eq) => <EquationCard key={eq.name} eq={eq} />)}

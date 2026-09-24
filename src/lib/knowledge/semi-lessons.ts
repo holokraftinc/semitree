@@ -61,6 +61,8 @@ export interface LessonDeepDive {
   body?: string[];
   bullets?: string[];
   equations?: LessonEquation[];
+  /** A small comparison table (e.g. CVD vs PVD vs ALD). */
+  table?: { caption?: string; columns: string[]; rows: string[][] };
   /** An ordered flow rendered as arrowed steps (e.g. a feedback-control loop). */
   flow?: string[];
   /** Closing note, e.g. distinguishing production technology from R&D. */
@@ -1495,6 +1497,47 @@ export const SEMI_LESSONS: SemiLesson[] = [
         ],
       },
       {
+        id: "advanced-deposition",
+        level: "advanced",
+        title: "Advanced deposition: what makes a film good",
+        intro:
+          "Beyond simply adding material, a production film has to meet many quality requirements at once. These are the properties process engineers actually tune.",
+        bullets: [
+          "Conformality: how uniformly a film coats 3D topography — ideally the same thickness on the top, the sidewalls, and the bottom of a feature. It is the single biggest differentiator between deposition methods.",
+          "Step coverage: a practical measure of conformality — the ratio of the film's thickness on a sidewall or feature bottom to its thickness on the flat top. Poor step coverage leaves thin spots or voids where a feature bends.",
+          "Nucleation: film growth starts as atoms gather into initial clusters (nuclei) on the surface. How readily and evenly nuclei form decides how thin a film can be before it is continuous, and how rough it ends up.",
+          "Growth mechanisms: films can build up island-by-island, layer-by-layer, or a mix. The mode affects density, roughness, and the minimum continuous thickness achievable.",
+          "Film stress: every deposited film carries intrinsic and thermal stress (tensile or compressive). Too much stress bows the wafer, cracks the film, or peels it off, so stress is deliberately managed.",
+          "Composition control: hitting the right stoichiometry and purity — small deviations shift electrical and mechanical behaviour, so composition is monitored as tightly as thickness.",
+          "Interface quality: the boundary between two films (how abrupt and clean it is, whether an unwanted reaction occurred) strongly affects the device — the gate-dielectric-to-channel interface is a classic example.",
+          "Wafer uniformity: consistency of thickness and composition across the whole wafer and wafer-to-wafer; non-uniformity means devices behave differently depending on where they sit.",
+        ],
+      },
+      {
+        id: "cvd-pvd-ald-compare",
+        level: "advanced",
+        title: "CVD vs PVD vs ALD, compared",
+        intro:
+          "A side-by-side comparison of the three most common thin-film methods. Read it as a map of trade-offs, not a ranking — each is the right tool for different layers.",
+        table: {
+          columns: ["Dimension", "CVD", "PVD", "ALD"],
+          rows: [
+            ["Mechanism", "Precursor gases react at the wafer surface", "Atoms physically transported from a solid source in vacuum", "Alternating self-limiting surface reactions, one layer per cycle"],
+            ["Conformality", "Generally good", "Limited (largely line-of-sight)", "Excellent"],
+            ["Thickness control", "Good", "Moderate", "Atomic-scale, set by cycle count"],
+            ["Throughput", "High", "High", "Low (cycle-by-cycle)"],
+            ["Temperature", "Often elevated", "Can be relatively low", "Low to moderate for many chemistries"],
+            ["Material range", "Wide", "Metals and some other materials", "Select high-quality films, especially dielectrics"],
+            ["Geometry suitability", "Good for moderate 3D", "Best on open, flat surfaces", "Best for narrow, deep, complex 3D"],
+            ["Typical applications", "Many dielectric, semiconductor, and metal films", "Metal layers, seed and adhesion layers", "Ultrathin dielectrics, liners and barriers, conformal coatings"],
+            ["Main limitation", "Needs suitable precursors; byproducts and temperature", "Poor conformality on high-aspect-ratio features", "Slow throughput"],
+          ],
+          caption: "Conceptual comparison; exact capabilities are process- and tool-dependent.",
+        },
+        note:
+          "No method is universally best. Each layer is matched to the method whose blend of conformality, thickness control, throughput, temperature, and material range fits the job — fabs use all three, often on the same chip.",
+      },
+      {
         id: "etch-types",
         level: "engineer",
         title: "Etching: wet vs dry, isotropic vs anisotropic",
@@ -1538,6 +1581,78 @@ export const SEMI_LESSONS: SemiLesson[] = [
           "Microloading: etch rate depends on how much exposed area or how many features are nearby — dense regions can etch at a different rate than isolated ones.",
           "Aspect-ratio-dependent etching (ARDE): narrow, high-aspect-ratio features etch more slowly than wide ones, so features of different sizes reach different depths in the same time — a key challenge for 3D structures.",
         ],
+      },
+      {
+        id: "advanced-etching",
+        level: "advanced",
+        title: "Advanced etching: plasma, ions, and profiles",
+        intro:
+          "A production etch is a balance of chemistry and physics tuned to remove one material, in one direction, to one depth. These are the knobs and effects engineers work with.",
+        bullets: [
+          "Anisotropy: how directional the etch is. It comes from balancing a chemical (isotropic) component against an ion-driven (vertical) component — more ion drive gives straighter walls.",
+          "Selectivity: removing the target much faster than the mask or the underlayer, achieved mainly through the choice of chemistry.",
+          "Etch rate: how fast material is removed. It must be uniform and repeatable across the wafer, not merely fast — a fast but uneven etch is useless.",
+          "Plasma chemistry: the gas mix sets which reactive species form, what they attack, and whether byproducts are volatile enough to leave — it largely determines both selectivity and rate.",
+          "Ion energy: the energy of ions hitting the surface. Higher energy increases directionality and physical removal, but risks surface damage and can lower selectivity.",
+          "Charging effects: insulating surfaces and deep features can accumulate electric charge that deflects incoming ions, distorting profiles (notching or bowing) — a real limit at high aspect ratios.",
+          "Aspect-ratio-dependent etching (ARDE): deep, narrow features etch more slowly because reactants struggle to reach the bottom and byproducts struggle to escape.",
+          "Microloading: the local etch rate depends on how much exposed area is nearby, so dense and isolated regions can etch differently.",
+          "Endpoint detection: sensing the moment a layer is cleared — often by watching the plasma's optical emission change — so the etch stops at the right depth instead of over-etching into the layer below.",
+        ],
+      },
+      {
+        id: "process-control",
+        level: "advanced",
+        title: "Process control: keeping every wafer on target",
+        intro:
+          "Deposition and etch tools drift — chambers coat up, parts wear, gases vary. Fabs hold results steady by measuring, monitoring, and feeding corrections back, so the process is a controlled loop rather than a fixed recipe.",
+        bullets: [
+          "Sensors: in-situ sensors track plasma conditions, gas flows, pressure, temperature, and RF power in real time during the process.",
+          "Endpoint detection: optical-emission or interferometric signals detect the transition to a new layer, so etch or deposition stops at exactly the right point.",
+          "Statistical process control (SPC): measured outputs are tracked on control charts so drift is caught and corrected before it produces out-of-spec wafers.",
+          "Metrology: inline and offline measurement of thickness, critical dimension, profile, and defects supplies the data the control system acts on.",
+          "Feedback (run-to-run / advanced process control): corrections computed from metrology adjust the settings of the next run to re-centre the process.",
+          "Chamber monitoring: the chamber's own condition (wall deposits, part wear, and matching between supposedly identical chambers) is tracked, because the chamber state itself changes the result.",
+        ],
+      },
+      {
+        id: "bringing-together",
+        level: "advanced",
+        title: "Bringing it together: repeated structure formation",
+        intro:
+          "Lithography, deposition, etching, and metrology are not separate topics in practice — they are one repeating loop, and repeating it is what builds complex structures.",
+        flow: [
+          "Lithography — where",
+          "Deposition — add material",
+          "Etching — remove material",
+          "Metrology — measure & control",
+          "Repeat → complex 3D structures",
+        ],
+        bullets: [
+          "Each pass of the loop builds one part of one layer: lithography places the pattern, deposition supplies the material, etching shapes it, and metrology confirms every pass is in spec.",
+          "A chip is hundreds of these passes stacked and aligned — remove any one of the four and the structure cannot be built reliably.",
+          "Repeating and combining the steps is precisely what creates 3D transistors (fins, then nanosheets) and multi-level interconnect — structures no single step could ever make on its own.",
+          "As flat scaling slows, more progress comes from building vertically, which leans even harder on conformal deposition, high-aspect-ratio and selective etching, and tight metrology working together.",
+        ],
+      },
+      {
+        id: "adv-research-frontiers",
+        level: "researcher",
+        title: "Research frontiers: atomic-scale, 3D, and new materials",
+        intro:
+          "The topics below separate what is already in high-volume production from what is emerging or ramping — a distinction worth keeping clear.",
+        bullets: [
+          "Atomic-scale process control: atomic layer etching (ALE) removes material in self-limiting cycles — the etch counterpart of ALD — for near-atomic precision. ALD is in production; ALE is emerging and expanding.",
+          "High-aspect-ratio etching: pushing ever deeper, narrower, straighter etches (as in 3D memory) against ARDE, charging, and profile control — a continual engineering frontier.",
+          "3D transistor structures: FinFETs are in production; device architecture keeps evolving toward more vertical, more folded shapes.",
+          "Gate-all-around (GAA) structures: nanosheet transistors ramping at the leading edge, which depend on extremely selective etch and deposition to remove sacrificial layers from between stacked sheets.",
+          "Backside processing: routing power (and eventually more) on the wafer's back side to relieve front-side congestion — emerging and beginning to ramp.",
+          "New materials: alternative channel, contact, and dielectric materials are under active research to extend device performance.",
+          "Selective deposition (area-selective deposition): growing a film only where it is wanted, guided by surface chemistry, potentially removing patterning steps — emerging.",
+          "Selective etching: removing one material while barely touching an adjacent one, at very high selectivity — some in production and a key enabler for GAA, being pushed much further.",
+        ],
+        note:
+          "In production today: CVD, PVD, ALD, plasma/RIE etching, FinFETs, endpoint detection, and SPC/APC. Emerging or ramping: atomic layer etching, gate-all-around nanosheets, backside power delivery, area-selective deposition, and new channel materials.",
       },
     ],
     keyTakeaways: [
