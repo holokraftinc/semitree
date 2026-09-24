@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { SemiLesson } from "@/lib/knowledge/semi-lessons";
+import type { SemiLesson, LessonDeepDive, LessonEquation, DeepDiveLevel } from "@/lib/knowledge/semi-lessons";
 import { lessonNeighbors, getSemiLesson } from "@/lib/knowledge/semi-lessons";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Badge } from "@/components/ui/Badge";
@@ -51,6 +51,105 @@ function NamedGrid({ items }: { items: { name: string; detail: string }[] }) {
         </div>
       ))}
     </dl>
+  );
+}
+
+const LEVEL_META: Record<DeepDiveLevel, { label: string; variant: "info" | "brand" | "warning" }> = {
+  engineer: { label: "Engineer", variant: "info" },
+  advanced: { label: "Advanced", variant: "brand" },
+  researcher: { label: "Researcher", variant: "warning" },
+};
+
+/** One equation, fully unpacked: formula, variables + units, meaning, assumptions, example, sensitivity. */
+function EquationCard({ eq }: { eq: LessonEquation }) {
+  return (
+    <div className="space-y-3 rounded-lg border border-border bg-card p-4">
+      <FormulaBlock label={eq.name} expression={eq.expression} />
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Variables</p>
+        <dl className="mt-1 space-y-1">
+          {eq.variables.map((v) => (
+            <div key={v.symbol} className="text-sm leading-relaxed">
+              <span className="font-mono font-semibold text-foreground">{v.symbol}</span>
+              <span className="text-muted-foreground">
+                {" "}— {v.meaning}
+                {v.unit ? ` · ${v.unit}` : ""}
+              </span>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <p className="text-sm leading-relaxed text-foreground">
+        <span className="font-semibold">Meaning: </span>
+        {eq.meaning}
+      </p>
+      {eq.assumptions && eq.assumptions.length > 0 && (
+        <div className="text-sm">
+          <p className="font-semibold text-foreground">Assumptions</p>
+          <ul className="ml-4 mt-1 list-disc space-y-1 text-muted-foreground">
+            {eq.assumptions.map((a, i) => <li key={i}>{a}</li>)}
+          </ul>
+        </div>
+      )}
+      {eq.example && (
+        <p className="text-sm leading-relaxed text-foreground">
+          <span className="font-semibold">Example: </span>
+          {eq.example}
+        </p>
+      )}
+      {eq.sensitivity && eq.sensitivity.length > 0 && (
+        <div className="text-sm">
+          <p className="font-semibold text-foreground">When each variable changes</p>
+          <ul className="ml-4 mt-1 list-disc space-y-1 text-muted-foreground">
+            {eq.sensitivity.map((s, i) => <li key={i}>{s}</li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** An ordered flow rendered as arrowed pills (e.g. the feedback-control loop). */
+function FlowSteps({ steps }: { steps: string[] }) {
+  return (
+    <ol className="flex flex-wrap items-center gap-x-1 gap-y-2">
+      {steps.map((s, i) => (
+        <li key={s} className="flex items-center">
+          <span className="rounded-full border border-brand/40 bg-brand/5 px-3 py-1 text-sm font-medium text-foreground">
+            {s}
+          </span>
+          {i < steps.length - 1 && <span aria-hidden="true" className="px-1 text-brand/40">→</span>}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** A collapsed, level-tagged deep-dive panel so advanced content never crowds the basics. */
+function DeepDive({ dive }: { dive: LessonDeepDive }) {
+  const meta = LEVEL_META[dive.level];
+  return (
+    <details className="group rounded-xl border border-border bg-muted/20 p-5">
+      <summary className="cursor-pointer list-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <span className="flex flex-wrap items-center gap-3">
+          <span aria-hidden="true" className="text-brand transition-transform group-open:rotate-90">▸</span>
+          <span className="text-lg font-semibold tracking-tight">{dive.title}</span>
+          <Badge variant={meta.variant}>{meta.label}</Badge>
+        </span>
+      </summary>
+      <div className="mt-4 space-y-4">
+        {dive.intro && <p className="leading-relaxed text-foreground">{dive.intro}</p>}
+        {dive.flow && dive.flow.length > 0 && <FlowSteps steps={dive.flow} />}
+        {dive.body && dive.body.length > 0 && <Paras items={dive.body} />}
+        {dive.equations && dive.equations.length > 0 && (
+          <div className="space-y-4">
+            {dive.equations.map((eq) => <EquationCard key={eq.name} eq={eq} />)}
+          </div>
+        )}
+        {dive.bullets && dive.bullets.length > 0 && <Bullets items={dive.bullets} />}
+        {dive.note && <Alert variant="info" title="Key point">{dive.note}</Alert>}
+      </div>
+    </details>
   );
 }
 
@@ -272,6 +371,23 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
 
       {lesson.industryContext && lesson.industryContext.length > 0 && (
         <Section id="industry" title="Manufacturing & industry context"><Paras items={lesson.industryContext} /></Section>
+      )}
+
+      {lesson.deepDives && lesson.deepDives.length > 0 && (
+        <section aria-labelledby="deep-dives-h" className="space-y-4">
+          <div className="space-y-1">
+            <h2 id="deep-dives-h" className="text-xl font-semibold tracking-tight">
+              Go deeper: engineering &amp; research
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Optional expandable sections that build from engineer to advanced to researcher level.
+              The basics above are enough for a first read — open these when you want the depth.
+            </p>
+          </div>
+          <div className="space-y-3">
+            {lesson.deepDives.map((d) => <DeepDive key={d.id} dive={d} />)}
+          </div>
+        </section>
       )}
 
       {lesson.researcherNotes && lesson.researcherNotes.length > 0 && (

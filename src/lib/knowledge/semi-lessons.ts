@@ -29,6 +29,44 @@ export interface SemiReference {
   kind?: "review" | "paper" | "textbook" | "resource" | "vendor" | "standards";
 }
 
+/** One equation, fully unpacked for an engineering-level reader. */
+export interface LessonEquation {
+  name: string;
+  expression: string;
+  /** Each symbol, what it means, and its unit. */
+  variables: { symbol: string; meaning: string; unit?: string }[];
+  /** Physical meaning of the relationship. */
+  meaning: string;
+  /** What the equation assumes / where it breaks down. */
+  assumptions?: string[];
+  /** A simple worked example. */
+  example?: string;
+  /** What happens as each variable changes. */
+  sensitivity?: string[];
+}
+
+export type DeepDiveLevel = "engineer" | "advanced" | "researcher";
+
+/**
+ * An expandable, visually-separated section for readers past the basics.
+ * Rendered collapsed so it never overwhelms a first-time learner, and tagged
+ * with the level it is aimed at (engineer -> advanced -> researcher).
+ */
+export interface LessonDeepDive {
+  id: string;
+  level: DeepDiveLevel;
+  title: string;
+  /** Short framing line shown before the panel is expanded is NOT needed; this is the opening paragraph inside. */
+  intro?: string;
+  body?: string[];
+  bullets?: string[];
+  equations?: LessonEquation[];
+  /** An ordered flow rendered as arrowed steps (e.g. a feedback-control loop). */
+  flow?: string[];
+  /** Closing note, e.g. distinguishing production technology from R&D. */
+  note?: string;
+}
+
 export type LessonVisualKey =
   | "energy-bands"
   | "pn-junction"
@@ -110,6 +148,8 @@ export interface SemiLesson {
   industryContext?: string[];
   /** Level 4 — advanced context, trade-offs, emerging approaches (collapsed). */
   researcherNotes?: string[];
+  /** Engineer -> advanced -> researcher deep dives, shown as collapsed panels. */
+  deepDives?: LessonDeepDive[];
   /** Key takeaways. */
   keyTakeaways?: string[];
   /** References / further reading — verified sources only. */
@@ -957,14 +997,213 @@ export const SEMI_LESSONS: SemiLesson[] = [
     ],
     realWorld:
       "Leading-edge scanners are among the most complex machines ever built, tracking and positioning the wafer thousands of times a second at picometer-scale precision, and no single company makes an entire advanced litho system alone — it depends on a worldwide supply chain of optics, sources, masks, resists, and metrology.",
-    researcherNotes: [
-      "Computational lithography and OPC: because diffraction distorts what actually prints, the mask is not a literal copy of the design — software adds optical proximity corrections and sub-resolution assist features so the wafer image matches intent.",
-      "Phase-shift masks: engineering the phase of light through the mask sharpens contrast at feature edges, effectively lowering k₁.",
-      "Multiple patterning: dense layers are split into several exposures (and etches) — e.g. litho-etch-litho-etch or self-aligned schemes — to beat the single-exposure resolution limit, at the cost of steps, overlay budget, and money.",
-      "Stochastic effects: at EUV, each feature is formed by relatively few photons and resist molecules, so random fluctuations cause stochastic defects and roughness — a leading concern at the smallest nodes.",
-      "Line-edge / line-width roughness (LER/LWR): nanometer-scale edge wiggle directly affects transistor variability, driving resist and process research.",
-      "Overlay control: advanced alignment, per-field corrections, and dense metrology are used to hold multi-layer alignment within an ever-tighter budget as features shrink.",
-      "High-NA EUV: raising EUV numerical aperture (from roughly 0.33 toward about 0.55) extends resolution further, but tightens depth of focus and reshapes mask, resist, and field-size trade-offs — an active frontier rather than a solved problem.",
+    deepDives: [
+      {
+        id: "physics-equations",
+        level: "engineer",
+        title: "The physics, in equations",
+        intro:
+          "Everything litho can and cannot print traces back to diffraction — light bending as it passes fine mask features. A handful of relationships turn that physics into numbers an engineer can reason about. In each one, the wavelength, the optics, and a process factor appear again and again.",
+        equations: [
+          {
+            name: "Numerical aperture",
+            expression: "NA = n · sin θ",
+            variables: [
+              { symbol: "NA", meaning: "numerical aperture of the projection optics", unit: "dimensionless" },
+              { symbol: "n", meaning: "refractive index of the medium between the last optic and the wafer", unit: "dimensionless" },
+              { symbol: "θ", meaning: "half-angle of the widest cone of light the optics can focus", unit: "degrees or radians" },
+            ],
+            meaning:
+              "NA measures how steep a cone of light the optics can collect and focus. Steeper cones capture more of the diffracted light that carries fine-feature information, so a higher NA prints finer features.",
+            assumptions: [
+              "Well-corrected optics with negligible aberrations.",
+              "n is the index at the wafer: 1 in air/vacuum, about 1.44 for purified water at 193 nm.",
+            ],
+            example:
+              "Dry 193 nm systems image through air (n = 1), so NA stays below 1. Flooding the gap with water (n ≈ 1.44) — immersion — lets NA reach roughly 1.35.",
+            sensitivity: [
+              "Wider light cone (larger θ) → higher NA → finer features.",
+              "Higher medium index n (immersion) → higher NA at the same wavelength.",
+              "NA above 1 is only reachable with immersion; in air or vacuum it is capped below 1.",
+            ],
+          },
+          {
+            name: "Resolution (Rayleigh criterion)",
+            expression: "R = k₁ · λ / NA",
+            variables: [
+              { symbol: "R", meaning: "smallest reliably printable feature (half-pitch)", unit: "nm" },
+              { symbol: "k₁", meaning: "process factor bundling illumination, resist, mask and patterning technique", unit: "dimensionless" },
+              { symbol: "λ", meaning: "exposure wavelength", unit: "nm" },
+              { symbol: "NA", meaning: "numerical aperture", unit: "dimensionless" },
+            ],
+            meaning:
+              "Sets the smallest half-pitch the process can resolve. Shorter wavelength, higher NA, and a lower k₁ all shrink R — which is why no single lever tells the whole story.",
+            assumptions: [
+              "Projection imaging operating near the diffraction limit.",
+              "k₁ absorbs everything not in λ or NA; the hard physical floor for a single exposure is k₁ ≈ 0.25.",
+              "R is a resolution limit, not a guaranteed manufacturable size (see the process-window deep dive).",
+            ],
+            example:
+              "193 nm immersion at NA = 1.35 with k₁ = 0.28 → R ≈ 0.28 × 193 / 1.35 ≈ 40 nm. EUV at 13.5 nm, NA = 0.33, k₁ = 0.4 → R ≈ 16 nm.",
+            sensitivity: [
+              "Shorter λ → smaller R (the leap from 193 nm DUV to 13.5 nm EUV).",
+              "Higher NA → smaller R (immersion, and later high-NA EUV).",
+              "Lower k₁ → smaller R, but k₁ cannot fall below ≈ 0.25 for a single exposure — which is exactly what forces fabs toward multiple patterning.",
+            ],
+          },
+          {
+            name: "Depth of focus",
+            expression: "DOF = k₂ · λ / NA²",
+            variables: [
+              { symbol: "DOF", meaning: "range of wafer height over which the image stays sharp", unit: "nm" },
+              { symbol: "k₂", meaning: "process factor (how forgiving the process is)", unit: "dimensionless" },
+              { symbol: "λ", meaning: "exposure wavelength", unit: "nm" },
+              { symbol: "NA", meaning: "numerical aperture", unit: "dimensionless" },
+            ],
+            meaning:
+              "How far the wafer can drift from perfect focus before features degrade. Because NA is squared, the very optics that sharpen resolution shrink the focus margin — the core tension of high-resolution imaging.",
+            assumptions: [
+              "Scalar imaging approximation.",
+              "Single exposure; real budgets shrink further once wafer non-flatness and surface topography are added.",
+            ],
+            example:
+              "193 nm at NA = 1.35 with k₂ = 0.5 → DOF ≈ 0.5 × 193 / 1.35² ≈ 53 nm — only tens of nanometres, which is why wafer flatness and focus control are so demanding.",
+            sensitivity: [
+              "Higher NA → sharply smaller DOF (NA is squared) — resolution and focus margin pull in opposite directions.",
+              "Shorter λ → smaller DOF.",
+              "Larger k₂ (a more forgiving process) → larger DOF.",
+            ],
+          },
+          {
+            name: "Aerial image contrast",
+            expression: "C = (I_max − I_min) / (I_max + I_min)",
+            variables: [
+              { symbol: "C", meaning: "contrast of the projected light pattern (0 to 1)", unit: "dimensionless" },
+              { symbol: "I_max", meaning: "peak intensity in the bright parts of the image", unit: "intensity (a.u.)" },
+              { symbol: "I_min", meaning: "minimum intensity in the dark parts of the image", unit: "intensity (a.u.)" },
+            ],
+            meaning:
+              "How sharply the projected light swings between bright and dark at a feature edge. High contrast makes a crisp resist edge; low contrast blurs it, adding roughness and shrinking the process window. Engineers often track the closely related NILS (normalized image log-slope) as the practical edge-sharpness metric.",
+            assumptions: [
+              "Describes the optical (aerial) image only, before the resist reacts.",
+              "Real edge quality also depends on resist chemistry and diffusion blur.",
+            ],
+            example:
+              "As a pattern's pitch approaches λ/NA, diffracted orders are lost and I_min climbs toward I_max, so contrast falls and features 'wash out' — even when the resolution formula says the size is reachable.",
+            sensitivity: [
+              "Pitch shrinking toward the resolution limit → lower contrast.",
+              "Illumination shaping, phase-shift masks, and higher NA → higher contrast.",
+              "Higher contrast → sharper edges, less line-edge roughness, and a wider process window.",
+            ],
+          },
+        ],
+      },
+      {
+        id: "process-window",
+        level: "engineer",
+        title: "Resolution vs process window",
+        intro:
+          "Reaching a resolution once, on one wafer in a lab, is not the same as manufacturing at that resolution. The gap between the two is the process window.",
+        bullets: [
+          "The resolution formula gives the smallest feature the optics can form. Manufacturing must print that feature on every field, every wafer, and every lot — despite drift in focus, dose, materials, and the incoming surface.",
+          "The process window is the overlap of dose and focus ranges over which every feature still meets its critical-dimension spec. A wide window means robust, high-yielding production; a razor-thin window means the size is a demonstration, not a product.",
+          "Exposure latitude (dose margin) and depth of focus trade against each other: you can spend margin on one only by giving it up on the other, and the usable window is their overlap.",
+          "Pushing k₁ lower or NA higher to reach a smaller feature usually shrinks the window too — lower contrast and smaller depth of focus — so raw resolution and robustness pull in opposite directions.",
+          "This is why a research tool can show a feature a fab cannot yet ship: hitting a resolution once is not the same as centring a wide, stable process window on it.",
+        ],
+        note:
+          "Rule of thumb: resolution says what is possible; the process window says what is manufacturable. Yield lives in the window, not at the limit.",
+      },
+      {
+        id: "overlay-deep",
+        level: "advanced",
+        title: "Overlay & layer-to-layer registration",
+        intro:
+          "Resolution is about the size of features on one layer. Overlay is about landing each new layer accurately on the layers already built — a separate problem that becomes just as limiting as features shrink.",
+        bullets: [
+          "Alignment: the scanner reads alignment marks printed on earlier layers and positions the wafer so the new pattern registers to them before exposing.",
+          "Overlay error: the residual misregistration between layers that remains after alignment, measured on dedicated overlay targets.",
+          "Overlay budget: the total misregistration a layer can tolerate, divided among many contributors — stage, alignment sensors, mask, wafer distortion, and errors inherited from prior layers. Each source must stay a small fraction of the whole.",
+          "Wafer-stage accuracy: the stage must position and track the wafer with picometre-scale precision, thousands of times a second, while scanning each field.",
+          "Process-induced distortion: deposition, etch, CMP, and thermal cycles physically warp the wafer between layers, shifting features non-uniformly; scanners model and correct these per wafer and per field.",
+          "Why it scales harder: overlay must stay a fixed fraction of feature size, so the budget shrinks as features shrink — but the physical distortions do not shrink as fast. A metal line that prints perfectly but lands off its contact still fails, so overlay often limits scaling as much as resolution does.",
+        ],
+      },
+      {
+        id: "patterning-strategies",
+        level: "advanced",
+        title: "Patterning strategies",
+        intro:
+          "Because a single exposure bottoms out at k₁ ≈ 0.25, fabs use several strategies to reach denser patterns. These are conceptual families, not recipes.",
+        bullets: [
+          "Single patterning: one mask, one exposure per layer — the simplest and cheapest option, limited by the single-exposure resolution floor.",
+          "Multiple patterning: split one dense layer across several masks and exposures so each sub-pattern is coarser than the final pitch, then combine them — for example litho-etch-litho-etch (LELE).",
+          "Pitch splitting: decompose a dense pattern into two or more interleaved patterns at relaxed pitch, each printed separately — a common form of multiple patterning.",
+          "Spacer-based (self-aligned) patterning: deposit thin spacers on the sidewalls of a printed template, then remove the template; the spacers define features at a fraction of the original pitch (SADP/SAQP). Density is set by film thickness rather than the exposure, giving excellent uniformity.",
+          "EUV patterning: the shorter 13.5 nm wavelength restores single-exposure printing for many layers that DUV could reach only with multiple patterning — simplifying some flows, though the very hardest layers may still need EUV multiple patterning.",
+        ],
+        note:
+          "Why multiple patterning adds complexity: each extra exposure means more masks, more process steps, more cost — and its own overlay error between the sub-patterns. So multiple patterning spends overlay budget and multiplies defect and metrology load. It trades tool resolution for process complexity.",
+      },
+      {
+        id: "computational-litho",
+        level: "advanced",
+        title: "Computational lithography",
+        intro:
+          "At the leading edge the mask is computed, not drawn one-to-one. Software predicts how diffraction and resist will distort the pattern and pre-compensates for it.",
+        bullets: [
+          "OPC (optical proximity correction): pre-distorts mask shapes — adding serifs, biasing widths, and inserting sub-resolution assist features — so diffraction produces the intended shape on the wafer.",
+          "Source-mask optimization (SMO): jointly optimizes the illumination shape and the mask pattern to maximize contrast and process window for a given design.",
+          "Inverse lithography (ILT): computes a freeform mask directly from the desired wafer image, rather than editing drawn shapes — often yielding curved, non-intuitive mask geometry.",
+          "Process-window optimization: tunes the corrections so features meet spec across the whole expected dose and focus range, not only at the nominal setting.",
+          "Simulation: physical models of the optics and resist predict what will actually print, so corrections are verified in software before an expensive mask is ever made.",
+        ],
+        note:
+          "Why the mask is not the wafer geometry: diffraction and resist blur transform the pattern between mask and wafer. A mask shaped exactly like the target would print rounded, shrunken, or bridged features — so the mask is deliberately made to look 'wrong' in order for the wafer to come out 'right.'",
+      },
+      {
+        id: "control-loop",
+        level: "advanced",
+        title: "Metrology & the process-control loop",
+        intro:
+          "Photolithography is best understood not as a fixed recipe but as a feedback-control system: measure the result, correct the process, and apply the correction to the next wafers.",
+        flow: [
+          "Design",
+          "Mask",
+          "Exposure",
+          "Development",
+          "Measurement (CD, overlay, defects)",
+          "Process correction",
+          "Next wafer",
+        ],
+        bullets: [
+          "After patterning, wafers are measured for critical dimension, overlay, and defects, and the results are compared to targets.",
+          "Corrections — dose, focus, and per-field alignment offsets — are fed back to the scanner and track so the next wafers are re-centred in the process window. In fabs this is called advanced process control (APC).",
+          "Because litho repeats on every layer, this loop runs continuously: the fab is a controller constantly nudging the process against drift, not a machine running one frozen setting.",
+          "Rework is possible before etch: an out-of-spec resist pattern can be stripped and re-exposed — a safety valve litho has that later, permanent steps (etch, implant) do not.",
+        ],
+      },
+      {
+        id: "researcher-frontiers",
+        level: "researcher",
+        title: "Research frontiers & open problems",
+        intro:
+          "The topics below separate what is in high-volume production today from what is still being developed or ramped — a distinction worth keeping clear.",
+        bullets: [
+          "Stochastic variability: at EUV each feature is formed from relatively few photons and resist molecules, so shot noise causes random CD variation and rare 'stochastic' defects (missing or merged features) — a leading yield concern at the smallest nodes.",
+          "EUV photon statistics: 13.5 nm photons each carry more energy, so a given dose delivers fewer photons than DUV; fewer photons per feature raise statistical noise, tying dose, resolution, and defectivity together.",
+          "Source power: EUV throughput depends on how much stable 13.5 nm power the source delivers; more power allows a higher dose (less stochastic noise) while keeping wafers-per-hour economic — an ongoing engineering push.",
+          "Resist chemistry trade-offs: resolution, line-edge roughness, and sensitivity form a trilemma (the 'RLS trade-off') — improving one usually worsens another; metal-oxide and other new resists aim to break it.",
+          "Roughness (LER/LWR): nanometre-scale edge wiggle feeds directly into transistor variability, making it a combined materials, imaging, and stochastic problem.",
+          "Defectivity: finding and eliminating rare, pattern-dependent, and stochastic defects at production scale drives much inspection and resist research.",
+          "Mask effects: EUV uses a reflective, 3D mask illuminated at an angle, causing shadowing and imaging asymmetries (mask-3D effects) that source-mask optimization must correct.",
+          "Pellicles: thin membranes that keep particles off the mask must transmit EUV with minimal loss and survive high source power — a materials problem unique to EUV.",
+          "High-NA EUV: raising EUV numerical aperture from about 0.33 toward roughly 0.55 extends single-exposure resolution, but uses anamorphic optics (different magnification in x and y), halves the exposure field, and tightens depth of focus — reshaping masks, resists, and integration. It is ramping, not mature.",
+          "Process integration: none of these live in isolation — resist, mask, source, optics, overlay, etch, and design must advance together for a node to yield, so integration is often the real bottleneck.",
+        ],
+        note:
+          "In production today: DUV (including immersion), EUV at NA ≈ 0.33, OPC/SMO, multiple patterning, and advanced process control. Active R&D or ramping: high-NA EUV, curvilinear ILT masks, next-generation resists, and stochastic-defect control.",
+      },
     ],
     keyTakeaways: [
       "Photolithography prints each layer's pattern onto the wafer with light and photoresist; it makes a temporary stencil, not the finished device.",
