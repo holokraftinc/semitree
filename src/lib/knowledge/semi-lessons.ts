@@ -10,9 +10,23 @@
  * route serves all of them.
  */
 
+import type { NamedItem } from "./equipment-topics";
+
 export interface SemiTerm {
   term: string;
   def: string;
+}
+
+/** A verified reference / further-reading item (never a fabricated link or DOI). */
+export interface SemiReference {
+  title: string;
+  author?: string;
+  publisher?: string;
+  year?: number;
+  url?: string;
+  doi?: string;
+  note?: string;
+  kind?: "review" | "paper" | "textbook" | "resource" | "vendor" | "standards";
 }
 
 export type LessonVisualKey =
@@ -53,6 +67,53 @@ export interface SemiLesson {
   realWorld: string;
   /** Sibling lesson slugs to surface as "related concepts". */
   relatedLessons?: string[];
+
+  /* ---------------------------------------------------------------- *
+   * Deep-topic sections (all OPTIONAL). Used by the major manufacturing
+   * topics (photolithography, etching & deposition, doping, packaging)
+   * to support the full WHY -> WHAT -> HOW -> PHYSICS -> EQUIPMENT ->
+   * PROCESS -> DEFECTS -> METRICS -> INDUSTRY progression and the four
+   * learning levels. Existing lessons omit them and render unchanged.
+   * ---------------------------------------------------------------- */
+
+  /** Level 1 — "if you only remember a few things". */
+  quickStart?: string[];
+  /** Prior lesson slugs the reader should ideally have seen first. */
+  prerequisites?: string[];
+  /** Level 1 — everyday-framing analogies before the technical definition. */
+  intuition?: string[];
+  /** Where the topic sits in the manufacturing journey (see manufacturing-journey.ts). */
+  whereItFits?: { journeyStepId?: string; note?: string };
+  /** Level 2 — the mechanism. */
+  howItWorks?: string[];
+  /** Level 2 — the step-by-step process. */
+  steps?: NamedItem[];
+  /** Level 2/3 — the physics / chemistry / engineering behind it. */
+  science?: string[];
+  /** Level 2 — equipment involved. */
+  equipment?: NamedItem[];
+  /** Level 2 — materials involved. */
+  materials?: NamedItem[];
+  /** Level 2 — process parameters that matter. */
+  parameters?: NamedItem[];
+  /** Caveat that specific numbers are technology/vendor/process dependent. */
+  parametersNote?: string;
+  /** Level 3 — defects and failure modes (what can go wrong). */
+  defects?: string[];
+  /** Level 3 — measurement and metrology. */
+  metrology?: string[];
+  /** Level 3 — yield impact. */
+  yieldImpact?: string[];
+  /** Level 2/3 — design implications. */
+  designImplications?: string[];
+  /** Manufacturing / industry context. */
+  industryContext?: string[];
+  /** Level 4 — advanced context, trade-offs, emerging approaches (collapsed). */
+  researcherNotes?: string[];
+  /** Key takeaways. */
+  keyTakeaways?: string[];
+  /** References / further reading — verified sources only. */
+  references?: SemiReference[];
 }
 
 export interface LearningPath {

@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Alert } from "@/components/ui/Alert";
 import { FormulaBlock } from "@/components/ui/FormulaBlock";
 import { LessonDiagram } from "./LessonDiagram";
+import { ManufacturingJourney } from "./ManufacturingJourney";
 import { LearningTopicProgress } from "@/components/learn/LearningTopicProgress";
 import { LearningTopicNav } from "@/components/learn/LearningTopicNav";
 
@@ -19,10 +20,47 @@ function Section({ id, title, children }: { id: string; title: string; children:
   );
 }
 
+function Paras({ items }: { items: string[] }) {
+  return (
+    <div className="space-y-3 leading-relaxed text-foreground">
+      {items.map((p, i) => <p key={i}>{p}</p>)}
+    </div>
+  );
+}
+
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-2">
+      {items.map((it, i) => (
+        <li key={i} className="flex gap-2 leading-relaxed text-foreground">
+          <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand/60" />
+          <span>{it}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function NamedGrid({ items }: { items: { name: string; detail: string }[] }) {
+  return (
+    <dl className="grid gap-3 sm:grid-cols-2">
+      {items.map((p) => (
+        <div key={p.name} className="rounded-lg border border-border bg-card p-4">
+          <dt className="text-sm font-semibold text-foreground">{p.name}</dt>
+          <dd className="mt-1 text-sm text-muted-foreground">{p.detail}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 /** Renders one semiconductor lesson via the full template + retention actions. */
 export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
   const { prev, next, path } = lessonNeighbors(lesson.slug);
   const related = (lesson.relatedLessons ?? [])
+    .map((s) => getSemiLesson(s))
+    .filter((l): l is SemiLesson => Boolean(l));
+  const prereqs = (lesson.prerequisites ?? [])
     .map((s) => getSemiLesson(s))
     .filter((l): l is SemiLesson => Boolean(l));
   const index = path ? path.lessonSlugs.indexOf(lesson.slug) + 1 : undefined;
@@ -60,6 +98,32 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
       </header>
 
       <div id="learning-content" className="space-y-10">
+      {/* Quick start */}
+      {lesson.quickStart && lesson.quickStart.length > 0 && (
+        <Card className="border-brand/30 bg-brand/5 p-5">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-brand">Quick start</h2>
+          <div className="mt-3"><Bullets items={lesson.quickStart} /></div>
+        </Card>
+      )}
+
+      {/* Prerequisites */}
+      {prereqs.length > 0 && (
+        <Section id="prerequisites" title="Prerequisites">
+          <ul className="flex flex-wrap gap-2">
+            {prereqs.map((p) => (
+              <li key={p.slug}>
+                <Link
+                  href={`/semiconductors/learn/${p.slug}`}
+                  className="rounded-full border border-border px-3 py-1 text-sm font-medium text-brand transition-colors hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {p.title} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
       {/* What you'll learn */}
       <Card className="bg-muted/30 p-5">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
@@ -79,11 +143,62 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         <p className="leading-relaxed text-foreground">{lesson.whyItMatters}</p>
       </Section>
 
+      {lesson.intuition && lesson.intuition.length > 0 && (
+        <Section id="intuition" title="Beginner intuition"><Paras items={lesson.intuition} /></Section>
+      )}
+
+      {lesson.whereItFits && (
+        <Section id="where-it-fits" title="Where it fits in chip manufacturing">
+          {lesson.whereItFits.note && <p className="leading-relaxed text-foreground">{lesson.whereItFits.note}</p>}
+          <ManufacturingJourney highlightId={lesson.whereItFits.journeyStepId} />
+        </Section>
+      )}
+
       <Section id="explanation" title="Explanation">
         <div className="space-y-3 leading-relaxed text-foreground">
           {lesson.explanation.map((p, i) => <p key={i}>{p}</p>)}
         </div>
       </Section>
+
+      {lesson.howItWorks && lesson.howItWorks.length > 0 && (
+        <Section id="how-it-works" title="How it works"><Paras items={lesson.howItWorks} /></Section>
+      )}
+
+      {lesson.steps && lesson.steps.length > 0 && (
+        <Section id="steps" title="Step-by-step process">
+          <ol className="space-y-3">
+            {lesson.steps.map((s, i) => (
+              <li key={s.name} className="flex gap-3">
+                <span aria-hidden="true" className="mt-0.5 font-mono text-xs font-semibold text-brand">{i + 1}.</span>
+                <span className="leading-relaxed text-foreground">
+                  <span className="font-semibold text-foreground">{s.name}</span> — {s.detail}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </Section>
+      )}
+
+      {lesson.science && lesson.science.length > 0 && (
+        <Section id="science" title="The physics, chemistry & engineering behind it"><Paras items={lesson.science} /></Section>
+      )}
+
+      {lesson.equipment && lesson.equipment.length > 0 && (
+        <Section id="equipment" title="Equipment"><NamedGrid items={lesson.equipment} /></Section>
+      )}
+
+      {lesson.materials && lesson.materials.length > 0 && (
+        <Section id="materials" title="Materials"><NamedGrid items={lesson.materials} /></Section>
+      )}
+
+      {lesson.parameters && lesson.parameters.length > 0 && (
+        <Section id="parameters" title="Process parameters that matter">
+          <NamedGrid items={lesson.parameters} />
+          {lesson.parametersNote && (
+            <Alert variant="info" title="A note on numbers">{lesson.parametersNote}</Alert>
+          )}
+        </Section>
+      )}
 
       {/* Visual explanation */}
       <Section id="visual" title="Visual explanation">
@@ -132,6 +247,79 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
       <Section id="real-world" title="Real-world application">
         <p className="leading-relaxed text-foreground">{lesson.realWorld}</p>
       </Section>
+
+      {lesson.defects && lesson.defects.length > 0 && (
+        <Section id="defects" title="Defects & failure modes">
+          <Alert variant="warning" title="What can go wrong:">
+            <ul className="ml-4 list-disc space-y-1">
+              {lesson.defects.map((d, i) => <li key={i}>{d}</li>)}
+            </ul>
+          </Alert>
+        </Section>
+      )}
+
+      {lesson.metrology && lesson.metrology.length > 0 && (
+        <Section id="metrology" title="Measurement & metrology"><Paras items={lesson.metrology} /></Section>
+      )}
+
+      {lesson.yieldImpact && lesson.yieldImpact.length > 0 && (
+        <Section id="yield" title="Yield impact"><Paras items={lesson.yieldImpact} /></Section>
+      )}
+
+      {lesson.designImplications && lesson.designImplications.length > 0 && (
+        <Section id="design" title="Design implications"><Bullets items={lesson.designImplications} /></Section>
+      )}
+
+      {lesson.industryContext && lesson.industryContext.length > 0 && (
+        <Section id="industry" title="Manufacturing & industry context"><Paras items={lesson.industryContext} /></Section>
+      )}
+
+      {lesson.researcherNotes && lesson.researcherNotes.length > 0 && (
+        <details className="group rounded-xl border border-border bg-muted/20 p-5">
+          <summary className="cursor-pointer list-none text-lg font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <span className="inline-flex items-center gap-2">
+              <span aria-hidden="true" className="text-brand transition-transform group-open:rotate-90">▸</span>
+              Researcher &amp; advanced notes
+            </span>
+          </summary>
+          <div className="mt-3"><Bullets items={lesson.researcherNotes} /></div>
+        </details>
+      )}
+
+      {lesson.keyTakeaways && lesson.keyTakeaways.length > 0 && (
+        <Card className="bg-muted/30 p-5">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Key takeaways</h2>
+          <div className="mt-3"><Bullets items={lesson.keyTakeaways} /></div>
+        </Card>
+      )}
+
+      {lesson.references && lesson.references.length > 0 && (
+        <Section id="references" title="References">
+          <ul className="space-y-2 text-sm">
+            {lesson.references.map((r, i) => (
+              <li key={i}>
+                {r.url ? (
+                  <a href={r.url} target="_blank" rel="noopener noreferrer" className="rounded-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    {r.title} ↗
+                  </a>
+                ) : (
+                  <span className="font-medium text-foreground">{r.title}</span>
+                )}
+                {r.author && <span className="text-muted-foreground"> — {r.author}</span>}
+                {(r.publisher || r.year) && (
+                  <span className="text-muted-foreground"> ({[r.publisher, r.year].filter(Boolean).join(", ")})</span>
+                )}
+                {r.doi && (
+                  <a href={`https://doi.org/${r.doi}`} target="_blank" rel="noopener noreferrer" className="ml-1 text-brand hover:underline">
+                    doi:{r.doi}
+                  </a>
+                )}
+                {r.note && <span className="block text-xs italic text-muted-foreground">{r.note}</span>}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
 
       {/* Related concepts */}
       {related.length > 0 && (
