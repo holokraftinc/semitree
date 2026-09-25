@@ -89,7 +89,8 @@ export type LessonVisualKey =
   | "substrate"
   | "electrical-connections"
   | "wafer-level-packaging"
-  | "deposit-etch-cycle";
+  | "deposit-etch-cycle"
+  | "thermal-stack";
 
 export interface SemiLesson {
   slug: string;
@@ -2287,25 +2288,317 @@ export const SEMI_LESSONS: SemiLesson[] = [
     slug: "packaging",
     pathId: "manufacturing",
     order: 15,
-    title: "Packaging",
-    summary: "Encasing and connecting the die so it can be used on a board.",
-    whatYoullLearn: ["Why chips are packaged", "Core packaging functions", "Where advanced packaging fits"],
-    whyItMatters: "The package protects the die, connects it to the world, and removes its heat.",
+    title: "Chip Packaging",
+    summary:
+      "What happens after the wafer is made — turning a fragile silicon die into a usable, connected, cooled component.",
+    whatYoullLearn: [
+      "Why a bare silicon die cannot just be dropped into a phone or computer",
+      "What a package actually does: protect, connect, power, route, cool, and integrate",
+      "The clear difference between the die and the package",
+      "The journey from wafer to finished, tested package",
+      "How dies are connected, cooled, tested — and how packages fail",
+    ],
+    whyItMatters:
+      "A finished wafer is not a usable product. The silicon die is fragile, its connection pads are microscopic, it needs power and cooling, and it must fit into a board built to far coarser dimensions. Packaging is what bridges that gap — and increasingly it shapes a product's performance, power, and cost as much as the transistors do.",
+    quickStart: [
+      "The chain is: wafer → individual die → package → electrical + mechanical + thermal integration → final test → product.",
+      "The die is the functional silicon — the integrated circuit itself.",
+      "The package is the structure that houses and connects that die, letting it become a practical component you can actually use.",
+      "A bare die cannot go straight into a phone: its pads are far too small to solder to a board, it is easily damaged, and it needs power delivery and a path for heat to escape.",
+      "Packaging provides all of that — mechanical protection, electrical connection, power, signal routing, cooling, and integration with the system.",
+    ],
+    prerequisites: ["wafer", "dicing"],
+    intuition: [
+      "Think of the die as a delicate, tiny circuit board printed at nanometre scale — powerful, but far too small and fragile to handle, connect, or cool on its own.",
+      "The package is like a protective, connective shell built around it: it fans out the die's microscopic pads to connections a board can use, shields the die from the environment and handling, and gives heat a way out.",
+      "A useful comparison: the die is the engine; the package is everything that lets the engine bolt into the car, get fuel and cooling, and connect to the rest of the machine. A brilliant engine with no mounting, fuel line, or cooling is useless — and so is an unpackaged die.",
+    ],
+    whereItFits: {
+      journeyStepId: "packaging",
+      note: "Packaging is the back end of the line: it comes after the wafer is fully fabricated and tested, and turns the good dies into finished components — the bridge between wafer fabrication and a shippable product.",
+    },
     explanation: [
-      "Packaging mounts the die, connects its pads to external terminals (wire bonds or flip-chip bumps), and encapsulates it for protection and heat removal. It also matches the tiny die pitch to the coarser board.",
-      "Advanced packaging (chiplets, 2.5D/3D) increasingly determines system performance — the full Packaging path covers it.",
+      "After a wafer is fabricated and tested, it holds many identical dies — each a complete integrated circuit. But a die is not a product: it is fragile, its bond pads are only micrometres apart, it has no way to receive power or shed heat, and it cannot be attached to a normal circuit board. Packaging solves all of this.",
+      "A package houses the die, connects the die's tiny pads out to terminals a board can use, protects it mechanically and environmentally, and provides a path for heat to escape. It effectively translates between the nanometre world of the chip and the millimetre world of the system.",
+      "The package is not an afterthought. It carries power to the die, routes high-speed signals in and out, manages heat, and sets much of the component's size, reliability, and cost. In modern systems, how chips are packaged — and increasingly, how several dies are packaged together — is a first-order design decision.",
+      "Package architecture varies enormously by device: a simple sensor and a high-performance processor need very different packages. What stays constant is the set of jobs a package must do.",
     ],
-    visual: "A die bonded into a package, connected by bonds/bumps, and sealed, with leads/balls underneath.",
-    visualKey: "wafer-to-package",
+    howItWorks: [
+      "Separate: the finished wafer is cut into individual dies (dicing).",
+      "Select: only the dies that passed wafer testing move forward.",
+      "Attach: each good die is mechanically fixed to a package substrate (die attach).",
+      "Connect: the die's pads are electrically joined to the substrate (wire bonding or flip-chip bumps).",
+      "Protect: the die is encapsulated or sealed against the environment and handling.",
+      "Cool: a thermal solution (interface material, heat spreader) is added so heat can escape.",
+      "Test: the finished package is tested electrically before it ships as a component.",
+    ],
+    steps: [
+      { name: "Wafer fabrication", detail: "The wafer of finished dies arrives from the front end of the line." },
+      { name: "Wafer sort / test", detail: "Each die is tested on the wafer; failing dies are marked so they are not packaged." },
+      { name: "Dicing", detail: "The wafer is separated into individual dies along the scribe lanes." },
+      { name: "Die selection", detail: "Only known-good dies are picked to continue." },
+      { name: "Die attach", detail: "The die is mechanically bonded to the package substrate." },
+      { name: "Electrical interconnection", detail: "The die's pads are connected to the substrate by wire bonds or flip-chip bumps." },
+      { name: "Encapsulation / protection", detail: "The die is sealed (e.g. with mold compound) against moisture, contamination, and handling." },
+      { name: "Thermal solution", detail: "Thermal interface material and a heat spreader or lid are added to move heat out." },
+      { name: "Package test", detail: "The finished package is tested electrically (and screened for reliability) before shipping." },
+      { name: "Final product", detail: "The tested package ships as a component ready to be placed on a board." },
+    ],
+    science: [
+      "Packaging is a multi-physics problem: it must satisfy electrical, mechanical, and thermal requirements at the same time, and they often conflict.",
+      "Electrically, the package must deliver clean power and route signals from the die's tiny, tightly-spaced pads out to the much coarser board without adding too much resistance, inductance, or capacitance — which would slow or corrupt signals.",
+      "Mechanically, it must protect a brittle silicon die and survive assembly, handling, and years of thermal cycling, while joining materials that expand by different amounts when heated.",
+      "Thermally, it must carry away the heat the die generates, because silicon's behaviour and lifetime degrade if it runs too hot. Balancing these three is the essence of package design.",
+    ],
+    equipment: [
+      { name: "Dicing tool", detail: "Separates the wafer into individual dies along the scribe lanes." },
+      { name: "Die attach system", detail: "Places and bonds each die onto the package substrate." },
+      { name: "Wire bonder", detail: "Forms fine metal wires from the die's pads to the substrate." },
+      { name: "Flip-chip / bump assembly", detail: "Joins a die face-down to the substrate through an array of solder bumps." },
+      { name: "Encapsulation / molding tool", detail: "Seals the die in protective mold compound." },
+      { name: "Package test & burn-in systems", detail: "Exercise and screen finished packages electrically and under stress." },
+    ],
+    materials: [
+      { name: "Package substrate", detail: "The structured base that carries wiring from the die out to the board." },
+      { name: "Interconnect metal", detail: "Bond wires or solder bumps that electrically join die to substrate." },
+      { name: "Mold compound", detail: "The encapsulant that protects the die from moisture, contamination, and handling." },
+      { name: "Thermal interface material (TIM)", detail: "A layer that conducts heat from the die to a spreader or lid." },
+      { name: "Heat spreader / lid", detail: "A metal element that spreads and carries heat away from the die." },
+    ],
+    parameters: [
+      { name: "Interconnect type & count", detail: "Whether connections are wires or a bump array, and how many — this sets bandwidth and power delivery." },
+      { name: "Thermal resistance", detail: "How strongly the package resists heat flow from die to ambient; lower is better." },
+      { name: "Package size & pitch", detail: "The footprint and terminal spacing that must match the board it mounts to." },
+      { name: "Warpage", detail: "How much the package bends under thermal stress; too much breaks connections." },
+      { name: "Reliability margin", detail: "How much thermal cycling and stress the package survives over its life." },
+    ],
+    parametersNote:
+      "Specific dimensions, materials, and reliability limits are device- and package-dependent and set by each product. The values here are conceptual, not a specification.",
+    visual:
+      "An exploded view: the silicon die sits on top of a package substrate, connected by interconnects, sealed by a protective body, with external terminals (leads or balls) underneath that meet the board.",
+    visualKey: "die-vs-package",
     terminology: [
-      { term: "Package", def: "The housing that protects and connects the die." },
-      { term: "Interconnect (package)", def: "Wire bonds or solder bumps linking die to package." },
-      { term: "Encapsulation", def: "Protective sealing of the die." },
+      { term: "Die", def: "The piece of silicon containing the integrated circuit — the functional chip." },
+      { term: "Package", def: "The structure that houses, protects, and connects the die to the outside system." },
+      { term: "Substrate", def: "The base inside the package that routes wiring from the die out to the board." },
+      { term: "Interconnect", def: "The wires or bumps that electrically join the die to the substrate." },
+      { term: "Scribe lanes", def: "The blank streets between dies on the wafer where it is cut." },
+      { term: "Singulation", def: "Separating the wafer into individual dies." },
+      { term: "Die attach", def: "Mechanically bonding the die to the package substrate." },
+      { term: "Mold compound", def: "The material that encapsulates and protects the die." },
+      { term: "Thermal interface material (TIM)", def: "A layer that conducts heat from the die to a spreader." },
+      { term: "BGA", def: "Ball grid array — a package that connects through an array of solder balls underneath." },
     ],
-    example: "A processor die is flip-chip bonded to a substrate with thousands of solder bumps.",
-    commonMistakes: ["Treating packaging as trivial — it's now a key performance and cost lever."],
-    realWorld: "Advanced packaging enables chiplet-based products and high-bandwidth memory.",
-    relatedLessons: ["dicing", "final-test", "advanced-packaging"],
+    formula: {
+      expression: "Rθ = ΔT / P",
+      caption:
+        "Thermal resistance links the die's temperature rise (ΔT) to its power (P). A lower Rθ means the same power causes a smaller temperature rise — the goal of package thermal design. Full breakdown in the thermal deep dive.",
+    },
+    example:
+      "A high-performance processor die is attached face-down to a substrate through thousands of solder bumps (flip-chip), sealed, and topped with a thermal interface and metal lid. The bumps deliver power and signals; the substrate fans them out to a ball grid array underneath; the lid carries heat to a heatsink. Every one of those choices is packaging.",
+    commonMistakes: [
+      "Thinking packaging is just putting plastic around a chip. Packaging delivers power, routes high-speed signals, manages heat, and protects the die — the plastic is only one part.",
+      "Assuming packaging does not affect electrical performance. Interconnects and substrate wiring add resistance, inductance, and capacitance that directly influence speed and signal integrity.",
+      "Assuming packaging does not affect thermal performance. The package is the die's path for heat to escape; a poor thermal design forces the chip to slow down or fail.",
+      "Seeing packaging as separate from system design. The package is part of the system architecture — it sets footprint, power delivery, and how chips connect to each other and the board.",
+      "Thinking packaging never influences chip design. Advanced packaging (splitting a design into chiplets, stacking dies) increasingly shapes how the silicon itself is designed.",
+    ],
+    realWorld:
+      "As transistor scaling slows, packaging has become a major way to keep improving products: combining multiple dies (chiplets), stacking them in 3D, and integrating high-bandwidth memory close to the processor. How a product is packaged is now one of the biggest levers on its performance, power, and cost.",
+    defects: [
+      "Mechanical stress: forces from assembly or handling can crack the die or its connections.",
+      "Thermal cycling: repeated heating and cooling fatigues joints as materials expand and contract by different amounts.",
+      "Interconnect failure: bond wires or solder joints can crack, lift, or open, breaking the electrical connection.",
+      "Delamination: layers of the package peel apart, often at material interfaces, creating gaps and failures.",
+      "Warpage: the package bends under thermal stress, stressing or breaking connections to the die or board.",
+      "Solder / interconnect problems: voids, bridges, or fatigue in solder joints cause opens, shorts, or intermittent faults.",
+      "Electrical failures: added resistance, inductance, or capacitance from the package degrades power delivery or signal integrity.",
+      "Thermal problems: inadequate heat removal creates hotspots that throttle performance or shorten the chip's life.",
+    ],
+    metrology: [
+      "Package-level electrical test confirms the finished component meets its functional and parametric targets.",
+      "Reliability testing (thermal cycling and stress screening) checks that packages survive years of real-world use.",
+      "Inspection methods look for internal defects such as voids, delamination, and cracked joints without destroying the part.",
+      "Warpage and dimensional metrology confirm the package stays flat and within size tolerances so it mounts reliably.",
+    ],
+    yieldImpact: [
+      "Packaging happens late and adds cost, so a package failure wastes all the value already built into a good die — making packaging yield and reliability critical.",
+      "Because a package can hold multiple expensive dies, a single interconnect or assembly defect can scrap a very high-value component.",
+      "Reliability failures that appear in the field are especially costly, so extensive testing and screening protect both yield and reputation.",
+    ],
+    designImplications: [
+      "The package is co-designed with the chip: pad locations, power delivery, and signal routing are planned together with the die.",
+      "Thermal limits set by the package feed back into how fast and how hot the chip is allowed to run.",
+      "Advanced packaging lets a large design be split into smaller chiplets or stacked dies, which changes how the silicon itself is partitioned and designed.",
+    ],
+    industryContext: [
+      "Packaging and test form the 'back end' of semiconductor manufacturing, a large industry in its own right alongside wafer fabrication.",
+      "As scaling slows, advanced packaging has become a primary driver of product improvement, with heavy investment in chiplets, 2.5D/3D integration, and high-bandwidth memory.",
+      "Package design now involves close collaboration between chip designers, packaging engineers, and system builders — the boundaries between them are blurring.",
+    ],
+    deepDives: [
+      {
+        id: "die-vs-package-detail",
+        level: "engineer",
+        title: "Die vs package, and basic package structure",
+        intro:
+          "Keeping the die and the package distinct is the key to understanding everything else. The die is the silicon; the package is the structure around it — and that structure has a consistent basic anatomy.",
+        bullets: [
+          "Die: the piece of silicon containing the integrated circuit. It is the functional part — the transistors and wiring built during wafer fabrication.",
+          "Package: the structure that houses and interconnects the die and connects it to the outside system. It is not functional silicon; it is the enabling shell.",
+          "The basic stack, from the die outward: die → interconnect → package substrate → external connections → PCB/system.",
+          "Substrate: the base inside the package that routes wiring from the die's fine pads out to coarser terminals.",
+          "Interconnect: the wires or bumps that electrically join the die to the substrate.",
+          "Mold compound: the encapsulant that seals and protects the die.",
+          "Heat spreader and thermal interface material: the elements that carry heat away from the die.",
+          "Package architecture varies by device — a sensor, a memory chip, and a processor use very different packages — but this basic set of parts and jobs recurs.",
+        ],
+      },
+      {
+        id: "dicing-detail",
+        level: "engineer",
+        title: "Dicing: from wafer to individual dies",
+        intro:
+          "A wafer holds many identical dies laid out in a grid. Before packaging, it must be separated into those individual pieces.",
+        bullets: [
+          "Wafer: the disc of silicon carrying many finished dies side by side.",
+          "Die: one individual chip cut from the wafer.",
+          "Scribe lanes: the blank 'streets' between dies, left deliberately so the wafer can be cut without damaging circuitry.",
+          "Singulation: the act of separating the wafer into individual dies along those lanes.",
+          "Why it is needed: each product uses one die (or a chosen few), so the wafer must be divided; only the dies that passed wafer testing are kept.",
+        ],
+        note: "Conceptual only — no operational cutting parameters are given.",
+      },
+      {
+        id: "die-attach-detail",
+        level: "engineer",
+        title: "Die attach: fixing the die in place",
+        intro:
+          "Once separated, each good die must be mechanically fastened to the package substrate before it can be connected or protected.",
+        bullets: [
+          "Die attach bonds the die to the substrate, holding it precisely in place for the connection steps that follow.",
+          "The attach must be mechanically strong and stable over temperature, since everything built on top depends on the die staying put.",
+          "For many devices the attach layer also helps conduct heat from the back of the die into the package.",
+        ],
+      },
+      {
+        id: "electrical-connection-detail",
+        level: "engineer",
+        title: "Electrical connection: wire bonding vs flip-chip",
+        intro:
+          "The die's pads must be joined electrically to the substrate. There are two broad approaches, and the difference is where and how the connections are made.",
+        visualKey: "wire-bonding",
+        visualCaption: "Wire bonding connects pads around the die's edge to the substrate with fine metal wires.",
+        bullets: [
+          "Wire bonding: fine metal wires connect pads, usually around the edge (perimeter) of the die's top surface, out to the substrate. It is mature, flexible, and widely used.",
+          "Flip-chip: the die is turned face-down and connected through an array of small solder bumps spread across its surface, joining directly to the substrate underneath.",
+          "Bumps and solder-based interconnects: flip-chip uses many tiny solder bumps as the electrical (and mechanical) joints, rather than wires.",
+          "The key difference: wire bonding connects from the die's edge or top a wire at a time, while flip-chip uses a two-dimensional array of connections across the whole die — allowing far more connections and better power and signal delivery for high-performance parts.",
+        ],
+      },
+      {
+        id: "thermal-detail",
+        level: "advanced",
+        title: "Thermal management",
+        intro:
+          "Chips generate heat because moving and switching charge dissipates energy. If that heat is not removed, the die gets too hot, slows down, and can fail — so every package needs a thermal path.",
+        visualKey: "thermal-stack",
+        visualCaption: "Heat flows from the die, through the thermal interface material and heat spreader, to the heatsink or system.",
+        equations: [
+          {
+            name: "Thermal resistance",
+            expression: "Rθ = ΔT / P",
+            variables: [
+              { symbol: "Rθ", meaning: "thermal resistance of the heat path (lower conducts heat better)", unit: "°C/W" },
+              { symbol: "ΔT", meaning: "temperature rise from the die to the reference point (e.g. ambient)", unit: "°C" },
+              { symbol: "P", meaning: "power the die dissipates as heat", unit: "W" },
+            ],
+            meaning:
+              "Thermal resistance says how much the die heats up for each watt it dissipates. Rearranged as ΔT = P · Rθ, it shows the temperature rise grows with both power and thermal resistance — so cooling a hotter chip means lowering Rθ.",
+            assumptions: [
+              "A simplified steady-state, single-path view; real packages have several heat paths in parallel and series.",
+              "Assumes a fixed reference temperature (such as ambient or the heatsink).",
+            ],
+            example:
+              "If a die dissipates 50 W through a path with Rθ = 0.5 °C/W, the temperature rise is ΔT = 50 × 0.5 = 25 °C above the reference. Halving Rθ halves that rise.",
+            sensitivity: [
+              "Higher power P → larger temperature rise for the same path.",
+              "Lower thermal resistance Rθ (better TIM, bigger spreader/heatsink) → smaller temperature rise.",
+              "Concentrated power (hotspots) raises local temperature even if the average looks fine.",
+            ],
+          },
+        ],
+        bullets: [
+          "The heat path is a chain: die → thermal interface material → heat spreader → heatsink/system, each stage adding thermal resistance.",
+          "Heat flow follows temperature differences — heat moves from the hot die toward cooler surroundings, and a lower-resistance path lets more flow for a given temperature rise.",
+          "Hotspots matter: power is not spread evenly across a die, so some regions run hotter than the average and can limit the whole chip.",
+          "Package thermal design is about minimising thermal resistance and spreading heat, so the die stays within safe temperatures at full power.",
+        ],
+      },
+      {
+        id: "package-types-detail",
+        level: "advanced",
+        title: "Package types, conceptually",
+        intro:
+          "Packages come in families defined by how they connect and how many dies they hold — not by brand. Here are the main conceptual categories.",
+        bullets: [
+          "Traditional leaded packages: connect through metal leads around the package edge; simple and long-established for many components.",
+          "Ball grid array (BGA): connects through a two-dimensional array of solder balls underneath the package, allowing many more connections than edge leads.",
+          "Flip-chip packages: use flip-chip bumps between die and substrate for high connection counts and better power and signal delivery, often combined with a BGA underneath.",
+          "System-in-package (SiP): combines multiple dies and sometimes other components into one package that behaves like a small system.",
+          "Multi-chip packages: place several dies together in one package (side by side or stacked) so they work closely as a unit.",
+        ],
+        note: "These are conceptual families, not a product catalogue; real products mix and extend them.",
+      },
+      {
+        id: "testing-detail",
+        level: "advanced",
+        title: "Testing at multiple stages",
+        intro:
+          "Testing happens more than once, because catching a bad die or package early avoids wasting money on later steps.",
+        bullets: [
+          "Wafer sort: each die is tested while still on the wafer, so failing dies are never packaged.",
+          "Package-level test: the finished package is tested electrically to confirm it works after assembly.",
+          "Burn-in: parts are run under elevated temperature and voltage for a time to weed out early-life failures before shipping.",
+          "Electrical test: functional and parametric checks confirm the component meets its specifications.",
+          "Reliability testing: stress tests (such as thermal cycling) confirm the package will survive years of real use.",
+          "Why multiple stages: each step adds cost, so testing early (wafer sort) avoids packaging bad dies, and testing late (package/reliability) catches faults introduced during assembly.",
+        ],
+      },
+    ],
+    keyTakeaways: [
+      "A finished wafer is not a product — the die is fragile, tiny-pitched, and needs power and cooling, so it cannot go straight into a device.",
+      "The package protects the die, connects it to the board, delivers power, routes signals, and removes heat — several jobs at once.",
+      "Keep die and package distinct: the die is the functional silicon; the package is the enabling structure around it.",
+      "The journey runs wafer → dice → attach → connect (wire bond or flip-chip) → encapsulate → cool → test → product.",
+      "Packaging affects electrical and thermal performance and is now part of system architecture — advanced packaging even shapes how chips are designed.",
+    ],
+    references: [
+      {
+        title: "Microelectronics Packaging Handbook",
+        author: "R. R. Tummala, E. J. Rymaszewski (eds.)",
+        publisher: "Springer",
+        year: 1997,
+        kind: "textbook",
+        note: "Comprehensive reference on packaging functions, materials, and reliability.",
+      },
+      {
+        title: "Fundamentals of Microsystems Packaging",
+        author: "Rao R. Tummala",
+        publisher: "McGraw-Hill",
+        year: 2001,
+        kind: "textbook",
+        note: "Foundational treatment of electrical, thermal, and mechanical packaging.",
+      },
+      {
+        title: "SEMI — global industry association for semiconductor manufacturing",
+        publisher: "SEMI",
+        url: "https://www.semi.org",
+        kind: "standards",
+        note: "Background and standards for assembly, packaging, and test.",
+      },
+    ],
+    relatedLessons: ["die-vs-package", "wire-bonding", "flip-chip", "advanced-packaging"],
   }),
   L({
     slug: "final-test",

@@ -49,6 +49,35 @@ export function LessonDiagram({ visualKey }: { visualKey: LessonVisualKey }) {
       </svg>
     );
   }
+  if (visualKey === "thermal-stack") {
+    return (
+      <svg viewBox="0 0 300 210" className={common} role="img" aria-label="Heat flows up from the die, through the thermal interface material, into the heat spreader, and out to the heatsink or system.">
+        <defs>
+          <marker id="ath" markerWidth="7" markerHeight="7" refX="3.5" refY="6" orient="auto">
+            <path d="M3.5 0L7 7L0 7z" className="fill-danger" />
+          </marker>
+        </defs>
+        {/* heatsink with fins */}
+        <rect x="80" y="24" width="150" height="40" className="fill-info/15 stroke-border" strokeWidth="1.2" />
+        {[...Array(6)].map((_, i) => (
+          <line key={`fin${i}`} x1={92 + i * 24} y1="10" x2={92 + i * 24} y2="24" className="stroke-info/60" strokeWidth="2" />
+        ))}
+        <text x="155" y="48" textAnchor="middle" className="fill-foreground text-[10px]">Heatsink / system</text>
+        {/* heat spreader */}
+        <rect x="80" y="78" width="150" height="30" className="fill-muted stroke-border" strokeWidth="1.2" />
+        <text x="155" y="97" textAnchor="middle" className="fill-foreground text-[10px]">Heat spreader / lid</text>
+        {/* TIM */}
+        <rect x="80" y="112" width="150" height="14" className="fill-warning/40 stroke-border" strokeWidth="1" />
+        <text x="155" y="122" textAnchor="middle" className="fill-foreground text-[9px]">Thermal interface material</text>
+        {/* die */}
+        <rect x="80" y="130" width="150" height="32" className="fill-brand/30 stroke-brand" strokeWidth="1.3" />
+        <text x="155" y="150" textAnchor="middle" className="fill-foreground text-[10px]">Die (heat source)</text>
+        {/* heat flow arrow */}
+        <line x1="52" y1="150" x2="52" y2="30" className="stroke-danger" strokeWidth="1.6" markerEnd="url(#ath)" />
+        <text x="44" y="96" textAnchor="middle" transform="rotate(-90 44 96)" className="fill-muted-foreground text-[9px]">heat flow</text>
+      </svg>
+    );
+  }
   if (visualKey === "deposit-etch-cycle") {
     const stages = [
       { label: ["Deposit", "film"] },
