@@ -139,6 +139,14 @@ function DeepDive({ dive }: { dive: LessonDeepDive }) {
       </summary>
       <div className="mt-4 space-y-4">
         {dive.intro && <p className="leading-relaxed text-foreground">{dive.intro}</p>}
+        {dive.visualKey && (
+          <figure className="rounded-lg border border-border bg-muted/30 p-5">
+            <LessonDiagram visualKey={dive.visualKey} />
+            {dive.visualCaption && (
+              <figcaption className="mt-3 text-center text-sm text-muted-foreground">{dive.visualCaption}</figcaption>
+            )}
+          </figure>
+        )}
         {dive.flow && dive.flow.length > 0 && <FlowSteps steps={dive.flow} />}
         {dive.body && dive.body.length > 0 && <Paras items={dive.body} />}
         {dive.table && dive.table.rows.length > 0 && (

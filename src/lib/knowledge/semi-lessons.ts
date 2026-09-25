@@ -63,6 +63,9 @@ export interface LessonDeepDive {
   equations?: LessonEquation[];
   /** A small comparison table (e.g. CVD vs PVD vs ALD). */
   table?: { caption?: string; columns: string[]; rows: string[][] };
+  /** An optional built-in diagram shown inside the panel, with a caption. */
+  visualKey?: LessonVisualKey;
+  visualCaption?: string;
   /** An ordered flow rendered as arrowed steps (e.g. a feedback-control loop). */
   flow?: string[];
   /** Closing note, e.g. distinguishing production technology from R&D. */
@@ -1701,24 +1704,360 @@ export const SEMI_LESSONS: SemiLesson[] = [
     slug: "ion-implantation",
     pathId: "manufacturing",
     order: 9,
-    title: "Ion implantation",
-    summary: "Firing dopant ions into the wafer to create n- and p-type regions precisely.",
-    whatYoullLearn: ["How implantation doses dopants", "Dose and energy control", "Why annealing follows"],
-    whyItMatters: "Implantation is how the doped regions of every transistor are placed exactly.",
+    title: "Doping",
+    summary:
+      "Deliberately adding tiny amounts of impurity atoms to silicon to control how it conducts — the step that turns inert crystal into transistors.",
+    whatYoullLearn: [
+      "Why pure silicon alone cannot make useful devices",
+      "How electrons, holes, and energy bands give silicon its behaviour",
+      "What n-type and p-type mean, and what donors and acceptors do",
+      "How dopant concentration sets carrier concentration, conductivity, and resistivity",
+      "How doping builds the PN junction and a transistor — and how doping is done and measured",
+    ],
+    whyItMatters:
+      "Pure silicon barely conducts and cannot switch or amplify. Doping — adding controlled, minute amounts of specific impurity atoms — is what gives silicon the tunable, region-by-region electrical behaviour every transistor, diode, and chip depends on. Without controlled doping there are no PN junctions, no transistors, and no integrated circuits.",
+    quickStart: [
+      "Doping is the controlled introduction of impurity atoms into a semiconductor to modify its electrical properties.",
+      "The chain is: pure silicon → controlled impurity introduction → changed carrier concentration → different electrical behaviour → working electronic devices.",
+      "Adding donor atoms gives extra free electrons (n-type); adding acceptor atoms creates holes (p-type).",
+      "The silicon stays a crystal throughout — doping changes how it conducts, not what it fundamentally is.",
+      "Doping is done in precise amounts, in precise places (by ion implantation or diffusion), because where and how much you dope defines the device.",
+    ],
+    prerequisites: ["what-is-a-semiconductor", "intrinsic-semiconductor"],
+    intuition: [
+      "Pure (intrinsic) silicon is like a room full of people all holding hands — every electron is tied up in a bond, so almost nothing is free to move and carry current. Silicon on its own is a poor conductor.",
+      "Doping is like slipping a few different people into that room. A donor atom brings an extra electron that is not needed for bonding, so it is free to roam and carry current (n-type). An acceptor atom is short one electron, leaving an empty spot — a 'hole' — that neighbouring electrons hop into, so the hole appears to move and also carries current (p-type).",
+      "The key idea: you add only a tiny fraction of impurity atoms — often around one impurity per millions to billions of silicon atoms — yet that tiny, controlled addition transforms how the material conducts. It is precision, not contamination.",
+    ],
+    whereItFits: {
+      journeyStepId: "doping",
+      note: "Doping is interleaved with the other steps: a mask (from lithography) defines where dopants go, they are introduced by implantation or diffusion, and an anneal activates them — and this repeats to build the many differently-doped regions of every device.",
+    },
     explanation: [
-      "Dopant atoms are ionised, accelerated, and fired into the wafer; the resist/oxide mask blocks them everywhere except the intended regions. Dose (ions per area) and energy (depth) are tightly controlled.",
-      "Implantation damages the crystal, so a high-temperature anneal follows to repair the lattice and activate the dopants.",
+      "A semiconductor like silicon sits between a conductor and an insulator: on its own it conducts only weakly. Doping deliberately adds a small, precise amount of a chosen impurity element to change how many mobile charge carriers the material has, and therefore how well — and in what way — it conducts.",
+      "There are two flavours. n-type doping adds donor atoms that contribute extra free electrons (negative carriers). p-type doping adds acceptor atoms that create holes (the absence of an electron, which behaves like a positive carrier). By placing n-type and p-type regions next to each other, engineers build the junctions that make diodes and transistors work.",
+      "Crucially, doping is spatial: different regions of the same wafer are doped differently — some n-type, some p-type, some heavily, some lightly — to form sources, drains, channels, and wells. Getting the amount (dose) and the location and depth right is the whole game.",
+      "Two methods introduce dopants: ion implantation (firing dopant ions into the wafer) and diffusion (letting dopants move into hot silicon). Both are usually followed by a thermal anneal that repairs the crystal and activates the dopants so they actually contribute carriers.",
     ],
-    visual: "An ion beam striking the wafer through mask openings, doping only the exposed regions.",
+    howItWorks: [
+      "Choose the dopant: a donor element for n-type or an acceptor element for p-type, depending on the region being built.",
+      "Define where: a mask (patterned by lithography, often oxide or resist) exposes only the regions that should be doped.",
+      "Introduce the dopant: by ion implantation (fired in as an ion beam) or by diffusion (driven in thermally).",
+      "Activate and repair: a thermal anneal moves dopant atoms onto crystal lattice sites so they contribute carriers, and heals any damage.",
+      "Result: a region with a controlled carrier type and concentration, ready to form part of a junction or transistor.",
+    ],
+    steps: [
+      { name: "Select dopant & target", detail: "Pick a donor (n-type) or acceptor (p-type) and the concentration and depth the region needs." },
+      { name: "Mask the wafer", detail: "Use a lithographically patterned mask so only the intended regions receive dopant." },
+      { name: "Introduce dopant", detail: "Add the dopant by ion implantation or by thermal diffusion." },
+      { name: "Anneal", detail: "Heat the wafer to activate dopants (place them on lattice sites) and repair crystal damage." },
+      { name: "Verify", detail: "Measure the doped region's depth and electrical behaviour (e.g. sheet resistance) before moving on." },
+    ],
+    science: [
+      "Silicon is a crystal: each atom shares its four outer (valence) electrons with four neighbours in covalent bonds, forming a regular repeating lattice. In this bonded state, electrons are not free to move, so pure silicon conducts poorly.",
+      "Energy bands explain conduction. Electrons bound in bonds occupy the valence band; to move freely and carry current they must reach the conduction band. Between the two lies the band gap — an energy step electrons must cross. Silicon's moderate band gap is why it is a semiconductor rather than a metal (no gap) or insulator (huge gap).",
+      "Two kinds of carrier exist. An electron promoted into the conduction band is a free negative carrier. The empty bond it leaves behind is a hole — a vacancy that neighbouring electrons hop into, so the hole moves like a positive carrier. Current can be carried by both.",
+      "In pure (intrinsic) silicon, electrons and holes exist only in equal, tiny numbers created by thermal energy — far too few for useful devices. Doping changes this: it deliberately adds carriers of one type, raising conductivity by orders of magnitude and setting whether a region is dominated by electrons (n-type) or holes (p-type).",
+    ],
+    equipment: [
+      { name: "Ion implanter", detail: "Generates dopant ions, accelerates them, selects the desired ion, and scans the beam across the wafer to deliver a precise dose." },
+      { name: "Diffusion furnace", detail: "A high-temperature furnace that drives dopant atoms into the silicon from a gas, liquid, or solid source." },
+      { name: "Rapid thermal anneal (RTA)", detail: "Heats the wafer quickly and briefly to activate dopants and repair damage while limiting unwanted diffusion." },
+      { name: "Masking layers", detail: "Patterned oxide or photoresist that blocks dopants everywhere except the intended regions." },
+    ],
+    materials: [
+      { name: "Donor dopants (n-type)", detail: "Group V elements such as phosphorus, arsenic, or antimony, which each contribute an extra electron." },
+      { name: "Acceptor dopants (p-type)", detail: "Group III elements such as boron, which each create a hole by being short one bonding electron." },
+      { name: "Silicon substrate", detail: "The crystalline wafer into which dopants are introduced; it remains crystalline after doping." },
+      { name: "Masking materials", detail: "Oxide or resist films that define where doping is allowed." },
+    ],
+    parameters: [
+      { name: "Dopant concentration", detail: "How many dopant atoms are added per unit volume; sets the target carrier concentration." },
+      { name: "Dose", detail: "In implantation, the number of ions delivered per unit area — the primary knob for how heavily a region is doped." },
+      { name: "Energy", detail: "In implantation, the ion energy that largely sets how deep the dopant goes." },
+      { name: "Junction depth", detail: "How deep the doped region extends before meeting oppositely-doped or undoped material." },
+      { name: "Profile", detail: "How dopant concentration varies with depth — abrupt or graded — which shapes device behaviour." },
+      { name: "Uniformity", detail: "Consistency of dose and depth across the wafer so devices match wherever they sit." },
+      { name: "Activation", detail: "The fraction of dopant atoms placed on lattice sites so they actually contribute carriers." },
+      { name: "Thermal budget", detail: "The total heat (temperature × time) the wafer receives; it activates dopants but also causes further diffusion." },
+    ],
+    parametersNote:
+      "Specific doses, energies, temperatures, and concentrations are technology- and device-dependent and set by each fab. The values discussed here are conceptual, and this topic gives no operational equipment settings or hazardous process recipes.",
+    visual:
+      "Two silicon lattices side by side: on the left, a donor atom (e.g. phosphorus) contributes a free electron for n-type; on the right, an acceptor atom (e.g. boron) leaves a hole for p-type — the crystal is intact in both.",
+    visualKey: "doping",
     terminology: [
-      { term: "Dose", def: "Number of implanted ions per unit area." },
-      { term: "Anneal", def: "A heat step that repairs damage and activates dopants." },
-      { term: "Junction depth", def: "How deep the doped region extends." },
+      { term: "Doping", def: "Controlled introduction of impurity atoms to change a semiconductor's electrical behaviour." },
+      { term: "Intrinsic semiconductor", def: "Pure, undoped silicon, with very few carriers." },
+      { term: "Extrinsic semiconductor", def: "Doped silicon, whose carrier concentration is set by added impurities." },
+      { term: "Donor", def: "A dopant atom that contributes a free electron (makes n-type)." },
+      { term: "Acceptor", def: "A dopant atom that creates a hole (makes p-type)." },
+      { term: "n-type", def: "Silicon where electrons are the majority carriers." },
+      { term: "p-type", def: "Silicon where holes are the majority carriers." },
+      { term: "Carrier", def: "A mobile charge that carries current — an electron or a hole." },
+      { term: "Hole", def: "A missing electron in a bond that moves and behaves like a positive carrier." },
+      { term: "Band gap", def: "The energy an electron must gain to move from the valence band to the conduction band." },
+      { term: "Dose", def: "In implantation, the number of dopant ions delivered per unit area." },
+      { term: "Junction depth", def: "How deep a doped region extends into the wafer." },
+      { term: "Sheet resistance", def: "An electrical measure of how a thin doped layer conducts, reported in ohms per square." },
     ],
-    example: "A shallow, high-dose implant forms a MOSFET's source/drain; a light implant sets the channel.",
-    commonMistakes: ["Forgetting that implantation must be followed by annealing to work."],
-    realWorld: "Precise implants define transistor threshold voltages and junctions.",
-    relatedLessons: ["doping", "n-type", "p-type"],
+    formula: {
+      expression: "σ = q · (n·μₙ + p·μₚ)",
+      caption:
+        "Conductivity rises with carrier concentration. Doping sets n (electrons) or p (holes), so it directly controls how well a region conducts. Full variable definitions are in the carriers deep dive below.",
+    },
+    example:
+      "A MOSFET is built from doped regions: heavily-doped source and drain of one type sit in a lightly-doped well of the opposite type, with the channel between them controlled by the gate. Change the doping and you change the transistor — its junctions, its threshold, and how it switches.",
+    commonMistakes: [
+      "Thinking doping makes silicon 'dirty'. Doping is the deliberate, extremely controlled addition of specific atoms in precise amounts — the opposite of random contamination.",
+      "Assuming more dopant is always better. Each region has a target concentration; too much can degrade the crystal, cause leakage, or ruin device behaviour just as too little can.",
+      "Thinking p-type means the material has positive atoms overall. p-type silicon is electrically neutral overall; 'p' refers to holes being the majority mobile carriers, not a net positive charge.",
+      "Thinking n-type means the material carries a negative charge overall. n-type silicon is also neutral overall; 'n' means electrons are the majority carriers, balanced by the fixed positive donor ions.",
+      "Believing doping changes silicon into a different material. The silicon crystal remains silicon; only its carrier population — and thus its electrical behaviour — is modified.",
+    ],
+    realWorld:
+      "Every transistor in every chip relies on precisely doped regions placed exactly where the design needs them. The ability to dope specific regions to specific concentrations and depths — repeatably, across billions of transistors on a wafer — is one of the foundations that makes integrated circuits possible.",
+    defects: [
+      "Incorrect dose: too much or too little dopant shifts carrier concentration and changes device thresholds and currents.",
+      "Incorrect depth: an implant too shallow or too deep places the junction in the wrong place, altering how the device behaves.",
+      "Non-uniformity: dose or depth varying across the wafer makes devices behave differently depending on location.",
+      "Activation issues: dopants not properly placed on lattice sites do not contribute carriers, so the region under-performs.",
+      "Excessive diffusion: too much thermal budget spreads dopants beyond their intended region, blurring junctions.",
+      "Crystal damage: implantation damages the lattice; if not repaired by annealing, it degrades carrier movement and can cause leakage.",
+      "Contamination: unwanted impurities introduced along with (or instead of) the intended dopant disrupt electrical behaviour.",
+      "Junction leakage: damaged or poorly-formed junctions leak current when they should block it, wasting power and hurting performance.",
+    ],
+    metrology: [
+      "Sheet resistance measures how well a thin doped layer conducts (in ohms per square) and is a fast, common check on whether a region was doped and activated as intended.",
+      "Concentration profiling determines how dopant concentration varies with depth, revealing the shape of the doped region.",
+      "Junction-depth measurement confirms how deep the doped region extends, since depth strongly affects device behaviour.",
+      "Electrical characterization (measuring resistances, junction behaviour, and device parameters) checks that the doping produced the intended electrical result — the ultimate test of a doping step.",
+    ],
+    yieldImpact: [
+      "Because doping sets transistor thresholds and currents, small dose or depth errors shift device behaviour and can push chips out of spec, directly lowering yield.",
+      "Doping repeats across many regions and layers, so a systematic error is multiplied across billions of transistors — uniformity and control are essential.",
+      "Junction leakage from doping or damage problems raises power consumption and can disable circuits, making defect and contamination control critical.",
+    ],
+    designImplications: [
+      "Circuit and device designers specify target doping types, concentrations, and depths for every region; the process must hit them repeatably.",
+      "Designs must tolerate real dose and depth variation, leaving margin so transistors still meet spec when doping is slightly off.",
+      "Thermal budget is a shared, finite resource: later high-temperature steps move earlier dopants, so the whole flow is designed together to keep junctions where they belong.",
+    ],
+    industryContext: [
+      "Controlled doping is one of the enabling pillars of the entire semiconductor industry — the reason silicon can be turned into switching devices at all.",
+      "Ion implantation and annealing tools are precise, specialised systems, and their control over dose, depth, and thermal budget is central to making advanced transistors.",
+      "As devices shrink and become more three-dimensional, placing dopants precisely (shallow junctions, tight profiles) becomes harder and increasingly paces device design.",
+    ],
+    deepDives: [
+      {
+        id: "carriers-conductivity",
+        level: "engineer",
+        title: "Carriers, conductivity, and concentration",
+        intro:
+          "Doping is powerful because it directly sets the number of mobile carriers, and carrier count controls conductivity. A few relationships make this precise.",
+        equations: [
+          {
+            name: "Conductivity",
+            expression: "σ = q · (n·μₙ + p·μₚ)",
+            variables: [
+              { symbol: "σ", meaning: "electrical conductivity (higher = conducts better)", unit: "S/cm" },
+              { symbol: "q", meaning: "elementary charge (a constant, ≈ 1.6×10⁻¹⁹)", unit: "C" },
+              { symbol: "n", meaning: "free-electron concentration", unit: "cm⁻³" },
+              { symbol: "p", meaning: "hole concentration", unit: "cm⁻³" },
+              { symbol: "μₙ", meaning: "electron mobility (how easily electrons move)", unit: "cm²/V·s" },
+              { symbol: "μₚ", meaning: "hole mobility (how easily holes move)", unit: "cm²/V·s" },
+            ],
+            meaning:
+              "Conductivity is the sum of what electrons and holes each contribute. Doping raises n (n-type) or p (p-type), so it directly raises conductivity — often by orders of magnitude versus intrinsic silicon.",
+            assumptions: [
+              "Mobilities are treated as roughly constant over a range, though they actually fall at very high doping and vary with temperature.",
+              "Assumes dopants are activated (contributing carriers).",
+            ],
+            example:
+              "In n-type silicon, electrons dominate, so σ ≈ q·n·μₙ. Raising the donor concentration about 10× raises n about 10×, so conductivity rises roughly 10× (mobility roughly steady over that range).",
+            sensitivity: [
+              "More doping → more carriers (n or p) → higher conductivity.",
+              "Higher mobility → higher conductivity; electrons are typically more mobile than holes in silicon.",
+              "At very high doping, mobility drops, so conductivity rises less than linearly.",
+            ],
+          },
+          {
+            name: "Resistivity",
+            expression: "ρ = 1 / σ",
+            variables: [
+              { symbol: "ρ", meaning: "resistivity (higher = resists current more)", unit: "Ω·cm" },
+              { symbol: "σ", meaning: "conductivity", unit: "S/cm" },
+            ],
+            meaning:
+              "Resistivity is just the inverse of conductivity. Because doping raises conductivity, it lowers resistivity — a heavily doped region is far less resistive than intrinsic silicon.",
+            assumptions: ["Same conditions as the conductivity relation (activated dopants, given temperature)."],
+            example: "If doping raises conductivity 10×, resistivity falls to about one-tenth.",
+            sensitivity: [
+              "More doping → lower resistivity.",
+              "Less doping → higher resistivity (closer to intrinsic silicon).",
+            ],
+          },
+          {
+            name: "Mass-action law",
+            expression: "n · p = nᵢ²",
+            variables: [
+              { symbol: "n", meaning: "electron concentration", unit: "cm⁻³" },
+              { symbol: "p", meaning: "hole concentration", unit: "cm⁻³" },
+              { symbol: "nᵢ", meaning: "intrinsic carrier concentration of the material", unit: "cm⁻³" },
+            ],
+            meaning:
+              "In equilibrium the product of electron and hole concentrations is fixed for a given material and temperature. So raising one carrier type (by doping) suppresses the other: n-type silicon has many electrons and few holes, and vice versa.",
+            assumptions: [
+              "Thermal equilibrium at a fixed temperature.",
+              "nᵢ is very small for silicon at room temperature (around 10¹⁰ cm⁻³), and rises with temperature.",
+            ],
+            example:
+              "Heavily doping n-type raises n far above nᵢ, so p = nᵢ²/n becomes tiny — electrons are the clear majority and holes the minority.",
+            sensitivity: [
+              "Increase n by doping → p falls to keep the product constant.",
+              "Higher temperature → larger nᵢ → more of both carriers, which is why devices are sensitive to temperature.",
+            ],
+          },
+        ],
+        note:
+          "The big picture: dopant concentration → carrier concentration → conductivity/resistivity. That chain is why a tiny, controlled amount of impurity has such an outsized electrical effect.",
+      },
+      {
+        id: "doping-methods",
+        level: "engineer",
+        title: "Doping methods: diffusion vs ion implantation",
+        intro:
+          "Two methods put dopants into silicon. They differ fundamentally in how the dopant gets in and how precisely its amount and depth can be controlled.",
+        bullets: [
+          "Ion implantation: dopant atoms are ionised and fired into the wafer as an accelerated beam. The amount (dose) and depth (energy) are set electrically and independently, giving precise, repeatable control — even at low temperature.",
+          "Diffusion: the wafer is heated and dopants move into the silicon from a source at the surface, driven by concentration gradient and temperature. Amount and depth are coupled through temperature and time, so they are harder to control independently.",
+          "The fundamental difference: implantation delivers a measured quantity to a chosen depth by controlling a beam; diffusion relies on thermally-driven movement from the surface, where deeper almost always means more spread-out.",
+        ],
+      },
+      {
+        id: "ion-implantation-detail",
+        level: "engineer",
+        title: "Ion implantation, step by step",
+        intro:
+          "Ion implantation is the workhorse for controlled doping. Conceptually it is a beam of dopant ions aimed at the wafer.",
+        flow: ["Ion generation", "Acceleration", "Beam (ion selection & scan)", "Wafer", "Implanted region"],
+        bullets: [
+          "Ion generation: the dopant element is turned into ions (charged atoms).",
+          "Acceleration: an electric field accelerates the ions to a chosen energy.",
+          "Beam: the desired ion is selected and the beam is scanned across the wafer so the dose lands uniformly, only where the mask allows.",
+          "Dose: the number of ions per unit area — the main control over how heavily the region is doped.",
+          "Energy: largely sets how deep the ions come to rest, and thus the junction depth.",
+          "Depth & profile: together, energy and dose shape how dopant concentration varies with depth — the region's profile.",
+        ],
+        note:
+          "Conceptual only: this describes the principle, not operational settings, and involves no hazardous process instructions.",
+      },
+      {
+        id: "diffusion-detail",
+        level: "engineer",
+        title: "Diffusion: doping driven by heat",
+        intro:
+          "Diffusion introduces dopants by letting them migrate into hot silicon — the same way a drop of dye spreads through warm water, but atom by atom into a crystal.",
+        bullets: [
+          "Thermal diffusion: at high temperature, dopant atoms at the surface move into the silicon, seeking lower-concentration regions.",
+          "Concentration gradients: dopants flow from where they are plentiful (the surface source) toward where they are scarce (deeper in), so the gradient drives the process.",
+          "Temperature dependence: diffusion is strongly temperature-sensitive — hotter means faster movement and deeper penetration.",
+          "Diffusion profiles: the result is typically a graded profile, highest at the surface and tapering with depth.",
+        ],
+        note:
+          "Diffusion played a central historical role in early device making and is still used, but modern processes often rely heavily on ion implantation when precise, independently-controlled dose and depth are needed. Neither is universally 'better' — the choice depends on the region and the profile required.",
+      },
+      {
+        id: "annealing-detail",
+        level: "advanced",
+        title: "Annealing: repairing and activating",
+        intro:
+          "Implanting ions damages the crystal and leaves many dopant atoms sitting in the wrong places. A thermal anneal fixes both — but heat is a double-edged tool.",
+        bullets: [
+          "Lattice damage: incoming ions knock silicon atoms out of place, disordering the crystal near the surface; heavy damage degrades how carriers move.",
+          "Dopant activation: heating lets dopant atoms settle onto proper lattice sites, where they finally contribute free carriers — an un-activated dopant does nothing electrically.",
+          "Diffusion during annealing: the same heat that activates dopants also lets them move, so the doped region can spread and the junction shift during the anneal.",
+          "Trade-offs: enough heat is needed to repair damage and activate dopants, but too much thermal budget spreads dopants and blurs shallow junctions — so modern processes favour fast, brief anneals (e.g. rapid thermal annealing) to activate while limiting diffusion.",
+        ],
+      },
+      {
+        id: "pn-junction-detail",
+        level: "engineer",
+        title: "The PN junction — where doping becomes a device",
+        intro:
+          "Put a p-type region next to an n-type region and something remarkable happens: you get a PN junction, the building block of diodes and the heart of every transistor. This is doping's big payoff.",
+        visualKey: "pn-junction",
+        visualCaption:
+          "A p-type region meets an n-type region; near the boundary a carrier-free depletion region forms, with a built-in electric field across it.",
+        bullets: [
+          "Where p meets n, free electrons from the n-side and holes from the p-side meet near the boundary and cancel, leaving a thin zone with almost no mobile carriers — the depletion region.",
+          "The fixed dopant ions left behind in that zone (positive on the n-side, negative on the p-side) create a built-in potential — an internal voltage step across the junction, even with no battery attached.",
+          "Carrier movement: that built-in field opposes further crossing, setting up a balance. Applying an external voltage one way shrinks the barrier and lets current flow; the other way widens it and blocks current.",
+          "Diode behaviour: this is exactly why a PN junction conducts in one direction and blocks the other — a diode. Combine junctions and you can build a transistor that switches and amplifies.",
+        ],
+        note:
+          "This is the 'aha': doping alone does nothing magical, but placing differently-doped regions together creates junctions — and junctions are what compute.",
+      },
+      {
+        id: "doping-in-transistors",
+        level: "advanced",
+        title: "Doping inside a transistor",
+        intro:
+          "A transistor is essentially an arrangement of doped regions. Doping type, amount, and placement define every part of it.",
+        visualKey: "mosfet",
+        visualCaption:
+          "A MOSFET: heavily-doped source and drain in a well of the opposite type, with the gate controlling the channel between them.",
+        bullets: [
+          "Source and drain: heavily-doped regions of one carrier type that the current flows between.",
+          "Channel: the region between source and drain whose conduction the gate switches on and off; its doping helps set the transistor's threshold.",
+          "Wells: larger regions of a given doping type that host transistors of the opposite type, isolating them and providing the body the device needs.",
+          "Junctions everywhere: source-to-well and drain-to-well are PN junctions, so the whole device is built from the doped regions and the junctions between them.",
+        ],
+        note:
+          "Change the doping — type, concentration, depth, or placement — and you change the transistor. Controlled spatial doping is what makes a specific device rather than a lump of silicon.",
+      },
+    ],
+    keyTakeaways: [
+      "Pure silicon conducts poorly; doping adds tiny, controlled amounts of impurity to give it useful, tunable electrical behaviour.",
+      "Donors make n-type (extra electrons); acceptors make p-type (holes) — and the crystal stays silicon, electrically neutral overall.",
+      "Dopant concentration sets carrier concentration, which sets conductivity (σ = q(nμₙ + pμₚ)) and resistivity.",
+      "Placing p-type next to n-type creates the PN junction — the basis of diodes and transistors — so where you dope matters as much as how much.",
+      "Doping is done by ion implantation or diffusion and usually followed by annealing to activate dopants and repair the crystal; dose, depth, and thermal budget must be tightly controlled.",
+    ],
+    references: [
+      {
+        title: "Silicon VLSI Technology: Fundamentals, Practice, and Modeling",
+        author: "J. D. Plummer, M. D. Deal, P. B. Griffin",
+        publisher: "Prentice Hall",
+        year: 2000,
+        kind: "textbook",
+        note: "Covers doping, diffusion, ion implantation, and annealing in depth.",
+      },
+      {
+        title: "Semiconductor Physics and Devices",
+        author: "Donald A. Neamen",
+        publisher: "McGraw-Hill",
+        year: 2012,
+        kind: "textbook",
+        note: "Clear treatment of carriers, doping, and the PN junction for beginners.",
+      },
+      {
+        title: "Physics of Semiconductor Devices",
+        author: "S. M. Sze, Kwok K. Ng",
+        publisher: "Wiley",
+        year: 2007,
+        kind: "textbook",
+        note: "Standard reference on junctions and device physics.",
+      },
+      {
+        title: "SEMI — global industry association for semiconductor manufacturing",
+        publisher: "SEMI",
+        url: "https://www.semi.org",
+        kind: "standards",
+        note: "Background on manufacturing equipment and materials.",
+      },
+    ],
+    relatedLessons: ["pn-junction", "n-type", "p-type", "mosfet"],
   }),
   L({
     slug: "cmp",
