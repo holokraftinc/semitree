@@ -2016,6 +2016,117 @@ export const SEMI_LESSONS: SemiLesson[] = [
         note:
           "Change the doping — type, concentration, depth, or placement — and you change the transistor. Controlled spatial doping is what makes a specific device rather than a lump of silicon.",
       },
+      {
+        id: "advanced-profiles",
+        level: "advanced",
+        title: "Advanced doping profiles",
+        intro:
+          "A doped region is not a uniform block — dopant concentration varies with depth and position, and the shape of that variation is what engineers actually design.",
+        bullets: [
+          "Concentration profile: how dopant concentration changes with depth. The peak location and how quickly it falls off define the region's electrical behaviour, not just the total amount added.",
+          "Shallow vs deep junctions: a shallow junction keeps the doped region close to the surface (increasingly required for small transistors to keep the gate in control), while a deep junction extends further. Shallow junctions are harder to make and tend to have higher resistance — a trade-off.",
+          "Abrupt vs graded junctions: an abrupt junction changes from one doping type to the other over a very short distance; a graded junction changes gradually. This shape affects the junction's electric field, its capacitance, and how it breaks down.",
+          "Dose vs concentration: dose is the total dopant delivered per unit area (the whole profile added up); concentration is the local density at a given depth. The same dose can give very different peak concentrations depending on how spread out the profile is.",
+          "Lateral vs vertical spread: dopants spread not only downward (vertical) but sideways under the mask edge (lateral), especially during annealing. Lateral spread sets the effective spacing between regions and matters more and more as devices shrink.",
+        ],
+      },
+      {
+        id: "implant-physics",
+        level: "advanced",
+        title: "Ion implantation physics",
+        intro:
+          "What decides how deep implanted ions go, and how spread out they end up? A few physical ideas explain the profile — described conceptually, not as equipment settings.",
+        bullets: [
+          "Ion energy: the kinetic energy given to the ions. Higher energy generally means the ions penetrate deeper before stopping.",
+          "Stopping mechanisms: ions lose energy two ways — by interacting with the target's electrons (electronic stopping, dominant at high energy) and by colliding with atomic nuclei (nuclear stopping, dominant at low energy and responsible for most lattice damage). An ion stops when its energy is used up.",
+          "Implantation depth: the average depth at which ions come to rest (the projected range), set mainly by the ion, the target, and the energy.",
+          "Straggle: ions do not all stop at exactly the same depth — there is a statistical spread around the average. This straggle gives the profile its width, both in depth and laterally.",
+          "Channeling: if the ion beam lines up with the crystal's open rows, some ions slip down these 'channels' and travel far deeper than expected, distorting the profile. It is managed by tilting the wafer or disordering the surface first so the channels are blocked.",
+        ],
+      },
+      {
+        id: "activation-tradeoff",
+        level: "advanced",
+        title: "Activation vs diffusion: the annealing trade-off",
+        intro:
+          "Implantation delivers dopants but also damages the crystal and leaves atoms off their sites. Annealing fixes both — yet the same heat that fixes them also moves them.",
+        flow: ["Implantation damage", "Annealing (heat)", "Lattice recovery", "Dopant activation"],
+        bullets: [
+          "Implantation damage: incoming ions knock silicon atoms out of place, disordering the near-surface crystal (heavy doses can even make it amorphous).",
+          "Annealing: heating gives atoms the energy to move back toward their proper positions.",
+          "Lattice recovery: the crystal re-orders (recrystallizes), removing damage that would otherwise trap or scatter carriers.",
+          "Dopant activation: dopant atoms settle onto substitutional lattice sites, where they finally donate or accept carriers — an un-activated dopant contributes nothing.",
+        ],
+        note:
+          "The trade-off: more heat (higher temperature or longer time) improves activation and repair, but also drives more diffusion, spreading dopants and blurring or deepening junctions. Shallow, sharply-defined regions need activation with as little diffusion as possible — which is why modern processes favour very fast anneals.",
+      },
+      {
+        id: "doping-mosfet",
+        level: "advanced",
+        title: "How doping shapes a MOSFET",
+        intro:
+          "A MOSFET is a voltage-controlled switch: a gate voltage decides whether current flows between two terminals (source and drain) through a channel. Doping defines every one of those parts — and the device's key properties.",
+        bullets: [
+          "Source/drain engineering: the doping of the source and drain (concentration, depth, profile, and the lightly-doped extensions reaching toward the channel) sets their resistance and helps keep the gate in control as devices shrink. Tuning these regions is one of the biggest levers device engineers have.",
+          "Threshold voltage: the gate voltage at which the transistor turns on. Channel and well doping strongly set it — too little and the device leaks when it should be off, too much and it is hard to switch on.",
+          "Leakage: when off, the transistor's junctions and channel must block current. Doping errors, wrong profiles, or leftover implant damage cause leakage that wastes power.",
+          "Mobility: how easily carriers move through the channel. Heavy doping and residual damage add scattering that lowers mobility — and thus drive current and speed — so more doping is not automatically better.",
+          "Resistance: source, drain, and contact resistance fall as doping and activation rise, which speeds the device up — pulling against the mobility and leakage concerns above.",
+        ],
+        note:
+          "These properties trade off against each other: the 'right' doping for a device is a balance of threshold, leakage, mobility, and resistance, not the maximum of any one.",
+      },
+      {
+        id: "advanced-structures",
+        level: "advanced",
+        title: "Doping in advanced transistor structures",
+        intro:
+          "As transistors shrank, flat (planar) devices began to leak because the gate lost control of the channel. Newer 3D structures wrap the gate around the channel — and that changes how doping is used.",
+        bullets: [
+          "FinFET: the channel is a thin vertical 'fin' with the gate on three sides, giving much better control. Because the gate controls the channel electrostatically, the channel is often lightly doped or nearly undoped, shifting emphasis onto precise, conformal source/drain doping of 3D surfaces.",
+          "Gate-all-around (GAA): the gate fully surrounds the channel for even tighter control, so the same low-channel-doping idea is pushed further while doping the surrounding regions becomes more demanding.",
+          "Nanosheet devices: a common GAA form using stacked horizontal sheets of channel wrapped by the gate. Doping these tiny, enclosed sheets uniformly and conformally — reaching all surfaces evenly — is a major challenge.",
+          "Advanced architectures: the overall trend is more gate control over ever-smaller channel volumes, so doping must become shallower, more precise, and more conformal, with the action moving from doping the channel toward engineering the source/drain and contacts.",
+        ],
+      },
+      {
+        id: "doping-process-control",
+        level: "advanced",
+        title: "Doping as a manufacturing control loop",
+        intro:
+          "Like the rest of the fab, doping is not a fixed recipe but a controlled loop: set the inputs, measure the result, and correct the next wafers.",
+        flow: [
+          "Dose control",
+          "Energy control",
+          "Annealing",
+          "Metrology",
+          "Electrical testing",
+          "Feedback → next wafer",
+        ],
+        bullets: [
+          "Dose and energy are set and monitored to hit the target concentration and depth for each region.",
+          "Annealing is controlled in temperature and time to activate dopants without over-diffusing them.",
+          "Metrology measures the physical result — sheet resistance, concentration profile, and junction depth.",
+          "Electrical testing confirms the devices actually meet targets such as threshold voltage, leakage, and resistance.",
+          "Feedback: deviations feed corrections back into dose, energy, and anneal settings for following wafers (advanced process control), keeping the process centred as tools drift.",
+        ],
+      },
+      {
+        id: "doping-research",
+        level: "researcher",
+        title: "Research frontiers in doping",
+        intro:
+          "The topics below separate what is mature in production from what is still emerging or being pushed to its limits.",
+        bullets: [
+          "Ultra-shallow junctions: making source/drain junctions extremely shallow yet highly activated and low-resistance at once — a continuing challenge as devices shrink.",
+          "Advanced activation: activating dopants to very high levels without letting them diffuse, pushing beyond conventional equilibrium limits.",
+          "Millisecond and rapid thermal processes: anneals lasting milliseconds or less (rapid thermal, flash, and laser annealing) that activate dopants while minimizing diffusion. Rapid thermal annealing is mature; the fastest laser/flash approaches are being pushed further for the shallowest junctions.",
+          "Alternative doping approaches: conformal, surface-based doping methods that can dope complex 3D structures uniformly, and other non-implantation routes — emerging, driven by GAA and nanosheet devices.",
+          "Compound semiconductor doping: dopants behave differently in materials beyond silicon (III-V semiconductors, silicon carbide, gallium nitride), an active area especially for power and high-frequency devices.",
+        ],
+        note:
+          "Mature in production: ion implantation with dose and energy control, rapid thermal annealing, and sheet-resistance and profile metrology. Emerging or being pushed to the limit: ultra-shallow highly-activated junctions, millisecond/laser activation, conformal doping for gate-all-around structures, and advanced compound-semiconductor doping.",
+      },
     ],
     keyTakeaways: [
       "Pure silicon conducts poorly; doping adds tiny, controlled amounts of impurity to give it useful, tunable electrical behaviour.",
