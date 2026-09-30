@@ -31,6 +31,22 @@ export default function SemiconductorLearnPage() {
         </p>
       </div>
 
+      {/* Flagship connected journey */}
+      <Link
+        href="/semiconductors/learn/journey"
+        className="group block rounded-2xl border border-brand/30 bg-brand/5 p-6 transition-colors hover:border-brand/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <p className="text-xs font-semibold uppercase tracking-wide text-brand">Start here — the manufacturing journey</p>
+        <p className="mt-2 text-lg font-semibold text-foreground group-hover:text-brand">
+          How does a silicon wafer become a working packaged chip?
+        </p>
+        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+          One connected journey through photolithography, etching &amp; deposition, doping, and chip packaging —
+          from design all the way to a finished system.
+        </p>
+        <p className="mt-3 text-sm font-medium text-brand">Explore the journey →</p>
+      </Link>
+
       <ol className="space-y-6">
         {LEARNING_PATHS.map((path, i) => {
           const lessons = lessonsOfPath(path.id);

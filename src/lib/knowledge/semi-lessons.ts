@@ -161,6 +161,16 @@ export interface SemiLesson {
   keyTakeaways?: string[];
   /** References / further reading — verified sources only. */
   references?: SemiReference[];
+
+  /* ---- Manufacturing-journey linkage (connects the flagship topics) ---- */
+  /** One line recapping what this topic taught, shown in the journey CTA. */
+  journeyRecap?: string;
+  /** Slug of the next topic in the conceptual manufacturing journey. */
+  journeyNext?: string;
+  /** Why the journey-next topic matters (bridging sentence). */
+  journeyNextWhy?: string;
+  /** Cross-links into Semitree's broader knowledge graph (existing routes only). */
+  connections?: { label: string; href: string }[];
 }
 
 export interface LearningPath {
@@ -1258,6 +1268,15 @@ export const SEMI_LESSONS: SemiLesson[] = [
       },
     ],
     relatedLessons: ["photoresist", "etching", "deposition", "metrology"],
+    journeyRecap: "You've learned how a chip's patterns are transferred onto the wafer with light.",
+    journeyNext: "etching",
+    journeyNextWhy: "See how those patterns are used to add and remove material, layer by layer.",
+    connections: [
+      { label: "Equipment", href: "/semiconductors/equipment" },
+      { label: "Materials", href: "/semiconductors/materials" },
+      { label: "Manufacturing journey", href: "/semiconductors/learn/journey" },
+      { label: "Metrology", href: "/semiconductors/learn/metrology" },
+    ],
   }),
   L({
     slug: "etching",
@@ -1699,7 +1718,16 @@ export const SEMI_LESSONS: SemiLesson[] = [
         note: "Industry standards and background on manufacturing equipment and materials.",
       },
     ],
-    relatedLessons: ["deposition", "lithography", "cmp", "metallization"],
+    relatedLessons: ["lithography", "deposition", "metrology", "metallization"],
+    journeyRecap: "You've learned how materials are added and selectively removed to shape each layer.",
+    journeyNext: "ion-implantation",
+    journeyNextWhy: "Learn how a semiconductor's electrical properties are deliberately controlled.",
+    connections: [
+      { label: "Equipment", href: "/semiconductors/equipment" },
+      { label: "Materials", href: "/semiconductors/materials" },
+      { label: "Manufacturing journey", href: "/semiconductors/learn/journey" },
+      { label: "Yield tool", href: "/semiconductors/tools/wafer-yield" },
+    ],
   }),
   L({
     slug: "ion-implantation",
@@ -2169,7 +2197,16 @@ export const SEMI_LESSONS: SemiLesson[] = [
         note: "Background on manufacturing equipment and materials.",
       },
     ],
-    relatedLessons: ["pn-junction", "n-type", "p-type", "mosfet"],
+    relatedLessons: ["pn-junction", "mosfet", "n-type", "p-type"],
+    journeyRecap: "You've learned how controlled impurities change a semiconductor's electrical behaviour.",
+    journeyNext: "packaging",
+    journeyNextWhy: "Learn how finished dies become usable, connected, cooled electronic components.",
+    connections: [
+      { label: "Equipment", href: "/semiconductors/equipment" },
+      { label: "Materials", href: "/semiconductors/materials" },
+      { label: "Device design", href: "/semiconductors/design" },
+      { label: "Manufacturing journey", href: "/semiconductors/learn/journey" },
+    ],
   }),
   L({
     slug: "cmp",
@@ -2820,7 +2857,16 @@ export const SEMI_LESSONS: SemiLesson[] = [
         note: "Leading peer-reviewed venue for packaging and interconnect research.",
       },
     ],
-    relatedLessons: ["die-vs-package", "wire-bonding", "flip-chip", "advanced-packaging"],
+    relatedLessons: ["die-vs-package", "advanced-packaging", "chiplets", "hbm", "wafer", "final-test"],
+    journeyRecap: "You've learned how a finished die becomes a usable, connected, cooled component — and how packaging shapes system performance.",
+    connections: [
+      { label: "Equipment", href: "/semiconductors/equipment" },
+      { label: "Materials", href: "/semiconductors/materials" },
+      { label: "Design", href: "/semiconductors/design" },
+      { label: "Supply chain", href: "/supply-chain" },
+      { label: "Testing", href: "/semiconductors/learn/final-test" },
+      { label: "Manufacturing journey", href: "/semiconductors/learn/journey" },
+    ],
   }),
   L({
     slug: "final-test",

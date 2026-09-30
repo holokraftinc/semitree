@@ -210,6 +210,7 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
     .filter((l): l is SemiLesson => Boolean(l));
   const index = path ? path.lessonSlugs.indexOf(lesson.slug) + 1 : undefined;
   const total = path?.lessonSlugs.length;
+  const journeyNext = lesson.journeyNext ? getSemiLesson(lesson.journeyNext) : undefined;
 
   return (
     <article className="space-y-10">
@@ -502,7 +503,60 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         </Section>
       )}
 
+      {/* Cross-links into the broader knowledge graph */}
+      {lesson.connections && lesson.connections.length > 0 && (
+        <Section id="connections" title="Explore across Semitree">
+          <ul className="flex flex-wrap gap-2">
+            {lesson.connections.map((c) => (
+              <li key={c.href}>
+                <Link
+                  href={c.href}
+                  className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 text-sm font-medium text-brand transition-colors hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {c.label} <span aria-hidden="true">↗</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
       </div>
+
+      {/* Manufacturing-journey CTA — recap + why the next topic matters */}
+      {journeyNext && (
+        <Link
+          href={`/semiconductors/learn/${journeyNext.slug}`}
+          className="group block rounded-2xl border border-brand/30 bg-brand/5 p-6 transition-colors hover:border-brand/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-label={`Continue the manufacturing journey: ${journeyNext.title}`}
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand">Continue the manufacturing journey</p>
+          {lesson.journeyRecap && (
+            <p className="mt-2 leading-relaxed text-foreground">{lesson.journeyRecap}</p>
+          )}
+          <p className="mt-3 text-lg font-semibold text-foreground group-hover:text-brand">
+            Next: {journeyNext.title}
+          </p>
+          {lesson.journeyNextWhy && (
+            <p className="mt-1 text-sm text-muted-foreground">{lesson.journeyNextWhy}</p>
+          )}
+          <p className="mt-3 text-sm font-medium text-brand">Continue →</p>
+        </Link>
+      )}
+
+      {/* End of the journey — recap without a forward link */}
+      {!journeyNext && lesson.journeyRecap && (
+        <div className="rounded-2xl border border-brand/30 bg-brand/5 p-6">
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand">Manufacturing journey complete</p>
+          <p className="mt-2 leading-relaxed text-foreground">{lesson.journeyRecap}</p>
+          <Link
+            href="/semiconductors/learn/journey"
+            className="mt-3 inline-block rounded-sm text-sm font-medium text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            Revisit the full journey map →
+          </Link>
+        </div>
+      )}
 
       <LearningTopicNav
         topicKey={`semiconductors:${lesson.slug}`}
