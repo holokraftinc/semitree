@@ -2565,6 +2565,215 @@ export const SEMI_LESSONS: SemiLesson[] = [
           "Why multiple stages: each step adds cost, so testing early (wafer sort) avoids packaging bad dies, and testing late (package/reliability) catches faults introduced during assembly.",
         ],
       },
+      {
+        id: "why-advanced-packaging",
+        level: "advanced",
+        title: "Why advanced packaging?",
+        intro:
+          "For decades the answer to 'make it faster' was a bigger, denser single (monolithic) die. That path runs into hard limits, and advanced packaging is one response — a complement to transistor scaling, not a replacement for it.",
+        bullets: [
+          "Die size and reticle limit: lithography can only print up to a maximum field (the reticle limit), so a single die cannot grow past roughly that size — you physically cannot print an arbitrarily large monolithic chip.",
+          "Yield: defects are random, so the bigger a die, the higher the chance it contains a killer defect. Yield falls sharply with area, making very large dies expensive or impractical.",
+          "Interconnect distance: on a huge die, signals must travel far across the chip, adding delay and power — long on-die wires become a bottleneck.",
+          "Power and bandwidth: feeding a large, hungry die enough clean power, and getting enough data on and off it, strain what a conventional package can deliver.",
+          "Thermal challenges: concentrating more function into one die concentrates heat, which is harder to remove.",
+          "Advanced packaging responds by splitting the design into smaller pieces and integrating them tightly in one package — improving yield, shortening some interconnects, and adding bandwidth — while transistor scaling continues in parallel.",
+        ],
+        note:
+          "Advanced packaging does not replace transistor scaling; the two increasingly work together, and process and packaging choices are made with each other in mind.",
+      },
+      {
+        id: "chiplet-concept",
+        level: "advanced",
+        title: "The chiplet concept",
+        intro:
+          "A chiplet architecture breaks what might have been one large monolithic die into several smaller dies that are connected inside a single package.",
+        visualKey: "chiplets",
+        visualCaption: "Instead of one large monolithic die, several specialised chiplets are integrated together in one package.",
+        bullets: [
+          "Monolithic: a single die holds everything — CPU, accelerators, I/O, and so on — printed together.",
+          "Multi-die / chiplet: the same functions are split across separate dies, for example a CPU chiplet, a GPU or accelerator chiplet, an I/O chiplet, and memory, all integrated in one package.",
+          "Why split: each chiplet can be smaller (better yield), can reuse across products, and can even be built on the process best suited to it, then combined.",
+          "The package becomes the thing that ties the chiplets together, so the interconnect between chiplets and the package architecture become central to performance.",
+        ],
+      },
+      {
+        id: "2d-25d-3d",
+        level: "advanced",
+        title: "2D, 2.5D, and 3D — the terminology",
+        intro:
+          "These terms describe how dies are arranged and connected. The definitions below are the common ones, but note that industry usage varies by architecture.",
+        bullets: [
+          "2D: components or dies integrated primarily side by side on a conventional package, connected through the package substrate.",
+          "2.5D: dies placed side by side but connected through a dedicated high-density structure — an interposer or an embedded bridge — that sits between them and the substrate.",
+          "3D: dies stacked vertically and connected through the stack, so connections run up and down as well as across.",
+          "The line between these can blur, and different companies label similar architectures differently — treat the terms as a guide, not a rigid standard.",
+        ],
+      },
+      {
+        id: "interposers-bridges",
+        level: "advanced",
+        title: "2.5D: interposers and silicon bridges",
+        intro:
+          "2.5D integration needs a way to make very dense connections between neighbouring dies. Two approaches do this: a full interposer, or a small embedded bridge.",
+        visualKey: "2-5d",
+        visualCaption: "Dies sit side by side on an interposer (or over an embedded bridge) that provides dense die-to-die connections.",
+        bullets: [
+          "Interposer: a layer (often silicon) that sits under two or more dies and carries very fine, dense wiring between them and down to the package substrate.",
+          "Why it is used: the interposer's wiring is far finer than a normal substrate's, so it enables the many short, dense connections that chiplets and memory need.",
+          "Electrical routing: signals hop from one die, through the interposer's dense wiring, to the neighbouring die — much shorter and denser than routing through the main substrate.",
+          "Relationship with chiplets and memory: interposers are what let compute chiplets sit right next to high-bandwidth memory with thousands of connections between them.",
+          "Silicon bridges: instead of a full interposer, a small piece of silicon can be embedded in the substrate only where two dies meet, giving dense connections just there. Intel's EMIB (Embedded Multi-die Interconnect Bridge) is a publicly described example of this bridge approach — cited here as an example, not an endorsement.",
+        ],
+      },
+      {
+        id: "vertical-stacking",
+        level: "advanced",
+        title: "3D: vertical stacking, TSVs, and hybrid bonding",
+        intro:
+          "3D integration stacks dies on top of one another so connections run vertically through the stack, shortening the distance between them dramatically.",
+        visualKey: "3d-ic",
+        visualCaption: "Dies stacked vertically, connected through the stack rather than only side to side.",
+        bullets: [
+          "Stacked dies: two or more dies are placed on top of each other and connected through the stack rather than side by side.",
+          "Through-silicon vias (TSVs): vertical connections that pass right through the body of a die, letting signals and power travel between stacked dies.",
+          "Vertical interconnect: because the dies are stacked, connections are extremely short — a big advantage for bandwidth and power compared with routing across a substrate.",
+          "Hybrid bonding: an emerging way to join stacked dies with very fine, direct connections (bonding surfaces together at high density) instead of solder bumps, enabling far more, far smaller vertical connections.",
+          "Thermal challenges: stacking traps heat — a die in the middle of a stack has no easy path to a heatsink — so 3D integration makes cooling significantly harder.",
+        ],
+      },
+      {
+        id: "hbm-packaging",
+        level: "advanced",
+        title: "HBM and advanced packaging",
+        intro:
+          "High-bandwidth memory (HBM) is a prime example of why advanced packaging matters: it pairs stacked memory with compute through short, dense connections.",
+        bullets: [
+          "HBM stacks several DRAM dies vertically (using TSVs) into a single tall memory device with a very wide connection interface.",
+          "Placed next to a compute die on an interposer (2.5D), HBM connects through thousands of short wires — many more, and much shorter, than connections to memory out on the board.",
+          "The idea links three things: memory bandwidth (a very wide interface), short interconnects (low delay and power per bit), and package architecture (the interposer that makes the dense, short links possible).",
+          "This is why high-end accelerators integrate HBM in-package rather than relying only on memory chips elsewhere on the board.",
+        ],
+        note:
+          "This explains the architectural idea conceptually; specific bandwidth or performance figures depend on the exact generation and product and are not claimed here.",
+      },
+      {
+        id: "power-delivery",
+        level: "advanced",
+        title: "Power delivery and integrity",
+        intro:
+          "Getting clean power into densely packed dies is as hard as moving data. The package is a major part of the power path.",
+        bullets: [
+          "Power distribution: current must reach every part of every die through the package and its connections, spread out so no region is starved.",
+          "Package resistance: the metal path has resistance, and current flowing through resistance loses voltage along the way.",
+          "IR drop: that voltage loss (current I × resistance R) means the die can see a lower voltage than supplied — too much IR drop and circuits misbehave.",
+          "Power integrity: keeping the supply voltage stable and within limits despite rapidly changing current demand, using the package (and on-die/in-package capacitance) to smooth it.",
+          "Signal integrity: the same package structures must carry high-speed signals without too much loss, reflection, or crosstalk, so power and signal design are done together.",
+        ],
+      },
+      {
+        id: "thermal-3d",
+        level: "advanced",
+        title: "Thermal challenges of 3D integration",
+        intro:
+          "Stacking dies is great for bandwidth and footprint but hard for heat — building on the thermal basics, 3D makes the heat path much tougher.",
+        bullets: [
+          "Thermal paths: in a stack, only the outermost die has an easy path to a heatsink; inner dies must push heat through their neighbours, adding thermal resistance.",
+          "Hotspots: a hot region on a buried die is especially hard to cool, because its heat has to travel through everything above or below it.",
+          "Thermal resistance: each added layer and interface in a stack adds resistance to the heat path, raising die temperature for the same power.",
+          "Cooling constraints: this limits how much power stacked dies can dissipate, and drives new cooling ideas — so thermal design often constrains how aggressively 3D stacking can be used.",
+        ],
+      },
+      {
+        id: "heterogeneous-integration",
+        level: "advanced",
+        title: "Heterogeneous integration",
+        intro:
+          "A key payoff of chiplets and advanced packaging is that different dies can each be optimised for a different job — and even built on a different process technology — then combined in one package.",
+        bullets: [
+          "Different functions, different optimisation: high-performance logic, memory, I/O, and analog/RF each have different needs, and no single process is best at all of them.",
+          "Best-fit process: logic can use a leading-edge process, while I/O or analog can use a more mature, cheaper process that suits them better — each die on the technology that fits.",
+          "One package: these differently-optimised dies are integrated together so they behave as one system, combining strengths that a single monolithic die could not match economically.",
+          "This 'mix and match' of dies and processes is what 'heterogeneous integration' means, and it is a major reason advanced packaging has become strategically important.",
+        ],
+      },
+      {
+        id: "packaging-and-design",
+        level: "advanced",
+        title: "Packaging and design",
+        intro:
+          "This is the big shift: advanced packaging changes the design process itself. Package choices can no longer be left to the end — they shape the architecture from the start.",
+        flow: [
+          "Architecture",
+          "Die partitioning",
+          "Interconnect",
+          "Package",
+          "Thermal design",
+          "Power delivery",
+          "System performance",
+        ],
+        bullets: [
+          "Architecture decisions now include how to split the design across dies (die partitioning), not just what goes on one die.",
+          "Partitioning drives the interconnect needed between dies, which drives the package type (2D, 2.5D, or 3D) and the interposer or bridge choices.",
+          "The package in turn sets thermal design and power delivery limits, which feed back into what the architecture can actually achieve.",
+          "Because these depend on each other, package decisions increasingly happen early in system design — co-designed with the silicon rather than bolted on afterward.",
+        ],
+      },
+      {
+        id: "packaging-supply-chain",
+        level: "advanced",
+        title: "Manufacturing and supply chain",
+        intro:
+          "Advanced packaging is a manufacturing ecosystem in its own right, spanning many specialised players — the same kind of ecosystem Semitree's Equipment, Materials, and Supply Chain sections map for the rest of the industry.",
+        bullets: [
+          "OSATs (outsourced semiconductor assembly and test companies): specialise in assembling and testing packages.",
+          "Foundries: increasingly offer advanced packaging alongside wafer fabrication, blurring the line between front end and back end.",
+          "Substrate suppliers: provide the package substrates that route connections out to the board.",
+          "Interposer and bridge suppliers: provide the high-density 2.5D structures that connect dies.",
+          "Assembly equipment makers: build the bonders and tools that place, connect, and stack dies.",
+          "Test providers and equipment: verify dies and finished packages at multiple stages.",
+          "Thermal and packaging materials suppliers: provide thermal interface materials, mold compounds, and the other materials a package needs.",
+        ],
+        note:
+          "These map onto Semitree's Equipment, Materials, and Supply Chain sections — advanced packaging draws on all of them at once.",
+      },
+      {
+        id: "packaging-industry-examples",
+        level: "advanced",
+        title: "Industry examples",
+        intro:
+          "Several companies have publicly described advanced-packaging technologies. These are cited as verifiable examples of approaches, not as endorsements or rankings, and specifics evolve over time.",
+        bullets: [
+          "Intel has publicly described EMIB (an embedded silicon bridge for 2.5D connections) and Foveros (3D die stacking).",
+          "TSMC has publicly described CoWoS (a 2.5D interposer-based approach), InFO (fan-out packaging), and SoIC (3D stacking) under its 3D-integration offerings.",
+          "Samsung has publicly described 2.5D (I-Cube) and 3D (X-Cube) integration technologies.",
+          "AMD ships processors built from multiple chiplets and has used 3D-stacked cache (marketed as 3D V-Cache) in some products.",
+          "NVIDIA's data-center GPUs integrate high-bandwidth memory using 2.5D packaging.",
+          "SK hynix, Samsung, and Micron manufacture HBM, which stacks DRAM dies vertically using through-silicon vias.",
+        ],
+        note:
+          "Listed alphabetically/by role, not ranked. Only widely-documented technology descriptions are given; no comparative performance claims are made.",
+      },
+      {
+        id: "packaging-research-frontiers",
+        level: "researcher",
+        title: "Research frontiers in packaging",
+        intro:
+          "The topics below separate what is already in production from what is emerging or still in research.",
+        bullets: [
+          "Hybrid bonding: direct, very fine die-to-die connections without solder bumps — moving from emerging into production for some products, and being pushed to ever-finer pitch.",
+          "Wafer-to-wafer bonding: bonding whole wafers together before dicing, for maximum connection density — in production for some devices, expanding.",
+          "Die-to-wafer integration: placing individual dies onto a wafer and bonding them — emerging as a flexible route to mix die types.",
+          "Panel-level packaging: building packages on large rectangular panels instead of round wafers for efficiency — emerging/ramping.",
+          "Glass substrates: substrates made of glass for better flatness and electrical properties — in research and early development.",
+          "Advanced redistribution layers (RDL): finer in-package wiring to route more connections — continually advancing.",
+          "Heterogeneous integration: combining ever more diverse dies and functions — an ongoing, broad research direction.",
+          "Co-packaged optics: bringing optical interconnects into the package for very high off-package bandwidth — emerging where relevant, especially for networking.",
+          "Thermal innovations: new materials and cooling approaches to handle the heat of dense 3D stacks — active research.",
+        ],
+        note:
+          "Roughly: in production — 2.5D interposers, silicon bridges, TSV stacking, HBM, and hybrid bonding for some products. Emerging or ramping — wider hybrid bonding, wafer/die-to-wafer integration, panel-level packaging, co-packaged optics. In research — glass substrates and novel thermal solutions. The boundaries move quickly.",
+      },
     ],
     keyTakeaways: [
       "A finished wafer is not a product — the die is fragile, tiny-pitched, and needs power and cooling, so it cannot go straight into a device.",
@@ -2572,6 +2781,7 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Keep die and package distinct: the die is the functional silicon; the package is the enabling structure around it.",
       "The journey runs wafer → dice → attach → connect (wire bond or flip-chip) → encapsulate → cool → test → product.",
       "Packaging affects electrical and thermal performance and is now part of system architecture — advanced packaging even shapes how chips are designed.",
+      "Advanced packaging (chiplets, 2.5D/3D, heterogeneous integration) can influence electrical and thermal performance, bandwidth, power, system architecture, manufacturability, cost, and yield — a complement to wafer fabrication, not a replacement for or universally 'more important' than it.",
     ],
     references: [
       {
@@ -2596,6 +2806,18 @@ export const SEMI_LESSONS: SemiLesson[] = [
         url: "https://www.semi.org",
         kind: "standards",
         note: "Background and standards for assembly, packaging, and test.",
+      },
+      {
+        title: "Heterogeneous Integration Roadmap (HIR)",
+        publisher: "IEEE Electronics Packaging Society",
+        kind: "resource",
+        note: "Community roadmap for chiplets, advanced packaging, and heterogeneous integration.",
+      },
+      {
+        title: "IEEE Electronic Components and Technology Conference (ECTC)",
+        publisher: "IEEE",
+        kind: "resource",
+        note: "Leading peer-reviewed venue for packaging and interconnect research.",
       },
     ],
     relatedLessons: ["die-vs-package", "wire-bonding", "flip-chip", "advanced-packaging"],
