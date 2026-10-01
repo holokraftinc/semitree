@@ -25,7 +25,10 @@ export type Quantity =
   | "current"
   | "resistance"
   | "capacitance"
-  | "power";
+  | "power"
+  | "energy"
+  | "frequency"
+  | "resistivity";
 
 /**
  * Definition of a single unit.

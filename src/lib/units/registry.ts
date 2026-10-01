@@ -20,6 +20,9 @@ export const BASE_UNITS: BaseUnits = {
   resistance: "ohm",
   capacitance: "F",
   power: "W",
+  energy: "J",
+  frequency: "Hz",
+  resistivity: "ohm_m",
 };
 
 /**
@@ -32,6 +35,13 @@ export const UNIT_DEFINITIONS: UnitDefinition[] = [
   { id: "m", label: "m", quantity: "length", toBase: 1 },
   { id: "mm", label: "mm", quantity: "length", toBase: 1e-3 },
   { id: "um", label: "µm", quantity: "length", toBase: 1e-6 },
+  { id: "nm", label: "nm", quantity: "length", toBase: 1e-9 },
+  { id: "angstrom", label: "Å", quantity: "length", toBase: 1e-10 },
+
+  // area
+  { id: "m2", label: "m²", quantity: "area", toBase: 1 },
+  { id: "mm2", label: "mm²", quantity: "area", toBase: 1e-6 },
+  { id: "um2", label: "µm²", quantity: "area", toBase: 1e-12 },
 
   // pressure
   { id: "Pa", label: "Pa", quantity: "pressure", toBase: 1 },
@@ -39,6 +49,24 @@ export const UNIT_DEFINITIONS: UnitDefinition[] = [
   { id: "mbar", label: "mbar", quantity: "pressure", toBase: 100 },
   { id: "bar", label: "bar", quantity: "pressure", toBase: 1e5 },
   { id: "psi", label: "psi", quantity: "pressure", toBase: 6894.757 },
+  { id: "Torr", label: "Torr", quantity: "pressure", toBase: 133.32236842 },
+  { id: "mTorr", label: "mTorr", quantity: "pressure", toBase: 0.13332236842 },
+
+  // energy (eV defined via the exact elementary charge)
+  { id: "J", label: "J", quantity: "energy", toBase: 1 },
+  { id: "eV", label: "eV", quantity: "energy", toBase: 1.602176634e-19 },
+  { id: "keV", label: "keV", quantity: "energy", toBase: 1.602176634e-16 },
+  { id: "MeV", label: "MeV", quantity: "energy", toBase: 1.602176634e-13 },
+
+  // frequency
+  { id: "Hz", label: "Hz", quantity: "frequency", toBase: 1 },
+  { id: "kHz", label: "kHz", quantity: "frequency", toBase: 1e3 },
+  { id: "MHz", label: "MHz", quantity: "frequency", toBase: 1e6 },
+  { id: "GHz", label: "GHz", quantity: "frequency", toBase: 1e9 },
+
+  // resistivity
+  { id: "ohm_m", label: "Ω·m", quantity: "resistivity", toBase: 1 },
+  { id: "ohm_cm", label: "Ω·cm", quantity: "resistivity", toBase: 1e-2 },
 
   // volume
   { id: "m3", label: "m³", quantity: "volume", toBase: 1 },
@@ -66,6 +94,10 @@ export const UNIT_DEFINITIONS: UnitDefinition[] = [
 
   // time
   { id: "s", label: "s", quantity: "time", toBase: 1 },
+  { id: "ms", label: "ms", quantity: "time", toBase: 1e-3 },
+  { id: "us", label: "µs", quantity: "time", toBase: 1e-6 },
+  { id: "ns", label: "ns", quantity: "time", toBase: 1e-9 },
+  { id: "ps", label: "ps", quantity: "time", toBase: 1e-12 },
   { id: "min", label: "min", quantity: "time", toBase: 60 },
   { id: "h", label: "h", quantity: "time", toBase: 3600 },
 
