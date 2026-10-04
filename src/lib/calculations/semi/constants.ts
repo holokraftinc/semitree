@@ -4,6 +4,9 @@
  */
 export const Q = 1.602176634e-19; // elementary charge, C
 export const KB = 1.380649e-23; // Boltzmann constant, J/K
+export const EPS0 = 8.8541878128e-12; // vacuum permittivity, F/m
+export const EPS_SI = 11.7 * EPS0; // silicon permittivity, F/m (εr ≈ 11.7)
+export const EPS_OX = 3.9 * EPS0; // SiO₂ permittivity, F/m (εr ≈ 3.9)
 
 /**
  * Intrinsic carrier concentration of silicon at ~300 K, in m^-3
