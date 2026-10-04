@@ -54,6 +54,8 @@ export const UNIT_DEFINITIONS: UnitDefinition[] = [
 
   // energy (eV defined via the exact elementary charge)
   { id: "J", label: "J", quantity: "energy", toBase: 1 },
+  { id: "mJ", label: "mJ", quantity: "energy", toBase: 1e-3 },
+  { id: "uJ", label: "µJ", quantity: "energy", toBase: 1e-6 },
   { id: "eV", label: "eV", quantity: "energy", toBase: 1.602176634e-19 },
   { id: "keV", label: "keV", quantity: "energy", toBase: 1.602176634e-16 },
   { id: "MeV", label: "MeV", quantity: "energy", toBase: 1.602176634e-13 },
