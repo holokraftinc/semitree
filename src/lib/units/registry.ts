@@ -23,6 +23,7 @@ export const BASE_UNITS: BaseUnits = {
   energy: "J",
   frequency: "Hz",
   resistivity: "ohm_m",
+  depositionRate: "mps",
 };
 
 /**
@@ -69,6 +70,14 @@ export const UNIT_DEFINITIONS: UnitDefinition[] = [
   // resistivity
   { id: "ohm_m", label: "Ω·m", quantity: "resistivity", toBase: 1 },
   { id: "ohm_cm", label: "Ω·cm", quantity: "resistivity", toBase: 1e-2 },
+
+  // deposition / etch rate (length per time); base is m/s
+  { id: "mps", label: "m/s", quantity: "depositionRate", toBase: 1 },
+  { id: "nm_s", label: "nm/s", quantity: "depositionRate", toBase: 1e-9 },
+  { id: "nm_min", label: "nm/min", quantity: "depositionRate", toBase: 1e-9 / 60 },
+  { id: "um_min", label: "µm/min", quantity: "depositionRate", toBase: 1e-6 / 60 },
+  { id: "nm_h", label: "nm/h", quantity: "depositionRate", toBase: 1e-9 / 3600 },
+  { id: "A_s", label: "Å/s", quantity: "depositionRate", toBase: 1e-10 },
 
   // volume
   { id: "m3", label: "m³", quantity: "volume", toBase: 1 },

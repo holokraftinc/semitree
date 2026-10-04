@@ -28,7 +28,8 @@ export type Quantity =
   | "power"
   | "energy"
   | "frequency"
-  | "resistivity";
+  | "resistivity"
+  | "depositionRate";
 
 /**
  * Definition of a single unit.
