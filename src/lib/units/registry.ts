@@ -24,6 +24,8 @@ export const BASE_UNITS: BaseUnits = {
   frequency: "Hz",
   resistivity: "ohm_m",
   depositionRate: "mps",
+  concentration: "per_m3",
+  mobility: "m2_Vs",
 };
 
 /**
@@ -70,6 +72,14 @@ export const UNIT_DEFINITIONS: UnitDefinition[] = [
   // resistivity
   { id: "ohm_m", label: "Ω·m", quantity: "resistivity", toBase: 1 },
   { id: "ohm_cm", label: "Ω·cm", quantity: "resistivity", toBase: 1e-2 },
+
+  // carrier / dopant concentration (number per volume); base is m⁻³
+  { id: "per_m3", label: "m⁻³", quantity: "concentration", toBase: 1 },
+  { id: "per_cm3", label: "cm⁻³", quantity: "concentration", toBase: 1e6 },
+
+  // carrier mobility; base is m²/(V·s)
+  { id: "m2_Vs", label: "m²/(V·s)", quantity: "mobility", toBase: 1 },
+  { id: "cm2_Vs", label: "cm²/(V·s)", quantity: "mobility", toBase: 1e-4 },
 
   // deposition / etch rate (length per time); base is m/s
   { id: "mps", label: "m/s", quantity: "depositionRate", toBase: 1 },

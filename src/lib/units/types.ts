@@ -29,7 +29,9 @@ export type Quantity =
   | "energy"
   | "frequency"
   | "resistivity"
-  | "depositionRate";
+  | "depositionRate"
+  | "concentration"
+  | "mobility";
 
 /**
  * Definition of a single unit.
