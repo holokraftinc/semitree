@@ -22,6 +22,12 @@ export interface IaItem {
   status: IaStatus;
 }
 
+/** A titled group of items, used for grouped (mega-menu) sections. */
+export interface MegaGroup {
+  title: string;
+  items: IaItem[];
+}
+
 export interface IaSection {
   /** Stable key. */
   key: string;
@@ -33,6 +39,11 @@ export interface IaSection {
   /** Whether the section landing page exists today or is scaffolded this phase. */
   landing: "existing" | "scaffold";
   items: IaItem[];
+  /**
+   * Optional grouped structure for the desktop mega menu and (when present) the
+   * section hub. Sections without a menu render as a plain nav link.
+   */
+  menu?: MegaGroup[];
 }
 
 const A = (label: string, href: string, description?: string): IaItem => ({ label, href, description, status: "available" });
@@ -62,6 +73,31 @@ export const IA_SECTIONS: IaSection[] = [
       A("Glossary", "/concepts", "Key concepts and terminology."),
       A("Tools", "/semiconductors/tools", "Interactive calculators and explorers."),
     ],
+    menu: [
+      {
+        title: "Learn",
+        items: [
+          A("Semiconductor 101", "/semiconductors/learn"),
+          A("How chips are made", "/semiconductors/learn/journey"),
+          A("Design", "/semiconductors/design"),
+          A("Manufacturing", "/manufacturing"),
+          A("Packaging", "/semiconductors/packaging"),
+          SOON("Testing"),
+          A("Equipment", "/semiconductors/equipment"),
+          A("Materials", "/semiconductors/materials"),
+          A("Glossary", "/concepts"),
+        ],
+      },
+      {
+        title: "Tools",
+        items: [
+          A("Semiconductor tools", "/semiconductors/tools"),
+          A("Manufacturing tools", "/semiconductors/tools?category=manufacturing"),
+          A("Packaging tools", "/semiconductors/tools?category=packaging"),
+          A("Device physics", "/semiconductors/tools?category=device-physics"),
+        ],
+      },
+    ],
   },
   {
     key: "industry",
@@ -83,6 +119,32 @@ export const IA_SECTIONS: IaSection[] = [
       SOON("Suppliers", "The broader supplier base."),
       SOON("Startups", "Emerging companies."),
       SOON("Electronics", "Downstream electronics."),
+    ],
+    menu: [
+      {
+        title: "Value chain",
+        items: [
+          A("Design", "/supply-chain/chip-design"),
+          A("EDA / IP", "/supply-chain/eda"),
+          A("Equipment", "/supply-chain/semiconductor-equipment"),
+          A("Materials", "/supply-chain/raw-materials"),
+          A("Fab", "/supply-chain/fab"),
+          A("Packaging", "/supply-chain/packaging"),
+          A("Testing", "/supply-chain/testing"),
+          A("Electronics", "/supply-chain/electronics"),
+        ],
+      },
+      {
+        title: "Industry",
+        items: [
+          A("Company directory", "/industry/companies"),
+          A("Global map", "/industry/map"),
+          SOON("Fabs"),
+          SOON("OSAT / ATMP"),
+          SOON("Suppliers"),
+          SOON("Startups"),
+        ],
+      },
     ],
   },
   {
@@ -123,6 +185,21 @@ export const IA_SECTIONS: IaSection[] = [
       SOON("Investments", "Funding and incentives."),
       SOON("Government & policy", "Schemes and policy."),
       SOON("Talent", "Skills and workforce."),
+    ],
+    menu: [
+      {
+        title: "India",
+        items: [
+          A("India overview", "/india"),
+          A("Map", "/industry/map/india"),
+          A("Companies", "/industry/companies"),
+          SOON("Projects"),
+          SOON("States"),
+          SOON("Investments"),
+          SOON("Government & policy"),
+          SOON("Talent"),
+        ],
+      },
     ],
   },
   {

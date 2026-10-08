@@ -1,43 +1,47 @@
 /**
- * Navigation model, shared by the desktop and mobile nav and the footer.
+ * Navigation model, shared by the desktop nav, mega menu, mobile nav, and
+ * footer. Derived from the information architecture (src/lib/data/ia.ts) so the
+ * nav and the section-hub pages stay in sync.
  *
- * The primary sections come from the information-architecture module
- * (src/lib/data/ia.ts) so the nav and the section-hub pages stay in sync. Only
- * `available` sub-items are offered as dropdown children (never a dead link);
- * each section's full hierarchy — including `coming-soon` items — lives on its
- * hub page.
+ * Sections that declare a grouped `menu` in the IA render as a desktop mega menu
+ * and a drill-down mobile panel. Available items are links; coming-soon items
+ * are shown (so the full structure is visible) but are never dead links.
  */
 import { IA_SECTIONS, IA_UTILITIES } from "@/lib/data/ia";
 
-export type NavChild = {
-  href: string;
+export type NavMegaItem = {
   label: string;
+  /** Present for available items; absent for coming-soon. */
+  href?: string;
   description?: string;
-  /** Marks the visually-dominant option in a menu. */
-  primary?: boolean;
+  comingSoon?: boolean;
+};
+
+export type NavGroup = {
+  title: string;
+  items: NavMegaItem[];
 };
 
 export type NavItem = {
   href: string;
   label: string;
-  /** When present, the item renders as a dropdown (desktop) / submenu (mobile). */
-  children?: NavChild[];
+  /** When present, the item renders as a mega menu (desktop) / drill-down (mobile). */
+  groups?: NavGroup[];
 };
-
-// Sections that benefit from a dropdown of their key existing destinations.
-// Others are plain top-level links to their hub (which lists the full hierarchy).
-const DROPDOWN_SECTIONS = new Set(["explore", "industry"]);
-const MAX_CHILDREN = 6;
 
 /** Primary navigation, derived from the IA. Home is reached via the wordmark. */
 export const PRIMARY_NAV: NavItem[] = IA_SECTIONS.map((section) => {
   const item: NavItem = { href: section.href, label: section.label };
-  if (DROPDOWN_SECTIONS.has(section.key)) {
-    const children = section.items
-      .filter((i) => i.status === "available" && i.href)
-      .slice(0, MAX_CHILDREN)
-      .map((i, idx) => ({ href: i.href!, label: i.label, description: i.description, primary: idx === 0 }));
-    if (children.length > 0) item.children = children;
+  if (section.menu && section.menu.length > 0) {
+    item.groups = section.menu.map((g) => ({
+      title: g.title,
+      items: g.items.map((i) => ({
+        label: i.label,
+        href: i.href,
+        description: i.description,
+        comingSoon: i.status === "coming-soon",
+      })),
+    }));
   }
   return item;
 });

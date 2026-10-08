@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { SemiTool, SemiToolCategory, SemiToolDifficulty } from "@/lib/data/semi-tools";
 import {
   SEMI_CATEGORY_LABELS,
@@ -25,6 +25,20 @@ export function SemiToolsExplorer({ tools }: { tools: SemiTool[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [difficulty, setDifficulty] = useState<DifficultyFilter>("all");
+
+  // Preselect a filter from the URL (e.g. the nav deep-links /…/tools?category=packaging).
+  // Client-only so static export is unaffected; falls back silently if unavailable.
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const c = params.get("category");
+      const d = params.get("difficulty");
+      if (c && (SEMI_CATEGORY_ORDER as string[]).includes(c)) setCategory(c as SemiToolCategory);
+      if (d && ["beginner", "engineering", "advanced"].includes(d)) setDifficulty(d as SemiToolDifficulty);
+    } catch {
+      /* no-op */
+    }
+  }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

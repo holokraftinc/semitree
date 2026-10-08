@@ -21,13 +21,15 @@ export function SiteHeader() {
         </div>
         <div className="flex items-center gap-2">
           <SearchDialog />
+          {/* Newsletter is the right-side utility CTA. (No auth exists yet, so
+              no Login is shown.) Hidden until xl so the primary nav has room. */}
           <ButtonLink
-            href="/explore"
+            href="/newsletter"
             size="sm"
-            variant="primary"
+            variant="outline"
             className="hidden xl:inline-flex"
           >
-            Explore
+            Newsletter
           </ButtonLink>
           <MobileNav />
         </div>
