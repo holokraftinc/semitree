@@ -25,7 +25,7 @@ export function SiteHeader() {
             href="/explore"
             size="sm"
             variant="primary"
-            className="hidden lg:inline-flex"
+            className="hidden xl:inline-flex"
           >
             Explore
           </ButtonLink>

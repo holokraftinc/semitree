@@ -1,4 +1,13 @@
-/** Navigation model, shared by the desktop and mobile nav and the footer. */
+/**
+ * Navigation model, shared by the desktop and mobile nav and the footer.
+ *
+ * The primary sections come from the information-architecture module
+ * (src/lib/data/ia.ts) so the nav and the section-hub pages stay in sync. Only
+ * `available` sub-items are offered as dropdown children (never a dead link);
+ * each section's full hierarchy — including `coming-soon` items — lives on its
+ * hub page.
+ */
+import { IA_SECTIONS, IA_UTILITIES } from "@/lib/data/ia";
 
 export type NavChild = {
   href: string;
@@ -15,54 +24,29 @@ export type NavItem = {
   children?: NavChild[];
 };
 
-/**
- * Learn is a hub across knowledge domains. Semiconductors is the primary
- * learning domain; Microfluidics is a specialized secondary domain. Add future
- * domains here — the nav renders them automatically.
- */
-export const LEARN_DOMAINS: NavChild[] = [
-  {
-    href: "/semiconductors/learn",
-    label: "Semiconductors",
-    description:
-      "Concepts, chip design, manufacturing, packaging, materials and the semiconductor ecosystem.",
-    primary: true,
-  },
-  {
-    href: "/learn/microfluidics",
-    label: "Microfluidics",
-    description: "Fundamentals, lab-on-chip systems, devices and applications.",
-  },
-];
+// Sections that benefit from a dropdown of their key existing destinations.
+// Others are plain top-level links to their hub (which lists the full hierarchy).
+const DROPDOWN_SECTIONS = new Set(["explore", "industry"]);
+const MAX_CHILDREN = 6;
 
-/** Resources hub — the Resources page plus Research live together here. */
-export const RESOURCE_LINKS: NavChild[] = [
-  {
-    href: "/resources",
-    label: "Resources",
-    description: "Guides, cheat sheets, and downloads.",
-  },
-  {
-    href: "/research",
-    label: "Research",
-    description: "Papers, references, and research topics.",
-  },
-];
+/** Primary navigation, derived from the IA. Home is reached via the wordmark. */
+export const PRIMARY_NAV: NavItem[] = IA_SECTIONS.map((section) => {
+  const item: NavItem = { href: section.href, label: section.label };
+  if (DROPDOWN_SECTIONS.has(section.key)) {
+    const children = section.items
+      .filter((i) => i.status === "available" && i.href)
+      .slice(0, MAX_CHILDREN)
+      .map((i, idx) => ({ href: i.href!, label: i.label, description: i.description, primary: idx === 0 }));
+    if (children.length > 0) item.children = children;
+  }
+  return item;
+});
 
-/** Primary navigation. Home is reached via the wordmark, so it's separate. */
-export const PRIMARY_NAV: NavItem[] = [
-  { href: "/explore", label: "Explore" },
-  { href: "/learn", label: "Learn", children: LEARN_DOMAINS },
-  { href: "/tools", label: "Tools" },
-  { href: "/insights", label: "Insights" },
-  { href: "/industry", label: "Industry" },
-  { href: "/resources", label: "Resources", children: RESOURCE_LINKS },
-];
-
-/** Secondary / future sections — surfaced in the mobile menu and footer. */
-export const SECONDARY_NAV: NavItem[] = [
-  { href: "/newsletter", label: "Newsletter" },
-];
+/** Secondary / utility sections — surfaced in the mobile menu and footer. */
+export const SECONDARY_NAV: NavItem[] = IA_UTILITIES.filter((i) => i.href).map((i) => ({
+  href: i.href!,
+  label: i.label,
+}));
 
 /** Home entry, used where an explicit Home link helps (mobile menu). */
 export const HOME_ITEM: NavItem = { href: "/", label: "Home" };

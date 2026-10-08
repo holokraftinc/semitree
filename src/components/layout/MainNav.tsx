@@ -11,7 +11,7 @@ export function MainNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Primary" className="hidden md:block">
+    <nav aria-label="Primary" className="hidden lg:block">
       <ul className="flex items-center gap-0.5">
         {PRIMARY_NAV.map((item) => {
           if (item.children) {

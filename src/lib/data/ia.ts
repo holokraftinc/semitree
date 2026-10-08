@@ -1,0 +1,198 @@
+/**
+ * Semitree information architecture — the single source of truth for the new
+ * "India's Semiconductor Ecosystem" section hierarchy.
+ *
+ * This module declares the sections, their sub-items, and whether each item is
+ * `available` (a real route today) or `coming-soon` (scaffolded for a later
+ * phase). The navigation and the section-hub pages both read from here, so the
+ * hierarchy is edited in ONE place.
+ *
+ * No content or data is implemented here — this is structure only. Existing
+ * routes are referenced, never moved; `coming-soon` items intentionally have no
+ * live destination and are rendered as non-links.
+ */
+
+export type IaStatus = "available" | "coming-soon";
+
+export interface IaItem {
+  label: string;
+  /** Destination for `available` items. Omit/ignore for `coming-soon`. */
+  href?: string;
+  description?: string;
+  status: IaStatus;
+}
+
+export interface IaSection {
+  /** Stable key. */
+  key: string;
+  /** Section landing route. */
+  href: string;
+  label: string;
+  /** One-line purpose shown under the section title. */
+  tagline: string;
+  /** Whether the section landing page exists today or is scaffolded this phase. */
+  landing: "existing" | "scaffold";
+  items: IaItem[];
+}
+
+const A = (label: string, href: string, description?: string): IaItem => ({ label, href, description, status: "available" });
+const SOON = (label: string, description?: string): IaItem => ({ label, description, status: "coming-soon" });
+
+/* ------------------------------------------------------------------ *
+ * The eight primary sections.
+ * ------------------------------------------------------------------ */
+
+export const IA_SECTIONS: IaSection[] = [
+  {
+    key: "explore",
+    href: "/explore",
+    label: "Explore",
+    tagline: "Understand the technology.",
+    landing: "existing",
+    items: [
+      A("Semiconductor 101", "/semiconductors/learn", "Start from first principles."),
+      A("How chips are made", "/semiconductors/learn/journey", "The wafer-to-chip manufacturing journey."),
+      A("Design", "/semiconductors/design", "How an idea becomes a manufacturable chip."),
+      A("Manufacturing", "/manufacturing", "Front-end wafer processing, step by step."),
+      A("Packaging", "/semiconductors/packaging", "Turning dies into usable components."),
+      SOON("Testing", "Wafer sort, package test, and yield."),
+      A("Equipment", "/semiconductors/equipment", "The tools that build chips."),
+      A("Materials", "/semiconductors/materials", "The materials chips are built from."),
+      A("Supply chain", "/supply-chain", "How the ecosystem connects, end to end."),
+      A("Glossary", "/concepts", "Key concepts and terminology."),
+      A("Tools", "/semiconductors/tools", "Interactive calculators and explorers."),
+    ],
+  },
+  {
+    key: "industry",
+    href: "/industry",
+    label: "Industry",
+    tagline: "Understand the industry structure.",
+    landing: "existing",
+    items: [
+      A("Value chain", "/supply-chain", "Design through end markets."),
+      A("Company directory", "/industry/companies", "Companies across the ecosystem."),
+      A("Global map", "/industry/map", "The industry plotted by location."),
+      SOON("Fabs", "Wafer fabrication facilities."),
+      SOON("OSAT / ATMP", "Assembly, test, and packaging."),
+      SOON("Design & IP", "Fabless design houses and IP."),
+      SOON("Equipment", "Equipment makers."),
+      SOON("Materials", "Materials and consumables suppliers."),
+      SOON("Packaging", "Advanced packaging players."),
+      SOON("Testing", "Test houses and services."),
+      SOON("Suppliers", "The broader supplier base."),
+      SOON("Startups", "Emerging companies."),
+      SOON("Electronics", "Downstream electronics."),
+    ],
+  },
+  {
+    key: "companies",
+    href: "/companies",
+    label: "Companies",
+    tagline: "Discover the companies.",
+    landing: "scaffold",
+    items: [
+      A("Company directory", "/industry/companies", "Browse all companies."),
+      A("Global map", "/industry/map", "Companies by location."),
+      SOON("Fabs", "Foundries and IDMs."),
+      SOON("OSAT / ATMP", "Assembly and test."),
+      SOON("Design companies", "Fabless and IP."),
+      SOON("Equipment companies", "Tooling vendors."),
+      SOON("Materials companies", "Materials suppliers."),
+      SOON("Suppliers", "The supplier base."),
+      SOON("Testing", "Test providers."),
+      SOON("Startups", "Emerging companies."),
+      SOON("Research organizations", "Labs and institutes."),
+    ],
+  },
+  {
+    key: "india",
+    href: "/india",
+    label: "India",
+    tagline: "Understand India's ecosystem.",
+    landing: "scaffold",
+    items: [
+      A("India semiconductor map", "/industry/map/india", "Projects and companies across India."),
+      A("Indian companies", "/industry/companies", "Companies operating in India."),
+      SOON("Projects", "Announced fabs, ATMP, and facilities."),
+      SOON("States", "Ecosystem by state."),
+      SOON("Fabs", "India fab projects."),
+      SOON("OSAT / ATMP", "India assembly and test."),
+      SOON("Design centres", "India design presence."),
+      SOON("Suppliers", "Local supplier base."),
+      SOON("Investments", "Funding and incentives."),
+      SOON("Government & policy", "Schemes and policy."),
+      SOON("Talent", "Skills and workforce."),
+    ],
+  },
+  {
+    key: "supply-chain",
+    href: "/supply-chain",
+    label: "Supply chain",
+    tagline: "Understand how the ecosystem connects.",
+    landing: "existing",
+    items: [
+      A("Supply chain explorer", "/supply-chain", "Design → EDA/IP → equipment → materials → wafer → fab → packaging → testing → electronics → end markets."),
+    ],
+  },
+  {
+    key: "insights",
+    href: "/insights",
+    label: "Insights",
+    tagline: "Understand what is changing.",
+    landing: "existing",
+    items: [
+      A("Latest", "/insights", "Everything Semitree publishes."),
+      SOON("India", "India-specific developments."),
+      SOON("News", "Industry news."),
+      SOON("Explainers", "Plain-language explainers."),
+      SOON("Deep dives", "In-depth analysis."),
+      SOON("Analysis", "Market and technology analysis."),
+      SOON("Interviews", "Voices from the ecosystem."),
+      A("Research", "/research", "Papers, references, and topics."),
+    ],
+  },
+  {
+    key: "opportunities",
+    href: "/opportunities",
+    label: "Opportunities",
+    tagline: "Find the opportunities.",
+    landing: "scaffold",
+    items: [
+      SOON("Industry gaps", "Where the ecosystem is thin."),
+      SOON("Supply-chain gaps", "Missing links in the chain."),
+      SOON("Problems worth solving", "Evidence-backed problems."),
+      SOON("Emerging technologies", "What is coming next."),
+      SOON("Supplier opportunities", "Where new suppliers are needed."),
+      SOON("Market signals", "Signals worth watching."),
+    ],
+  },
+  {
+    key: "projects",
+    href: "/projects",
+    label: "Projects",
+    tagline: "Semitree's ongoing ecosystem research.",
+    landing: "scaffold",
+    items: [
+      A("India semiconductor map", "/industry/map/india", "Mapping India's ecosystem."),
+      A("Company database", "/industry/companies", "The company registry."),
+      A("Supply chain explorer", "/supply-chain", "The end-to-end chain."),
+      SOON("Supplier database", "A verified supplier registry."),
+      SOON("Startup tracker", "Tracking new companies."),
+      SOON("Investment tracker", "Funding and incentives."),
+      SOON("Manufacturing tracker", "Facilities and capacity."),
+    ],
+  },
+];
+
+/** Utility links (header/footer), outside the primary section set. */
+export const IA_UTILITIES: IaItem[] = [
+  A("Newsletter", "/newsletter", "Get ecosystem updates."),
+  A("Submit an industry problem", "/submit", "Tell us what the ecosystem is missing."),
+  A("About", "/about", "What Semitree is and why."),
+];
+
+const BY_KEY = new Map(IA_SECTIONS.map((s) => [s.key, s]));
+export function getIaSection(key: string): IaSection | undefined {
+  return BY_KEY.get(key);
+}
