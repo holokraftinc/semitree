@@ -192,6 +192,31 @@ export const ARTICLES: Article[] = [
     relatedConcepts: [{ label: "Packaging", slug: "packaging" }],
     relatedCompanies: ["micron", "tata-electronics", "cg-power", "kaynes", "hcltech"],
     relatedArticles: ["how-a-chip-is-made"],
+    relatedStages: ["fab", "packaging"],
+    relatedStates: ["gujarat", "assam", "karnataka", "telangana"],
+    relatedProjects: ["tata-dholera-fab", "micron-sanand-atmp", "tata-jagiroad-atmp"],
+    analysis: {
+      whatHappened:
+        "India has gone from almost no domestic chip manufacturing to a set of publicly announced fabs and assembly-and-test plants — a wafer fab at Dholera and several ATMP/OSAT facilities, most clustered in Gujarat, plus a first plant in Assam.",
+      whyItMatters:
+        "It gives the country its first end-to-end manufacturing footprint and a foothold in a supply chain that has been concentrated in a handful of regions. The design talent was already here; manufacturing is the new piece.",
+      technology:
+        "The announced plants span front-end fabrication and back-end assembly, test, and packaging — including the advanced-packaging capability that is now central to performance.",
+      valueChain:
+        "These projects populate the Fabrication and Packaging & Test stages of the chain; design and EDA have been present in India for years.",
+      whoIsInvolved:
+        "Tata Electronics (with PSMC), Micron, CG Power (with Renesas), and Kaynes are among the companies with approved facilities; global design centres from Intel, NVIDIA, Qualcomm, AMD, Arm, and others operate in Bengaluru, Hyderabad, and Noida.",
+      suppliers:
+        "A fab and ATMP ecosystem needs equipment, chemicals, gases, wafers, substrates, and cleanroom suppliers — much of which India still imports.",
+      indiaCapability:
+        "Chip design and engineering talent is India's strongest asset, and assembly/test is scaling first because it is less capital- and technology-intensive than leading-edge fabrication.",
+      whatsMissing:
+        "A deep local supplier base, materials and gases at scale, leading-edge process capability, and a larger specialised manufacturing workforce are still being built.",
+      whatCouldChange:
+        "As the first plants reach production and ecosystem suppliers localise, India could move from assembly toward more of the chain — but timelines and ramps depend on execution.",
+      watchNext:
+        "Construction and production milestones at Dholera and the Sanand/Jagiroad plants, new supplier announcements, and state-level incentives and talent programmes.",
+    },
   },
   {
     slug: "getting-started-with-semitree",
@@ -271,4 +296,35 @@ export function relatedArticleObjects(slug: string): Article[] {
   return a.relatedArticles
     .map((s) => BY_SLUG.get(s))
     .filter((x): x is Article => Boolean(x) && (x!.status ?? "published") === "published");
+}
+
+/* ------------------------------ Insight categories ----------------------------- */
+
+/**
+ * The reader-facing Insights categories (broader than the raw content types).
+ * "Latest" is the catch-all; the rest map to content types or tags. Categories
+ * with no content yet (e.g. Interviews) simply show an honest empty state —
+ * never fabricated to fill the tab.
+ */
+export interface InsightCategory {
+  key: string;
+  label: string;
+  match: (a: Article) => boolean;
+}
+
+export const INSIGHT_CATEGORIES: InsightCategory[] = [
+  { key: "latest", label: "Latest", match: () => true },
+  { key: "india", label: "India", match: (a) => a.type === "india-update" || a.tags.some((t) => t.toLowerCase() === "india") },
+  { key: "news", label: "News", match: (a) => a.type === "news" },
+  { key: "explainers", label: "Explainers", match: (a) => a.type === "explainer" },
+  { key: "deep-dives", label: "Deep Dives", match: (a) => a.type === "technology-deep-dive" },
+  { key: "analysis", label: "Analysis", match: (a) => a.type === "industry-analysis" || a.type === "company-analysis" },
+  { key: "interviews", label: "Interviews", match: (a) => a.type === "interview" },
+  { key: "research", label: "Research", match: (a) => a.type === "research-article" },
+];
+
+export function articlesInCategory(key: string): Article[] {
+  const cat = INSIGHT_CATEGORIES.find((c) => c.key === key);
+  if (!cat) return [];
+  return publishedArticles().filter(cat.match);
 }

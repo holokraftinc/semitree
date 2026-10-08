@@ -9,17 +9,13 @@ import { CmsList } from "@/components/cms/CmsList";
 import { NewsletterSignup } from "@/components/home/NewsletterSignup";
 import { TrackView } from "@/components/analytics/TrackView";
 import { featuredArticle, popularArticles } from "@/lib/content/articles";
-import { CMS_TYPES } from "@/lib/wordpress/config";
 
 export const metadata: Metadata = pageMeta({
   title: "Insights",
   description:
-    "News, explainers, research, and industry analysis across semiconductors and microfluidics — one place for everything Semitree publishes.",
+    "What's happening in semiconductors — and why it matters. News, India updates, explainers, deep dives, analysis, and research, each connected to the companies, technologies, and supply-chain stages behind it.",
   path: "/insights",
 });
-
-// Public content categories (backed by the editorial content types).
-const CATEGORIES = CMS_TYPES.map((t) => ({ key: t.key, label: t.label }));
 
 export default function InsightsPage() {
   const featured = featuredArticle();
@@ -33,9 +29,9 @@ export default function InsightsPage() {
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Insights" }]} />
         <h1 className="text-3xl font-bold tracking-tight">Insights</h1>
         <p className="max-w-2xl text-muted-foreground">
-          News, explainers, deep dives, research, and industry analysis — across
-          semiconductors and microfluidics. Everything Semitree publishes, in one
-          place.
+          What&apos;s happening in semiconductors — and why it matters. Every piece
+          connects to the companies, technologies, and supply-chain stages behind
+          it, so you can read the story and then explore the ecosystem around it.
         </p>
         <p className="max-w-2xl text-sm text-muted-foreground">
           Featured:{" "}
@@ -45,22 +41,6 @@ export default function InsightsPage() {
           .
         </p>
       </div>
-
-      {/* Browse by category */}
-      <nav aria-label="Insights categories" className="flex flex-wrap gap-2">
-        <span className="rounded-full border border-brand bg-brand/10 px-3.5 py-1.5 text-sm font-medium text-brand">
-          All
-        </span>
-        {CATEGORIES.map((c) => (
-          <Link
-            key={c.key}
-            href={`/insights/${c.key}/`}
-            className="rounded-full border border-border px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            {c.label}
-          </Link>
-        ))}
-      </nav>
 
       {/* Featured + popular (editorial) */}
       {featured && (
@@ -91,9 +71,9 @@ export default function InsightsPage() {
       {/* Latest published updates (live editorial feed). Silent until present. */}
       <CmsList type="articles" perPage={6} silentWhenEmpty heading="Latest updates" />
 
-      {/* All editorial pieces: search + category + tags */}
+      {/* All editorial pieces: category + search + tags */}
       <section aria-labelledby="all" className="space-y-5">
-        <h2 id="all" className="text-lg font-semibold tracking-tight">All articles</h2>
+        <h2 id="all" className="text-lg font-semibold tracking-tight">Browse by category</h2>
         <BlogExplorer />
       </section>
 

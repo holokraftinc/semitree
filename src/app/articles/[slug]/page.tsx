@@ -10,12 +10,26 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackView } from "@/components/analytics/TrackView";
 import { ButtonLink } from "@/components/ui/Button";
 import { ARTICLES, getArticle, relatedArticleObjects } from "@/lib/content/articles";
+import { articleLinks } from "@/lib/content/article-links";
 import { getAuthor } from "@/lib/content/authors";
-import { CONTENT_TYPE_LABELS, readingTimeMinutes } from "@/lib/content/types";
-import { getCompany } from "@/lib/industry/companies";
+import { CONTENT_TYPE_LABELS, readingTimeMinutes, type ArticleAnalysis } from "@/lib/content/types";
 import { getSemiTool } from "@/lib/data/semi-tools";
+import { RelatedRail, type RelatedGroup } from "@/components/platform/RelatedRail";
 import { articleMeta, jsonLdGraph, breadcrumbLd, articleLd } from "@/lib/seo";
 import { cn } from "@/lib/utils/cn";
+
+const ANALYSIS_FIELDS: { key: keyof ArticleAnalysis; label: string }[] = [
+  { key: "whatHappened", label: "What happened?" },
+  { key: "whyItMatters", label: "Why does it matter?" },
+  { key: "technology", label: "What technology is involved?" },
+  { key: "valueChain", label: "Where it fits in the value chain" },
+  { key: "whoIsInvolved", label: "Who is involved?" },
+  { key: "suppliers", label: "What suppliers are required?" },
+  { key: "indiaCapability", label: "What India can do today" },
+  { key: "whatsMissing", label: "What remains missing?" },
+  { key: "whatCouldChange", label: "What could change?" },
+  { key: "watchNext", label: "What to watch next" },
+];
 
 export const dynamicParams = false;
 
@@ -64,6 +78,25 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const topic = article.relatedTechnologies?.[0];
   const firstTool = article.relatedTools?.[0] ? getSemiTool(article.relatedTools[0]) : undefined;
 
+  // Resolve all ecosystem connections, then group them for the rail + sidebar.
+  const links = articleLinks(article);
+  const groups: RelatedGroup[] = [
+    { title: "Companies", links: links.companies },
+    { title: "Technologies", links: links.technologies },
+    { title: "Supply-chain stage", links: links.stages },
+    { title: "India states", links: links.states },
+    { title: "Projects", links: links.projects },
+    { title: "Tools", links: links.tools },
+    { title: "Related insights", links: links.insights },
+  ].filter((g) => g.links.length > 0);
+
+  const analysis = article.analysis;
+  const analysisItems = analysis
+    ? ANALYSIS_FIELDS.map((f) => ({ label: f.label, text: analysis[f.key] })).filter(
+        (x): x is { label: string; text: string } => Boolean(x.text),
+      )
+    : [];
+
   return (
     <Container className="py-10">
       <JsonLd
@@ -87,7 +120,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       />
       <TrackView event="article_opened" payload={{ article: article.slug, type: article.type }} />
 
-      <article className="mx-auto max-w-3xl space-y-8">
+      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_16rem]">
+      <article className="min-w-0 max-w-3xl space-y-8">
         {/* Hero */}
         <div className={cn("-mx-4 h-36 rounded-none bg-gradient-to-br sm:mx-0 sm:rounded-2xl", accentGradient(article.accent))} />
 
@@ -130,56 +164,25 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         {/* Body */}
         <ArticleBody blocks={article.body} />
 
-        {/* Related entities */}
-        <section aria-labelledby="related" className="space-y-4 border-t border-border pt-6">
-          <h2 id="related" className="text-lg font-semibold tracking-tight">Related</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {article.relatedConcepts && article.relatedConcepts.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold">Concepts</h3>
-                <ul className="space-y-1.5">
-                  {article.relatedConcepts.map((c) => (
-                    <li key={c.slug}><Link href={`/semiconductors/learn/${c.slug}`} className={linkClass}>{c.label} →</Link></li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {article.relatedTechnologies && article.relatedTechnologies.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold">Technologies</h3>
-                <ul className="space-y-1.5">
-                  {article.relatedTechnologies.map((t) => (
-                    <li key={t.slug}><Link href={`/research/topics/${t.slug}`} className={linkClass}>{t.label} →</Link></li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {article.relatedTools && article.relatedTools.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold">Tools</h3>
-                <ul className="space-y-1.5">
-                  {article.relatedTools.map((tslug) => {
-                    const tool = getSemiTool(tslug);
-                    if (!tool) return null;
-                    return <li key={tslug}><Link href={`/semiconductors/tools/${tslug}`} className={linkClass}>{tool.name} →</Link></li>;
-                  })}
-                </ul>
-              </div>
-            )}
-            {article.relatedCompanies && article.relatedCompanies.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold">Companies</h3>
-                <ul className="space-y-1.5">
-                  {article.relatedCompanies.map((cslug) => {
-                    const co = getCompany(cslug);
-                    if (!co) return null;
-                    return <li key={cslug}><Link href={`/industry/companies/${cslug}`} className={linkClass}>{co.name} →</Link></li>;
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
-        </section>
+        {/* The analysis — intelligence layer (only when authored) */}
+        {analysisItems.length > 0 && (
+          <section aria-labelledby="analysis" className="space-y-4 rounded-2xl border border-border bg-muted/30 p-6">
+            <h2 id="analysis" className="text-lg font-semibold tracking-tight">The analysis</h2>
+            <dl className="space-y-4">
+              {analysisItems.map((it) => (
+                <div key={it.label}>
+                  <dt className="text-sm font-semibold text-foreground">{it.label}</dt>
+                  <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{it.text}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {/* Ecosystem connections — inline on mobile (sidebar handles desktop) */}
+        <div className="lg:hidden">
+          <RelatedRail groups={groups} />
+        </div>
 
         {/* Engagement */}
         <section aria-label="Keep exploring" className="rounded-xl border border-border bg-muted/30 p-5">
@@ -210,6 +213,33 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         <NewsletterSignup />
       </article>
+
+      {/* Desktop sidebar: connected entities */}
+      {groups.length > 0 && (
+        <aside className="hidden lg:block" aria-label="Connected to the ecosystem">
+          <div className="sticky top-24 space-y-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Connected to the ecosystem
+            </p>
+            {groups.map((g) => (
+              <div key={g.title} className="space-y-2">
+                <h2 className="text-sm font-semibold tracking-tight">{g.title}</h2>
+                <ul className="space-y-1.5">
+                  {g.links.map((l) => (
+                    <li key={l.href + l.label}>
+                      <Link href={l.href} className={linkClass}>{l.label} →</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <div className="border-t border-border pt-4">
+              <Link href="/opportunities" className={linkClass}>Ecosystem opportunities →</Link>
+            </div>
+          </div>
+        </aside>
+      )}
+      </div>
     </Container>
   );
 }

@@ -22,6 +22,7 @@ export type ContentType =
   | "technology-deep-dive"
   | "news"
   | "india-update"
+  | "interview"
   | "tool-tutorial";
 
 export const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
@@ -34,6 +35,7 @@ export const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
   "technology-deep-dive": "Technology deep dive",
   news: "News",
   "india-update": "India update",
+  interview: "Interview",
   "tool-tutorial": "Tool tutorial",
 };
 
@@ -84,6 +86,19 @@ export interface Article {
   relatedTechnologies?: { label: string; slug: string }[];
   relatedTools?: string[];
   relatedArticles?: string[];
+  /** Supply-chain stage slugs (/supply-chain/<slug>). Derived from concepts when omitted. */
+  relatedStages?: string[];
+  /** India state slugs (/india/states/<slug>). */
+  relatedStates?: string[];
+  /** India project slugs (lib/india/ecosystem.ts). */
+  relatedProjects?: string[];
+
+  /**
+   * Optional structured analysis — the "intelligence layer" questions. Use it
+   * only where an article warrants it; short news can stay concise. Each field
+   * is editorial prose, never fabricated facts or figures.
+   */
+  analysis?: ArticleAnalysis;
 
   /** SEO overrides (defaults derived from title/excerpt/path). */
   seo?: { title?: string; description?: string; canonical?: string };
@@ -92,6 +107,20 @@ export interface Article {
   status?: PublishStatus;
   scheduledFor?: string;
   editorIds?: string[];
+}
+
+/** The intelligence-layer structure. Every field is optional — use what fits. */
+export interface ArticleAnalysis {
+  whatHappened?: string;
+  whyItMatters?: string;
+  technology?: string;
+  valueChain?: string;
+  whoIsInvolved?: string;
+  suppliers?: string;
+  indiaCapability?: string;
+  whatsMissing?: string;
+  whatCouldChange?: string;
+  watchNext?: string;
 }
 
 export interface NewsletterIssue {

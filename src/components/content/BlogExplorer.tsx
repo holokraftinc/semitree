@@ -2,25 +2,31 @@
 
 import { useMemo, useState } from "react";
 import { ArticleCard } from "./ArticleCard";
-import { publishedArticles, activeCategories, allTags } from "@/lib/content/articles";
-import { CONTENT_TYPE_LABELS, type ContentType } from "@/lib/content/types";
+import { publishedArticles, INSIGHT_CATEGORIES, allTags } from "@/lib/content/articles";
 import { cn } from "@/lib/utils/cn";
 
-const ALL = "all";
+const LATEST = "latest";
 
 /** Search + category + tag discovery over all published articles. */
 export function BlogExplorer() {
   const [q, setQ] = useState("");
-  const [category, setCategory] = useState<ContentType | typeof ALL>(ALL);
+  const [category, setCategory] = useState<string>(LATEST);
   const [tag, setTag] = useState<string>("");
 
-  const categories = activeCategories();
   const tags = allTags();
+  const published = publishedArticles();
+  // Counts per category (Latest = all).
+  const counts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const c of INSIGHT_CATEGORIES) m.set(c.key, published.filter(c.match).length);
+    return m;
+  }, [published]);
 
   const results = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    return publishedArticles().filter((a) => {
-      if (category !== ALL && a.type !== category) return false;
+    const cat = INSIGHT_CATEGORIES.find((c) => c.key === category);
+    return published.filter((a) => {
+      if (cat && !cat.match(a)) return false;
       if (tag && !a.tags.includes(tag)) return false;
       if (needle) {
         const hay = [a.title, a.subtitle ?? "", a.excerpt, ...a.tags].join(" ").toLowerCase();
@@ -28,9 +34,9 @@ export function BlogExplorer() {
       }
       return true;
     });
-  }, [q, category, tag]);
+  }, [q, category, tag, published]);
 
-  const active = q.trim() !== "" || category !== ALL || tag !== "";
+  const active = q.trim() !== "" || category !== LATEST || tag !== "";
 
   return (
     <div className="space-y-6">
@@ -45,15 +51,17 @@ export function BlogExplorer() {
 
       {/* Categories */}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Categories">
-        <FilterChip label="All" active={category === ALL} onClick={() => setCategory(ALL)} />
-        {categories.map((c) => (
-          <FilterChip
-            key={c.type}
-            label={`${CONTENT_TYPE_LABELS[c.type]} (${c.count})`}
-            active={category === c.type}
-            onClick={() => setCategory(c.type)}
-          />
-        ))}
+        {INSIGHT_CATEGORIES.map((c) => {
+          const n = counts.get(c.key) ?? 0;
+          return (
+            <FilterChip
+              key={c.key}
+              label={c.key === "latest" ? c.label : `${c.label} (${n})`}
+              active={category === c.key}
+              onClick={() => setCategory(c.key)}
+            />
+          );
+        })}
       </div>
 
       {/* Tags */}
@@ -78,7 +86,7 @@ export function BlogExplorer() {
         </p>
         {active && (
           <button
-            onClick={() => { setQ(""); setCategory(ALL); setTag(""); }}
+            onClick={() => { setQ(""); setCategory(LATEST); setTag(""); }}
             className="text-sm font-medium text-brand hover:underline"
           >
             Clear filters
@@ -98,7 +106,7 @@ export function BlogExplorer() {
         <div className="rounded-xl border border-dashed border-border bg-muted/20 p-8 text-center">
           <p className="text-sm font-medium">No articles match these filters yet.</p>
           <button
-            onClick={() => { setQ(""); setCategory(ALL); setTag(""); }}
+            onClick={() => { setQ(""); setCategory(LATEST); setTag(""); }}
             className="mt-2 text-sm font-medium text-brand hover:underline"
           >
             Clear filters
