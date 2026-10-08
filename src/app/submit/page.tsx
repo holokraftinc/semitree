@@ -24,17 +24,21 @@ export default function SubmitPage() {
         />
         <h1 className="text-3xl font-bold tracking-tight">Submit an industry problem</h1>
         <p className="max-w-2xl text-lg text-muted-foreground">
-          Semitree maps evidence-backed gaps and opportunities across the semiconductor ecosystem. If you know a real
-          bottleneck, missing supplier, or problem worth solving, tell us — it helps the whole community see where the
+          Do you work in semiconductors? Tell us about a problem, supply-chain gap,
+          or underserved need. Semitree maps evidence-backed gaps across the
+          ecosystem — your input helps the whole community see where the real
           opportunities are.
         </p>
       </div>
 
       <Card className="max-w-2xl space-y-3 p-6">
-        <h2 className="text-lg font-semibold tracking-tight">Submissions are opening soon</h2>
+        <h2 className="text-lg font-semibold tracking-tight">The structured form is opening soon</h2>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          The structured submission form is being built as part of the Opportunities project. In the meantime, subscribe
-          to the newsletter to be notified when it opens, and explore the gaps we are already tracking.
+          We&apos;re building a structured submission flow (problem, affected participants,
+          evidence, and status) so contributions slot straight into the problem
+          database. Until it opens, subscribe to be notified, and browse the
+          problems and gaps we already track. This is intelligence gathering — no
+          paywalls, no ads.
         </p>
         <div className="flex flex-wrap gap-3 pt-1">
           <Link
