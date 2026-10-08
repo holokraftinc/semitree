@@ -13,6 +13,13 @@ import {
   relatedCompanyObjects,
 } from "@/lib/industry/companies";
 import { COMPANY_TYPE_LABELS, SITE_KIND_LABELS } from "@/lib/industry/types";
+import {
+  supplyStagesForCompany,
+  segmentsForCompany,
+  insightsForCompany,
+  relatedSupplierCategories,
+} from "@/lib/industry/relationships";
+import { StatusBadge } from "@/components/industry/StatusBadge";
 import { getProcess } from "@/lib/knowledge/manufacturing";
 import { getSemiTool } from "@/lib/data/semi-tools";
 import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
@@ -66,6 +73,13 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
   const points = companyPoints(company);
   const related = relatedCompanyObjects(company.slug);
   const careersHref = company.hiringUrl ?? company.website;
+
+  // Honest discovery edges (see lib/industry/relationships.ts).
+  const stages = supplyStagesForCompany(company);
+  const segments = segmentsForCompany(company);
+  const indiaSites = points.filter((p) => p.countryCode === "IN");
+  const insights = insightsForCompany(company);
+  const supplierCats = relatedSupplierCategories(company);
 
   return (
     <Container className="space-y-10 py-10">
@@ -157,11 +171,82 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
         </p>
       </section>
 
+      {/* Supply-chain position (verified structural edge from company types) */}
+      <section aria-labelledby="scp" className="space-y-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 id="scp" className="text-lg font-semibold tracking-tight">Supply-chain position</h2>
+          <StatusBadge status="verified" />
+        </div>
+        {stages.length > 0 ? (
+          <>
+            {segments.length > 0 && (
+              <p className="text-sm text-muted-foreground">
+                Operates across{" "}
+                {segments.map((s, i) => (
+                  <span key={s.id}>
+                    <span className="font-medium text-foreground">{s.label}</span>
+                    {i < segments.length - 1 ? ", " : ""}
+                  </span>
+                ))}
+                .
+              </p>
+            )}
+            <ul className="flex flex-wrap gap-2">
+              {stages.map((s) => (
+                <li key={s.slug}>
+                  <Link
+                    href={`/supply-chain/${s.slug}`}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-brand/50 hover:text-brand"
+                  >
+                    {s.name} →
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            <Link href="/supply-chain" className={linkClass}>Explore the supply chain →</Link>
+          </p>
+        )}
+      </section>
+
+      {/* Indian presence */}
+      <section aria-labelledby="india-presence" className="space-y-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 id="india-presence" className="text-lg font-semibold tracking-tight">Indian presence</h2>
+          <StatusBadge status={indiaSites.length > 0 ? "verified" : "researching"} />
+        </div>
+        {indiaSites.length > 0 ? (
+          <>
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {indiaSites.map((p) => (
+                <li key={p.label + p.city} className="rounded-xl border border-border bg-card p-4">
+                  <p className="text-sm font-medium">{p.label}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {p.city}{p.state ? `, ${p.state}` : ""}
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">{SITE_KIND_LABELS[p.kind]}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-muted-foreground">
+              <Link href="/industry/map/india" className={linkClass}>See on the India map →</Link>
+            </p>
+          </>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            No India-based site is recorded for {company.name} yet. Explore{" "}
+            <Link href="/india" className={linkClass}>India&apos;s ecosystem →</Link>
+          </p>
+        )}
+      </section>
+
       {/* Profile detail */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <InfoList title="Technologies" items={company.technologies} />
-        <InfoList title="Products" items={company.products} />
-        <InfoList title="Processes" items={company.processes} />
+        <InfoList title="Products & services" items={company.products} />
+        <InfoList title="Capabilities" items={company.processes} />
         <InfoList title="Facilities" items={company.facilities} />
         <InfoList title="Founders" items={company.founders} />
         {company.leadership && company.leadership.length > 0 && (
@@ -290,10 +375,86 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
+      {/* Related insights (articles referencing this company's concepts) */}
+      {insights.length > 0 && (
+        <section aria-labelledby="rel-insights" className="space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 id="rel-insights" className="text-lg font-semibold tracking-tight">Related insights</h2>
+            <StatusBadge status="reported" />
+          </div>
+          <ul className="space-y-1.5">
+            {insights.map((a) => (
+              <li key={a.slug}>
+                <Link href={`/articles/${a.slug}`} className={linkClass}>{a.title} →</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Related suppliers (supplier categories that feed this company's stage) */}
+      {supplierCats.length > 0 && (
+        <section aria-labelledby="rel-suppliers" className="space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 id="rel-suppliers" className="text-lg font-semibold tracking-tight">Related suppliers</h2>
+            <StatusBadge status="researching" />
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Supplier categories that feed this part of the chain. Specific
+            vendor relationships are still being verified.
+          </p>
+          <ul className="flex flex-wrap gap-2">
+            {supplierCats.map((cat) => (
+              <li key={cat.key}>
+                <Link
+                  href={`/suppliers#${cat.key}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-brand/50 hover:text-brand"
+                >
+                  {cat.label} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Connections still being researched — honest slots, no invented edges */}
+      <section aria-labelledby="researching-conn" className="space-y-3">
+        <h2 id="researching-conn" className="text-lg font-semibold tracking-tight">More connections</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { label: "Partnerships", href: null },
+            { label: "Investments", href: null },
+            { label: "Related projects", href: "/projects" },
+            { label: "Related opportunities", href: "/opportunities" },
+          ].map((item) => (
+            <div key={item.label} className="rounded-xl border border-dashed border-border bg-muted/20 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="text-sm font-semibold">{item.label}</h3>
+                <StatusBadge status="researching" />
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {item.href ? (
+                  <>
+                    Not yet linked for this company.{" "}
+                    <Link href={item.href} className={linkClass}>Browse all →</Link>
+                  </>
+                ) : (
+                  "Being compiled from verified public sources."
+                )}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Related companies */}
       {related.length > 0 && (
         <section aria-labelledby="related-co" className="space-y-3">
-          <h2 id="related-co" className="text-lg font-semibold tracking-tight">Related companies</h2>
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 id="related-co" className="text-lg font-semibold tracking-tight">Related companies</h2>
+            <StatusBadge status="reported" />
+          </div>
           <ul className="flex flex-wrap gap-3">
             {related.map((r) => (
               <li key={r.slug}>

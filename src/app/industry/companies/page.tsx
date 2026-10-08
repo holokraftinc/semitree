@@ -27,11 +27,16 @@ export default function CompaniesPage() {
         <h1 className="text-3xl font-bold tracking-tight">Company directory</h1>
         <p className="max-w-2xl text-muted-foreground">
           A structured map of the semiconductor ecosystem. Search or filter by
-          category, country, state, and technology. Also view the{" "}
+          company type, segment, country, state, city, technology, facility, and
+          capability. See also the{" "}
+          <Link href="/suppliers" className="font-medium text-brand hover:underline">
+            supplier directory
+          </Link>
+          , the{" "}
           <Link href="/industry/map" className="font-medium text-brand hover:underline">
             global map
-          </Link>{" "}
-          or the{" "}
+          </Link>
+          , or the{" "}
           <Link href="/industry/map/india" className="font-medium text-brand hover:underline">
             India map
           </Link>

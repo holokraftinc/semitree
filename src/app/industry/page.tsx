@@ -63,11 +63,17 @@ export default function IndustryPage() {
           <h2 id="explore-h" className="text-xl font-semibold tracking-tight">
             Explore the players
           </h2>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Link href="/industry/companies" className="group rounded-xl border border-border bg-card p-5 shadow-card transition-colors hover:border-brand/50">
               <h3 className="font-semibold tracking-tight group-hover:text-brand">Company directory</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Search &amp; filter {COMPANIES.length} companies by category, country, state, and technology.
+                Search &amp; filter {COMPANIES.length} companies by type, segment, location, technology, facility, and capability.
+              </p>
+            </Link>
+            <Link href="/suppliers" className="group rounded-xl border border-border bg-card p-5 shadow-card transition-colors hover:border-brand/50">
+              <h3 className="font-semibold tracking-tight group-hover:text-brand">Supplier directory</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Equipment, chemicals, wafers, materials, testing, and the wider support base.
               </p>
             </Link>
             <Link href="/industry/map" className="group rounded-xl border border-border bg-card p-5 shadow-card transition-colors hover:border-brand/50">
