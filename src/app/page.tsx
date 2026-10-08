@@ -1,35 +1,37 @@
-import { Container } from "@/components/ui/Container";
-import { PlatformHero } from "@/components/home/PlatformHero";
-import { WhereToStart } from "@/components/home/WhereToStart";
-import { ContinueLearning } from "@/components/home/ContinueLearning";
-import { PopularTopics } from "@/components/home/PopularTopics";
-import { LearnFromZero } from "@/components/home/LearnFromZero";
-import { PopularTools } from "@/components/home/PopularTools";
-import { ManufacturingOverview } from "@/components/home/ManufacturingOverview";
-import { IndustryCompanies } from "@/components/home/IndustryCompanies";
-import { ResearchResources } from "@/components/home/ResearchResources";
-import { LatestArticles } from "@/components/home/LatestArticles";
-import { NewsletterSignup } from "@/components/home/NewsletterSignup";
+import { EcosystemHero } from "@/components/home/EcosystemHero";
+import { IndiaToday } from "@/components/home/IndiaToday";
+import { ValueChainJourney } from "@/components/home/ValueChainJourney";
+import { IndiaMapSection } from "@/components/home/IndiaMapSection";
+import { EcosystemStats } from "@/components/home/EcosystemStats";
+import { WhatsChanging } from "@/components/home/WhatsChanging";
+import { ProblemsWorthSolving } from "@/components/home/ProblemsWorthSolving";
+import { HomeInsights } from "@/components/home/HomeInsights";
+import { IndustryVoices } from "@/components/home/IndustryVoices";
+import { FinalCta } from "@/components/home/FinalCta";
 import { EventPromotion } from "@/components/events/EventPromotion";
 
+/**
+ * The Semitree homepage — the entry point to India's semiconductor ecosystem.
+ * Full-bleed, storytelling sections (each self-contained, mobile order = reading
+ * order): hero → India today → value chain → India map → stats → what's changing
+ * → problems → insights → voices → final CTA. The ecosystem is the hero;
+ * editorial is deliberately secondary.
+ */
 export default function HomePage() {
   return (
     <>
-      {/* Temporary full-width SEMICON India 2026 takeover — removes itself after the event. */}
+      {/* Temporary SEMICON India takeover — removes itself after the event. */}
       <EventPromotion />
-      <Container className="space-y-20 pb-8">
-        <PlatformHero />
-      <WhereToStart />
-      <ContinueLearning />
-      <PopularTopics />
-      <LearnFromZero />
-      <PopularTools />
-      <ManufacturingOverview />
-      <IndustryCompanies />
-      <ResearchResources />
-      <LatestArticles />
-        <NewsletterSignup />
-      </Container>
+      <EcosystemHero />
+      <IndiaToday />
+      <ValueChainJourney />
+      <IndiaMapSection />
+      <EcosystemStats />
+      <WhatsChanging />
+      <ProblemsWorthSolving />
+      <HomeInsights />
+      <IndustryVoices />
+      <FinalCta />
     </>
   );
 }
