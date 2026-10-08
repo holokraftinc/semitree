@@ -10,6 +10,13 @@ import { LessonDiagram } from "./LessonDiagram";
 import { ManufacturingJourney } from "./ManufacturingJourney";
 import { LearningTopicProgress } from "@/components/learn/LearningTopicProgress";
 import { LearningTopicNav } from "@/components/learn/LearningTopicNav";
+import { RelatedRail, type RelatedGroup } from "@/components/platform/RelatedRail";
+import {
+  relatedToolsForLesson,
+  companiesForLesson,
+  insightsForLesson,
+  supplyStageForLesson,
+} from "@/lib/knowledge/lesson-connections";
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
@@ -211,6 +218,18 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
   const index = path ? path.lessonSlugs.indexOf(lesson.slug) + 1 : undefined;
   const total = path?.lessonSlugs.length;
   const journeyNext = lesson.journeyNext ? getSemiLesson(lesson.journeyNext) : undefined;
+
+  // Derived cross-entity connections (reverse lookups; empty groups are hidden).
+  const topicTools = relatedToolsForLesson(lesson.slug);
+  const topicCompanies = companiesForLesson(lesson.slug);
+  const topicInsights = insightsForLesson(lesson.slug);
+  const topicStage = supplyStageForLesson(lesson.slug);
+  const relatedGroups: RelatedGroup[] = [
+    { title: "Related tools", links: topicTools },
+    { title: "Related companies", links: topicCompanies },
+    { title: "Related insights", links: topicInsights },
+    { title: "Related supply-chain stage", links: topicStage ? [topicStage] : [] },
+  ];
 
   return (
     <article className="space-y-10">
@@ -484,6 +503,20 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
         </Section>
       )}
 
+      {/* Contextual "learn the concept → try the related tool" CTA */}
+      {topicTools.length > 0 && (
+        <Link
+          href={topicTools[0].href}
+          className="group block rounded-xl border border-brand/30 bg-brand/5 p-5 transition-colors hover:border-brand/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand">Put it into practice</p>
+          <p className="mt-1 text-base font-semibold text-foreground group-hover:text-brand">
+            Try the {topicTools[0].label} tool →
+          </p>
+          <p className="mt-0.5 text-sm text-muted-foreground">Apply what you just learned with an interactive calculator.</p>
+        </Link>
+      )}
+
       {/* Related concepts */}
       {related.length > 0 && (
         <Section id="related" title="Explore related concepts">
@@ -520,6 +553,9 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
           </ul>
         </Section>
       )}
+
+      {/* Derived cross-entity connections (tools, companies, insights, supply chain) */}
+      <RelatedRail groups={relatedGroups} />
 
       </div>
 

@@ -2,119 +2,144 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { Section } from "@/components/ui/Section";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
+import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { PopularTopics } from "@/components/home/PopularTopics";
-import { ManufacturingOverview } from "@/components/home/ManufacturingOverview";
-import { NewsletterSignup } from "@/components/home/NewsletterSignup";
-import { getAllDomains, sectionPath } from "@/lib/domains";
+import { ButtonLink } from "@/components/ui/Button";
+import { getIaSection } from "@/lib/data/ia";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "Explore",
   description:
-    "Explore Semitree: semiconductor topics and manufacturing, tools, research, resources, companies, and the microfluidics domain.",
+    "Understand the technology behind the semiconductor ecosystem — from fundamentals to manufacturing, packaging, equipment, materials and supply chains. Free, forever.",
   path: "/explore",
 });
 
-const DISCOVER = [
-  { label: "Tools", href: "/tools", status: "live", desc: "Calculators & design utilities." },
-  { label: "Research", href: "/research", status: "live", desc: "Papers, references, and signals." },
-  { label: "Resources", href: "/resources", status: "live", desc: "Guides, cheat sheets, downloads." },
-  { label: "Companies", href: "/industry/companies", status: "live", desc: "Foundries, suppliers, services." },
-  { label: "Supply chain", href: "/supply-chain", status: "live", desc: "The chain, end to end." },
-  { label: "Insights", href: "/insights", status: "live", desc: "News, explainers, research & analysis." },
-] as const;
+const explore = getIaSection("explore")!;
+
+// A light Beginner → Intermediate → Advanced path, using existing content only.
+const JOURNEY = [
+  {
+    level: "Beginner",
+    title: "Semiconductor fundamentals",
+    desc: "What a semiconductor is, carriers, junctions, and the transistor.",
+    href: "/semiconductors/learn/what-is-a-semiconductor",
+  },
+  {
+    level: "Intermediate",
+    title: "How chips are made",
+    desc: "The end-to-end manufacturing journey, step by step.",
+    href: "/semiconductors/learn/journey",
+  },
+  {
+    level: "Advanced",
+    title: "Design, devices & packaging",
+    desc: "Device physics, the design flow, and advanced packaging.",
+    href: "/semiconductors/design",
+  },
+];
 
 export default function ExplorePage() {
-  const domains = getAllDomains();
   return (
-    <Container className="space-y-16 py-10">
-      <div className="space-y-3">
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Explore" }]} />
-        <h1 className="text-3xl font-bold tracking-tight">Explore Semitree</h1>
-        <p className="max-w-2xl text-muted-foreground">
-          Discover topics, tools, research, and the industry. Microfluidics is
-          live today; the semiconductor domain is being built.
-        </p>
-      </div>
+    <>
+      <section className="border-b border-border">
+        <Container className="py-16 sm:py-20">
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Explore" }]} />
+          <h1 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+            Understand the technology behind the semiconductor ecosystem.
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+            From semiconductor fundamentals to manufacturing, packaging, equipment, materials and supply chains.
+            Everything here is free.
+          </p>
+        </Container>
+      </section>
 
-      {/* Domains */}
-      <Section headingId="domains" title="Domains" description="Specialised areas within Semitree.">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {domains.map((d) => (
-            <Card key={d.id} className="p-5">
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-semibold tracking-tight">{d.name}</h3>
-                <Badge variant={d.status === "live" ? "success" : "neutral"}>
-                  {d.status === "live" ? "Live" : "Coming soon"}
-                </Badge>
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">{d.tagline}</p>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {d.sections.map((s) => {
-                  const href = sectionPath(d.id, s.key);
-                  return s.status === "live" && href ? (
-                    <li key={s.key}>
-                      <Link
-                        href={href}
-                        className="rounded-full border border-border px-3 py-1 text-sm text-foreground hover:border-brand/50 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      >
-                        {s.label}
-                      </Link>
-                    </li>
-                  ) : (
-                    <li key={s.key}>
-                      <span className="rounded-full border border-dashed border-border px-3 py-1 text-sm text-muted-foreground">
-                        {s.label}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </Card>
-          ))}
-        </div>
-      </Section>
+      <Container className="space-y-16 py-16">
+        {/* Learning journey */}
+        <section aria-labelledby="journey-h" className="space-y-5">
+          <h2 id="journey-h" className="text-xl font-semibold tracking-tight">A path from first principles</h2>
+          <ol className="grid gap-4 md:grid-cols-3">
+            {JOURNEY.map((step, i) => (
+              <li key={step.level} className="relative">
+                <Link href={step.href} className="group block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <Card className="flex h-full flex-col p-5 transition-colors group-hover:border-brand/50">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/10 font-mono text-xs font-semibold text-brand">{i + 1}</span>
+                      <Badge variant="brand">{step.level}</Badge>
+                    </div>
+                    <h3 className="mt-3 text-base font-semibold tracking-tight group-hover:text-brand">{step.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{step.desc}</p>
+                  </Card>
+                </Link>
+              </li>
+            ))}
+          </ol>
+          <p className="text-sm text-muted-foreground">
+            Not every topic fits a level — browse any area directly below.
+          </p>
+        </section>
 
-      <PopularTopics />
-      <ManufacturingOverview />
-
-      {/* Discover grid */}
-      <Section headingId="discover" title="Discover more" description="Everything else on the platform.">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {DISCOVER.map((d) =>
-            d.status === "live" && d.href ? (
-              <Card key={d.label} className="relative p-5 transition-shadow hover:shadow-card-hover">
-                <CardHeader className="p-0">
-                  <CardTitle as="h3">
-                    <Link
-                      href={d.href}
-                      className="rounded-sm after:absolute after:inset-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring hover:text-brand"
-                    >
-                      {d.label}
-                    </Link>
-                  </CardTitle>
-                  <CardDescription>{d.desc}</CardDescription>
-                </CardHeader>
-              </Card>
-            ) : (
-              <Card key={d.label} className="p-5">
-                <CardHeader className="p-0">
-                  <div className="flex items-center gap-2">
-                    <CardTitle as="h3">{d.label}</CardTitle>
-                    <Badge variant="neutral">Soon</Badge>
+        {/* Content areas */}
+        <section aria-labelledby="areas-h" className="space-y-5">
+          <h2 id="areas-h" className="text-xl font-semibold tracking-tight">Explore by area</h2>
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {explore.items.map((item) => {
+              const available = item.status === "available" && item.href;
+              const card = (hover: boolean) => (
+                <Card className={`flex h-full flex-col p-5 transition-colors${hover ? " group-hover:border-brand/50" : ""}`}>
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className={`text-base font-semibold tracking-tight${hover ? " group-hover:text-brand" : ""}`}>{item.label}</h3>
+                    {available ? <span aria-hidden="true" className="text-brand">→</span> : <Badge variant="neutral">Coming soon</Badge>}
                   </div>
-                  <CardDescription>{d.desc}</CardDescription>
-                </CardHeader>
-              </Card>
-            ),
-          )}
-        </div>
-      </Section>
+                  {item.description && <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>}
+                </Card>
+              );
+              return (
+                <li key={item.label}>
+                  {available ? (
+                    <Link href={item.href!} className="group block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                      {card(true)}
+                    </Link>
+                  ) : (
+                    <div className="h-full opacity-80">{card(false)}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
 
-      <NewsletterSignup />
-    </Container>
+        {/* Tools CTA */}
+        <section aria-labelledby="tools-h" className="rounded-2xl border border-border bg-muted/30 p-6 sm:p-8">
+          <h2 id="tools-h" className="text-xl font-semibold tracking-tight">Learn it, then compute with it</h2>
+          <p className="mt-2 max-w-2xl text-muted-foreground">
+            Over 50 interactive calculators and explorers turn the concepts into numbers — resolution, yield, thermal,
+            device physics, and more.
+          </p>
+          <div className="mt-4">
+            <ButtonLink href="/semiconductors/tools" variant="primary">Open the tools →</ButtonLink>
+          </div>
+        </section>
+
+        {/* Other domains / specialized research */}
+        <section aria-labelledby="domains-h" className="space-y-4 border-t border-border pt-10">
+          <h2 id="domains-h" className="text-xl font-semibold tracking-tight">Other domains &amp; specialized research</h2>
+          <p className="max-w-2xl text-sm text-muted-foreground">
+            Semitree also covers adjacent fields. These are specialized tracks alongside the semiconductor focus.
+          </p>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            <li>
+              <Link href="/learn/microfluidics" className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <Card className="h-full p-5 transition-colors group-hover:border-brand/50">
+                  <h3 className="text-base font-semibold tracking-tight group-hover:text-brand">Microfluidics</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">Fundamentals, lab-on-chip systems, devices, and the microfluidics toolset.</p>
+                </Card>
+              </Link>
+            </li>
+          </ul>
+        </section>
+      </Container>
+    </>
   );
 }

@@ -21,8 +21,8 @@ export function RelatedRail({ groups }: { groups: RelatedGroup[] }) {
   if (present.length === 0) return null;
 
   return (
-    <section aria-labelledby="related-h" className="space-y-4 border-t border-border pt-8">
-      <h2 id="related-h" className="text-lg font-semibold tracking-tight">Related</h2>
+    <section aria-labelledby="related-rail-h" className="space-y-4 border-t border-border pt-8">
+      <h2 id="related-rail-h" className="text-lg font-semibold tracking-tight">Related</h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {present.map((g) => (
           <div key={g.title} className="space-y-2">
