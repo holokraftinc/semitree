@@ -12,14 +12,14 @@ import { cn } from "@/lib/utils/cn";
  * currently route to the section hubs — the per-stage wiring is filled in later.
  */
 
-interface Node {
+export interface ValueChainNode {
   label: string;
   /** /supply-chain/<slug> stage page. */
   slug: string;
   blurb: string;
 }
 
-const NODES: Node[] = [
+const NODES: ValueChainNode[] = [
   { label: "Design", slug: "chip-design", blurb: "Turning an idea into a manufacturable chip design." },
   { label: "EDA / IP", slug: "eda", blurb: "The software and reusable IP that make design possible." },
   { label: "Equipment", slug: "semiconductor-equipment", blurb: "The machines that pattern, deposit, etch, and test." },
@@ -40,26 +40,37 @@ const CONNECTIONS = [
   { label: "Opportunities", href: "/opportunities" },
 ];
 
-export function ValueChainJourney() {
+export interface ValueChainJourneyProps {
+  nodes?: ValueChainNode[];
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+}
+
+export function ValueChainJourney({
+  nodes = NODES,
+  eyebrow = "Explore the ecosystem",
+  title = "Follow the value chain, from design to end markets",
+  intro = "Every stage connects to the companies, technologies, and opportunities around it. Select a stage to see how it fits together.",
+}: ValueChainJourneyProps = {}) {
   const [active, setActive] = useState(0);
-  const node = NODES[active];
+  const node = nodes[active];
 
   return (
     <section aria-labelledby="valuechain-h" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">Explore the ecosystem</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">{eyebrow}</p>
         <h2 id="valuechain-h" className="mt-2 max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">
-          Follow the value chain, from design to end markets
+          {title}
         </h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Every stage connects to the companies, technologies, and opportunities around it. Select a stage to see how it
-          fits together.
+          {intro}
         </p>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
           {/* The journey rail */}
           <ol className="relative" aria-label="Value chain stages">
-            {NODES.map((n, i) => {
+            {nodes.map((n, i) => {
               const isActive = i === active;
               return (
                 <li key={n.slug} className="relative">
@@ -86,7 +97,7 @@ export function ValueChainJourney() {
                       {n.label}
                     </span>
                   </button>
-                  {i < NODES.length - 1 && (
+                  {i < nodes.length - 1 && (
                     <div aria-hidden="true" className="flex justify-start py-0.5 pl-[1.85rem]">
                       <span className="text-brand/40">↓</span>
                     </div>
@@ -100,7 +111,7 @@ export function ValueChainJourney() {
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-2xl border border-border bg-card p-6">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Stage {active + 1} of {NODES.length}
+                Stage {active + 1} of {nodes.length}
               </p>
               <h3 className="mt-1 text-xl font-semibold tracking-tight">{node.label}</h3>
               <p className="mt-2 leading-relaxed text-muted-foreground">{node.blurb}</p>

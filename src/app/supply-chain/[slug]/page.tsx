@@ -19,6 +19,7 @@ import { companiesForTypes } from "@/lib/industry/companies";
 import { COMPANY_TYPE_LABELS } from "@/lib/industry/types";
 import { getProcess } from "@/lib/knowledge/manufacturing";
 import { getSemiTool } from "@/lib/data/semi-tools";
+import { publishedArticles } from "@/lib/content/articles";
 import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const dynamicParams = false;
@@ -72,6 +73,18 @@ export default async function StagePage({ params }: { params: Promise<{ slug: st
   const equipment = stageEquipment(stage);
   const materials = stageMaterials(stage);
   const companies = companiesForTypes(stage.companyTypes);
+  const indianCompanies = companies.filter((c) => c.hq.countryCode === "IN");
+  const globalCompanies = companies.filter((c) => c.hq.countryCode !== "IN");
+
+  // Related insights: published articles that reference any of this stage's
+  // concepts (reverse lookup from the real article registry — never invented).
+  const conceptSlugs = new Set((stage.relatedConcepts ?? []).map((c) => c.slug));
+  const relatedInsights =
+    conceptSlugs.size > 0
+      ? publishedArticles()
+          .filter((a) => (a.relatedConcepts ?? []).some((rc) => conceptSlugs.has(rc.slug)))
+          .slice(0, 4)
+      : [];
 
   return (
     <Container className="space-y-10 py-10">
@@ -150,25 +163,55 @@ export default async function StagePage({ params }: { params: Promise<{ slug: st
         <InfoList title="Research happening" items={stage.researchThemes} />
       </section>
 
-      {/* Companies operating here (from the verified registry) */}
-      <section aria-labelledby="companies-heading" className="space-y-3">
+      {/* Companies operating here (from the verified registry), split by geography */}
+      <section aria-labelledby="companies-heading" className="space-y-4">
         <h2 id="companies-heading" className="text-lg font-semibold tracking-tight">
           Companies operating here
         </h2>
         {companies.length > 0 ? (
           <>
-            <ul className="flex flex-wrap gap-2">
-              {companies.map((c) => (
-                <li key={c.slug}>
-                  <Link
-                    href={`/industry/companies/${c.slug}`}
-                    className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-brand/50 hover:text-brand"
-                  >
-                    {c.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold">Indian companies</h3>
+                {indianCompanies.length > 0 ? (
+                  <ul className="flex flex-wrap gap-2">
+                    {indianCompanies.map((c) => (
+                      <li key={c.slug}>
+                        <Link
+                          href={`/industry/companies/${c.slug}`}
+                          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-brand/50 hover:text-brand"
+                        >
+                          {c.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    No Indian companies in this category are in the directory yet — we&apos;re researching this part of the ecosystem.
+                  </p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold">Global companies</h3>
+                {globalCompanies.length > 0 ? (
+                  <ul className="flex flex-wrap gap-2">
+                    {globalCompanies.map((c) => (
+                      <li key={c.slug}>
+                        <Link
+                          href={`/industry/companies/${c.slug}`}
+                          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-brand/50 hover:text-brand"
+                        >
+                          {c.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No global companies in this category are in the directory yet.</p>
+                )}
+              </div>
+            </div>
             <p className="text-xs text-muted-foreground">
               From Semitree&apos;s{" "}
               <Link href="/industry/companies" className={linkClass}>directory</Link>{" "}
@@ -183,6 +226,22 @@ export default async function StagePage({ params }: { params: Promise<{ slug: st
           </p>
         )}
       </section>
+
+      {/* Related insights (articles that reference this stage's concepts) */}
+      {relatedInsights.length > 0 && (
+        <section aria-labelledby="insights-heading" className="space-y-3">
+          <h2 id="insights-heading" className="text-lg font-semibold tracking-tight">
+            Related insights
+          </h2>
+          <ul className="space-y-1.5">
+            {relatedInsights.map((a) => (
+              <li key={a.slug}>
+                <Link href={`/articles/${a.slug}`} className={linkClass}>{a.title} →</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Interlinks */}
       <section aria-labelledby="links-heading" className="space-y-4">
@@ -256,7 +315,10 @@ export default async function StagePage({ params }: { params: Promise<{ slug: st
         </h2>
         <p className="mt-1 text-xs text-muted-foreground">
           These dimensions are architected for this stage. Only data derived from
-          verified sources is shown — no speculative figures.
+          verified sources is shown — no speculative figures. Known ecosystem gaps
+          and potential opportunities for this stage are still being researched;
+          see{" "}
+          <Link href="/opportunities" className={linkClass}>Opportunities →</Link>
         </p>
         <ul className="mt-3 flex flex-wrap gap-2">
           {INTEL_DIMENSIONS.map((d) => (
