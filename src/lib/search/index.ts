@@ -1,81 +1,245 @@
 /**
- * Global search — a unified, client-side/static index over Semitree's content.
+ * Global search index — a unified index over the whole Semitree ecosystem.
  *
- * Extensible by design: search draws from a registry of SOURCES, each
- * contributing typed documents. Adding a future content type (papers,
- * companies, equipment, courses, directory, jobs, blog) is a matter of adding a
- * source and a type label — the index, ranking, and UI need no changes.
+ * This module imports every registry, so it is HEAVY: it must only be used
+ * server-side (the /search-index.json route handler) and in tests — never in a
+ * client bundle. The client dialog imports the light `./types` and fetches the
+ * prebuilt JSON this produces.
  *
- * No external/paid search service: ranking is a small in-memory scorer.
+ * Extensible by design: each content type contributes one source.
  */
+import {
+  type SearchDoc,
+  TYPE_META,
+  typeLabel,
+  categoryFor,
+  whyRelevant,
+  search,
+} from "./types";
+
+import { SEMI_TOOLS, SEMI_CATEGORY_LABELS } from "@/lib/data/semi-tools";
+import { SEMI_LESSONS } from "@/lib/knowledge/semi-lessons";
+import { COMPANIES } from "@/lib/industry/companies";
+import { COMPANY_TYPE_LABELS, SITE_KIND_LABELS } from "@/lib/industry/types";
+import { SUPPLY_STAGES, SEGMENTS } from "@/lib/knowledge/supply-chain";
+import {
+  INDIA_STATES,
+  INDIA_PROJECTS,
+  INDIA_INVESTMENTS,
+  indiaFacilities,
+  getState,
+} from "@/lib/india/ecosystem";
+import { publishedArticles } from "@/lib/content/articles";
+import { CONTENT_TYPE_LABELS } from "@/lib/content/types";
+import { PROBLEMS, OPPORTUNITY_CATEGORY_BY_KEY } from "@/lib/opportunities/opportunities";
+import { SUPPLIER_CATEGORIES } from "@/lib/industry/relationships";
+import { PROJECTS } from "@/lib/projects/projects";
+// legacy / microfluidics domain
 import { TOOLS, CATEGORY_LABELS } from "@/lib/data/tools";
 import { LESSONS } from "@/lib/data/lessons";
 import { GLOSSARY } from "@/lib/data/glossary";
 import { sampleResources } from "@/lib/data/samples";
 
-/**
- * Search result types. The four current types are implemented; the rest are
- * declared now so the UI and ranking are ready for them (see FUTURE READY).
- */
-export type SearchType =
-  | "tool"
-  | "lesson"
-  | "concept"
-  | "resource"
-  // future:
-  | "paper"
-  | "company"
-  | "equipment"
-  | "course"
-  | "directory"
-  | "job"
-  | "blog";
+export { TYPE_META, typeLabel, categoryFor, whyRelevant, search };
+export type { SearchDoc, SearchResult, SearchType, MatchReason } from "./types";
 
-export interface SearchDoc {
-  id: string;
-  type: SearchType;
-  title: string;
-  description: string;
-  href: string;
-  /** Extra searchable text (not shown), e.g. category, objectives. */
-  keywords?: string;
-}
-
-/** A pluggable source of documents. Add one per content type. */
-export interface SearchSource {
-  type: SearchType;
+interface SearchSource {
   load: () => SearchDoc[];
 }
 
-/** Display metadata per type: a short uppercase label + list order. */
-export const TYPE_META: Record<
-  SearchType,
-  { label: string; order: number }
-> = {
-  tool: { label: "Tool", order: 0 },
-  lesson: { label: "Lesson", order: 1 },
-  concept: { label: "Concept", order: 2 },
-  resource: { label: "Resource", order: 3 },
-  paper: { label: "Paper", order: 4 },
-  company: { label: "Company", order: 5 },
-  equipment: { label: "Equipment", order: 6 },
-  course: { label: "Course", order: 7 },
-  directory: { label: "Directory", order: 8 },
-  job: { label: "Job", order: 9 },
-  blog: { label: "Blog", order: 10 },
-};
-
-export function typeLabel(type: SearchType): string {
-  return TYPE_META[type]?.label ?? type.toUpperCase();
-}
-
-/** The active sources (the four implemented content types). */
-export const SEARCH_SOURCES: SearchSource[] = [
+const SEARCH_SOURCES: SearchSource[] = [
+  // ---- Companies ----
   {
-    type: "tool",
+    load: () =>
+      COMPANIES.map((c) => ({
+        id: `company:${c.slug}`,
+        type: "company" as const,
+        title: c.name,
+        description: c.description,
+        href: `/industry/companies/${c.slug}`,
+        keywords: [
+          ...c.types.map((t) => COMPANY_TYPE_LABELS[t]),
+          ...(c.technologies ?? []),
+          ...(c.products ?? []),
+          c.hq.city,
+          c.hq.country,
+          c.hq.state ?? "",
+        ].join(" "),
+      })),
+  },
+  // ---- People (founders & leadership) ----
+  {
+    load: () => {
+      const docs: SearchDoc[] = [];
+      const seen = new Set<string>();
+      for (const c of COMPANIES) {
+        for (const name of c.founders ?? []) {
+          const id = `person:${name}|${c.slug}`;
+          if (seen.has(id)) continue;
+          seen.add(id);
+          docs.push({
+            id,
+            type: "person",
+            title: name,
+            description: `Founder — ${c.name}`,
+            href: `/industry/companies/${c.slug}`,
+            keywords: `${c.name} founder`,
+          });
+        }
+        for (const l of c.leadership ?? []) {
+          const id = `person:${l.name}|${c.slug}`;
+          if (seen.has(id)) continue;
+          seen.add(id);
+          docs.push({
+            id,
+            type: "person",
+            title: l.name,
+            description: `${l.role} — ${c.name}`,
+            href: `/industry/companies/${c.slug}`,
+            keywords: `${c.name} ${l.role}`,
+          });
+        }
+      }
+      return docs;
+    },
+  },
+  // ---- Facilities (India sites) ----
+  {
+    load: () =>
+      indiaFacilities().map((f) => ({
+        id: `facility:${f.company.slug}:${f.point.label}`,
+        type: "facility" as const,
+        title: `${f.point.label} — ${f.company.name}`,
+        description: `${f.point.city}${f.point.state ? `, ${f.point.state}` : ""} · ${SITE_KIND_LABELS[f.point.kind]}`,
+        href: `/industry/companies/${f.company.slug}`,
+        keywords: `${f.company.name} ${f.point.city} ${f.point.state ?? ""} ${SITE_KIND_LABELS[f.point.kind]} facility`,
+      })),
+  },
+  // ---- States ----
+  {
+    load: () =>
+      INDIA_STATES.map((s) => ({
+        id: `state:${s.slug}`,
+        type: "state" as const,
+        title: s.name,
+        description: s.tagline,
+        href: `/india/states/${s.slug}`,
+        keywords: `India state ${s.overview}`,
+      })),
+  },
+  // ---- Projects (research projects + announced India facility projects) ----
+  {
+    load: () => [
+      ...PROJECTS.map((p) => ({
+        id: `project:${p.slug}`,
+        type: "project" as const,
+        title: p.title,
+        description: p.tagline,
+        href: `/projects/${p.slug}`,
+        keywords: `${p.objective} research project`,
+      })),
+      ...INDIA_PROJECTS.map((p) => ({
+        id: `india-project:${p.slug}`,
+        type: "project" as const,
+        title: p.name,
+        description: p.summary,
+        href: `/india/states/${p.stateSlug}`,
+        keywords: `${getState(p.stateSlug)?.name ?? ""} ${p.city} ${p.kind} project facility`,
+      })),
+    ],
+  },
+  // ---- Investments ----
+  {
+    load: () =>
+      INDIA_INVESTMENTS.map((inv) => ({
+        id: `investment:${inv.slug}`,
+        type: "investment" as const,
+        title: inv.label,
+        description: `${inv.amountText} · ${getState(inv.stateSlug)?.name ?? "India"}`,
+        href: `/india/states/${inv.stateSlug}`,
+        keywords: `investment funding ${inv.amountText} ${getState(inv.stateSlug)?.name ?? ""}`,
+      })),
+  },
+  // ---- Insights ----
+  {
+    load: () =>
+      publishedArticles().map((a) => ({
+        id: `insight:${a.slug}`,
+        type: "insight" as const,
+        title: a.title,
+        description: a.excerpt,
+        href: `/articles/${a.slug}`,
+        keywords: `${CONTENT_TYPE_LABELS[a.type]} ${a.tags.join(" ")}`,
+      })),
+  },
+  // ---- Supply-chain stages ----
+  {
+    load: () =>
+      SUPPLY_STAGES.map((s) => ({
+        id: `stage:${s.slug}`,
+        type: "stage" as const,
+        title: s.name,
+        description: s.tagline,
+        href: `/supply-chain/${s.slug}`,
+        keywords: [
+          SEGMENTS.find((x) => x.id === s.segment)?.label ?? "",
+          ...s.technologies,
+        ].join(" "),
+      })),
+  },
+  // ---- Opportunities / problems ----
+  {
+    load: () =>
+      PROBLEMS.map((p) => ({
+        id: `problem:${p.slug}`,
+        type: "opportunity" as const,
+        title: p.title,
+        description: p.problem,
+        href: `/opportunities/problems/${p.slug}`,
+        keywords: `${OPPORTUNITY_CATEGORY_BY_KEY.get(p.category)?.label ?? ""} ${p.industry} problem gap opportunity`,
+      })),
+  },
+  // ---- Suppliers (equipment & materials categories) ----
+  {
+    load: () =>
+      SUPPLIER_CATEGORIES.map((c) => ({
+        id: `supplier:${c.key}`,
+        type: "supplier" as const,
+        title: c.label,
+        description: c.description,
+        href: `/suppliers#${c.key}`,
+        keywords: "supplier equipment materials",
+      })),
+  },
+  // ---- Semiconductor tools ----
+  {
+    load: () =>
+      SEMI_TOOLS.map((t) => ({
+        id: `tool:${t.slug}`,
+        type: "tool" as const,
+        title: t.name,
+        description: t.summary,
+        href: `/semiconductors/tools/${t.slug}`,
+        keywords: [SEMI_CATEGORY_LABELS[t.category], t.formula, ...(t.inputs ?? [])].join(" "),
+      })),
+  },
+  // ---- Semiconductor learning topics ----
+  {
+    load: () =>
+      SEMI_LESSONS.map((l) => ({
+        id: `lesson:${l.slug}`,
+        type: "lesson" as const,
+        title: l.title,
+        description: l.summary,
+        href: `/semiconductors/learn/${l.slug}`,
+        keywords: "learning topic semiconductor",
+      })),
+  },
+  // ---- Legacy microfluidics domain (preserved) ----
+  {
     load: () =>
       TOOLS.map((t) => ({
-        id: `tool:${t.slug}`,
+        id: `mf-tool:${t.slug}`,
         type: "tool" as const,
         title: t.name,
         description: t.summary,
@@ -84,10 +248,9 @@ export const SEARCH_SOURCES: SearchSource[] = [
       })),
   },
   {
-    type: "lesson",
     load: () =>
       LESSONS.map((l) => ({
-        id: `lesson:${l.slug}`,
+        id: `mf-lesson:${l.slug}`,
         type: "lesson" as const,
         title: l.title,
         description: l.summary,
@@ -96,7 +259,6 @@ export const SEARCH_SOURCES: SearchSource[] = [
       })),
   },
   {
-    type: "concept",
     load: () =>
       GLOSSARY.map((c) => ({
         id: `concept:${c.slug}`,
@@ -108,7 +270,6 @@ export const SEARCH_SOURCES: SearchSource[] = [
       })),
   },
   {
-    type: "resource",
     load: () =>
       sampleResources.map((r) => ({
         id: `resource:${r.slug}`,
@@ -121,53 +282,7 @@ export const SEARCH_SOURCES: SearchSource[] = [
   },
 ];
 
-/** Build the flat index from all sources. Cheap; safe to call per session. */
+/** Build the flat index from all sources. */
 export function buildSearchIndex(): SearchDoc[] {
   return SEARCH_SOURCES.flatMap((s) => s.load());
-}
-
-export interface SearchResult extends SearchDoc {
-  score: number;
-}
-
-/** Score a document against a lowercased query and its terms. */
-function scoreDoc(doc: SearchDoc, query: string, terms: string[]): number {
-  const title = doc.title.toLowerCase();
-  const keywords = (doc.keywords ?? "").toLowerCase();
-  const description = doc.description.toLowerCase();
-  const hay = `${title} ${keywords} ${description}`;
-
-  // Every term must appear somewhere (AND semantics) for a partial match.
-  if (!terms.every((t) => hay.includes(t))) return 0;
-
-  if (title === query) return 100;
-  if (title.startsWith(query)) return 80;
-  if (title.includes(query)) return 60;
-  if (keywords.includes(query)) return 40;
-  return 20; // matched only in description / across terms
-}
-
-/**
- * Case-insensitive, partial, relevance-ranked search.
- * Ties break by type order (tool → lesson → concept → resource → …) then title.
- */
-export function search(
-  query: string,
-  index: SearchDoc[] = buildSearchIndex(),
-  limit = 20,
-): SearchResult[] {
-  const q = query.trim().toLowerCase();
-  if (q === "") return [];
-  const terms = q.split(/\s+/).filter(Boolean);
-
-  return index
-    .map((doc) => ({ ...doc, score: scoreDoc(doc, q, terms) }))
-    .filter((r) => r.score > 0)
-    .sort(
-      (a, b) =>
-        b.score - a.score ||
-        TYPE_META[a.type].order - TYPE_META[b.type].order ||
-        a.title.localeCompare(b.title),
-    )
-    .slice(0, limit);
 }
