@@ -261,6 +261,12 @@ export const LEARNING_PATHS: LearningPath[] = [
       "advanced-packaging",
     ],
   },
+  {
+    id: "testing",
+    title: "Semiconductor Testing",
+    summary: "What testing is and why it exists — from first principles toward wafer sort, final test, and the test ecosystem.",
+    lessonSlugs: ["introduction-to-semiconductor-testing"],
+  },
 ];
 
 const L = (l: SemiLesson) => l;
@@ -3454,6 +3460,164 @@ export const SEMI_LESSONS: SemiLesson[] = [
     commonMistakes: ["Thinking Moore's Law is only about transistors — packaging now carries much of the progress."],
     realWorld: "Advanced packaging capacity is now a strategic constraint for the whole industry.",
     relatedLessons: ["chiplets", "2-5d", "3d-ic"],
+  }),
+
+  // ============================ PATH 5: TESTING ============================
+  L({
+    slug: "introduction-to-semiconductor-testing",
+    pathId: "testing",
+    order: 1,
+    title: "Introduction to Semiconductor Testing",
+    summary:
+      "What semiconductor testing is, why it exists, and how it fits into chip manufacturing — from first principles.",
+    whatYoullLearn: [
+      "Why semiconductor chips must be tested",
+      "What a test is actually trying to establish",
+      "How testing differs from inspection, characterization, qualification, and debugging",
+      "Why testing happens at several stages, not only at the end",
+      "The difference between a functional failure and a parametric failure",
+      "How testing affects quality, cost, reliability, and yield",
+    ],
+    whyItMatters:
+      "A fab can build a wafer perfectly on average and still produce many chips that don't work, because manufacturing varies and defects are unavoidable. Testing is how the industry decides which individual devices are good enough to ship — and it shapes quality, cost, and trust across the whole supply chain.",
+    prerequisites: ["what-is-a-semiconductor"],
+    explanation: [
+      "Semiconductor testing is the process of applying defined electrical (and sometimes optical, thermal, or mechanical) stimuli to a device and measuring its response against specified requirements. Automated test equipment drives known inputs into the device under test (DUT) and compares the measured outputs to the limits in the device's specification.",
+      "Testing is not a single operation performed only at the end of manufacturing. The same device may be tested on the wafer, again after it is packaged, and — for some products — stress-tested during qualification and validated inside a system. Each stage answers a different question at a different cost.",
+      "How a device is tested depends heavily on what it is. A microcontroller or processor needs functional and timing tests; a memory needs exhaustive pattern and repair tests; an analog or mixed-signal IC needs precise voltage and current measurements; an RF chip needs high-frequency measurements; a power semiconductor needs high-voltage and high-current tests; and sensors need stimulus-specific tests. There is no single universal test.",
+      "Testing is necessary because manufacturing is never perfect. Process variation shifts electrical parameters from die to die; random and systematic defects create opens, shorts, and weak spots; timing and frequency limits vary; leakage and power can drift; and some devices simply don't function. On top of physics, customers impose their own specifications, and the economic cost of shipping a defective device — especially into a car, data centre, or medical system — is far higher than the cost of catching it in test.",
+    ],
+    visual:
+      "A simple test loop: the tester applies known stimuli (voltages, signals, clock) to the device under test, measures the responses, and compares them to the specification limits — returning a pass or fail (and often a bin).",
+    intuition: [
+      "Think of a factory testing a finished electronic product before it ships: plug it in, press the buttons, confirm it behaves as advertised, and set aside the ones that don't.",
+      "Where the analogy stops: semiconductor testing works on devices far too small and fast to check by hand. It applies precise electrical stimuli, measures currents and voltages at high accuracy, checks timing at high frequency, and does it under automation — often testing many devices in parallel in a fraction of a second each.",
+    ],
+    quickStart: [
+      "A test applies known inputs and checks the outputs against a specification.",
+      "Testing happens at multiple stages (wafer, package, sometimes system), not just at the end.",
+      "A pass means the device met the applied test criteria — not that every possible defect was ruled out.",
+    ],
+    howItWorks: [
+      "Stimulus: the tester applies defined inputs — supply voltages, digital patterns, analog signals, a clock — to the device under test.",
+      "Measurement: it measures the device's response (output logic states, currents, voltages, timing, frequency behaviour).",
+      "Comparison: each measurement is compared to the limits in the device specification. If every applied test is within limits, the device passes; otherwise it fails and is often 'binned' by failure type.",
+      "This splits naturally into two kinds of question — does the device do the right thing (functional), and are its electrical parameters within limits (parametric) — usually both are checked.",
+    ],
+    steps: [
+      { name: "Design-time testability", detail: "Testability and verification are considered during design — adding test structures (scan chains, built-in self-test) so the finished device can actually be tested." },
+      { name: "Wafer probe / wafer sort", detail: "Each die is contacted on the wafer by a probe card and tested; good dies are mapped so only they move forward." },
+      { name: "Die selection / known-good die", detail: "Dies that passed wafer test are selected for packaging; this matters especially when several dies share one package." },
+      { name: "Package-level & final test", detail: "After packaging, the device is tested again — packaging can introduce new issues, and final test confirms the shipped part meets spec." },
+      { name: "Reliability qualification", detail: "Burn-in and stress tests check that devices keep working over time — often on samples during qualification rather than on every production unit." },
+      { name: "System-level testing", detail: "Where appropriate, devices are validated in a realistic system context; this complements, and does not replace, the earlier stages." },
+    ],
+    terminology: [
+      { term: "Device under test (DUT)", def: "The chip or die currently being tested." },
+      { term: "Automated test equipment (ATE)", def: "The machine that applies stimuli and measures a device's response automatically." },
+      { term: "Functional test", def: "A test that checks whether the device performs its intended operations." },
+      { term: "Parametric test", def: "A test that checks whether electrical parameters (currents, voltages, timing) meet specified limits." },
+      { term: "Specification (spec)", def: "The set of requirements and limits a device is tested against." },
+      { term: "Guard band", def: "A margin applied to a test limit to account for measurement uncertainty." },
+      { term: "Bin", def: "A category a tested device is sorted into (e.g. pass, specific failure types, speed grade)." },
+      { term: "Yield", def: "The fraction of manufactured devices that pass test." },
+    ],
+    example:
+      "Illustrative only — the numbers below are hypothetical, not real industry limits. Imagine a small logic IC with an illustrative spec. A test program might check: (1) supply current in standby is below an illustrative limit (a leakage/parametric check); (2) each output drives the correct high and low logic level for a set of input patterns (a functional check); (3) the device responds correctly within an illustrative timing window at a given clock rate (a timing check). If all applied tests fall within their limits, the device passes; if the standby current is too high, it fails on that parameter even though it may still 'function'.",
+    commonMistakes: [
+      "\"If a chip powers on, it is good.\" Powering on shows it isn't completely dead — it says nothing about whether outputs, timing, leakage, or functionality meet spec.",
+      "\"Every chip undergoes every possible test.\" Test content is chosen for coverage versus cost and time; no device is subjected to every conceivable test, and some reliability tests run only on samples.",
+      "\"Final testing catches every manufacturing defect.\" Test detects the defects its content is designed to catch; escapes are reduced, not eliminated, and a pass is not a guarantee against every future failure.",
+      "\"Inspection and electrical testing are the same.\" Inspection looks for physical/visual defects (often optically); electrical testing drives the device and measures its electrical behaviour. They are complementary, not interchangeable.",
+      "\"Testing is only a quality-control expense.\" Test also generates the data that drives yield learning, speed binning, and reliability — it is an information source, not just a cost centre.",
+    ],
+    deepDives: [
+      {
+        id: "testing-vs-related",
+        level: "engineer",
+        title: "Testing versus related activities",
+        intro: "Several activities are easy to confuse with production testing. They differ in purpose, timing, and what they produce.",
+        table: {
+          caption: "How production test differs from neighbouring activities",
+          columns: ["Activity", "Purpose", "Typical timing", "Expected output"],
+          rows: [
+            ["Design verification", "Confirm the design is correct before manufacturing", "Design phase (pre-silicon)", "Verified design / sign-off"],
+            ["Fabrication inspection", "Find physical/visual defects on the wafer", "During wafer fabrication", "Defect maps, process feedback"],
+            ["Wafer-level electrical test", "Screen dies electrically on the wafer", "After fab, before packaging", "Good-die map (wafer sort)"],
+            ["Final production test", "Confirm packaged parts meet spec", "After packaging", "Pass/fail, bins, shippable parts"],
+            ["Characterization", "Understand how a device behaves across conditions", "Early production / engineering", "Datasheet limits, margins"],
+            ["Reliability qualification", "Show devices survive over time/stress", "Qualification (often on samples)", "Qualification report"],
+            ["Failure analysis", "Find the root cause of a failure", "After a failure is seen", "Root-cause explanation"],
+            ["System-level test", "Validate the device in a realistic system", "Where appropriate", "System-context pass/fail"],
+          ],
+        },
+        note: "The same physical device can pass through several of these — they answer different questions, not the same question twice.",
+      },
+      {
+        id: "functional-vs-parametric",
+        level: "engineer",
+        title: "Functional versus parametric testing",
+        body: [
+          "Most test programs combine two complementary kinds of test.",
+        ],
+        bullets: [
+          "Functional test asks: does the device perform its intended operations? For example, do the right outputs appear for a set of input patterns?",
+          "Parametric test asks: are the electrical parameters within their specified limits? For example, is the supply current, output voltage, or timing within range?",
+          "A device can be functionally correct but parametrically out of spec (e.g. it works but draws too much current), or parametrically fine but functionally wrong — so both are usually checked.",
+        ],
+        note: "Examples here are illustrative; real acceptance limits are device- and product-specific and are not universal.",
+      },
+      {
+        id: "pass-fail-guard-bands",
+        level: "advanced",
+        title: "Pass/fail, limits, and guard bands",
+        body: [
+          "A specification defines limits a device must meet. A test measures a value and compares it to a test limit. But every measurement has some uncertainty, so a measured value near the limit may be ambiguous.",
+          "To avoid passing a bad device because of measurement error, test limits are often tightened by a guard band — a margin that accounts for measurement uncertainty. This reduces the chance of a bad device passing, at the cost of occasionally failing a marginal-but-good device.",
+        ],
+        bullets: [
+          "A pass means the device met the applied test criteria within the guard-banded limits.",
+          "It does not mean every possible defect has been ruled out, or that the device will never fail in future.",
+          "Tighter guard bands trade a lower escape rate for a higher chance of rejecting good parts (over-kill).",
+        ],
+      },
+    ],
+    designImplications: [
+      "Design-for-testability (DfT) adds structures such as scan chains and built-in self-test so the finished device can be tested efficiently — testing starts as a design decision, not a manufacturing afterthought.",
+    ],
+    industryContext: [
+      "Much testing is performed by OSAT/ATMP companies alongside assembly and packaging, or in-house by IDMs.",
+      "Test time is cost: the longer a device sits on an expensive tester, the more each chip costs, so test content is a constant balance of coverage versus time.",
+      "Test data feeds yield learning and reliability — it is one of the richest information sources in the whole manufacturing flow.",
+    ],
+    keyTakeaways: [
+      "Testing applies known stimuli and compares measured responses to a specification.",
+      "It happens at multiple stages (wafer, package, and sometimes system), each answering a different question.",
+      "Functional tests check behaviour; parametric tests check electrical limits — usually both.",
+      "A pass means the device met the applied test criteria, not that every possible defect was ruled out.",
+      "Testing shapes quality, reliability, yield, and cost across the ecosystem.",
+    ],
+    references: [
+      { title: "Essentials of Electronic Testing for Digital, Memory and Mixed-Signal VLSI Circuits", author: "M. L. Bushnell and V. D. Agrawal", publisher: "Springer", kind: "textbook" },
+      { title: "VLSI Test Principles and Architectures: Design for Testability", author: "L.-T. Wang, C.-W. Wu, and X. Wen", publisher: "Morgan Kaufmann / Elsevier", kind: "textbook" },
+      { title: "JEDEC reliability qualification standards (JESD series)", publisher: "JEDEC", kind: "standards", note: "Industry standards for reliability qualification." },
+      { title: "SEMI standards for semiconductor test and equipment", publisher: "SEMI", kind: "standards", note: "Standards body for semiconductor equipment and materials." },
+    ],
+    connections: [
+      { label: "Wafer test (next step)", href: "/semiconductors/learn/wafer-test" },
+      { label: "Final test", href: "/semiconductors/learn/final-test" },
+      { label: "Metrology & measurement", href: "/semiconductors/learn/metrology" },
+      { label: "Automated test equipment", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "Wafer probing & probe cards", href: "/semiconductors/equipment/wafer-probing" },
+      { label: "The testing supply-chain stage", href: "/supply-chain/testing" },
+      { label: "Testing overview", href: "/semiconductors/testing" },
+    ],
+    relatedLessons: ["wafer-test", "final-test", "metrology"],
+    journeyRecap: "You now know what testing is, why it exists, and the stages it spans.",
+    journeyNext: "wafer-test",
+    journeyNextWhy: "See the first production screen in action — testing each die on the wafer.",
+    realWorld:
+      "Every chip in a phone, car, or data centre passed through test stages like these before it shipped — and the test data generated along the way is what lets manufacturers improve yield and reliability.",
   }),
 ];
 
