@@ -4,6 +4,7 @@ import { ProcessWindowExplorer } from "@/components/tools/semi/ProcessWindowExpl
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Lithography process window explorer",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="process-window-explorer" />
       <TrackView event="tool_opened" payload={{ tool: "process-window-explorer" }} />
       <ProcessWindowExplorer />
+      <ToolEcosystem slug="process-window-explorer" />
     </Container>
   );
 }

@@ -4,6 +4,7 @@ import { InterconnectCapacityCalculator } from "@/components/tools/semi/Intercon
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Interconnect capacity calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="interconnect-count" />
       <TrackView event="tool_opened" payload={{ tool: "interconnect-count" }} />
       <InterconnectCapacityCalculator />
+      <ToolEcosystem slug="interconnect-count" />
     </Container>
   );
 }

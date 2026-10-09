@@ -4,6 +4,7 @@ import { ConductivityCalculator } from "@/components/tools/semi/ConductivityCalc
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Semiconductor conductivity calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="conductivity" />
       <TrackView event="tool_opened" payload={{ tool: "conductivity" }} />
       <ConductivityCalculator />
+      <ToolEcosystem slug="conductivity" />
     </Container>
   );
 }

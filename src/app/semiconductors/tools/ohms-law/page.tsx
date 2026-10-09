@@ -4,6 +4,7 @@ import { OhmsLawCalculator } from "@/components/tools/semi/OhmsLawCalculator";
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Ohm's law calculator",
@@ -18,6 +19,7 @@ export default function OhmsLawPage() {
       <SemiToolSeo slug="ohms-law" />
       <TrackView event="tool_opened" payload={{ tool: "ohms-law" }} />
       <OhmsLawCalculator />
+      <ToolEcosystem slug="ohms-law" />
     </Container>
   );
 }

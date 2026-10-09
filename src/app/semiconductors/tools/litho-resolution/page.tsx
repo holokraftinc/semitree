@@ -4,6 +4,7 @@ import { LithoResolutionCalculator } from "@/components/tools/semi/LithoResoluti
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Lithography resolution calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="litho-resolution" />
       <TrackView event="tool_opened" payload={{ tool: "litho-resolution" }} />
       <LithoResolutionCalculator />
+      <ToolEcosystem slug="litho-resolution" />
     </Container>
   );
 }

@@ -4,6 +4,7 @@ import { CarrierConcentrationCalculator } from "@/components/tools/semi/CarrierC
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Carrier concentration calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="carrier-concentration" />
       <TrackView event="tool_opened" payload={{ tool: "carrier-concentration" }} />
       <CarrierConcentrationCalculator />
+      <ToolEcosystem slug="carrier-concentration" />
     </Container>
   );
 }

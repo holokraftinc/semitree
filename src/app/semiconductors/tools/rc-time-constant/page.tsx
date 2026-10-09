@@ -4,6 +4,7 @@ import { RcTimeConstantCalculator } from "@/components/tools/semi/RcTimeConstant
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "RC time constant calculator",
@@ -18,6 +19,7 @@ export default function RcTimeConstantPage() {
       <SemiToolSeo slug="rc-time-constant" />
       <TrackView event="tool_opened" payload={{ tool: "rc-time-constant" }} />
       <RcTimeConstantCalculator />
+      <ToolEcosystem slug="rc-time-constant" />
     </Container>
   );
 }

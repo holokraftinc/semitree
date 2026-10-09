@@ -4,6 +4,7 @@ import { DopingChainCalculator } from "@/components/tools/semi/DopingChainCalcul
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Doping to sheet resistance chain",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="doping-chain" />
       <TrackView event="tool_opened" payload={{ tool: "doping-chain" }} />
       <DopingChainCalculator />
+      <ToolEcosystem slug="doping-chain" />
     </Container>
   );
 }

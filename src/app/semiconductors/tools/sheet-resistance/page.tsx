@@ -4,6 +4,7 @@ import { SheetResistanceCalculator } from "@/components/tools/semi/SheetResistan
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Sheet resistance calculator",
@@ -18,6 +19,7 @@ export default function SheetResistancePage() {
       <SemiToolSeo slug="sheet-resistance" />
       <TrackView event="tool_opened" payload={{ tool: "sheet-resistance" }} />
       <SheetResistanceCalculator />
+      <ToolEcosystem slug="sheet-resistance" />
     </Container>
   );
 }

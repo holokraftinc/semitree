@@ -4,6 +4,7 @@ import { ChannelGeometryExplorer } from "@/components/tools/semi/ChannelGeometry
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Channel length / geometry explorer",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="channel-geometry-explorer" />
       <TrackView event="tool_opened" payload={{ tool: "channel-geometry-explorer" }} />
       <ChannelGeometryExplorer />
+      <ToolEcosystem slug="channel-geometry-explorer" />
     </Container>
   );
 }

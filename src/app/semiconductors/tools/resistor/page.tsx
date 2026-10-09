@@ -4,6 +4,7 @@ import { ResistorCalculator } from "@/components/tools/semi/ResistorCalculator";
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Resistor calculator (R = rho L / A)",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="resistor" />
       <TrackView event="tool_opened" payload={{ tool: "resistor" }} />
       <ResistorCalculator />
+      <ToolEcosystem slug="resistor" />
     </Container>
   );
 }

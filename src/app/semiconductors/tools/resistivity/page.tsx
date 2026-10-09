@@ -4,6 +4,7 @@ import { ResistivityCalculator } from "@/components/tools/semi/ResistivityCalcul
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Resistivity calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="resistivity" />
       <TrackView event="tool_opened" payload={{ tool: "resistivity" }} />
       <ResistivityCalculator />
+      <ToolEcosystem slug="resistivity" />
     </Container>
   );
 }

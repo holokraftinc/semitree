@@ -4,6 +4,7 @@ import { InterconnectResistanceCalculator } from "@/components/tools/semi/Interc
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Interconnect resistance calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="interconnect-resistance" />
       <TrackView event="tool_opened" payload={{ tool: "interconnect-resistance" }} />
       <InterconnectResistanceCalculator />
+      <ToolEcosystem slug="interconnect-resistance" />
     </Container>
   );
 }

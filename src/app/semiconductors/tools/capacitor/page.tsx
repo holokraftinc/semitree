@@ -4,6 +4,7 @@ import { CapacitorCalculator } from "@/components/tools/semi/CapacitorCalculator
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Parallel-plate capacitor calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="capacitor" />
       <TrackView event="tool_opened" payload={{ tool: "capacitor" }} />
       <CapacitorCalculator />
+      <ToolEcosystem slug="capacitor" />
     </Container>
   );
 }

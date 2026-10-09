@@ -4,6 +4,7 @@ import { SemiUnitConverter } from "@/components/tools/semi/SemiUnitConverter";
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Semiconductor unit converter",
@@ -18,6 +19,7 @@ export default function UnitConverterPage() {
       <SemiToolSeo slug="unit-converter" />
       <TrackView event="tool_opened" payload={{ tool: "unit-converter" }} />
       <SemiUnitConverter />
+      <ToolEcosystem slug="unit-converter" />
     </Container>
   );
 }

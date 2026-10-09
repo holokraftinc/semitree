@@ -4,6 +4,7 @@ import { DoseExposureCalculator } from "@/components/tools/semi/DoseExposureCalc
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Exposure dose calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="dose-exposure" />
       <TrackView event="tool_opened" payload={{ tool: "dose-exposure" }} />
       <DoseExposureCalculator />
+      <ToolEcosystem slug="dose-exposure" />
     </Container>
   );
 }

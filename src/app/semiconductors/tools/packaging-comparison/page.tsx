@@ -4,6 +4,7 @@ import { PackagingComparison } from "@/components/tools/semi/PackagingComparison
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "2D / 2.5D / 3D packaging comparison",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="packaging-comparison" />
       <TrackView event="tool_opened" payload={{ tool: "packaging-comparison" }} />
       <PackagingComparison />
+      <ToolEcosystem slug="packaging-comparison" />
     </Container>
   );
 }

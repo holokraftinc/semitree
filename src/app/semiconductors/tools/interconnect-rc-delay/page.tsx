@@ -4,6 +4,7 @@ import { InterconnectRcDelayCalculator } from "@/components/tools/semi/Interconn
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Interconnect RC delay calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="interconnect-rc-delay" />
       <TrackView event="tool_opened" payload={{ tool: "interconnect-rc-delay" }} />
       <InterconnectRcDelayCalculator />
+      <ToolEcosystem slug="interconnect-rc-delay" />
     </Container>
   );
 }

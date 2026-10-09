@@ -4,6 +4,7 @@ import { ScientificNotationCalculator } from "@/components/tools/semi/Scientific
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Scientific notation converter",
@@ -18,6 +19,7 @@ export default function ScientificNotationPage() {
       <SemiToolSeo slug="scientific-notation" />
       <TrackView event="tool_opened" payload={{ tool: "scientific-notation" }} />
       <ScientificNotationCalculator />
+      <ToolEcosystem slug="scientific-notation" />
     </Container>
   );
 }

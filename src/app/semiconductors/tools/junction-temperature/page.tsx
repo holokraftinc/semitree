@@ -4,6 +4,7 @@ import { JunctionTemperatureCalculator } from "@/components/tools/semi/JunctionT
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Junction temperature calculator",
@@ -18,6 +19,7 @@ export default function JunctionTemperaturePage() {
       <SemiToolSeo slug="junction-temperature" />
       <TrackView event="tool_opened" payload={{ tool: "junction-temperature" }} />
       <JunctionTemperatureCalculator />
+      <ToolEcosystem slug="junction-temperature" />
     </Container>
   );
 }

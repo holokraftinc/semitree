@@ -4,6 +4,7 @@ import { ThermalBudgetCalculator } from "@/components/tools/semi/ThermalBudgetCa
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Thermal budget calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="thermal-budget" />
       <TrackView event="tool_opened" payload={{ tool: "thermal-budget" }} />
       <ThermalBudgetCalculator />
+      <ToolEcosystem slug="thermal-budget" />
     </Container>
   );
 }

@@ -4,6 +4,7 @@ import { DiodeExplorer } from "@/components/tools/semi/DiodeExplorer";
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Diode I-V explorer",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="diode-explorer" />
       <TrackView event="tool_opened" payload={{ tool: "diode-explorer" }} />
       <DiodeExplorer />
+      <ToolEcosystem slug="diode-explorer" />
     </Container>
   );
 }

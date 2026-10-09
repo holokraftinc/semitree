@@ -4,6 +4,7 @@ import { DopingConversionCalculator } from "@/components/tools/semi/DopingConver
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Doping concentration to count converter",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="doping-conversion" />
       <TrackView event="tool_opened" payload={{ tool: "doping-conversion" }} />
       <DopingConversionCalculator />
+      <ToolEcosystem slug="doping-conversion" />
     </Container>
   );
 }

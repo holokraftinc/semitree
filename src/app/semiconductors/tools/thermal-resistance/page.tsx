@@ -4,6 +4,7 @@ import { ThermalResistanceCalculator } from "@/components/tools/semi/ThermalResi
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Thermal resistance calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="thermal-resistance" />
       <TrackView event="tool_opened" payload={{ tool: "thermal-resistance" }} />
       <ThermalResistanceCalculator />
+      <ToolEcosystem slug="thermal-resistance" />
     </Container>
   );
 }

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { Alert } from "@/components/ui/Alert";
 import { Badge } from "@/components/ui/Badge";
 import { getSemiLesson } from "@/lib/knowledge/semi-lessons";
+import { relatedToolsForLesson } from "@/lib/knowledge/lesson-connections";
 import { getProcessLinkForEquipment } from "@/lib/knowledge/process-links";
 import { getProcess } from "@/lib/knowledge/manufacturing";
 import { ManufacturingRelationship } from "@/components/semiconductors/ManufacturingRelationship";
@@ -68,6 +69,17 @@ function lessonChips(slugs: string[]): TopicLink[] {
     .filter((x): x is TopicLink => x !== null);
 }
 
+function toolChipsFromLessons(slugs: string[]): TopicLink[] {
+  const seen = new Set<string>();
+  const out: TopicLink[] = [];
+  for (const s of slugs) {
+    for (const t of relatedToolsForLesson(s)) {
+      if (!seen.has(t.href)) { seen.add(t.href); out.push({ label: t.label, href: t.href }); }
+    }
+  }
+  return out.slice(0, 6);
+}
+
 function ChipRow({ links }: { links: TopicLink[] }) {
   return (
     <div className="flex flex-wrap gap-2">
@@ -94,6 +106,7 @@ export function EquipmentTopicView({ topic }: { topic: EquipmentTopic }) {
   const t = topic;
   const conceptChips = t.relatedConceptLessons ? lessonChips(t.relatedConceptLessons) : [];
   const processChips = t.relatedProcessLessons ? lessonChips(t.relatedProcessLessons) : [];
+  const toolChips = toolChipsFromLessons([...(t.relatedProcessLessons ?? []), ...(t.relatedConceptLessons ?? [])]);
   const mfgLink = getProcessLinkForEquipment(t.slug);
   const seeProcess = mfgLink?.manufacturingSlug
     ? { label: `${mfgLink.process} process`, href: `/manufacturing/${mfgLink.manufacturingSlug}` }
@@ -230,11 +243,14 @@ export function EquipmentTopicView({ topic }: { topic: EquipmentTopic }) {
       {t.advanced && t.advanced.length > 0 && <AdvancedResearch items={t.advanced} />}
 
       {/* Connections */}
-      {(conceptChips.length > 0 || processChips.length > 0 || t.relatedMaterials?.length || t.relatedEquipment?.length) && (
+      {(conceptChips.length > 0 || processChips.length > 0 || toolChips.length > 0 || t.relatedMaterials?.length || t.relatedEquipment?.length) && (
         <Section id="related" title="How this connects">
           <div className="grid gap-5 sm:grid-cols-2">
             {processChips.length > 0 && (
               <div className="space-y-2"><h3 className="text-sm font-semibold">Related process</h3><ChipRow links={processChips} /></div>
+            )}
+            {toolChips.length > 0 && (
+              <div className="space-y-2"><h3 className="text-sm font-semibold">Related tools</h3><ChipRow links={toolChips} /></div>
             )}
             {conceptChips.length > 0 && (
               <div className="space-y-2"><h3 className="text-sm font-semibold">Related concepts</h3><ChipRow links={conceptChips} /></div>

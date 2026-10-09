@@ -4,6 +4,7 @@ import { BumpPitchCalculator } from "@/components/tools/semi/BumpPitchCalculator
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Bump / interconnect pitch calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="bump-pitch" />
       <TrackView event="tool_opened" payload={{ tool: "bump-pitch" }} />
       <BumpPitchCalculator />
+      <ToolEcosystem slug="bump-pitch" />
     </Container>
   );
 }

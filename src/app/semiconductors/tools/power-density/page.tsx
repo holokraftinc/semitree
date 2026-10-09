@@ -4,6 +4,7 @@ import { PowerDensityCalculator } from "@/components/tools/semi/PowerDensityCalc
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Power density calculator",
@@ -18,6 +19,7 @@ export default function PowerDensityPage() {
       <SemiToolSeo slug="power-density" />
       <TrackView event="tool_opened" payload={{ tool: "power-density" }} />
       <PowerDensityCalculator />
+      <ToolEcosystem slug="power-density" />
     </Container>
   );
 }

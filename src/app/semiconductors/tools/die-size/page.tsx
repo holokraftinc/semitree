@@ -4,6 +4,7 @@ import { DieSizeCalculator } from "@/components/tools/semi/DieSizeCalculator";
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Die size & area calculator",
@@ -18,6 +19,7 @@ export default function DieSizePage() {
       <SemiToolSeo slug="die-size" />
       <TrackView event="tool_opened" payload={{ tool: "die-size" }} />
       <DieSizeCalculator />
+      <ToolEcosystem slug="die-size" />
     </Container>
   );
 }

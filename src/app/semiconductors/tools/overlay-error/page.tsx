@@ -4,6 +4,7 @@ import { OverlayErrorCalculator } from "@/components/tools/semi/OverlayErrorCalc
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Overlay error budget calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="overlay-error" />
       <TrackView event="tool_opened" payload={{ tool: "overlay-error" }} />
       <OverlayErrorCalculator />
+      <ToolEcosystem slug="overlay-error" />
     </Container>
   );
 }

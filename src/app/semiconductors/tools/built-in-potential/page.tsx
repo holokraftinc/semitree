@@ -4,6 +4,7 @@ import { BuiltInPotentialCalculator } from "@/components/tools/semi/BuiltInPoten
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Built-in potential calculator",
@@ -18,6 +19,7 @@ export default function BuiltInPotentialPage() {
       <SemiToolSeo slug="built-in-potential" />
       <TrackView event="tool_opened" payload={{ tool: "built-in-potential" }} />
       <BuiltInPotentialCalculator />
+      <ToolEcosystem slug="built-in-potential" />
     </Container>
   );
 }

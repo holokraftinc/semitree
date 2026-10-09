@@ -4,6 +4,7 @@ import { MosCapacitorExplorer } from "@/components/tools/semi/MosCapacitorExplor
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "MOS capacitor explorer",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="mos-capacitor-explorer" />
       <TrackView event="tool_opened" payload={{ tool: "mos-capacitor-explorer" }} />
       <MosCapacitorExplorer />
+      <ToolEcosystem slug="mos-capacitor-explorer" />
     </Container>
   );
 }

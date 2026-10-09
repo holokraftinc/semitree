@@ -4,6 +4,7 @@ import { DiePerWaferCalculator } from "@/components/tools/semi/DiePerWaferCalcul
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Die per wafer calculator",
@@ -18,6 +19,7 @@ export default function DiePerWaferPage() {
       <SemiToolSeo slug="die-per-wafer" />
       <TrackView event="tool_opened" payload={{ tool: "die-per-wafer" }} />
       <DiePerWaferCalculator />
+      <ToolEcosystem slug="die-per-wafer" />
     </Container>
   );
 }

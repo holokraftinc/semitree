@@ -4,6 +4,7 @@ import { EtchComparison } from "@/components/tools/semi/EtchComparison";
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Etch method comparison",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="etch-comparison" />
       <TrackView event="tool_opened" payload={{ tool: "etch-comparison" }} />
       <EtchComparison />
+      <ToolEcosystem slug="etch-comparison" />
     </Container>
   );
 }

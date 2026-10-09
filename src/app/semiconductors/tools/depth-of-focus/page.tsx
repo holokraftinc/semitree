@@ -4,6 +4,7 @@ import { DepthOfFocusCalculator } from "@/components/tools/semi/DepthOfFocusCalc
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Depth of focus estimator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="depth-of-focus" />
       <TrackView event="tool_opened" payload={{ tool: "depth-of-focus" }} />
       <DepthOfFocusCalculator />
+      <ToolEcosystem slug="depth-of-focus" />
     </Container>
   );
 }

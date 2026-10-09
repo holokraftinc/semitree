@@ -4,6 +4,7 @@ import { PowerDissipationCalculator } from "@/components/tools/semi/PowerDissipa
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Power dissipation calculator",
@@ -18,6 +19,7 @@ export default function PowerDissipationPage() {
       <SemiToolSeo slug="power-dissipation" />
       <TrackView event="tool_opened" payload={{ tool: "power-dissipation" }} />
       <PowerDissipationCalculator />
+      <ToolEcosystem slug="power-dissipation" />
     </Container>
   );
 }

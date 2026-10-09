@@ -4,6 +4,7 @@ import { EtchTimeCalculator } from "@/components/tools/semi/EtchTimeCalculator";
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Etch time estimator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="etch-time" />
       <TrackView event="tool_opened" payload={{ tool: "etch-time" }} />
       <EtchTimeCalculator />
+      <ToolEcosystem slug="etch-time" />
     </Container>
   );
 }

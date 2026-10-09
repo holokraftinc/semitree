@@ -4,6 +4,7 @@ import { AspectRatioCalculator } from "@/components/tools/semi/AspectRatioCalcul
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Aspect ratio calculator",
@@ -18,6 +19,7 @@ export default function AspectRatioPage() {
       <SemiToolSeo slug="aspect-ratio" />
       <TrackView event="tool_opened" payload={{ tool: "aspect-ratio" }} />
       <AspectRatioCalculator />
+      <ToolEcosystem slug="aspect-ratio" />
     </Container>
   );
 }

@@ -4,6 +4,7 @@ import { FilmThicknessCalculator } from "@/components/tools/semi/FilmThicknessCa
 import { SemiToolSeo } from "@/components/seo/SemiToolSeo";
 import { TrackView } from "@/components/analytics/TrackView";
 import { pageMeta } from "@/lib/seo";
+import { ToolEcosystem } from "@/components/tools/ToolEcosystem";
 
 export const metadata: Metadata = pageMeta({
   title: "Film thickness / volume calculator",
@@ -18,6 +19,7 @@ export default function Page() {
       <SemiToolSeo slug="film-thickness" />
       <TrackView event="tool_opened" payload={{ tool: "film-thickness" }} />
       <FilmThicknessCalculator />
+      <ToolEcosystem slug="film-thickness" />
     </Container>
   );
 }
