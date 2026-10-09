@@ -5,7 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackView } from "@/components/analytics/TrackView";
-import { PROJECTS, getProject, PROJECT_STATUS_META } from "@/lib/projects/projects";
+import { PROJECTS, getProject, PROJECT_STATUS_META, projectNeighbors } from "@/lib/projects/projects";
+import { PrevNext } from "@/components/platform/PrevNext";
 import { getCompany } from "@/lib/industry/companies";
 import { getArticle } from "@/lib/content/articles";
 import { getProblem, PROBLEM_STATUS_META } from "@/lib/opportunities/opportunities";
@@ -194,7 +195,21 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <List title="Next steps" items={p.nextSteps} />
       </section>
 
-      <nav className="border-t border-border pt-6">
+      {/* Previous / next project */}
+      {(() => {
+        const { prev, next } = projectNeighbors(p.slug);
+        return (
+          <PrevNext
+            ariaLabel="Project navigation"
+            prevKicker="← Previous project"
+            nextKicker="Next project →"
+            prev={prev ? { href: `/projects/${prev.slug}`, label: prev.title } : undefined}
+            next={next ? { href: `/projects/${next.slug}`, label: next.title } : undefined}
+          />
+        );
+      })()}
+
+      <nav className="pt-2">
         <Link href="/projects" className={linkClass}>← All projects</Link>
       </nav>
     </Container>

@@ -328,3 +328,14 @@ export function articlesInCategory(key: string): Article[] {
   if (!cat) return [];
   return publishedArticles().filter(cat.match);
 }
+
+/**
+ * Chronological neighbours for an article. `publishedArticles()` is newest-first,
+ * so the entry AFTER it in that list is OLDER and the one BEFORE is NEWER.
+ */
+export function articleNeighbors(slug: string): { older?: Article; newer?: Article } {
+  const list = publishedArticles();
+  const i = list.findIndex((a) => a.slug === slug);
+  if (i === -1) return {};
+  return { newer: i > 0 ? list[i - 1] : undefined, older: i < list.length - 1 ? list[i + 1] : undefined };
+}

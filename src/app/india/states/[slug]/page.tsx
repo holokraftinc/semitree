@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/industry/StatusBadge";
 import {
   INDIA_STATES,
   getState,
+  adjacentStates,
   companiesForState,
   facilitiesForState,
   facilitiesOfKind,
@@ -22,6 +23,7 @@ import {
 } from "@/lib/india/ecosystem";
 import { COMPANY_TYPE_LABELS, SITE_KIND_LABELS } from "@/lib/industry/types";
 import { getCompany } from "@/lib/industry/companies";
+import { PrevNext } from "@/components/platform/PrevNext";
 import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const dynamicParams = false;
@@ -312,8 +314,22 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
         </section>
       )}
 
+      {/* Previous / next state */}
+      {(() => {
+        const { prev, next } = adjacentStates(st.slug);
+        return (
+          <PrevNext
+            ariaLabel="State navigation"
+            prevKicker="← Previous state"
+            nextKicker="Next state →"
+            prev={prev ? { href: `/india/states/${prev.slug}`, label: prev.name } : undefined}
+            next={next ? { href: `/india/states/${next.slug}`, label: next.name } : undefined}
+          />
+        );
+      })()}
+
       {/* Back */}
-      <nav className="border-t border-border pt-6">
+      <nav className="pt-2">
         <Link href="/india" className={linkClass}>← All of India&apos;s ecosystem</Link>
       </nav>
     </Container>

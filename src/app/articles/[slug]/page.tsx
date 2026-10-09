@@ -9,8 +9,9 @@ import { NewsletterSignup } from "@/components/home/NewsletterSignup";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackView } from "@/components/analytics/TrackView";
 import { ButtonLink } from "@/components/ui/Button";
-import { ARTICLES, getArticle, relatedArticleObjects } from "@/lib/content/articles";
+import { ARTICLES, getArticle, relatedArticleObjects, articleNeighbors } from "@/lib/content/articles";
 import { articleLinks } from "@/lib/content/article-links";
+import { PrevNext } from "@/components/platform/PrevNext";
 import { getAuthor } from "@/lib/content/authors";
 import { CONTENT_TYPE_LABELS, readingTimeMinutes, type ArticleAnalysis } from "@/lib/content/types";
 import { getSemiTool } from "@/lib/data/semi-tools";
@@ -210,6 +211,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </ul>
           </section>
         )}
+
+        {/* Older / newer */}
+        {(() => {
+          const { older, newer } = articleNeighbors(article.slug);
+          return (
+            <PrevNext
+              ariaLabel="Article navigation"
+              prevKicker="← Older"
+              nextKicker="Newer →"
+              prev={older ? { href: `/articles/${older.slug}`, label: older.title } : undefined}
+              next={newer ? { href: `/articles/${newer.slug}`, label: newer.title } : undefined}
+            />
+          );
+        })()}
 
         <NewsletterSignup />
       </article>

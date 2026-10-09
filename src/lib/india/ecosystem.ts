@@ -273,6 +273,13 @@ export function getState(slug: string): IndiaState | undefined {
   return STATE_BY_SLUG.get(slug);
 }
 
+/** Previous / next state in listing order, for the pager. */
+export function adjacentStates(slug: string): { prev?: IndiaState; next?: IndiaState } {
+  const i = INDIA_STATES.findIndex((s) => s.slug === slug);
+  if (i === -1) return {};
+  return { prev: i > 0 ? INDIA_STATES[i - 1] : undefined, next: i < INDIA_STATES.length - 1 ? INDIA_STATES[i + 1] : undefined };
+}
+
 export function stateSlugForName(name: string | undefined): string | undefined {
   return name ? STATE_SLUG_BY_NAME.get(name) : undefined;
 }

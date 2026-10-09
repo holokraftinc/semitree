@@ -291,3 +291,10 @@ export function headlineStat(p: ResearchProject): Stat | undefined {
 export function problemsForProject(p: ResearchProject) {
   return (p.relatedProblems ?? []).map((s) => PROBLEMS.find((x) => x.slug === s)).filter(Boolean);
 }
+
+/** Previous / next project in listing order, for the pager. */
+export function projectNeighbors(slug: string): { prev?: ResearchProject; next?: ResearchProject } {
+  const i = PROJECTS.findIndex((p) => p.slug === slug);
+  if (i === -1) return {};
+  return { prev: i > 0 ? PROJECTS[i - 1] : undefined, next: i < PROJECTS.length - 1 ? PROJECTS[i + 1] : undefined };
+}
