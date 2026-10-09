@@ -6,7 +6,8 @@ import { RelatedEntities } from "@/components/graph/RelatedEntities";
 import { RelationshipChain } from "@/components/supply-chain/RelationshipChain";
 import { RELATIONSHIP_CHAIN } from "@/lib/knowledge/supply-chain-explorer";
 import { FEATURED_NODES, getNode } from "@/lib/graph/graph";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "Ecosystem knowledge graph",
@@ -39,6 +40,7 @@ export default function EcosystemPage() {
     <>
       <section className="border-b border-border">
         <Container className="py-14 sm:py-16">
+          <JsonLd data={jsonLdGraph([breadcrumbLd([{ name: "Home", path: "/" }, { name: "Ecosystem graph", path: "/ecosystem" }])])} />
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Ecosystem graph" }]} />
           <h1 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
             Ecosystem knowledge graph

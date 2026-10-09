@@ -14,6 +14,9 @@ import { MATERIAL_TOPICS } from "@/lib/knowledge/material-topics";
 import { ARTICLES } from "@/lib/content/articles";
 import { NEWSLETTER_ISSUES } from "@/lib/content/newsletter";
 import { CMS_TYPES } from "@/lib/wordpress/config";
+import { INDIA_STATES } from "@/lib/india/ecosystem";
+import { PROBLEMS } from "@/lib/opportunities/opportunities";
+import { PROJECTS } from "@/lib/projects/projects";
 
 // Required for `output: "export"` — emit a static sitemap.xml.
 export const dynamic = "force-static";
@@ -41,10 +44,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/learn", priority: 0.9 },
     { path: "/learn/microfluidics", priority: 0.8 },
     { path: "/concepts", priority: 0.8 },
-    { path: "/industry", priority: 0.7 },
+    { path: "/industry", priority: 0.8 },
     { path: "/industry/companies", priority: 0.8 },
+    { path: "/suppliers", priority: 0.8 },
+    { path: "/ecosystem", priority: 0.7 },
     { path: "/industry/map", priority: 0.7 },
     { path: "/industry/map/india", priority: 0.7 },
+    { path: "/companies", priority: 0.7 },
+    { path: "/india", priority: 0.9 },
+    { path: "/opportunities", priority: 0.7 },
+    { path: "/projects", priority: 0.7 },
+    { path: "/submit", priority: 0.4 },
     { path: "/research", priority: 0.7 },
     { path: "/research/topics", priority: 0.7 },
     { path: "/resources", priority: 0.6 },
@@ -95,6 +105,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...ARTICLES.map((a) => ({ path: `/articles/${a.slug}`, priority: 0.7 })),
     ...NEWSLETTER_ISSUES.map((i) => ({ path: `/newsletter/${i.slug}`, priority: 0.5 })),
+    ...INDIA_STATES.map((s) => ({ path: `/india/states/${s.slug}`, priority: 0.7 })),
+    ...PROBLEMS.map((p) => ({ path: `/opportunities/problems/${p.slug}`, priority: 0.6 })),
+    ...PROJECTS.map((p) => ({ path: `/projects/${p.slug}`, priority: 0.6 })),
   ];
 
   // The site is served with `trailingSlash: true`, so canonical URLs (and the

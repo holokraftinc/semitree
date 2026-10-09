@@ -10,8 +10,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // Design preview duplicates a real tool — keep it out of crawls.
-        disallow: ["/tools/preview"],
+        // Design preview duplicates a real tool; the search index is a data
+        // file, not a page — keep both out of crawls.
+        disallow: ["/tools/preview", "/search-index.json"],
       },
     ],
     sitemap: `${SITE.url}/sitemap.xml`,

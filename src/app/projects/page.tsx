@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { PROJECTS, PROJECT_STATUS_META, headlineStat } from "@/lib/projects/projects";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "Projects",
@@ -21,6 +22,7 @@ function formatDate(iso: string): string {
 export default function ProjectsPage() {
   return (
     <Container className="space-y-10 py-10">
+      <JsonLd data={jsonLdGraph([breadcrumbLd([{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }])])} />
       <div className="space-y-3">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Projects</h1>

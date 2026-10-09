@@ -4,7 +4,8 @@ import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ValueChainJourney, type ValueChainNode } from "@/components/home/ValueChainJourney";
 import { COMPANIES } from "@/lib/industry/companies";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "Explore the Semiconductor Industry",
@@ -38,6 +39,7 @@ export default function IndustryPage() {
       {/* Hero */}
       <section className="border-b border-border">
         <Container className="py-16 sm:py-20">
+          <JsonLd data={jsonLdGraph([breadcrumbLd([{ name: "Home", path: "/" }, { name: "Industry", path: "/industry" }])])} />
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Industry" }]} />
           <h1 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
             Explore the Semiconductor Industry

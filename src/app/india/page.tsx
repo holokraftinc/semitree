@@ -18,7 +18,8 @@ import {
   getState,
 } from "@/lib/india/ecosystem";
 import { getCompany } from "@/lib/industry/companies";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "India Semiconductor Ecosystem",
@@ -69,6 +70,7 @@ export default function IndiaPage() {
       {/* Hero */}
       <section className="border-b border-border">
         <Container className="py-16 sm:py-20">
+          <JsonLd data={jsonLdGraph([breadcrumbLd([{ name: "Home", path: "/" }, { name: "India", path: "/india" }])])} />
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "India" }]} />
           <h1 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
             India Semiconductor Ecosystem

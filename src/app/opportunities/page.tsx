@@ -11,7 +11,8 @@ import {
 import { researchingSupplierCategories } from "@/lib/industry/relationships";
 import { INDIA_INVESTMENTS, getState } from "@/lib/india/ecosystem";
 import { articlesInCategory } from "@/lib/content/articles";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMeta, jsonLdGraph, breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "Opportunities & problems worth solving",
@@ -50,6 +51,7 @@ export default function OpportunitiesPage() {
 
   return (
     <Container className="space-y-14 py-10">
+      <JsonLd data={jsonLdGraph([breadcrumbLd([{ name: "Home", path: "/" }, { name: "Opportunities", path: "/opportunities" }])])} />
       <div className="space-y-3">
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Opportunities" }]} />
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Opportunities &amp; problems worth solving</h1>
