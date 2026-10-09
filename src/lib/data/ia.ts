@@ -108,6 +108,7 @@ export const IA_SECTIONS: IaSection[] = [
     items: [
       A("Value chain", "/supply-chain", "Design through end markets."),
       A("Company directory", "/industry/companies", "Companies across the ecosystem."),
+      A("Ecosystem graph", "/ecosystem", "How every entity connects."),
       A("Global map", "/industry/map", "The industry plotted by location."),
       SOON("Fabs", "Wafer fabrication facilities."),
       SOON("OSAT / ATMP", "Assembly, test, and packaging."),
@@ -138,6 +139,7 @@ export const IA_SECTIONS: IaSection[] = [
         title: "Industry",
         items: [
           A("Company directory", "/industry/companies"),
+          A("Ecosystem graph", "/ecosystem"),
           A("Global map", "/industry/map"),
           A("Suppliers", "/suppliers"),
           SOON("Fabs"),
