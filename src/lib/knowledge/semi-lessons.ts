@@ -92,7 +92,8 @@ export type LessonVisualKey =
   | "deposit-etch-cycle"
   | "thermal-stack"
   | "test-setup"
-  | "test-sequence";
+  | "test-sequence"
+  | "yield-funnel";
 
 export interface SemiLesson {
   slug: string;
@@ -267,7 +268,7 @@ export const LEARNING_PATHS: LearningPath[] = [
     id: "testing",
     title: "Semiconductor Testing",
     summary: "What testing is and why it exists — from first principles through the test-equipment ecosystem and test methods.",
-    lessonSlugs: ["introduction-to-semiconductor-testing", "test-equipment", "test-methods"],
+    lessonSlugs: ["introduction-to-semiconductor-testing", "test-equipment", "test-methods", "test-yield-reliability", "advanced-testing"],
   },
 ];
 
@@ -4162,6 +4163,333 @@ export const SEMI_LESSONS: SemiLesson[] = [
     realWorld: "The same tester runs very different programs for a memory, an RF front-end, and a power device — the method, not just the machine, is what makes the measurement meaningful.",
     relatedLessons: ["test-equipment", "wafer-test", "final-test"],
     journeyRecap: "You now know how test methods and programs actually measure and classify devices.",
+    journeyNext: "test-yield-reliability",
+    journeyNextWhy: "See how test results turn into yield, failure investigation, and reliability.",
+  }),
+
+  L({
+    slug: "test-yield-reliability",
+    pathId: "testing",
+    order: 4,
+    title: "Test yield, defect analysis & reliability",
+    summary: "How test results become yield metrics, how failures are investigated, and how reliability differs from yield.",
+    whatYoullLearn: [
+      "The different yield metrics and why they can't be compared blindly",
+      "Common test outcomes — and why a failure is an observation, not a proven cause",
+      "A conceptual failure-investigation flow, and how to separate tester problems from device faults",
+      "Failure-analysis techniques at a conceptual level",
+      "How reliability and qualification differ from production yield",
+      "Why uncontrolled retesting can distort reported yield",
+    ],
+    whyItMatters: "Test data is the richest information source in manufacturing — but only if it's read carefully. Confusing an observed failure with a proven defect, or comparing yield numbers that mean different things, leads to wrong decisions. This module is about reading test results honestly.",
+    prerequisites: ["test-methods"],
+    explanation: [
+      "Yield is the fraction of devices that pass — but there are several yields (wafer, die, assembly, final test, overall), and organisations define them with different denominators. A yield number is meaningless without knowing what it counts.",
+      "A test failure is an observation that needs interpretation. The same failing measurement could be a real device defect, a test-system or contact problem, or a condition-specific effect. Investigation — not assumption — establishes the cause.",
+      "Reliability is a different question from yield. Yield asks 'does it work now?'; reliability asks 'will it keep working?'. The two are assessed by different activities (production test, screening, characterization, qualification) that are easy to conflate.",
+    ],
+    visual: "An illustrative yield funnel: dies on the wafer narrow to those passing wafer sort, then packaged devices, then those passing final test. The numbers are hypothetical, not industry values.",
+    visualKey: "yield-funnel",
+    intuition: [
+      "Think of yield like a series of sieves: each stage lets fewer through, and each sieve counts 'what went in' differently — so you can't compare the sieves' percentages without knowing what each one measured.",
+    ],
+    terminology: [
+      { term: "First-pass yield", def: "The fraction that passes without any retest." },
+      { term: "Escape", def: "A defective device that passes test and ships." },
+      { term: "Root cause", def: "The validated underlying reason for a failure (not just the symptom)." },
+      { term: "Accelerated stress test", def: "Applying elevated stress to surface failure mechanisms faster." },
+      { term: "Qualification", def: "Evaluating whether a product/process meets reliability requirements, on samples." },
+      { term: "Screening", def: "Removing weak units from a population (e.g. burn-in)." },
+      { term: "Characterization", def: "Understanding how a device behaves across conditions." },
+      { term: "Failure rate", def: "How often devices fail over time (introductory concept)." },
+    ],
+    steps: [
+      { name: "Test failure observed", detail: "A measurement falls outside its limits." },
+      { name: "Confirm test conditions", detail: "Check the device was tested under the intended conditions." },
+      { name: "Check setup & contact", detail: "Rule out a measurement-setup or contact problem." },
+      { name: "Reproduce the result", detail: "Does the failure repeat, or was it a one-off?" },
+      { name: "Compare related measurements", detail: "Look at neighbouring parameters for clues." },
+      { name: "Localize the failure", detail: "Narrow down where the problem is, where possible." },
+      { name: "Investigate possible causes", detail: "Consider physical or electrical mechanisms." },
+      { name: "Validate the root cause", detail: "Confirm the cause — don't assume it." },
+      { name: "Apply corrective action", detail: "Fix the cause (process, design, test, or handling)." },
+      { name: "Verify the result", detail: "Confirm the action actually resolved it." },
+    ],
+    deepDives: [
+      {
+        id: "yield-metrics",
+        level: "engineer",
+        title: "Yield metrics (and why not to compare them blindly)",
+        table: {
+          caption: "Different yields count different things",
+          columns: ["Yield", "Roughly counts"],
+          rows: [
+            ["Wafer yield", "Good wafers / wafers started"],
+            ["Die yield", "Good dies / total dies on the wafer"],
+            ["Assembly yield", "Good assemblies / units assembled"],
+            ["Final-test yield", "Units passing final test / units tested"],
+            ["Overall yield", "Good shippable units / material started"],
+            ["First-pass yield", "Pass without any retest"],
+          ],
+        },
+        bullets: [
+          "Exact definitions and denominators vary between organisations.",
+          "Yields from different stages must not be compared without understanding their definitions.",
+          "Illustrative only: 1,000 dies → 800 pass wafer sort → 800 packaged → 760 pass final test. These are hypothetical, not benchmarks.",
+        ],
+      },
+      {
+        id: "test-outcomes",
+        level: "engineer",
+        title: "Common test outcomes",
+        bullets: [
+          "Functional, parametric, timing, and leakage failures.",
+          "Intermittent, contact-related, and temperature-sensitive failures.",
+          "Failures that appear only under particular operating conditions.",
+          "A failure is an observation requiring interpretation — not automatic proof of a specific manufacturing defect.",
+        ],
+      },
+      {
+        id: "failure-analysis",
+        level: "advanced",
+        title: "Failure-analysis techniques (conceptual)",
+        intro: "A toolkit exists; the right tool depends on the suspected mechanism.",
+        bullets: [
+          "Electrical characterization and curve tracing (where applicable).",
+          "Thermal imaging; optical inspection; X-ray inspection.",
+          "Scanning electron microscopy; focused ion beam; cross-section analysis; emission microscopy.",
+          "Not every technique suits every device or failure — they are chosen to match the mechanism.",
+        ],
+        note: "Conceptual overview only — not a laboratory procedure.",
+      },
+      {
+        id: "reliability-qual",
+        level: "advanced",
+        title: "Reliability & qualification",
+        body: ["Reliability asks whether a device keeps working over time and stress — distinct from production yield."],
+        bullets: [
+          "Accelerated stress testing uses temperature, humidity, thermal cycling, and mechanical stress to surface mechanisms faster.",
+          "Mechanism-specific concerns (e.g. electromigration) matter where relevant to the device.",
+          "Qualification evaluates a product/process on samples; ongoing production monitoring is a separate, continuous activity.",
+          "Failure-rate and lifetime models exist at an introductory level — no single model fits every product.",
+        ],
+        note: "Reliability standards exist (e.g. JEDEC JESD documents; automotive programmes reference AEC-Q documents), but scope and applicability vary by product — none is universal, and no specific numbers are given here.",
+      },
+      {
+        id: "qual-vs-others",
+        level: "engineer",
+        title: "Four distinct activities",
+        table: {
+          caption: "Don't conflate these",
+          columns: ["Activity", "Question"],
+          rows: [
+            ["Production test", "Does this unit meet spec now?"],
+            ["Screening (e.g. burn-in)", "Can we remove weak units from the population?"],
+            ["Characterization", "How does the device behave across conditions?"],
+            ["Qualification", "Does the product/process meet reliability requirements (on samples)?"],
+          ],
+        },
+      },
+      {
+        id: "retest-false-failures",
+        level: "engineer",
+        title: "Retesting & false failures",
+        bullets: [
+          "Retesting happens because contact or setup issues can create misleading results.",
+          "A repeatable failure deserves investigation; a one-off may be a setup artefact.",
+          "Uncontrolled retesting can distort reported yield (retesting until it passes).",
+          "Pass-after-retest does not, by itself, establish the root cause of the original failure.",
+        ],
+      },
+      {
+        id: "yield-economics",
+        level: "advanced",
+        title: "Economics — an illustrative model",
+        body: ["The cost of a defect generally rises the later it is caught — a qualitative principle, shown here illustratively."],
+        bullets: [
+          "Catch at wafer sort: lose the die, avoid packaging it.",
+          "Catch at final test: you've already paid to package it.",
+          "Escape to the customer: add returns, failure-analysis expense, and reliability/reputation risk.",
+          "So more test coverage (more test cost) is traded against yield loss, packaging cost, FA expense, and escape risk.",
+        ],
+        note: "Assumptions are illustrative; the numbers and ordering are a teaching device, not industry benchmarks.",
+      },
+    ],
+    industryContext: [
+      "Test data feeds yield learning across manufacturing stages and is correlated to find systematic issues.",
+      "Supplier quality (materials, equipment, assembly) feeds directly into yield and reliability.",
+    ],
+    keyTakeaways: [
+      "There are several yields with different denominators — don't compare them blindly.",
+      "A failure is an observation needing interpretation, not a proven defect.",
+      "Reliability (will it keep working?) is distinct from yield (does it work now?).",
+      "Uncontrolled retesting and pass-after-retest can mislead — investigate repeatable failures.",
+    ],
+    references: [
+      { title: "Essentials of Electronic Testing for Digital, Memory and Mixed-Signal VLSI Circuits", author: "M. L. Bushnell and V. D. Agrawal", publisher: "Springer", kind: "textbook" },
+      { title: "VLSI Test Principles and Architectures: Design for Testability", author: "L.-T. Wang, C.-W. Wu, and X. Wen", publisher: "Morgan Kaufmann / Elsevier", kind: "textbook" },
+      { title: "JEDEC reliability standards (JESD series)", publisher: "JEDEC", kind: "standards", note: "Reliability test methods and qualification; scope varies by product." },
+    ],
+    connections: [
+      { label: "Test methods & measurements (previous)", href: "/semiconductors/learn/test-methods" },
+      { label: "Wafer testing & sort", href: "/semiconductors/learn/wafer-test" },
+      { label: "Final test & burn-in", href: "/semiconductors/learn/final-test" },
+      { label: "Manufacturing", href: "/manufacturing" },
+      { label: "Burn-in & reliability (equipment)", href: "/semiconductors/equipment/burn-in" },
+      { label: "Wafer yield (tool)", href: "/semiconductors/tools/wafer-yield" },
+      { label: "The testing supply-chain stage", href: "/supply-chain/testing" },
+    ],
+    example: "Illustrative: a device fails a leakage test. That's an observation — it could be a real defect, a dirty contactor, or a temperature effect. Only after reproducing it, ruling out the setup, and localizing it is a root cause validated. Reporting it as 'a process defect' before that would be a guess.",
+    commonMistakes: [
+      "Comparing yield numbers from different stages without checking their definitions.",
+      "Treating a single test failure as proof of a specific manufacturing defect.",
+      "Retesting until a part passes and counting it as good without understanding why it first failed.",
+      "Confusing reliability (over time) with yield (now).",
+    ],
+    realWorld: "Yield learning — correlating test data across stages to find and fix systematic losses — is one of the biggest levers on a product's profitability.",
+    relatedLessons: ["test-methods", "wafer-test", "final-test"],
+    journeyRecap: "You now know how test data becomes yield, how failures are investigated, and how reliability differs from yield.",
+    journeyNext: "advanced-testing",
+    journeyNextWhy: "See how testing gets harder for chiplets, 3D packages, and complex systems.",
+  }),
+
+  L({
+    slug: "advanced-testing",
+    pathId: "testing",
+    order: 5,
+    title: "Advanced semiconductor testing",
+    summary: "How testing changes for chiplets, 2.5D/3D integration, high-speed interfaces, and advanced packaging — and why system-level validation complements ATE.",
+    whatYoullLearn: [
+      "Why testing a die doesn't fully establish that an assembled multi-die package works",
+      "The limits of known-good die for multi-die integration",
+      "What has to be tested for chip-to-chip connections",
+      "What system-level test is and how it differs from ATE production test",
+      "How demanding applications shape testing, qualification, and traceability",
+      "How test data and AI are used — and the limits of AI-based diagnosis",
+    ],
+    whyItMatters: "As systems move from single dies to chiplets and 3D stacks, the hardest question shifts from 'does this die work?' to 'does this assembled, interacting system work?'. Advanced packaging and testing have to be understood together.",
+    prerequisites: ["test-yield-reliability"],
+    explanation: [
+      "Advanced packaging combines multiple dies — chiplets on an interposer (2.5D), stacked dies connected by through-silicon vias (3D), and high-density interconnects — into one package. That creates new things to test: the connections between dies, high-speed signalling across them, power delivery, and thermal interactions.",
+      "Testing an individual die well does not fully establish that the assembled multi-die package will operate correctly. New failure modes appear at integration — in the interconnects, the interfaces, and the thermal/electrical interactions between dies — that no single-die test could see.",
+      "Because internal components are hard to access after assembly, and a defective component in an expensive multi-die package is costly, test access and test architecture have to be planned up front, and some behaviours are best validated in a more system-like environment.",
+    ],
+    visual: "Several chiplets on a shared substrate/interposer, linked by short die-to-die connections — each die may be known-good, yet the assembly still has to be tested as a system.",
+    visualKey: "chiplets",
+    intuition: [
+      "Testing each musician individually doesn't prove the orchestra plays in time together — the interactions are a new thing to test.",
+    ],
+    terminology: [
+      { term: "Chiplet", def: "A smaller die designed to be combined with others in one package." },
+      { term: "Interposer", def: "A layer carrying dense wiring between dies in 2.5D integration." },
+      { term: "Through-silicon via (TSV)", def: "A vertical connection through a die used in 3D stacking." },
+      { term: "Known-good die (KGD)", def: "A die passed to a confidence level before assembly." },
+      { term: "Boundary scan", def: "A standards-based method (IEEE 1149.1) to test interconnects via on-chip cells." },
+      { term: "System-level test (SLT)", def: "Testing a device in a more realistic, system-like environment." },
+    ],
+    deepDives: [
+      {
+        id: "advanced-packaging-test",
+        level: "engineer",
+        title: "Advanced packaging & its test challenges",
+        bullets: [
+          "Multi-die packages, chiplets, 2.5D integration, 3D stacking, interposers, and high-density interconnects.",
+          "Thermal management and electrical connectivity between dies become test concerns in their own right.",
+          "Testing a die does not fully establish that the assembled multi-die package will work — integration adds new failure modes.",
+        ],
+      },
+      {
+        id: "kgd-limits",
+        level: "advanced",
+        title: "Known-good-die limitations",
+        bullets: [
+          "Pre-assembly test can establish a die's standalone behaviour to a confidence level.",
+          "Some issues only appear after integration — in interconnects, interfaces, and die-to-die interactions.",
+          "Internal components are hard to access once assembled.",
+          "A defective component in an expensive package can waste the whole assembly, which raises the stakes on test access and architecture planning.",
+        ],
+        note: "Known-good die cannot guarantee defect-free multi-die integration.",
+      },
+      {
+        id: "chip-to-chip-test",
+        level: "advanced",
+        title: "Testing chip-to-chip connections",
+        bullets: [
+          "Interconnect integrity, high-speed signal behaviour, interface timing, power delivery, and thermal interactions.",
+          "Test access to buried connections is a core challenge.",
+          "Boundary-scan concepts (IEEE 1149.1) and related standards-based access methods help where applicable.",
+          "Not every chiplet architecture uses the same interface or test methodology; chiplet-interconnect and 3D test-access standards are still evolving.",
+        ],
+      },
+      {
+        id: "system-level-test",
+        level: "engineer",
+        title: "System-level testing (SLT)",
+        bullets: [
+          "SLT exercises a device in a more system-like environment, closer to real use.",
+          "It differs from conventional ATE production test, which drives/measures the device directly.",
+          "Some behaviours (interactions, real workloads) are best assessed system-like.",
+          "It trades off test realism, coverage, throughput, cost, and fault isolation — and complements, not replaces, ATE.",
+        ],
+      },
+      {
+        id: "demanding-applications",
+        level: "advanced",
+        title: "Automotive, aerospace & other demanding applications",
+        bullets: [
+          "Application requirements raise expectations on testing, qualification, traceability, and reliability.",
+          "Automotive programmes commonly reference AEC-Q qualification documents; aerospace/defence may reference their own schemes.",
+          "Requirements are not identical across all products in a sector — relevance varies by product and customer.",
+        ],
+        note: "Specific standards are referenced only where relevance is clear; none is presented as universal.",
+      },
+      {
+        id: "test-data-ai",
+        level: "advanced",
+        title: "Test data & automation",
+        bullets: [
+          "Established practice: high-volume test data, statistical analysis, outlier detection, and correlation across manufacturing stages.",
+          "Automated test-result analysis is widely used; machine learning for pattern/outlier detection is growing.",
+          "Emerging/experimental: broader AI-based diagnosis — useful for patterns, but limited for proving a specific root cause.",
+          "Data quality and traceability underpin all of it — poor data misleads any analysis, AI or not.",
+        ],
+        note: "This separates established practices from emerging approaches — the line moves over time.",
+      },
+    ],
+    industryContext: [
+      "Advanced packaging and test capability is increasingly a strategic differentiator, and a focus of India's new ATMP/OSAT investments.",
+      "Packaging and testing are best discovered together — the package defines much of the test problem.",
+    ],
+    keyTakeaways: [
+      "Assembling known-good dies does not guarantee a working multi-die package — integration adds new failure modes.",
+      "Chip-to-chip connections, power, and thermal interactions become first-class test targets.",
+      "System-level test complements ATE by validating devices in a realistic context.",
+      "AI helps find patterns in test data but doesn't replace validated root-cause analysis.",
+    ],
+    references: [
+      { title: "VLSI Test Principles and Architectures: Design for Testability", author: "L.-T. Wang, C.-W. Wu, and X. Wen", publisher: "Morgan Kaufmann / Elsevier", kind: "textbook" },
+      { title: "IEEE 1149.1 (boundary-scan / JTAG) and related test-access standards", publisher: "IEEE", kind: "standards", note: "Established boundary-scan standard; 3D/chiplet test-access standards are evolving." },
+    ],
+    connections: [
+      { label: "Test yield & reliability (previous)", href: "/semiconductors/learn/test-yield-reliability" },
+      { label: "Packaging", href: "/semiconductors/packaging" },
+      { label: "Chiplets", href: "/semiconductors/learn/chiplets" },
+      { label: "2.5D integration", href: "/semiconductors/learn/2-5d" },
+      { label: "3D ICs", href: "/semiconductors/learn/3d-ic" },
+      { label: "Advanced packaging (equipment)", href: "/semiconductors/equipment/advanced-packaging" },
+      { label: "Advanced packaging & chiplets (insight)", href: "/articles/advanced-packaging-chiplets-guide" },
+      { label: "The testing supply-chain stage", href: "/supply-chain/testing" },
+    ],
+    example: "Illustrative: three chiplets each pass wafer test as known-good die, but once assembled on an interposer, a marginal die-to-die link fails at high speed under load — a system interaction no single-die test exercised. It is caught by connection and system-level testing, not by the standalone die tests.",
+    commonMistakes: [
+      "Assuming known-good dies guarantee a working multi-die package.",
+      "Treating system-level test as a replacement for ATE rather than a complement.",
+      "Assuming all chiplet architectures share one interface or test method.",
+      "Reading AI pattern-detection as proven root-cause diagnosis.",
+    ],
+    realWorld: "As performance gains shift toward advanced packaging, 'can we test the assembly?' increasingly shapes how products are designed and packaged.",
+    relatedLessons: ["test-yield-reliability", "chiplets", "advanced-packaging"],
+    journeyRecap: "You now know why advanced packaging reshapes the testing problem and why system-level validation matters.",
   }),
 ];
 

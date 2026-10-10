@@ -441,6 +441,31 @@ export function LessonDiagram({ visualKey }: { visualKey: LessonVisualKey }) {
       </svg>
     );
   }
+  if (visualKey === "yield-funnel") {
+    const rows = [
+      { label: "Dies on wafer", n: "1,000", w: 240 },
+      { label: "Pass wafer sort", n: "800", w: 196 },
+      { label: "Packaged", n: "800", w: 160 },
+      { label: "Pass final test", n: "760", w: 120 },
+    ];
+    return (
+      <svg viewBox="0 0 300 250" className={common} role="img" aria-label="An illustrative yield funnel narrowing from 1,000 dies on the wafer, to 800 passing wafer sort, to 800 packaged, to 760 passing final test. Numbers are hypothetical, not industry values.">
+        {rows.map((r, i) => {
+          const y = 14 + i * 54;
+          const x = (300 - r.w) / 2;
+          const last = i === rows.length - 1;
+          return (
+            <g key={r.label}>
+              <rect x={x} y={y} width={r.w} height="34" rx="6" className={last ? "fill-brand/10 stroke-brand" : "fill-muted stroke-border"} />
+              <text x="150" y={y + 16} textAnchor="middle" className="fill-foreground text-[10px]">{r.label}</text>
+              <text x="150" y={y + 28} textAnchor="middle" className="fill-muted-foreground text-[9px]">{r.n} (illustrative)</text>
+              {!last && <text x="150" y={y + 50} textAnchor="middle" className="fill-brand text-[14px]">↓</text>}
+            </g>
+          );
+        })}
+      </svg>
+    );
+  }
   if (visualKey === "test-sequence") {
     const steps = [
       "Apply power (test conditions)",

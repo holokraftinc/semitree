@@ -74,8 +74,8 @@ export const TESTING_PATHWAYS: Pathway[] = [
     summary: "For professionals, researchers, and ecosystem participants.",
     items: [
       { label: "Test equipment ecosystem", href: "/semiconductors/equipment" },
-      { label: "Advanced packaging & chiplet testing", href: "/semiconductors/equipment/advanced-packaging" },
-      { label: "Reliability & failure analysis", href: "/semiconductors/equipment/burn-in" },
+      { label: "Advanced packaging & chiplet testing", href: "/semiconductors/learn/advanced-testing" },
+      { label: "Reliability & failure analysis", href: "/semiconductors/learn/test-yield-reliability" },
       { label: "Test economics & India's ecosystem", href: "/india" },
     ],
   },
@@ -124,7 +124,7 @@ export const TESTING_GROUPS: TopicGroup[] = [
     topics: [
       { name: "Final test", blurb: "Specification test of packaged parts before shipping.", href: "/semiconductors/learn/final-test", status: "available", difficulty: "Engineering" },
       { name: "Package-level testing", blurb: "What changes once a die is in a package.", status: "planned", difficulty: "Engineering" },
-      { name: "System-level testing", blurb: "Validating devices in a realistic system context.", status: "planned", difficulty: "Advanced" },
+      { name: "System-level testing", blurb: "Validating devices in a realistic system context.", href: "/semiconductors/learn/advanced-testing", status: "available", difficulty: "Advanced" },
     ],
   },
   {
@@ -152,17 +152,18 @@ export const TESTING_GROUPS: TopicGroup[] = [
     title: "Reliability & Failure Analysis",
     blurb: "Proving devices keep working, and learning when they don't.",
     topics: [
+      { name: "Test yield, defect analysis & reliability", blurb: "Yield metrics, failure investigation, and reliability.", href: "/semiconductors/learn/test-yield-reliability", status: "available", difficulty: "Advanced" },
       { name: "Burn-in, reliability & qualification", blurb: "Stress testing and qualification.", href: "/semiconductors/equipment/burn-in", status: "available", difficulty: "Advanced" },
-      { name: "Defect detection & failure analysis", blurb: "Finding and understanding failures.", status: "planned", difficulty: "Advanced" },
+      { name: "Defect detection & failure analysis", blurb: "Finding and understanding failures.", href: "/semiconductors/learn/test-yield-reliability", status: "available", difficulty: "Advanced" },
     ],
   },
   {
     title: "Advanced Testing",
     blurb: "Where testing is heading — and where it gets hard.",
     topics: [
-      { name: "Advanced packaging & chiplet testing", blurb: "Testing multi-die and 3D assemblies.", href: "/semiconductors/equipment/advanced-packaging", status: "available", difficulty: "Advanced" },
+      { name: "Advanced packaging & chiplet testing", blurb: "Testing multi-die and 3D assemblies.", href: "/semiconductors/learn/advanced-testing", status: "available", difficulty: "Advanced" },
       { name: "Test yield, coverage & cost", blurb: "Estimate good dies and the cost of test.", href: "/semiconductors/tools/wafer-yield", status: "available", difficulty: "Engineering" },
-      { name: "Test data, automation & AI", blurb: "Using test data to improve yield.", status: "planned", difficulty: "Advanced" },
+      { name: "Test data, automation & AI", blurb: "Using test data to improve yield.", href: "/semiconductors/learn/advanced-testing", status: "available", difficulty: "Advanced" },
     ],
   },
   {
