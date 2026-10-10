@@ -90,7 +90,9 @@ export type LessonVisualKey =
   | "electrical-connections"
   | "wafer-level-packaging"
   | "deposit-etch-cycle"
-  | "thermal-stack";
+  | "thermal-stack"
+  | "test-setup"
+  | "test-sequence";
 
 export interface SemiLesson {
   slug: string;
@@ -264,8 +266,8 @@ export const LEARNING_PATHS: LearningPath[] = [
   {
     id: "testing",
     title: "Semiconductor Testing",
-    summary: "What testing is and why it exists — from first principles toward wafer sort, final test, and the test ecosystem.",
-    lessonSlugs: ["introduction-to-semiconductor-testing"],
+    summary: "What testing is and why it exists — from first principles through the test-equipment ecosystem and test methods.",
+    lessonSlugs: ["introduction-to-semiconductor-testing", "test-equipment", "test-methods"],
   },
 ];
 
@@ -3855,10 +3857,311 @@ export const SEMI_LESSONS: SemiLesson[] = [
     ],
     relatedLessons: ["wafer-test", "final-test", "metrology"],
     journeyRecap: "You now know what testing is, why it exists, and the stages it spans.",
-    journeyNext: "wafer-test",
-    journeyNextWhy: "See the first production screen in action — testing each die on the wafer.",
+    journeyNext: "test-equipment",
+    journeyNextWhy: "Meet the machines that actually run these tests.",
     realWorld:
       "Every chip in a phone, car, or data centre passed through test stages like these before it shipped — and the test data generated along the way is what lets manufacturers improve yield and reliability.",
+  }),
+
+  L({
+    slug: "test-equipment",
+    pathId: "testing",
+    order: 2,
+    title: "Semiconductor test equipment ecosystem",
+    summary: "The machines and interface hardware that run semiconductor tests, and how they fit together.",
+    whatYoullLearn: [
+      "What automated test equipment (ATE) does",
+      "The roles of probers, probe cards, handlers, sockets, and load boards",
+      "How the pieces connect for wafer testing and for packaged-device testing",
+      "The factors that drive test-equipment selection",
+      "How test equipment differs from materials and consumables",
+    ],
+    whyItMatters: "A test result is only as good as the setup that produced it. Understanding the equipment — what each piece does and how it connects — is the bridge from 'testing exists' to 'here is how a test is actually run'.",
+    prerequisites: ["introduction-to-semiconductor-testing"],
+    explanation: [
+      "Semiconductor testing uses a small set of equipment categories that work together. At the centre is automated test equipment (ATE) — the tester that generates stimuli and measures the device's response. Everything else exists to connect the ATE to the device reliably and to move devices through at production speed.",
+      "For wafer testing, a wafer prober positions and aligns the wafer and drives a probe card down to contact a die; the ATE drives the test through that probe card. For packaged-device testing, a handler presents each device to a socket or contactor mounted on a load board, which connects it to the ATE.",
+      "Not every category is needed for every product — a simple device may need far less than a complex one — and specialised testers exist for memory, RF, power devices, system-level test, and reliability stress. This lesson is an overview; where Semitree already has a dedicated equipment page, it links there rather than repeating it.",
+    ],
+    visual: "Two test setups side by side: for wafer testing the ATE connects through a probe card to a die on the wafer (the prober aligns the wafer); for packaged testing the ATE connects through a load board and socket to the device (a handler moves devices).",
+    visualKey: "test-setup",
+    intuition: [
+      "Think of the ATE as the examiner asking questions and marking answers, and everything else — probe card, socket, load board, prober, handler — as the desk and seating that put each candidate in front of the examiner correctly and quickly.",
+    ],
+    terminology: [
+      { term: "Automated test equipment (ATE)", def: "The tester that generates stimuli and measures a device's response." },
+      { term: "Wafer prober", def: "Positions/aligns the wafer and drives contact with each die." },
+      { term: "Probe card", def: "The electrical interface between the tester and dies on a wafer." },
+      { term: "Test handler", def: "Loads, positions, and unloads packaged devices for throughput." },
+      { term: "Socket / contactor", def: "Makes temporary contact between a packaged device and the test interface." },
+      { term: "Load board / interface hardware", def: "Connects the test system to the device and carries supporting circuitry." },
+      { term: "Temperature-control system", def: "Holds the device at a defined temperature during test." },
+    ],
+    equipment: [
+      { name: "Automated test equipment (ATE)", detail: "Signal generation, measurement, power/measurement resources, digital test channels, timing control, switching/instrumentation, test execution, result capture, and parallel testing. Capabilities vary by device category." },
+      { name: "Wafer prober", detail: "Positions and aligns the wafer, makes/maintains contact, and steps automatically between dies." },
+      { name: "Probe card", detail: "The electrical interface between the tester and devices on a wafer." },
+      { name: "Test handler", detail: "Loads, positions, and unloads packaged devices and sets throughput." },
+      { name: "Sockets & contactors", detail: "Provide electrical and mechanical contact between packaged devices and the interface." },
+      { name: "Load boards & interface hardware", detail: "Connect the test system to the DUT; signal integrity, power delivery, and parasitics matter here." },
+      { name: "Temperature-control systems", detail: "Temperature changes device behaviour, so some tests require controlled thermal conditions." },
+      { name: "Specialised testers", detail: "Memory testers, RF test systems, power-device testers, system-level test platforms, and reliability/stress equipment — used where the product requires them." },
+    ],
+    deepDives: [
+      {
+        id: "equipment-selection",
+        level: "engineer",
+        title: "What drives equipment selection",
+        intro: "Choosing a test setup balances many factors — there is no single 'best' tester.",
+        bullets: [
+          "Device category; number and type of I/O; test coverage needed.",
+          "Frequency/timing requirements; current/voltage ranges.",
+          "Parallelism and throughput; accuracy and repeatability.",
+          "Temperature requirements; interface complexity.",
+          "Production volume and overall cost of test.",
+        ],
+        note: "Semitree does not rank equipment vendors; selection is product-specific.",
+      },
+      {
+        id: "equipment-vs-materials",
+        level: "engineer",
+        title: "Equipment vs materials & consumables",
+        intro: "Not everything in a test cell is a 'semiconductor material' — these are distinct categories.",
+        table: {
+          caption: "Distinct categories in a test cell",
+          columns: ["Category", "Examples"],
+          rows: [
+            ["Major test equipment", "ATE, prober, handler"],
+            ["Test-interface hardware", "Probe card, load board, socket/contactor"],
+            ["Replaceable contact components", "Probe tips, contactor pins (wear items)"],
+            ["Consumables", "Cleaning materials, sorting media"],
+            ["Facility infrastructure", "Power, cooling, cleanroom/environment"],
+            ["Test software & data systems", "Test programs, result logging/analytics"],
+          ],
+        },
+        note: "Replaceable contacts and consumables are not the same as the device's own semiconductor materials.",
+      },
+    ],
+    industryContext: [
+      "Test equipment is a specialised supplier segment; probers, probe cards, handlers, and ATE often come from different vendors.",
+      "Testing may be performed in-house by IDMs/foundries or by OSAT/ATMP providers — models differ by company.",
+    ],
+    keyTakeaways: [
+      "ATE is the tester; probers/probe cards (wafer) and handlers/sockets/load boards (packaged) connect it to the device.",
+      "The wafer and packaged setups form two clear signal chains.",
+      "Equipment selection is a multi-factor, product-specific trade-off.",
+      "Equipment, interface hardware, replaceable contacts, consumables, facilities, and software are distinct categories.",
+    ],
+    references: [
+      { title: "VLSI Test Principles and Architectures: Design for Testability", author: "L.-T. Wang, C.-W. Wu, and X. Wen", publisher: "Morgan Kaufmann / Elsevier", kind: "textbook" },
+      { title: "SEMI standards for test equipment and interfaces", publisher: "SEMI", kind: "standards", note: "Standards body for semiconductor equipment and materials." },
+    ],
+    connections: [
+      { label: "ATE (equipment page)", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "Wafer probing & probe cards (equipment page)", href: "/semiconductors/equipment/wafer-probing" },
+      { label: "Burn-in & reliability (equipment page)", href: "/semiconductors/equipment/burn-in" },
+      { label: "Inspection (equipment page)", href: "/semiconductors/equipment/inspection" },
+      { label: "All equipment", href: "/semiconductors/equipment" },
+      { label: "Test methods & measurements (next)", href: "/semiconductors/learn/test-methods" },
+      { label: "The testing supply-chain stage", href: "/supply-chain/testing" },
+      { label: "Test & packaging companies", href: "/industry/companies" },
+    ],
+    example: "A high-pin-count processor at final test needs a handler, a socket on a load board with careful power delivery, temperature control, and parallel sites to keep cost per device down — a simple sensor may need far less.",
+    commonMistakes: [
+      "Confusing the prober (positions/contacts the wafer) with the ATE (applies stimuli and measures).",
+      "Assuming every product needs every specialised tester — most do not.",
+      "Calling every replaceable contact or consumable a 'semiconductor material'.",
+    ],
+    realWorld: "Probe cards, sockets, and contactors wear out and are maintained or replaced regularly — the interface is a recurring operating cost, not a one-time purchase.",
+    relatedLessons: ["introduction-to-semiconductor-testing", "wafer-test", "final-test"],
+    journeyRecap: "You now know the main test-equipment categories and how they connect.",
+    journeyNext: "test-methods",
+    journeyNextWhy: "Now see the tests that this equipment actually runs.",
+  }),
+
+  L({
+    slug: "test-methods",
+    pathId: "testing",
+    order: 3,
+    title: "Semiconductor test methods & measurements",
+    summary: "How a test program applies stimuli, measures responses, evaluates results, and records classifications — and why methods differ by device.",
+    whatYoullLearn: [
+      "How digital, analog/mixed-signal, memory, RF, and power devices are tested differently",
+      "What a test program is and how it runs",
+      "What test coverage does and does not mean",
+      "How a simple test sequence flows, end to end",
+      "Why measurement uncertainty and guard bands matter",
+    ],
+    whyItMatters: "Equipment is only half the story. The test program — the stimuli, measurements, limits, and sequence — is what actually decides whether a device passes. Understanding methods explains why a 'pass' means what it means.",
+    prerequisites: ["test-equipment"],
+    explanation: [
+      "A test program applies defined stimuli to the device under test (DUT), measures the responses, compares them to limits, and records a classification. The same framework covers very different devices, but the specific methods depend on what the device does.",
+      "Digital parts are checked with logic patterns and timing; analog and mixed-signal parts with precise voltage, current, and frequency measurements; memories with addressing and pattern tests; RF parts with frequency-domain measurements; and power devices across high voltage and current. No single test list fits every product.",
+      "Whatever the device, the measurement setup must suit the electrical range and behaviour being measured, and the result is only trustworthy if the measurement itself is well understood — which is why calibration, repeatability, and guard bands matter.",
+    ],
+    visual: "A simple test sequence: apply power, check current, apply an input pattern, capture the response, compare to the expected output, evaluate timing, and record pass/fail against the limits.",
+    visualKey: "test-sequence",
+    intuition: [
+      "A test program is a checklist run by a machine: set up the conditions, ask each question (stimulus), record each answer (measurement), and mark it against the answer key (limits).",
+    ],
+    terminology: [
+      { term: "Device under test (DUT)", def: "The device currently being tested." },
+      { term: "Test vector / pattern", def: "A defined set of inputs applied to the device." },
+      { term: "Test limit", def: "The bound a measurement must fall within to pass." },
+      { term: "Binning", def: "Sorting devices by test outcome." },
+      { term: "Calibration", def: "Adjusting the test system so measurements are accurate against a reference." },
+      { term: "Guard band", def: "A margin on a test limit that accounts for measurement uncertainty." },
+      { term: "Test coverage", def: "How much of a defined fault model or specification a test addresses." },
+      { term: "Scan / scan chain", def: "A DFT technique that chains flip-flops to shift test data in and out." },
+      { term: "Built-in self-test (BIST)", def: "Test logic built into the chip so it can test parts of itself." },
+      { term: "Design-for-testability (DFT)", def: "Designing a chip so it can be tested effectively." },
+      { term: "S-parameters", def: "A way of describing how an RF device responds across frequency (conceptually)." },
+    ],
+    steps: [
+      { name: "Apply power", detail: "Bring the DUT up within the defined test conditions." },
+      { name: "Check current", detail: "Measure current consumption against limits." },
+      { name: "Apply input pattern", detail: "Drive a defined test vector into the device." },
+      { name: "Capture response", detail: "Record the device's outputs." },
+      { name: "Compare to expected", detail: "Check outputs against the expected result." },
+      { name: "Evaluate timing", detail: "Where relevant, check timing/speed behaviour." },
+      { name: "Record pass/fail", detail: "Log the classification against the applicable limits." },
+    ],
+    deepDives: [
+      {
+        id: "digital-testing",
+        level: "engineer",
+        title: "Digital testing",
+        bullets: [
+          "Logic states and levels; input/output behaviour; functional test patterns and truth tables.",
+          "Timing and propagation delay; setup and hold time (conceptually).",
+          "Scan testing / scan chains and built-in self-test (BIST) are design-for-testability (DFT) techniques built into the chip.",
+          "Scan and BIST are not interchangeable with every form of external production test — they complement it.",
+        ],
+      },
+      {
+        id: "analog-mixed-signal",
+        level: "engineer",
+        title: "Analog & mixed-signal testing",
+        bullets: [
+          "Voltage and current measurements; gain and offset; linearity.",
+          "Noise and distortion; frequency response.",
+          "ADC and DAC testing; mixed-signal interactions between analog and digital blocks.",
+        ],
+        note: "Methods depend on the device specification; examples here are illustrative, not universal limits.",
+      },
+      {
+        id: "memory-testing",
+        level: "engineer",
+        title: "Memory testing",
+        bullets: [
+          "Memory cells and arrays; read/write behaviour; addressing.",
+          "Functional patterns and introductory fault models.",
+          "Redundancy and repair; memory built-in self-test (MBIST); retention/timing where relevant.",
+        ],
+        note: "Different memory technologies have different failure mechanisms and test requirements.",
+      },
+      {
+        id: "rf-power-testing",
+        level: "advanced",
+        title: "RF & power-device testing",
+        body: ["These domains need measurement setups matched to their electrical range and behaviour."],
+        bullets: [
+          "RF: frequency-dependent behaviour, gain, noise, linearity, matching, and S-parameters (conceptually).",
+          "Power: leakage, breakdown behaviour, on-state resistance or voltage drop, switching behaviour, thermal considerations, and current/voltage handling.",
+        ],
+      },
+      {
+        id: "test-program-fundamentals",
+        level: "engineer",
+        title: "Test-program fundamentals",
+        bullets: [
+          "DUT, test conditions, test sequence, test vectors/patterns, and test limits.",
+          "Measurement resources, calibration, result logging, binning, and retest policies.",
+          "Test-program version control — knowing exactly which program made a decision.",
+        ],
+        note: "A test program must be validated before it is used for production decisions.",
+      },
+      {
+        id: "test-coverage",
+        level: "advanced",
+        title: "What test coverage means",
+        bullets: [
+          "Detecting a specific fault is not the same as covering a defined set of fault models.",
+          "Checking a functional specification is different again from screening for particular failure mechanisms.",
+          "Coverage is relative to a chosen test strategy and fault model — it is not a universal guarantee that some percentage of all possible defects has been found.",
+        ],
+      },
+      {
+        id: "measurement-uncertainty",
+        level: "advanced",
+        title: "Measurement uncertainty",
+        bullets: [
+          "Resolution, accuracy, and repeatability bound what a measurement can tell you.",
+          "Calibration, noise, contact resistance, and temperature dependence all affect the result.",
+          "Guard bands tighten limits to account for uncertainty.",
+          "A borderline measurement may warrant investigation rather than an automatic conclusion that the device is defective.",
+        ],
+      },
+      {
+        id: "method-comparison",
+        level: "engineer",
+        title: "Test-method comparison",
+        table: {
+          caption: "How methods differ by device type",
+          columns: ["Device type", "Mainly measures", "Typical approach"],
+          rows: [
+            ["Digital logic", "Logic behaviour, timing", "Functional patterns, scan/BIST"],
+            ["Analog / mixed-signal", "Voltages, currents, linearity", "Precise parametric measurement"],
+            ["Memory", "Array read/write integrity", "Address/pattern tests, MBIST, repair"],
+            ["RF", "Frequency-domain behaviour", "Gain/noise/matching, S-parameters"],
+            ["Power", "High V/I behaviour, switching", "Breakdown, leakage, Rds(on)/Vdrop, thermal"],
+          ],
+        },
+      },
+      {
+        id: "knowledge-check",
+        level: "engineer",
+        title: "Check your understanding",
+        bullets: [
+          "Q: Is scan/BIST a replacement for external production test? A: No — they are DFT techniques that complement it.",
+          "Q: Does 90% coverage mean 90% of all possible defects are caught? A: No — coverage is relative to a defined fault model/strategy.",
+          "Q: A measurement sits right on the limit — is the device definitely bad? A: Not necessarily — measurement uncertainty may warrant investigation.",
+          "Q: Does one test list work for every device? A: No — methods depend on the device type and its specification.",
+        ],
+      },
+    ],
+    industryContext: [
+      "Test programs are developed, validated, and version-controlled as carefully as the silicon they qualify.",
+      "Test time is cost, so method choice constantly balances coverage against throughput.",
+    ],
+    keyTakeaways: [
+      "A test program applies stimuli, measures responses, compares to limits, and records a classification.",
+      "Digital, analog/mixed-signal, memory, RF, and power devices need different methods.",
+      "Coverage is relative to a fault model/strategy — not a universal defect guarantee.",
+      "Measurement uncertainty and guard bands are why a borderline result is investigated, not assumed.",
+    ],
+    references: [
+      { title: "VLSI Test Principles and Architectures: Design for Testability", author: "L.-T. Wang, C.-W. Wu, and X. Wen", publisher: "Morgan Kaufmann / Elsevier", kind: "textbook" },
+      { title: "Essentials of Electronic Testing for Digital, Memory and Mixed-Signal VLSI Circuits", author: "M. L. Bushnell and V. D. Agrawal", publisher: "Springer", kind: "textbook" },
+    ],
+    connections: [
+      { label: "Test equipment ecosystem (previous)", href: "/semiconductors/learn/test-equipment" },
+      { label: "Design (design-for-testability)", href: "/semiconductors/design" },
+      { label: "Manufacturing", href: "/manufacturing" },
+      { label: "Packaging", href: "/semiconductors/packaging" },
+      { label: "Equipment", href: "/semiconductors/equipment" },
+      { label: "Wafer testing & sort", href: "/semiconductors/learn/wafer-test" },
+      { label: "Final test", href: "/semiconductors/learn/final-test" },
+    ],
+    example: "Illustrative only. A small digital IC: apply power within the test conditions; confirm standby current is below an illustrative limit; apply an input pattern; capture the outputs; compare them to the expected truth table; check the response meets an illustrative timing window; record pass or fail against those limits. The limits are hypothetical, not real industry values.",
+    commonMistakes: [
+      "Treating scan/BIST as a replacement for production test rather than a complement.",
+      "Reading a coverage percentage as a universal defect guarantee.",
+      "Assuming a borderline measurement automatically means the device is defective.",
+    ],
+    realWorld: "The same tester runs very different programs for a memory, an RF front-end, and a power device — the method, not just the machine, is what makes the measurement meaningful.",
+    relatedLessons: ["test-equipment", "wafer-test", "final-test"],
+    journeyRecap: "You now know how test methods and programs actually measure and classify devices.",
   }),
 ];
 

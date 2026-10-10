@@ -62,11 +62,11 @@ export const TESTING_PATHWAYS: Pathway[] = [
     level: "Engineering",
     summary: "For students and engineers who want the working detail.",
     items: [
-      { label: "ATE fundamentals", href: "/semiconductors/equipment/semiconductor-test" },
+      { label: "ATE & the test-equipment ecosystem", href: "/semiconductors/learn/test-equipment" },
       { label: "Wafer probing & probe cards", href: "/semiconductors/equipment/wafer-probing" },
-      { label: "Digital & analog test" },
+      { label: "Digital & analog test", href: "/semiconductors/learn/test-methods" },
       { label: "Test coverage & yield", href: "/semiconductors/tools/wafer-yield" },
-      { label: "Test programs & debugging" },
+      { label: "Test programs & debugging", href: "/semiconductors/learn/test-methods" },
     ],
   },
   {
@@ -131,9 +131,9 @@ export const TESTING_GROUPS: TopicGroup[] = [
     title: "Test Equipment",
     blurb: "The machines and interfaces that run the tests.",
     topics: [
+      { name: "Test equipment ecosystem", blurb: "How ATE, probers, handlers, sockets, and load boards fit together.", href: "/semiconductors/learn/test-equipment", status: "available", difficulty: "Engineering" },
       { name: "Automated Test Equipment (ATE)", blurb: "The testers that drive and measure the device.", href: "/semiconductors/equipment/semiconductor-test", status: "available", difficulty: "Engineering" },
       { name: "Inspection & measurement", blurb: "Finding defects and measuring structures.", href: "/semiconductors/equipment/inspection", status: "available", difficulty: "Engineering" },
-      { name: "Handlers, sockets & load boards", blurb: "The interface between the tester and the device.", status: "planned", difficulty: "Engineering" },
       { name: "All test & inspection equipment", blurb: "Browse the equipment hub.", href: "/semiconductors/equipment", status: "available", difficulty: "Engineering" },
     ],
   },
@@ -141,8 +141,9 @@ export const TESTING_GROUPS: TopicGroup[] = [
     title: "Test Methods",
     blurb: "Different device types need different test approaches.",
     topics: [
+      { name: "Test methods & measurements", blurb: "How test programs apply stimuli and evaluate results.", href: "/semiconductors/learn/test-methods", status: "available", difficulty: "Engineering" },
       { name: "Metrology & measurement", blurb: "Measuring dimensions, films, and parameters.", href: "/semiconductors/learn/metrology", status: "available", difficulty: "Engineering" },
-      { name: "Digital, analog, mixed-signal & RF test", blurb: "How test differs by signal type.", status: "planned", difficulty: "Advanced" },
+      { name: "Digital, analog, mixed-signal & RF test", blurb: "How test differs by signal type.", href: "/semiconductors/learn/test-methods", status: "available", difficulty: "Advanced" },
       { name: "Memory testing", blurb: "Patterns, repair, and built-in self-test.", status: "planned", difficulty: "Advanced" },
       { name: "Power-semiconductor testing", blurb: "High-voltage and high-current test.", status: "planned", difficulty: "Advanced" },
     ],

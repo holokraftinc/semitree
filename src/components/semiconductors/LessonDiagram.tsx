@@ -410,5 +410,63 @@ export function LessonDiagram({ visualKey }: { visualKey: LessonVisualKey }) {
       </svg>
     );
   }
+  if (visualKey === "test-setup") {
+    const col = (x: number, title: string, boxes: string[]) => {
+      const bw = 120;
+      return (
+        <g>
+          <text x={x + bw / 2} y="16" textAnchor="middle" className="fill-foreground text-[11px]" fontWeight="600">{title}</text>
+          {boxes.map((label, i) => {
+            const by = 28 + i * 56;
+            const isTester = i === 0;
+            return (
+              <g key={label}>
+                <rect x={x} y={by} width={bw} height="34" rx="6" className={isTester ? "fill-brand/10 stroke-brand" : "fill-muted stroke-border"} />
+                <text x={x + bw / 2} y={by + 21} textAnchor="middle" className="fill-foreground text-[10px]">{label}</text>
+                {i < boxes.length - 1 && (
+                  <text x={x + bw / 2} y={by + 50} textAnchor="middle" className="fill-brand text-[14px]">↕</text>
+                )}
+              </g>
+            );
+          })}
+        </g>
+      );
+    };
+    return (
+      <svg viewBox="0 0 320 300" className={common} role="img" aria-label="Two test setups. Wafer testing: the ATE connects through a probe card to a die on the wafer, while the prober positions and aligns the wafer. Packaged-device testing: the ATE connects through a load board to a socket or contactor holding the device under test, while a handler moves the devices.">
+        {col(20, "Wafer testing", ["ATE", "Probe card", "Die on wafer"])}
+        {col(180, "Packaged testing", ["ATE", "Load board", "Socket / contactor", "Device (DUT)"])}
+        <text x="80" y="252" textAnchor="middle" className="fill-muted-foreground text-[9px]">Prober aligns the wafer</text>
+        <text x="240" y="280" textAnchor="middle" className="fill-muted-foreground text-[9px]">Handler moves devices</text>
+      </svg>
+    );
+  }
+  if (visualKey === "test-sequence") {
+    const steps = [
+      "Apply power (test conditions)",
+      "Check current consumption",
+      "Apply input pattern",
+      "Capture the response",
+      "Compare with expected output",
+      "Evaluate timing (if relevant)",
+      "Record pass / fail vs limits",
+    ];
+    return (
+      <svg viewBox="0 0 300 330" className={common} role="img" aria-label="A test sequence: apply power within the test conditions, check current consumption, apply an input pattern, capture the response, compare with the expected output, evaluate timing where relevant, and record pass or fail against the limits.">
+        {steps.map((label, i) => {
+          const y = 12 + i * 44;
+          return (
+            <g key={label}>
+              <rect x="30" y={y} width="240" height="30" rx="6" className={i === steps.length - 1 ? "fill-brand/10 stroke-brand" : "fill-muted stroke-border"} />
+              <text x="150" y={y + 19} textAnchor="middle" className="fill-foreground text-[11px]">{label}</text>
+              {i < steps.length - 1 && (
+                <text x="150" y={y + 40} textAnchor="middle" className="fill-brand text-[14px]">↓</text>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+    );
+  }
   return null;
 }
