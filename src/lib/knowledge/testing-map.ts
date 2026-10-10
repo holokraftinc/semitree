@@ -172,7 +172,7 @@ export const TESTING_GROUPS: TopicGroup[] = [
     topics: [
       { name: "Test supply chain", blurb: "Test houses, OSAT/ATMP, and equipment vendors.", href: "/supply-chain/testing", status: "available", difficulty: "Beginner" },
       { name: "Test & packaging companies", blurb: "OSAT/ATMP and test-equipment companies.", href: "/industry/companies", status: "available", difficulty: "Beginner" },
-      { name: "Testing in India", blurb: "India's assembly-and-test ecosystem.", href: "/india", status: "available", difficulty: "Beginner" },
+      { name: "Testing in India", blurb: "India's assembly-and-test ecosystem.", href: "/semiconductors/testing/india", status: "available", difficulty: "Beginner" },
       { name: "Careers & skills in testing", blurb: "Roles and skills in semiconductor test.", status: "planned", difficulty: "Beginner" },
     ],
   },

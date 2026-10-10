@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/semiconductors/ecosystem", priority: 0.7 },
     { path: "/semiconductors/packaging", priority: 0.8 },
     { path: "/semiconductors/testing", priority: 0.8 },
+    { path: "/semiconductors/testing/india", priority: 0.7 },
     { path: "/manufacturing", priority: 0.9 },
     { path: "/supply-chain", priority: 0.9 },
     { path: "/tools", priority: 0.9 },

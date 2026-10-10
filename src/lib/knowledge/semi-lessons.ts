@@ -30,6 +30,16 @@ export interface SemiReference {
 }
 
 /** One equation, fully unpacked for an engineering-level reader. */
+/** A single multiple-choice knowledge-check question. */
+export interface QuizQuestion {
+  question: string;
+  options: string[];
+  /** Index into `options` of the correct answer. */
+  answer: number;
+  /** Why the correct answer is correct (and, where useful, the common misconception). */
+  explanation: string;
+}
+
 export interface LessonEquation {
   name: string;
   expression: string;
@@ -160,6 +170,8 @@ export interface SemiLesson {
   researcherNotes?: string[];
   /** Engineer -> advanced -> researcher deep dives, shown as collapsed panels. */
   deepDives?: LessonDeepDive[];
+  /** Optional multiple-choice knowledge checks (client-side only; no accounts/tracking). */
+  knowledgeCheck?: QuizQuestion[];
   /** Key takeaways. */
   keyTakeaways?: string[];
   /** References / further reading — verified sources only. */
@@ -2406,6 +2418,28 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Wafer test may be done in-house by IDMs/foundries or by OSAT/ATMP providers; models vary.",
       "Probe cards and probers are a specialised supplier segment in the test ecosystem.",
     ],
+    knowledgeCheck: [
+      {
+        question: "What is the primary purpose of wafer sort?",
+        options: [
+          "To cut the wafer into individual dies",
+          "To test each die on the wafer and map the good ones before packaging",
+          "To polish the wafer surface",
+        ],
+        answer: 1,
+        explanation: "Wafer sort electrically tests each die on the wafer and records pass/fail in a wafer map, so only good dies are packaged — avoiding packaging cost on bad dies.",
+      },
+      {
+        question: "What is the difference between a wafer prober and the ATE?",
+        options: [
+          "They are two names for the same machine",
+          "The prober positions and contacts the wafer; the ATE applies stimuli and measures responses",
+          "The prober measures the device; the ATE moves the wafer",
+        ],
+        answer: 1,
+        explanation: "The prober mechanically positions/aligns the wafer and drives the probe card into contact; the ATE generates the test stimuli and measures the device's responses.",
+      },
+    ],
     keyTakeaways: [
       "Wafer sort tests each die on the wafer and records results in a wafer map before packaging.",
       "The prober positions and contacts the wafer; the ATE applies stimuli and measures responses.",
@@ -3111,6 +3145,28 @@ export const SEMI_LESSONS: SemiLesson[] = [
     industryContext: [
       "Final test and burn-in may be done in-house by IDMs or by OSAT/ATMP providers — companies use different manufacturing models.",
       "Test cost is a meaningful fraction of total chip cost, especially for complex or high-reliability parts.",
+    ],
+    knowledgeCheck: [
+      {
+        question: "Why is final testing performed after packaging if the die already passed wafer test?",
+        options: [
+          "Because wafer test results are usually wrong",
+          "Because packaging adds new interfaces and failure mechanisms a wafer test can't see",
+          "Because final test is cheaper than wafer test",
+        ],
+        answer: 1,
+        explanation: "Packaging introduces interconnects, substrates, parasitics, and thermal/mechanical effects that wafer test cannot observe, so the packaged device is tested again.",
+      },
+      {
+        question: "How does burn-in differ from production test?",
+        options: [
+          "Burn-in measures the spec now; production test screens early-life failures",
+          "Production test measures the spec now; burn-in applies stress to screen out early-life weak units",
+          "They are the same activity",
+        ],
+        answer: 1,
+        explanation: "Production test checks whether a device meets its spec now; burn-in applies defined stress to screen for early-life failures, and is used only for selected products — not every chip.",
+      },
     ],
     keyTakeaways: [
       "Packaging adds interfaces and failure modes, so devices are re-tested after packaging.",
@@ -3834,6 +3890,28 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Test time is cost: the longer a device sits on an expensive tester, the more each chip costs, so test content is a constant balance of coverage versus time.",
       "Test data feeds yield learning and reliability — it is one of the richest information sources in the whole manufacturing flow.",
     ],
+    knowledgeCheck: [
+      {
+        question: "What is a semiconductor test primarily trying to establish?",
+        options: [
+          "That the device meets its specified requirements under the applied test",
+          "That the device will never fail in the future",
+          "That the device contains no atoms out of place",
+        ],
+        answer: 0,
+        explanation: "A test checks the device against specified requirements under the conditions applied. It cannot prove a device will never fail or rule out every possible defect.",
+      },
+      {
+        question: "Why does a 'pass' result not guarantee a chip will never fail?",
+        options: [
+          "Because testing only ever checks the power supply",
+          "Because a pass means the device met the applied test criteria — coverage is never total",
+          "Because passing chips are not really tested",
+        ],
+        answer: 1,
+        explanation: "A pass means the device met the applied (guard-banded) test criteria. Test coverage is never total, so a pass reduces — but never eliminates — the chance of a defect or future failure.",
+      },
+    ],
     keyTakeaways: [
       "Testing applies known stimuli and compares measured responses to a specification.",
       "It happens at multiple stages (wafer, package, and sometimes system), each answering a different question.",
@@ -3946,6 +4024,28 @@ export const SEMI_LESSONS: SemiLesson[] = [
     industryContext: [
       "Test equipment is a specialised supplier segment; probers, probe cards, handlers, and ATE often come from different vendors.",
       "Testing may be performed in-house by IDMs/foundries or by OSAT/ATMP providers — models differ by company.",
+    ],
+    knowledgeCheck: [
+      {
+        question: "In a packaged-device test cell, what does the handler do?",
+        options: [
+          "Generates the test stimuli and measures responses",
+          "Loads, positions, and unloads devices into the socket for throughput",
+          "Aligns the wafer under a probe card",
+        ],
+        answer: 1,
+        explanation: "The handler moves packaged devices into and out of the socket/contactor (the prober's wafer-side equivalent). The ATE generates stimuli and measures; the wafer is handled by a prober, not a handler.",
+      },
+      {
+        question: "Is every specialised tester (memory, RF, power, SLT) needed for every product?",
+        options: [
+          "Yes — all products run every tester",
+          "No — specialised testers are used only where the product requires them",
+          "Only if the product is digital",
+        ],
+        answer: 1,
+        explanation: "Specialised testers address specific device types or stages; most products need only a subset. Equipment selection is a product-specific trade-off.",
+      },
     ],
     keyTakeaways: [
       "ATE is the tester; probers/probe cards (wafer) and handlers/sockets/load boards (packaged) connect it to the device.",
@@ -4119,21 +4219,32 @@ export const SEMI_LESSONS: SemiLesson[] = [
           ],
         },
       },
-      {
-        id: "knowledge-check",
-        level: "engineer",
-        title: "Check your understanding",
-        bullets: [
-          "Q: Is scan/BIST a replacement for external production test? A: No — they are DFT techniques that complement it.",
-          "Q: Does 90% coverage mean 90% of all possible defects are caught? A: No — coverage is relative to a defined fault model/strategy.",
-          "Q: A measurement sits right on the limit — is the device definitely bad? A: Not necessarily — measurement uncertainty may warrant investigation.",
-          "Q: Does one test list work for every device? A: No — methods depend on the device type and its specification.",
-        ],
-      },
     ],
     industryContext: [
       "Test programs are developed, validated, and version-controlled as carefully as the silicon they qualify.",
       "Test time is cost, so method choice constantly balances coverage against throughput.",
+    ],
+    knowledgeCheck: [
+      {
+        question: "Are scan and BIST a replacement for external production testing?",
+        options: [
+          "Yes — a chip with BIST needs no external test",
+          "No — they are design-for-testability techniques that complement external test",
+          "Yes — but only for analog chips",
+        ],
+        answer: 1,
+        explanation: "Scan and BIST are DFT techniques built into the chip to make it testable; they complement, not replace, external production test.",
+      },
+      {
+        question: "If a test program reports 90% coverage, does that mean 90% of all possible defects are caught?",
+        options: [
+          "Yes — coverage is an absolute measure of all defects",
+          "No — coverage is relative to a defined fault model or strategy",
+          "Yes — for digital chips only",
+        ],
+        answer: 1,
+        explanation: "Coverage is measured against a chosen fault model or specification, not against the universe of all possible defects. It is not a universal guarantee.",
+      },
     ],
     keyTakeaways: [
       "A test program applies stimuli, measures responses, compares to limits, and records a classification.",
@@ -4319,6 +4430,28 @@ export const SEMI_LESSONS: SemiLesson[] = [
       "Test data feeds yield learning across manufacturing stages and is correlated to find systematic issues.",
       "Supplier quality (materials, equipment, assembly) feeds directly into yield and reliability.",
     ],
+    knowledgeCheck: [
+      {
+        question: "Can you directly compare yield percentages from different manufacturing stages?",
+        options: [
+          "Yes — a percentage is a percentage",
+          "No — different yields use different denominators and must be understood before comparing",
+          "Only if they are from the same company",
+        ],
+        answer: 1,
+        explanation: "Wafer, die, assembly, and final-test yields count different things with different denominators. Comparing them without understanding their definitions is misleading.",
+      },
+      {
+        question: "A failing device passes after a retest. Does that establish the root cause of the first failure?",
+        options: [
+          "Yes — passing on retest proves the first failure was a false alarm",
+          "No — pass-after-retest does not, by itself, establish the root cause",
+          "Yes — the device is always good if it passes once",
+        ],
+        answer: 1,
+        explanation: "A retest pass could reflect a contact/setup issue or a condition-specific effect; it doesn't prove why the first test failed. Repeatable failures still warrant investigation, and uncontrolled retesting can distort yield.",
+      },
+    ],
     keyTakeaways: [
       "There are several yields with different denominators — don't compare them blindly.",
       "A failure is an observation needing interpretation, not a proven defect.",
@@ -4459,6 +4592,28 @@ export const SEMI_LESSONS: SemiLesson[] = [
     industryContext: [
       "Advanced packaging and test capability is increasingly a strategic differentiator, and a focus of India's new ATMP/OSAT investments.",
       "Packaging and testing are best discovered together — the package defines much of the test problem.",
+    ],
+    knowledgeCheck: [
+      {
+        question: "Do several known-good dies guarantee a working multi-die package?",
+        options: [
+          "Yes — if each die is good, the package is good",
+          "No — integration adds new failure modes (interconnects, interfaces, thermal) a single-die test can't see",
+          "Yes — as long as they are from the same wafer",
+        ],
+        answer: 1,
+        explanation: "Known-good die means passed-to-a-confidence-level standalone. Assembly introduces die-to-die connection, interface, power, and thermal interactions that must still be tested at the package/system level.",
+      },
+      {
+        question: "Does system-level test (SLT) replace conventional ATE production test?",
+        options: [
+          "Yes — SLT makes ATE unnecessary",
+          "No — SLT complements ATE by validating devices in a realistic context",
+          "Yes — for chiplets only",
+        ],
+        answer: 1,
+        explanation: "SLT exercises devices in a more system-like environment and trades off realism, coverage, throughput, cost, and fault isolation. It complements — not replaces — ATE production test.",
+      },
     ],
     keyTakeaways: [
       "Assembling known-good dies does not guarantee a working multi-die package — integration adds new failure modes.",

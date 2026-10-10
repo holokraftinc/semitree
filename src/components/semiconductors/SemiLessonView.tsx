@@ -11,6 +11,7 @@ import { ManufacturingJourney } from "./ManufacturingJourney";
 import { LearningTopicProgress } from "@/components/learn/LearningTopicProgress";
 import { LearningTopicNav } from "@/components/learn/LearningTopicNav";
 import { RelatedRail, type RelatedGroup } from "@/components/platform/RelatedRail";
+import { KnowledgeCheck } from "@/components/semiconductors/KnowledgeCheck";
 import {
   relatedToolsForLesson,
   companiesForLesson,
@@ -501,6 +502,11 @@ export function SemiLessonView({ lesson }: { lesson: SemiLesson }) {
             ))}
           </ul>
         </Section>
+      )}
+
+      {/* Knowledge check (optional, client-only MCQs) */}
+      {lesson.knowledgeCheck && lesson.knowledgeCheck.length > 0 && (
+        <KnowledgeCheck questions={lesson.knowledgeCheck} />
       )}
 
       {/* Contextual "learn the concept → try the related tool" CTA */}
